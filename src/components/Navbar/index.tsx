@@ -8,7 +8,7 @@ import Link from 'next/link';
 const Navbar = () => {
   const { login } = useContext(AuthContext);
   return (
-    <div className="bg-purple rounded-full m-4 p-2 z-50 fixed w-[96%] flex items-center justify-between">
+    <div className="bg-purple rounded-full m-4 p-2 z-50 fixed phone:w-[96%] flex items-center justify-between  w-[90]">
       <Link
         className="md:text-5xl font-bold text-white p-2 text-xl sm:text-2xl cursor-pointer"
         href={'/'}

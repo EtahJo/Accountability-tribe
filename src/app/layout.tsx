@@ -22,7 +22,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <div className="bg-lightPink relative">
             <Navbar />
-            <div className="pt-28">{children}</div>
+            <div className="sm:pt-28 pt-10">{children}</div>
           </div>
         </body>
       </AuthProvider>

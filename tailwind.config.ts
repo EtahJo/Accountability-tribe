@@ -21,6 +21,9 @@ const config: Config = {
       borderRadius: {
         '5xl': '50px',
       },
+      screens: {
+        phone: '374px',
+      },
     },
   },
   plugins: [],
