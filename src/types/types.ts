@@ -9,3 +9,7 @@ export type SquareComponentType = {
   upperText: string;
   lowerText: string;
 };
+
+export type CarouselSlideType = {
+  src: string;
+};
