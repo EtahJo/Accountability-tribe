@@ -6,7 +6,7 @@ import CarouselSlide from '../Carousel/CarouselSlide';
 
 const CommunityInteraction = () => {
   const settings = {
-    dots: true,
+    // dots: true,
     infinite: true,
     speed: 1000,
     slidesToShow: 1,
@@ -36,8 +36,8 @@ const CommunityInteraction = () => {
   return (
     <div className="bg-purple rounded-5xl m-10 grid grid-cols-12 items-center relative lg:mt-0 mt-48">
       <div className="relative lg:col-start-2 lg:col-end-7 col-start-2 col-end-12 lg:ml-0 ml-16">
-        <div className="bg-white rounded-3xl h-80 w-80 rotate-45 absolute -top-32" />
-        <div className="absolute left-8 -top-16 z-50 w-[50%]">
+        <div className="bg-white rounded-3xl largePhone:h-80 largePhone:w-80 rotate-45 absolute medPhone:-top-40 350:h-60 350:w-60 -left-16 largePhone:left-0 h-52 w-52 -top-20" />
+        <div className="absolute largePhone:left-8 medPhone:-top-16 -top-10 z-50 largePhone:w-60 medPhone:w-52 w-48 -left-12">
           <Slider {...settings}>
             {slides.map((slide) => (
               <CarouselSlide src={slide.src} />
@@ -46,7 +46,7 @@ const CommunityInteraction = () => {
         </div>
       </div>
       <div className="lg:col-start-7 lg:col-end-12 p-8 col-start-2 col-end-12 mt-56 lg:mt-0">
-        <p className="font-bold text-6xl">
+        <p className="font-bold medPhone:text-5xl largePhone:text-6xl text-3xl">
           Take A Look At Community Interactions and More
         </p>
       </div>

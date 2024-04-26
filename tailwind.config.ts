@@ -16,13 +16,20 @@ const config: Config = {
       colors: {
         lightPink: '#F2ADEF',
         purple: '#9352E6',
+        lighterPink: 'rgba(242,173,239,0.3)',
       },
-      boxShadow: {},
+      boxShadow: {
+        '3xl': '0px 4px 4px 0px #00000040',
+        buttonInner: '0px 4px 4px 0px #00000040 inset',
+      },
       borderRadius: {
         '5xl': '50px',
       },
       screens: {
         phone: '374px',
+        medPhone: '439px',
+        largePhone: '524px',
+        '350': '350px',
       },
     },
   },

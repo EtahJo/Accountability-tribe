@@ -1,11 +1,16 @@
 import React from 'react';
 import { ButtonType } from '@/types/types';
 
-const MainButton = ({ text }: ButtonType) => {
+const MainButton = ({ text, type }: ButtonType) => {
   return (
-    <button className="uppercase text-white font-bold text-center text-xl bg-purple rounded-full p-2 py-4 hover:bg-black shadow-lg m-2 cursor-pointer my-8">
-      {text}
-    </button>
+    <div className="shadow-3xl rounded-full my-4">
+      <button
+        className="uppercase text-white font-bold text-center text-xl bg-purple rounded-full p-2 py-4 hover:bg-black cursor-pointer shadow-buttonInner w-full"
+        type={type}
+      >
+        {text}
+      </button>
+    </div>
   );
 };
 
