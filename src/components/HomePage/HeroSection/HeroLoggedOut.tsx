@@ -6,7 +6,7 @@ const LoggedOut = () => {
   return (
     <div className="grid grid-cols-12 py-14  ">
       <div className="lg:col-start-2 lg:col-end-6 col-start-2 col-end-11 ">
-        <p className=" font-bold sm:text-6xl uppercase leading-tight text-4xl">
+        <p className=" font-bold sm:text-6xl uppercase leading-loose text-4xl">
           follow our 5 step game plan to keep
         </p>
         <p className="uppercase font-bold sm:text-6xl text-white text-4xl">
