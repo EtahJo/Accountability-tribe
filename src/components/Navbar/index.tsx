@@ -26,7 +26,12 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="flex gap-2">
-          <p className="font-thin hover:font-bold cursor-pointer">Login</p>
+          <Link
+            className="font-thin hover:font-bold cursor-pointer"
+            href={'/auth/login'}
+          >
+            Login
+          </Link>
           <p className="text-white font-thin hover:font-bold cursor-pointer">
             Sign Up
           </p>
