@@ -13,10 +13,11 @@ const CustomInput = ({
   errorMessage,
   isFormSubmitted,
   isValid,
+  Icon,
 }: CustomInputTypes) => {
   return (
     <div>
-      <div className="shadow-3xl bg-lighterPink rounded-3xl p-px my-4">
+      <div className="shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex align-middle">
         {textArea ? (
           <textarea
             name={name}
@@ -24,18 +25,24 @@ const CustomInput = ({
             placeholder={placeholder}
             onChange={changeEvent}
             value={value}
+            autoComplete="off"
             className="bg-transparent p-2 w-full placeholder:text-black focus-within:bg-transparent focus:outline-none"
           />
         ) : (
           <input
+            autoComplete="off"
             type={type}
             placeholder={placeholder}
             name={name}
             required={required}
             onChange={changeEvent}
             value={value}
+            ng-name={name}
             className="bg-transparent text-black p-2 w-full placeholder:text-black focus-within:bg-transparent focus:outline-none"
           />
+        )}
+        {Icon && (
+          <div className="place-content-center cursor-pointer">{Icon}</div>
         )}
       </div>
       {isFormSubmitted && !isValid && (

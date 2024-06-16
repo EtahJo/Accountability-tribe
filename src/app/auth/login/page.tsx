@@ -1,29 +1,117 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
+import * as z from 'zod';
+
+import CustomCheckbox from '@/components/CustomCheckbox/index';
+import Custominput from '@/components/Custominput/index';
+import MainButton from '@/components/Button/MainButton';
+
+import Formsy from 'formsy-react';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import Link from 'next/link';
+import AuthMessage from '@/components/AuthMessage/index';
+import { login } from '@/action/login';
+import { LoginSchema } from '@/schemas/index';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
+  const router = useRouter();
+  const [checked, setChecked] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [vissible, setVissible] = useState<boolean>(false);
+  const [error, setError] = useState<string | undefined>('');
+  const onSubmit = (vals: z.infer<typeof LoginSchema>) => {
+    login(vals)
+      .then((data) => {
+        if (data?.error) {
+          console.log(data?.error);
+          setError(data.error);
+        }
+        if (data?.success) {
+          console.log(data?.success);
+          router.push('/user-home');
+        }
+      })
+      .catch(() => setError('Something went wrong'));
+  };
+
   return (
-    <div>
-      <div>
-        <div className="relative">
-          <div className="before:block before:absolute before:bg-purple before:skew-y-12 before:rounded-full before:shadow-buttonInner inline-block p-12 before:inset-1 relative ">
-            <span className="text-white text-5xl relative text-center place-content-center">
-              <p className="w-72 p-5 font-bold">
-                The Journey Begins when you
-                <p className="text-black mt-3">log In</p>
-              </p>
-            </span>
-          </div>
-        </div>
-        <div className="block mt-10">
-          <div className="after:content-['!'] bg-slate-300 rounded-full block after:ml-2 after:text-4xl after:text-white after:font-bold shadow-buttonInner p-2 w-96 text-xl">
-            <span className="font-bold ml-10">
-              First Time Here ?<span className="text-purple ml-2">Sign Up</span>
-            </span>
-          </div>
+    <>
+      <AuthMessage
+        linkTo="/auth/signup/"
+        pageName="Login"
+        actionText="Sign Up"
+        questionText="First Time Here ?"
+        tagline="The Journey Begins when you"
+      />
+      <div className="justify-center relative lg:w-3/4 w-full ">
+        <div className="bg-white rounded-3xl p-10 shadow-buttonInner phone:w-96 relative">
+          <h1 className="bg-lightPink rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-2xl">
+            Login Here
+          </h1>
+          <Formsy autoComplete="off" onValidSubmit={onSubmit}>
+            <Custominput
+              name="email"
+              type="text"
+              placeholder="Email"
+              required
+              value={email}
+              changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setEmail((e.target as HTMLInputElement).value);
+              }}
+              validations="isEmail"
+              validationError="This is not a valid Email"
+            />
+            <Custominput
+              name="password"
+              type={vissible ? 'text' : 'password'}
+              placeholder="Password"
+              value={password}
+              changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setPassword((e.target as HTMLInputElement).value);
+              }}
+              Icon={
+                vissible ? (
+                  <AiFillEyeInvisible
+                    color="purple"
+                    onClick={() => {
+                      setVissible(false);
+                    }}
+                  />
+                ) : (
+                  <AiFillEye
+                    color="purple"
+                    onClick={() => {
+                      setVissible(true);
+                    }}
+                  />
+                )
+              }
+            />
+            <CustomCheckbox
+              name="remember"
+              checked={checked}
+              onChange={() => {
+                setChecked(!checked);
+              }}
+              label="Remember Me"
+            />
+            <div className="my-3">
+              <Link
+                href={'/auth/forgot-password'}
+                className="text-lightPink font-bold my-5"
+              >
+                Forgot Password?
+              </Link>
+            </div>
+            <div className="w-full place-content-center m-auto">
+              <MainButton text="Login" type="submit" />
+            </div>
+          </Formsy>
         </div>
       </div>
-      <div></div>
-    </div>
+    </>
   );
 };
 

@@ -4,6 +4,7 @@ import { AuthContextType } from '@/types/types';
 
 export const AuthContext = createContext<AuthContextType>({
   login: false,
+  setLogin: () => {},
 });
 
 export default function AuthProvider({ children }: { children: any }) {

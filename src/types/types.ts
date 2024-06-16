@@ -1,6 +1,8 @@
 import { FormsyInjectedProps } from 'formsy-react';
+import React from 'react';
 export type AuthContextType = {
   login: boolean;
+  setLogin: () => void;
 };
 export type ButtonType = {
   text: string;
@@ -22,4 +24,15 @@ export type CustomInputTypes = FormsyInjectedProps<any> & {
   placeholder: string;
   textArea?: boolean;
   required?: boolean;
+  Icon?: React.ReactElement;
+};
+
+export type CustomCheckboxProps = {
+  label: string;
+  checked: boolean;
+  onChange: (val: any) => void;
+} & FormsyInjectedProps<any>;
+
+export type BackgroundSlideShowProps = {
+  slides: { src: string }[];
 };
