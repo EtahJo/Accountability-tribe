@@ -1,14 +1,10 @@
 'use client';
-import { useState } from 'react';
 
-import { AiOutlineUser } from 'react-icons/ai';
-import { FaUser } from 'react-icons/fa';
 import Link from 'next/link';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import ProfileIcon from '../ProfileIcon/index';
 const Navbar = () => {
-  const [showProfile, setShowProfile] = useState<boolean>(false);
-  const { session, user } = useCurrentUser();
+  const { session } = useCurrentUser();
   return (
     <div className="bg-purple rounded-full m-4 p-2 z-50 fixed phone:w-[96%] flex items-center justify-between  w-[90]">
       <Link

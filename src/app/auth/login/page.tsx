@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import * as z from 'zod';
 
 import CustomCheckbox from '@/components/CustomCheckbox/index';
@@ -13,6 +13,7 @@ import AuthMessage from '@/components/AuthMessage/index';
 import { login } from '@/action/login';
 import { LoginSchema } from '@/schemas/index';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 const Login = () => {
   const router = useRouter();
@@ -21,19 +22,22 @@ const Login = () => {
   const [password, setPassword] = useState<string>('');
   const [vissible, setVissible] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>('');
+  const [isPending, startTransition] = useTransition();
   const onSubmit = (vals: z.infer<typeof LoginSchema>) => {
-    login(vals)
-      .then((data) => {
-        if (data?.error) {
-          console.log(data?.error);
-          setError(data.error);
-        }
-        if (data?.success) {
-          console.log(data?.success);
-          router.push('/user-home');
-        }
-      })
-      .catch(() => setError('Something went wrong'));
+    startTransition(() => {
+      login(vals)
+        .then((data) => {
+          if (data?.error) {
+            console.log(data?.error);
+            setError(data.error);
+          }
+          if (data?.success) {
+            console.log(data?.success);
+            router.push('/user-home');
+          }
+        })
+        .catch(() => setError('Something went wrong'));
+    });
   };
 
   return (
@@ -62,12 +66,14 @@ const Login = () => {
               }}
               validations="isEmail"
               validationError="This is not a valid Email"
+              disabled={isPending}
             />
             <Custominput
               name="password"
               type={vissible ? 'text' : 'password'}
               placeholder="Password"
               value={password}
+              disabled={isPending}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setPassword((e.target as HTMLInputElement).value);
               }}
@@ -106,7 +112,9 @@ const Login = () => {
               </Link>
             </div>
             <div className="w-full place-content-center m-auto">
-              <MainButton text="Login" type="submit" />
+              <Button size={'slg'} variant="primary" disabled={isPending}>
+                Login
+              </Button>
             </div>
           </Formsy>
         </div>

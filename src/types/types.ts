@@ -25,6 +25,7 @@ export type CustomInputTypes = FormsyInjectedProps<any> & {
   textArea?: boolean;
   required?: boolean;
   Icon?: React.ReactElement;
+  disabled?: boolean;
 };
 
 export type CustomCheckboxProps = {
@@ -35,4 +36,35 @@ export type CustomCheckboxProps = {
 
 export type BackgroundSlideShowProps = {
   slides: { src: string }[];
+};
+
+export type CompletionLeveltype = {
+  completionStatement?: string;
+  percentage: string;
+  title: string;
+  completed?: boolean;
+  carriedOver?: boolean;
+  unCompleted?: boolean;
+};
+export type MovingTextType = {
+  textOne: string;
+  textTwo: string;
+  colorUp?: boolean;
+  colorDown?: boolean;
+};
+export type SectionHeaderType = {
+  name: string;
+  icon?: React.ReactElement;
+};
+
+export type TribeSnippetType = {
+  name: string;
+  members: number;
+};
+export type TribeSnippetTwoType = {
+  profileImage: StaticImageData;
+  tribeName: string;
+  members: number;
+  description: string;
+  link: string;
 };

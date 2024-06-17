@@ -24,9 +24,18 @@ export default auth(
       }
       return;
     }
+    {
+      /**checks if user is not logged
+   in and not in a public route. if so rredirect user to the 
+  the log in page */
+    }
+    if (!isLoggedIn && !isPublicRoute) {
+      return Response.redirect(new URL('/auth/login', nextUrl));
+    }
+    return;
   }
 );
-
+// invokes middleware on all routes
 export const config = {
   matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
 };

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import AuthMessage from '@/components/AuthMessage/index';
 
@@ -10,14 +10,17 @@ import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import * as z from 'zod';
 import { RegisterSchema } from '@/schemas/index';
 import { signup } from '@/action/signup';
+import { Button } from '@/components/ui/button';
 const page = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [vissible, setVissible] = useState<boolean>(false);
+  const [isPending, startTransition] = useTransition();
   const onSubmit = (vals: z.infer<typeof RegisterSchema>) => {
-    console.log(vals);
-    signup(vals);
+    startTransition(() => {
+      signup(vals);
+    });
   };
   return (
     <>
@@ -39,6 +42,7 @@ const page = () => {
               type="text"
               placeholder="Username"
               required
+              disabled={isPending}
               value={username}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setUsername((e.target as HTMLInputElement).value);
@@ -51,6 +55,7 @@ const page = () => {
               type="text"
               placeholder="Email"
               required
+              disabled={isPending}
               value={email}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setEmail((e.target as HTMLInputElement).value);
@@ -63,6 +68,7 @@ const page = () => {
               type={vissible ? 'text' : 'password'}
               placeholder="Password"
               value={password}
+              disabled={isPending}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setPassword((e.target as HTMLInputElement).value);
               }}
@@ -88,6 +94,7 @@ const page = () => {
               name="confirmPassword"
               type={vissible ? 'text' : 'password'}
               placeholder=" Confirm Password"
+              disabled={isPending}
               value={password}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setPassword((e.target as HTMLInputElement).value);
@@ -112,7 +119,9 @@ const page = () => {
             />
             <div className="my-3"></div>
             <div className="w-full place-content-center m-auto">
-              <MainButton text="Sign Up" type="submit" />
+              <Button size={'slg'} variant="primary" disabled={isPending}>
+                Sign Up
+              </Button>
             </div>
           </Formsy>
         </div>

@@ -10,7 +10,7 @@ const CarouselSlide = ({ src }: CarouselSlideType) => {
         width={250}
         height={300}
         alt="carousel image"
-        className="object-cover border-5 border-pink rounded-5xl"
+        className="object-cover border-5 border-lightPink rounded-5xl"
       />
     </div>
   );

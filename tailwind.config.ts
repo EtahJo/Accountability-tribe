@@ -31,6 +31,8 @@ const config = {
       boxShadow: {
         '3xl': '0px 4px 4px 0px #00000040',
         buttonInner: '0px 4px 4px 0px #00000040 inset',
+        roundright: '-10px 10px 0 #F2ADEF',
+        roundleft: '10px 10px 0px #F2ADEF',
       },
       borderRadius: {
         '5xl': '50px',
@@ -50,10 +52,27 @@ const config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        moveHorizontal: {
+          '0%, 100%': {
+            left: '0%',
+            // opacity: '1',
+          },
+          '50%': {
+            left: '100%',
+            // opacity: '0',
+          },
+        },
+
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        moveHori: ' moveHorizontal 10s ease-in-out infinite ',
+        wiggle: 'wiggle 1s ease-in-out infinite',
       },
     },
   },

@@ -1,6 +1,7 @@
 import React from 'react';
 import { CustomInputTypes } from '@/types/types';
 import { withFormsy } from 'formsy-react';
+import { Input } from '@/components/ui/input';
 
 const CustomInput = ({
   name,
@@ -14,6 +15,7 @@ const CustomInput = ({
   isFormSubmitted,
   isValid,
   Icon,
+  disabled,
 }: CustomInputTypes) => {
   return (
     <div>
@@ -26,10 +28,11 @@ const CustomInput = ({
             onChange={changeEvent}
             value={value}
             autoComplete="off"
+            disabled={disabled}
             className="bg-transparent p-2 w-full placeholder:text-black focus-within:bg-transparent focus:outline-none"
           />
         ) : (
-          <input
+          <Input
             autoComplete="off"
             type={type}
             placeholder={placeholder}
@@ -38,7 +41,8 @@ const CustomInput = ({
             onChange={changeEvent}
             value={value}
             ng-name={name}
-            className="bg-transparent text-black p-2 w-full placeholder:text-black focus-within:bg-transparent focus:outline-none"
+            className=""
+            disabled={disabled}
           />
         )}
         {Icon && (

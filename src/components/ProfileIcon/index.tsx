@@ -12,6 +12,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '../ui/dropdown-menu';
+import Link from 'next/link';
 
 const ProfileIcon = () => {
   const { user } = useCurrentUser();
@@ -32,10 +33,12 @@ const ProfileIcon = () => {
           Hello, {user?.username}
         </p>
         <DropdownMenuItem>
-          <ProfileIconItem
-            title="Visit Your Profile"
-            icon={<FaUser size={25} />}
-          />
+          <Link href={'/user-profile'}>
+            <ProfileIconItem
+              title="Visit Your Profile"
+              icon={<FaUser size={25} />}
+            />
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <ProfileIconItem

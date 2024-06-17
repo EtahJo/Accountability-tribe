@@ -1,15 +1,20 @@
 'use client';
-import Image from 'next/image';
-import { useContext } from 'react';
-import { AuthContext } from '@/context/AuthenticationContext';
+
 import HomePageLoggedIn from '@/components/HomePage/HomePageLoggedIn';
 import HomePageLoggedOut from '@/components/HomePage/HomePageLoggedOut';
 
+import { useCurrentUser } from '@/hooks/use-current-user';
+
 export default function Home() {
-  const { login } = useContext(AuthContext);
+  const { session } = useCurrentUser();
+
   return (
     <main className="">
-      {login ? <HomePageLoggedIn /> : <HomePageLoggedOut />}
+      {session.status === 'authenticated' ? (
+        <HomePageLoggedIn />
+      ) : (
+        <HomePageLoggedOut />
+      )}
     </main>
   );
 }
