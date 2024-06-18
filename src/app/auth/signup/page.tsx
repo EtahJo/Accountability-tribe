@@ -11,15 +11,33 @@ import * as z from 'zod';
 import { RegisterSchema } from '@/schemas/index';
 import { signup } from '@/action/signup';
 import { Button } from '@/components/ui/button';
+import { FormError } from '@/components/Messages/Error';
+import { FormSuccess } from '@/components/Messages/Success';
 const page = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [vissible, setVissible] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
   const onSubmit = (vals: z.infer<typeof RegisterSchema>) => {
     startTransition(() => {
-      signup(vals);
+      signup(vals)
+        .then((data) => {
+          if (data.error) {
+            setSuccess('');
+            setError(data.error);
+          }
+          if (data.success) {
+            setError('');
+            setSuccess(data.success);
+          }
+        })
+        .catch((error) => {
+          setSuccess('');
+          setError('Something went wrong !!');
+        });
     });
   };
   return (
@@ -117,7 +135,10 @@ const page = () => {
                 )
               }
             />
-            <div className="my-3"></div>
+            <div className="my-3">
+              {error && <FormError message={error} />}
+              {success && <FormSuccess message={success} />}
+            </div>
             <div className="w-full place-content-center m-auto">
               <Button size={'slg'} variant="primary" disabled={isPending}>
                 Sign Up

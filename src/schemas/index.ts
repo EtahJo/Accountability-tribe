@@ -44,7 +44,7 @@ export const EditProfileSchema = z
     newPassword: z.optional(
       z.string().min(6, { message: 'Password must be more than 6 characters' })
     ),
-    rememberMe: z.optional(z.boolean()),
+    remember: z.optional(z.boolean()),
     number: z.optional(z.string()),
     linkedIn: z.optional(z.string()),
     facebook: z.optional(z.string()),

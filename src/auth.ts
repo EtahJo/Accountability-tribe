@@ -23,6 +23,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
         session.user.x = token.x;
         session.user.image = token.image;
         session.user.country = token.country;
+        session.user.remember = token.remember;
       }
       return session;
     },
@@ -38,6 +39,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
       token.facebook = existingUser.facebook;
       token.image = existingUser.image;
       token.country = existingUser.country;
+      token.remember = existingUser.remember;
 
       return token;
     },

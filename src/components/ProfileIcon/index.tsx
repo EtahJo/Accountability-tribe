@@ -13,6 +13,7 @@ import {
   DropdownMenuItem,
 } from '../ui/dropdown-menu';
 import Link from 'next/link';
+import { CldImage } from 'next-cloudinary';
 
 const ProfileIcon = () => {
   const { user } = useCurrentUser();
@@ -22,9 +23,20 @@ const ProfileIcon = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <div className="rounded-full bg-lightPink p-1.5 cursor-pointer ">
-          <FaUser size={20} className="text-white" />
-        </div>
+        {user?.image ? (
+          <CldImage
+            src={user?.image}
+            width="20"
+            height="20"
+            crop={'fill'}
+            alt="User Profile"
+            sizes="100vw"
+          />
+        ) : (
+          <div className="rounded-full bg-lightPink p-1.5 cursor-pointer ">
+            <FaUser size={20} className="text-white" />
+          </div>
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="absolute right-0">
         {' '}

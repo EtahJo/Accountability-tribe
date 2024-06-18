@@ -1,26 +1,29 @@
 'use client';
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useContext } from 'react';
 import Formsy from 'formsy-react';
 import Custominput from '@/components/Custominput/index';
 import CustomCheckbox from '@/components/CustomCheckbox/index';
 import { Button } from '@/components/ui/button';
-import { FaUser } from 'react-icons/fa';
-import { AiFillCamera } from 'react-icons/ai';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { EditProfileSchema } from '@/schemas/index';
 import { editProfile } from '@/action/edit-profile';
 import * as z from 'zod';
+import UploadImage from '@/components/UploadImage/index';
+import { ImageUploaderContext } from '@/context/ImageUploadContext';
+import { FormError } from '@/components/Messages/Error';
+import { FormSuccess } from '@/components/Messages/Success';
+import CountryInput from '@/components/CountryInput/index';
 
 const Editprofile = () => {
   const [isPending, startTransition] = useTransition();
   const { user } = useCurrentUser();
+  const { url } = useContext(ImageUploaderContext);
   const [formData, setFormData] = useState({
     username: user?.username || undefined,
     email: user?.email || undefined,
     password: undefined,
     newPassword: undefined,
-    rememberMe: undefined,
+    remember: user?.remember || false,
     number: user?.number || undefined,
     linkedIn: user?.linkedIn || undefined,
     facebook: user?.facebook || undefined,
@@ -29,16 +32,20 @@ const Editprofile = () => {
     country: undefined,
     checked: false,
   });
+  console.log('Image is ', user?.image);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const onSubmit = (vals: z.infer<typeof EditProfileSchema>) => {
+    vals.image = url;
+    console.log(vals);
     startTransition(() => {
       editProfile(vals).then((data) => {
         if (data.error) {
-          console.log(data.error);
+          setError(data.error);
         }
         if (data.success) {
-          console.log(data.success);
+          //   window.location.reload();
+          setSuccess(data.success);
         }
       });
     });
@@ -46,21 +53,26 @@ const Editprofile = () => {
   return (
     <Formsy className="h-screen items-center flex " onValidSubmit={onSubmit}>
       <div className="bg-white rounded-5xl p-5 m-auto w-3/4 shadow-3xl relative">
-        <div className="absolute -top-24 left-[45%]">
-          <Avatar className="w-[180px] h-[180px] z-10 items-center flex justify-center m-auto">
-            <AvatarImage src={user?.image || undefined} />
-            <AvatarFallback className="bg-black">
-              <FaUser className="text-white" size={100} />
-            </AvatarFallback>
-          </Avatar>
-          <div
-            className="bg-purple rounded-full p-2 absolute right-3 bottom-0 z-10
-           hover:bg-white hover:shadow-3xl cursor-pointer"
-          >
-            <AiFillCamera className="text-lightPink " size={25} />
-          </div>
+        <div className="flex flex-col ">
+          <UploadImage name="image" />
+          {user?.image && (
+            <div className="flex justify-center mt-5">
+              <Button
+                onClick={() => {
+                  setFormData((prev) => ({ ...prev, image: undefined }));
+                }}
+                className=" w-36 place-content-center"
+                size="sm"
+              >
+                Remove Profile Image
+              </Button>
+            </div>
+          )}
         </div>
-        <h1 className="text-center text-4xl font-bold mt-24">Edit Profile</h1>
+
+        <h1 className="text-center text-3xl font-semibold mt-5">
+          Edit Profile
+        </h1>
         <div className="flex justify-between">
           <div className="w-full mx-5">
             <Custominput
@@ -80,7 +92,7 @@ const Editprofile = () => {
             />
             <Custominput
               name="email"
-              type="text"
+              type="email"
               placeholder="Email"
               value={formData.email}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,19 +133,16 @@ const Editprofile = () => {
               validationError=""
               disabled={isPending}
             />
-            <Custominput
+            <CountryInput
+              disabled={isPending}
               name="country"
-              type="text"
-              placeholder="Country"
-              value={formData.country}
-              changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
+              selected={formData.country}
+              onSelect={(code) => {
                 setFormData((prev) => ({
                   ...prev,
-                  country: (e.target as HTMLInputElement).value,
+                  country: code,
                 }));
               }}
-              validationError=""
-              disabled={isPending}
             />
           </div>
           <div className="w-full mx-3">
@@ -153,7 +162,7 @@ const Editprofile = () => {
             />
             <Custominput
               name="linkedIn"
-              type="text"
+              type="url"
               placeholder="LinkedIn Profile "
               value={formData.linkedIn}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -167,7 +176,7 @@ const Editprofile = () => {
             />
             <Custominput
               name="facebook"
-              type="text"
+              type="url"
               placeholder="Facebook Profile"
               value={formData.facebook}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,7 +190,7 @@ const Editprofile = () => {
             />
             <Custominput
               name="x"
-              type="text"
+              type="url"
               placeholder="X Profile "
               value={formData.x}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,16 +204,21 @@ const Editprofile = () => {
             />
             <CustomCheckbox
               name="remember"
-              checked={formData.checked}
+              value={formData.remember}
+              checked={formData.remember}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setFormData((prev) => ({
                   ...prev,
-                  checked: !formData.checked,
+                  remember: !formData.remember,
                 }));
               }}
               label="Remember Me"
             />
           </div>
+        </div>
+        <div className="my-3">
+          {error && <FormError message={error} />}
+          {success && <FormSuccess message={success} />}
         </div>
         <div className="flex justify-center">
           <Button variant={'primary'} size="lg" disabled={isPending}>
