@@ -14,6 +14,7 @@ import {
 } from '../ui/dropdown-menu';
 import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
+import { Avatar } from '@radix-ui/react-avatar';
 
 const ProfileIcon = () => {
   const { user } = useCurrentUser();
@@ -24,14 +25,17 @@ const ProfileIcon = () => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         {user?.image ? (
-          <CldImage
-            src={user?.image}
-            width="20"
-            height="20"
-            crop={'fill'}
-            alt="User Profile"
-            sizes="100vw"
-          />
+          <Avatar>
+            <CldImage
+              src={user?.image}
+              width="50"
+              height="50"
+              crop={'fill'}
+              alt="User Profile"
+              sizes="100vw"
+              className="rounded-full"
+            />
+          </Avatar>
         ) : (
           <div className="rounded-full bg-lightPink p-1.5 cursor-pointer ">
             <FaUser size={20} className="text-white" />

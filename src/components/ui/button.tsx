@@ -21,12 +21,12 @@ const buttonVariants = cva(
           'hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50',
         link: 'text-slate-900 underline-offset-4 hover:underline dark:text-slate-50',
         primary:
-          'uppercase text-white font-bold text-center text-xl bg-purple rounded-full p-2 py-4 hover:bg-black cursor-pointer shadow-buttonInner ',
+          'uppercase text-white font-bold text-center text-xl bg-purple rounded-full p-2 py-4 hover:bg-black cursor-pointer shadow-buttonInner move-button ',
       },
       size: {
         default: 'h-9 px-4 py-2',
         sm: 'h-8 rounded-md px-3 text-xs',
-        lg: 'h-10 rounded-md px-8',
+        lg: 'h-10 rounded-5xl px-8',
         icon: 'h-9 w-9',
         slg: 'w-full',
       },

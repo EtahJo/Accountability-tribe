@@ -48,7 +48,7 @@ export const EditProfileSchema = z
     number: z.optional(z.string()),
     linkedIn: z.optional(z.string()),
     facebook: z.optional(z.string()),
-    x: z.optional(z.string()),
+    X: z.optional(z.string()),
     image: z.optional(z.string()),
     country: z.optional(z.string()),
   })

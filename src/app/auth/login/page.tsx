@@ -14,10 +14,12 @@ import { login } from '@/action/login';
 import { LoginSchema } from '@/schemas/index';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { editProfile } from '@/action/edit-profile';
+import { FormError } from '@/components/Messages/Error';
 
 const Login = () => {
   const router = useRouter();
-  const [checked, setChecked] = useState<boolean>(false);
+  const [remember, setRemember] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [vissible, setVissible] = useState<boolean>(false);
@@ -32,7 +34,9 @@ const Login = () => {
             setError(data.error);
           }
           if (data?.success) {
-            console.log(data?.success);
+            editProfile({
+              remember: vals.remember,
+            });
             router.push('/user-home');
           }
         })
@@ -95,14 +99,15 @@ const Login = () => {
                 )
               }
             />
-            <CustomCheckbox
+            {/* <CustomCheckbox
               name="remember"
-              checked={checked}
+              value={remember}
+              checked={remember}
               onChange={() => {
-                setChecked(!checked);
+                setRemember((prev) => !prev);
               }}
               label="Remember Me"
-            />
+            /> */}
             <div className="my-3">
               <Link
                 href={'/auth/forgot-password'}
@@ -111,6 +116,7 @@ const Login = () => {
                 Forgot Password?
               </Link>
             </div>
+            {error && <FormError message={error} />}
             <div className="w-full place-content-center m-auto">
               <Button size={'slg'} variant="primary" disabled={isPending}>
                 Login

@@ -4,14 +4,10 @@ import classNames from 'classnames';
 
 const SectionHeader = ({ name, icon }: SectionHeaderType) => {
   return (
-    <div
-      className={classNames(
-        'bg-purple rounded-full shadow-buttonInner font-bold text-center px-2 py-px flex justify-center text-nowrap place-items-center'
-      )}
-    >
+    <div className={classNames('text-4xl font-bold text-shadow-lg')}>
       {' '}
+      {icon && <div>{icon}</div>}
       <div>{name}</div>
-      <div>{icon}</div>
     </div>
   );
 };

@@ -34,7 +34,6 @@ const CustomInput = ({
         ) : (
           <Input
             autoComplete="off"
-            // type={type}
             type={type}
             placeholder={placeholder}
             name={name}

@@ -4,9 +4,20 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { FaUser } from 'react-icons/fa';
 import Link from 'next/link';
+import { CldImage } from 'next-cloudinary';
+
+import { FaFacebook, FaLinkedin, FaTwitter, FaEdit } from 'react-icons/fa';
+import countries from 'i18n-iso-countries';
+import enLocale from 'i18n-iso-countries/langs/en.json';
+import { format, isValidNumber } from 'libphonenumber-js';
+
+countries.registerLocale(enLocale);
 
 const ProfileHeader = () => {
-  const { session, user } = useCurrentUser();
+  const { session, user, phoneNumber, countryCode } = useCurrentUser();
+  const countryName = countries.getName(user?.country, 'en');
+  const isValid = isValidNumber(phoneNumber, countryCode);
+  const formatedNumber = format(phoneNumber, countryCode, 'International');
   return (
     <div className="py-10">
       <div className="bg-purple grid grid-cols-12 justify-between rounded-5xl mx-10 pt-10 ">
@@ -17,28 +28,97 @@ const ProfileHeader = () => {
               <p className=" text-white"> {user?.username}</p>
             </span>
 
-            <Button variant={'primary'} className="bg-black hover:bg-lightPink">
+            <Button
+              variant={'primary'}
+              className="bg-black hover:bg-lightPink flex items-center gap-1 align-middle justify-between group"
+            >
               <Link href={'/edit-profile'}>Edit information</Link>
+              <FaEdit
+                size={20}
+                className="text-lightPink  group-hover:text-white mb-px"
+              />
             </Button>
           </div>
-          <div>
-            <span className="flex items-center">
-              <p className="text-white mr-1.5">Email:</p>
-              <p className="text-lightPink">{user?.email}</p>
-            </span>
-            <span className="flex items-center">
-              <p className="text-white mr-1.5">Email:</p>
-              <p className="text-lightPink">{user?.email}</p>
-            </span>
+          <div className="flex justify-between">
+            <div>
+              <span className="flex items-center">
+                <p className="text-white mr-1.5">Email:</p>
+                <p className="text-lightPink">{user?.email}</p>
+              </span>
+              {user?.country && (
+                <span className="flex items-center">
+                  <p className="text-white mr-1.5">Country:</p>
+                  <p className="text-lightPink">{countryName}</p>
+                </span>
+              )}
+              {user?.number && (
+                <span className="flex items-center">
+                  <p className="text-white mr-1.5">Phone Number:</p>
+                  <p className="text-lightPink">{formatedNumber}</p>
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-x-2">
+              {user?.facebook && (
+                <Link
+                  href={user?.facebook}
+                  passHref
+                  target={'_blank'}
+                  rel="noopener noreferrer"
+                  className="bg-white rounded-full p-px hover:bg-lightPink
+                   hover:shadow-3xl cursor-pointer move-button"
+                >
+                  <FaFacebook size={40} />
+                </Link>
+              )}
+              {user?.x && (
+                <Link
+                  href={user?.x}
+                  passHref
+                  target={'_blank'}
+                  rel="noopener noreferrer"
+                  className="bg-white rounded-full p-1.5  hover:bg-lightPink hover:shadow-3xl cursor-pointer
+                  move-button"
+                >
+                  <FaTwitter size={35} />
+                </Link>
+              )}
+              {user?.linkedIn && (
+                <Link
+                  href={user?.linkedIn}
+                  passHref
+                  target={'_blank'}
+                  rel="noopener noreferrer"
+                  className="bg-white rounded-full p-1.5  hover:bg-lightPink hover:shadow-3xl cursor-pointer
+                move-button"
+                >
+                  <FaLinkedin size={35} />
+                </Link>
+              )}
+            </div>
           </div>
         </div>
 
         <div className="col-start-10 col-end-12 flex flex-col h-[250px] relative w-full">
-          <Avatar className="w-[180px] h-[180px] z-10 items-center flex justify-center m-auto">
-            <AvatarImage src={user?.image || undefined} />
-            <AvatarFallback className="bg-black">
-              <FaUser className="text-white" size={100} />
-            </AvatarFallback>
+          <Avatar className="w-[180px] h-[180px] z-10 items-center flex justify-center m-auto border-2 border-purple bg-lightPink">
+            {user?.image ? (
+              <CldImage
+                src={user?.image}
+                width="160"
+                height={'160'}
+                crop="fill"
+                sizes="100vw"
+                alt="User Profile"
+                className="rounded-full bg-white  shadow-3xl"
+              />
+            ) : (
+              <div
+                className="bg-black rounded-full p-px w-3/4
+               h-[180px] flex justify-center align-middle items-center"
+              >
+                <FaUser className="text-white" size={120} />
+              </div>
+            )}
           </Avatar>
           <div
             className="bg-lightPink absolute bottom-0 w-full h-[100px] border-l-2

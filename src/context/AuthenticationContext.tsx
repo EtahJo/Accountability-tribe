@@ -10,6 +10,8 @@ export const AuthContext = createContext<AuthContextType>({
 export default function AuthProvider({ children }: { children: any }) {
   const [login, setLogin] = useState<boolean>(false);
   return (
-    <AuthContext.Provider value={{ login }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ login, setLogin }}>
+      {children}
+    </AuthContext.Provider>
   );
 }

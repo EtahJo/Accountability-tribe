@@ -5,7 +5,7 @@ import { Checkbox } from '../ui/checkbox';
 
 const CustomCheckbox = ({ label, checked, onChange }: CustomCheckboxProps) => {
   return (
-    <div className="flex bg-white">
+    <div className="flex bg-white py-4">
       <Checkbox
         onCheckedChange={onChange}
         className="peer  w-8 h-8 border-4 border-black rounded-lg"

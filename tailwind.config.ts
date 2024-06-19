@@ -74,9 +74,38 @@ const config = {
         moveHori: ' moveHorizontal 10s ease-in-out infinite ',
         wiggle: 'wiggle 1s ease-in-out infinite',
       },
+      textShadow: {
+        sm: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+        md: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+        lg: '3px 3px 6px rgba(225, 225, 225, 0.8)',
+        xl: '4px 4px 8px rgba(0, 0, 0, 0.5)',
+      },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.text-shadow-sm': {
+          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+        },
+        '.text-shadow-md': {
+          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+        },
+        '.text-shadow-lg': {
+          textShadow: '3px 3px 6px rgba(225, 225, 225, 0.8)',
+        },
+        '.text-shadow-xl': {
+          textShadow: '4px 4px 8px rgba(0, 0, 0, 0.5)',
+        },
+        '.text-shadow-none': {
+          textShadow: 'none',
+        },
+      };
+
+      addUtilities(newUtilities, ['responsive', 'hover']);
+    },
+  ],
 } satisfies Config;
 
 export default config;

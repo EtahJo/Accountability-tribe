@@ -15,10 +15,11 @@ const CountryInput = ({ selected, onSelect, disabled }: CountryInputProps) => {
         selected={selected}
         onSelect={onSelect}
         disabled={disabled}
-        // selectButtonClassName="bg-purple"
+        selectButtonClassName="!border-none !text-black"
         placeholder="Select Country"
-        className="shadow-3xl bg-lighterPink rounded-3xl p-px my-4
-         outline-none border-0"
+        className="shadow-3xl bg-lighterPink  my-px rounded-5xl"
+        searchable
+        searchPlaceholder="Search Country"
       />
     </div>
   );

@@ -4,8 +4,6 @@ import { LoginSchema } from '@/schemas/index';
 import { getUserByEmail } from '@/data/user';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-import { db } from '@/lib/db';
-
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
   if (!validatedFields.success) {
@@ -13,6 +11,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
   const { email, password, remember } = validatedFields.data;
   const existingUser = await getUserByEmail(email);
+  console.log(existingUser);
   if (!existingUser) {
     return { error: 'User does not exist!' };
   }
@@ -23,14 +22,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       email,
       password,
     });
-    if (remember) {
-      await db.user.update({
-        where: { id: existingUser.id },
-        data: {
-          remember,
-        },
-      });
-    }
     return { success: 'Success' };
   } catch (error) {
     if (error instanceof AuthError) {

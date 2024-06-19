@@ -14,8 +14,8 @@ const UploadImage = () => {
   const [resource, setResource] = useState();
   const { user } = useCurrentUser();
   return (
-    <div className="relative -mt-32">
-      <Avatar className=" w-[180px] h-[180px] z-10 items-center flex justify-center m-auto">
+    <div className="relative -mt-32 ">
+      <Avatar className=" w-[180px] h-[180px] z-10 items-center flex justify-center m-auto border-4 border-white">
         {!resource && !user?.image ? (
           <AvatarFallback className="bg-black">
             <FaUser className="text-white" size={100} />
@@ -47,10 +47,14 @@ const UploadImage = () => {
           return (
             <div
               onClick={handleClicked}
-              className="bg-purple rounded-full p-2 absolute right-[45%] bottom-0 z-10
-            hover:bg-white hover:shadow-3xl cursor-pointer"
+              className="flex w-full justify-center -mt-8 ml-10"
             >
-              <AiFillCamera className="text-lightPink " />
+              <div
+                className="bg-purple rounded-full p-2  z-10
+            hover:bg-white hover:shadow-3xl cursor-pointer  w-10 h-10 transition duration-1000 hover:-translate-y-1 transform hover:duration-300 "
+              >
+                <AiFillCamera className="text-lightPink " size={25} />
+              </div>
             </div>
           );
         }}
