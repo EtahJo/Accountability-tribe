@@ -6,6 +6,7 @@ import Footer from '@/components/Footer/index';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
 import ImageUploaderProvider from '@/context/ImageUploadContext';
+import PeriodProvider from '@/context/PeriodContext';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -24,15 +25,17 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <SessionProvider session={session}>
-        <ImageUploaderProvider>
-          <body className={inter.className}>
-            <div className="bg-lightPink relative h-full">
-              <Navbar />
-              <div className="sm:pt-28 pt-10">{children}</div>
-              <Footer />
-            </div>
-          </body>
-        </ImageUploaderProvider>
+        <PeriodProvider>
+          <ImageUploaderProvider>
+            <body className={inter.className}>
+              <div className="bg-lightPink relative h-full">
+                <Navbar />
+                <div className="sm:pt-28 pt-10">{children}</div>
+                <Footer />
+              </div>
+            </body>
+          </ImageUploaderProvider>
+        </PeriodProvider>
       </SessionProvider>
     </html>
   );

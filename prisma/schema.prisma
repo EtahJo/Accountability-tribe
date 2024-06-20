@@ -32,7 +32,7 @@ model User {
   facebook     String?
   country      String?
  tribes         Tribe[]  
-
+sessions      Session[]
 
   image         String?
  
@@ -60,4 +60,15 @@ model Member {
   email  String @unique
   tribeId String @db.ObjectId
   tribe  Tribe @relation(fields: [tribeId],references: [id])
+}
+
+model Session{
+   id     String @id @default(auto()) @map("_id") @db.ObjectId
+   goal   String
+    creatorId     String @db.ObjectId
+   startDateTime DateTime
+   endDateTime   DateTime
+   meetingLink   String
+   duration    String
+   admin    User@relation(fields: [creatorId],references: [id])
 }

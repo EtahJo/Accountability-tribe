@@ -3,10 +3,12 @@ import TodoList from '@/components/TodoList';
 import Posts from '@/components/Posts';
 import Achievements from '@/components/Achievements';
 import Tribes from '@/components/Tribes';
+import SelectPeriod from '@/components/SelectPeriod';
 const UserProfileBody = () => {
   return (
     <div className="grid grid-cols-12">
       <div className="col-start-2 col-end-9">
+        <SelectPeriod />
         <UpcomingSessions />
         <TodoList />
         <Posts />
