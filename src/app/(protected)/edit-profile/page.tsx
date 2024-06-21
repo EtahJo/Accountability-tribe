@@ -14,6 +14,7 @@ import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import CountryInput from '@/components/CountryInput/index';
 import PhoneNumberInput from '@/components/PhoneNumberInput/index';
+import TimeZoneInput from '@/components/TimeZoneInput';
 
 const Editprofile = () => {
   const [isPending, startTransition] = useTransition();
@@ -32,6 +33,7 @@ const Editprofile = () => {
     image: user?.image || undefined,
     country: user?.country || undefined,
     checked: false,
+    timezone: user?.timezone || undefined,
   });
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
@@ -95,8 +97,6 @@ const Editprofile = () => {
                   username: (e.target as HTMLInputElement).value,
                 }));
               }}
-              //   validations="isEmail"
-              //   validationError="This is not a valid Email"
               disabled={isPending}
             />
             <Custominput
@@ -142,8 +142,20 @@ const Editprofile = () => {
               validationError=""
               disabled={isPending}
             />
+            <CountryInput
+              disabled={isPending}
+              name="country"
+              value={formData.country}
+              selected={formData.country}
+              onSelect={(code) => {
+                setFormData((prev) => ({
+                  ...prev,
+                  country: code,
+                }));
+              }}
+            />
           </div>
-          <div className="w-full mx-3">
+          <div className="w-full mx-3 md:my-0 my-4">
             <PhoneNumberInput
               name="number"
               value={formData.number}
@@ -199,21 +211,14 @@ const Editprofile = () => {
               validationError=""
               disabled={isPending}
             />
+            <TimeZoneInput
+              name="timezone"
+              value={formData.timezone}
+              onChange={(timezone) =>
+                setFormData((prev) => ({ ...prev, timezone }))
+              }
+            />
           </div>
-        </div>
-        <div className="mx-0 md:mx-4">
-          <CountryInput
-            disabled={isPending}
-            name="country"
-            value={formData.country}
-            selected={formData.country}
-            onSelect={(code) => {
-              setFormData((prev) => ({
-                ...prev,
-                country: code,
-              }));
-            }}
-          />
         </div>
 
         <div className="my-3">

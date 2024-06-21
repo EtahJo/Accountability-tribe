@@ -55,6 +55,9 @@ export type MovingTextType = {
 export type SectionHeaderType = {
   name: string;
   icon?: React.ReactElement;
+  buttonTitle?: string;
+  buttonLink?: string;
+  buttonIcon?: React.ReactNode;
 };
 
 export type TribeSnippetType = {

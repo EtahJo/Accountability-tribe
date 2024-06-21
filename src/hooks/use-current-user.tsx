@@ -4,9 +4,9 @@ import { useSession } from 'next-auth/react';
 export const useCurrentUser = () => {
   const session = useSession();
   const user = session.data?.user;
-  const phoneNumber = user?.number.toString();
 
-  if (user) {
+  if (user?.number) {
+    const phoneNumber = user?.number.toString();
     const countryCode = phoneNumber.split(',');
     return {
       session,
@@ -15,10 +15,8 @@ export const useCurrentUser = () => {
       countryCode: countryCode[0].toUpperCase(),
     };
   }
-
   return {
     session,
     user: session.data?.user,
-    phoneNumber,
   };
 };

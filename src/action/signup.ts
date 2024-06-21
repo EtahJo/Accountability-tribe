@@ -10,7 +10,7 @@ export const signup = async (values: z.infer<typeof RegisterSchema>) => {
     console.log('Invalid field');
     return { error: 'Invalid fields!' };
   }
-  const { username, email, password } = validatedFields.data;
+  const { username, email, password, timezone } = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
   const existingUser = await db.user.findUnique({
     where: {
@@ -26,6 +26,7 @@ export const signup = async (values: z.infer<typeof RegisterSchema>) => {
     data: {
       username,
       email,
+      timezone,
       password: hashedPassword,
     },
   });

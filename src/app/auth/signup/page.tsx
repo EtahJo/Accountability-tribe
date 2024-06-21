@@ -5,7 +5,6 @@ import AuthMessage from '@/components/AuthMessage/index';
 
 import Formsy from 'formsy-react';
 import Custominput from '@/components/Custominput/index';
-import MainButton from '@/components/Button/MainButton';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import * as z from 'zod';
 import { RegisterSchema } from '@/schemas/index';
@@ -13,10 +12,14 @@ import { signup } from '@/action/signup';
 import { Button } from '@/components/ui/button';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
+
+import TimeZoneInput from '@/components/TimeZoneInput/index';
+
 const page = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [username, setUsername] = useState<string>('');
+  const [timezone, setTimezone] = useState('');
   const [vissible, setVissible] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState('');
@@ -36,6 +39,7 @@ const page = () => {
         })
         .catch((error) => {
           setSuccess('');
+          console.log(error);
           setError('Something went wrong !!');
         });
     });
@@ -80,6 +84,11 @@ const page = () => {
               }}
               validations="isEmail"
               validationError="This is not a valid Email"
+            />
+            <TimeZoneInput
+              name="timezone"
+              value={timezone}
+              onChange={(timezone) => setTimezone(timezone)}
             />
             <Custominput
               name="password"

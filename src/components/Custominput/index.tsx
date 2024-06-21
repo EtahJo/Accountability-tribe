@@ -2,6 +2,8 @@ import React from 'react';
 import { CustomInputTypes } from '@/types/types';
 import { withFormsy } from 'formsy-react';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { InputLabelProps } from '../InputLabel/index';
 
 const CustomInput = ({
   name,
@@ -16,12 +18,13 @@ const CustomInput = ({
   isValid,
   Icon,
   disabled,
-}: CustomInputTypes) => {
+  label,
+}: CustomInputTypes & InputLabelProps) => {
   return (
     <div>
       <div className="shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex align-middle">
         {textArea ? (
-          <textarea
+          <Textarea
             name={name}
             required={required}
             placeholder={placeholder}
@@ -29,7 +32,9 @@ const CustomInput = ({
             value={value}
             autoComplete="off"
             disabled={disabled}
-            className="bg-transparent p-2 w-full placeholder:text-black focus-within:bg-transparent focus:outline-none"
+            className="bg-transparent px-5 py-2 w-full placeholder:text-black 
+            focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0
+            border-none"
           />
         ) : (
           <Input
@@ -48,6 +53,7 @@ const CustomInput = ({
         {Icon && (
           <div className="place-content-center cursor-pointer">{Icon}</div>
         )}
+        {required && <p>*</p>}
       </div>
       {isFormSubmitted && !isValid && (
         <p className="text-red-500 font-bold">{errorMessage}</p>

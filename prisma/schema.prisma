@@ -33,6 +33,7 @@ model User {
   country      String?
  tribes         Tribe[]  
 sessions      Session[]
+timezone      String?
 
   image         String?
  
@@ -61,14 +62,22 @@ model Member {
   tribeId String @db.ObjectId
   tribe  Tribe @relation(fields: [tribeId],references: [id])
 }
+model SessionParticipant{
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  email String @unique
+  sessionId String @db.ObjectId
+  session Session @relation(fields: [sessionId],references: [id])
+}
 
 model Session{
    id     String @id @default(auto()) @map("_id") @db.ObjectId
    goal   String
     creatorId     String @db.ObjectId
    startDateTime DateTime
-   endDateTime   DateTime
+   endDateTime   DateTime?
    meetingLink   String
-   duration    String
+   duration    String?
    admin    User@relation(fields: [creatorId],references: [id])
+   participants SessionParticipant[]
 }

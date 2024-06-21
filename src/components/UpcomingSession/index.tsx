@@ -49,7 +49,7 @@ const UpcomingSession = ({
                 <p className="text-purple font-bold">{timeLeft} Mins</p>
               </div>
             ) : (
-              <p className="text-purple font-bold">
+              <p className="text-purple font-extrabold">
                 {isAfter ? 'Ended' : 'Started'}
               </p>
             )}

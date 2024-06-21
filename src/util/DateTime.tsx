@@ -1,21 +1,21 @@
 import {
   parseISO,
-  format,
+  // format,
   differenceInMilliseconds,
   isSameDay,
   isSameWeek,
   isSameMonth,
   isAfter,
 } from 'date-fns';
+import { toZonedTime, format } from 'date-fns-tz';
 
-export function formatDateTime(dateTime: string) {
-  const date = parseISO(dateTime);
-  const formattedDate = format(date, 'dd/MM/yyyy');
-  const formattedTime = format(date, 'h:mm a');
+export function formatDateTime(dateTime: string, timezone: string) {
+  const date = new Date(dateTime);
+  const localTime = toZonedTime(date, timezone);
+  const formattedDate = format(localTime, 'dd/MM/yyyy', { timeZone: timezone });
+  const formattedTime = format(localTime, 'h:mm a', { timeZone: timezone });
   return { date: formattedDate, time: formattedTime };
 }
-
-// utils/getTimeDifference.js
 
 export function convertMillisecondsToMinutes(milliseconds: any) {
   return (milliseconds / 60000).toFixed(2); // 60000 is the number of milliseconds in a minute

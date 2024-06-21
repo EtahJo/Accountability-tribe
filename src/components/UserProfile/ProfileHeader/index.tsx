@@ -16,8 +16,10 @@ countries.registerLocale(enLocale);
 const ProfileHeader = () => {
   const { session, user, phoneNumber, countryCode } = useCurrentUser();
   const countryName = countries.getName(user?.country, 'en');
-  const isValid = isValidNumber(phoneNumber, countryCode);
-  const formatedNumber = format(phoneNumber, countryCode, 'International');
+  const isValid = phoneNumber ? isValidNumber(phoneNumber, countryCode) : false;
+  const formatedNumber = phoneNumber
+    ? format(phoneNumber, countryCode, 'International')
+    : '';
   return (
     <div className="py-10">
       <div className="bg-purple grid grid-cols-12 justify-between rounded-5xl mx-10 pt-10 ">
@@ -29,8 +31,8 @@ const ProfileHeader = () => {
             </span>
 
             <Button
-              variant={'primary'}
-              className="bg-black hover:bg-lightPink flex items-center gap-1 align-middle justify-between group"
+              // variant={'primary'}
+              className="bg-black hover:bg-lightPink flex items-center gap-1 align-middle justify-between group move-button"
             >
               <Link href={'/edit-profile'}>Edit information</Link>
               <FaEdit
@@ -113,8 +115,8 @@ const ProfileHeader = () => {
               />
             ) : (
               <div
-                className="bg-black rounded-full p-px w-3/4
-               h-[180px] flex justify-center align-middle items-center"
+                className="bg-black rounded-full p-px w-[170px]
+               h-[170px] flex justify-center align-middle items-center"
               >
                 <FaUser className="text-white" size={120} />
               </div>

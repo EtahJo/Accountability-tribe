@@ -23,6 +23,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
         session.user.image = token.image;
         session.user.country = token.country;
         session.user.remember = token.remember;
+        session.user.timezone = token.timezone;
       }
       return session;
     },
@@ -39,6 +40,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
       token.image = existingUser.image;
       token.country = existingUser.country;
       token.remember = existingUser.remember;
+      token.timezone = existingUser.timezone;
 
       return token;
     },
