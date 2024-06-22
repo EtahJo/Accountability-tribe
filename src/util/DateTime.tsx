@@ -34,6 +34,36 @@ export function getTimeDifference(isoString: string) {
 
   return { minutes: differenceInMinutes, days: differenceInDays };
 }
+// get the duration between the start and end time
+export function getDuration(startIsoString: string, endIsoString: string) {
+  // parse the start and end date (convert them to date objects)
+  const startDate = parseISO(startIsoString);
+  const endDate = parseISO(endIsoString);
+
+  // get the difference between the start and end date in milliseconds
+  const differenceInMs = differenceInMilliseconds(endDate, startDate);
+
+  // Convert milliseconds to minutes as a floating-point number
+  const differenceInMinutes = convertMillisecondsToMinutes(differenceInMs);
+  // Convert milliseconds to days as a floating-point number
+  const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);
+
+  const differenceInHours = differenceInMs / (1000 * 60 * 60);
+  const absHours = Math.floor(differenceInHours);
+  const hours = absHours > 9 ? absHours : '0' + absHours;
+
+  // get leftover hours and convert to minutes
+  const minutesLeft = (differenceInHours - absHours) * 60;
+  const absMinutes = Math.floor(minutesLeft);
+  const minutes = absMinutes > 9 ? absMinutes : '0' + absMinutes;
+
+  return {
+    minutes: differenceInMinutes,
+    days: differenceInDays,
+    hours: differenceInHours,
+    hm: { hours, minutes },
+  };
+}
 
 export function isToday(dateString: string) {
   const givenDate = parseISO(dateString);

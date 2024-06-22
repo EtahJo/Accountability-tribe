@@ -82,4 +82,14 @@ export const CreateSessionSchema = z.object({
   duration: z.optional(z.string()),
 });
 
-export const EditSession = z.object({});
+export const EditSession = z.object({
+  goal: z.string().min(1, { message: 'Adding a goal is Essential' }),
+  startEndDateTime: z.object({
+    startDateTime: z.date(),
+    endDateTime: z.date(),
+  }),
+  meetingLink: z
+    .string()
+    .min(1, { message: 'Please add a Google Meeting Link' }),
+  duration: z.optional(z.string()),
+});

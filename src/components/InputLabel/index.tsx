@@ -1,14 +1,17 @@
 import React from 'react';
 export interface InputLabelProps {
-  label?: string;
+  lable?: string;
   labelIcon?: React.ReactNode;
   required?: boolean;
 }
-const InputLabel = ({ label, labelIcon, required }: InputLabelProps) => {
+const InputLabel = ({ lable, labelIcon, required }: InputLabelProps) => {
   return (
     <div className="flex items-center gap-1">
-      <h1 className="font-bold">{label}</h1>
       {labelIcon && labelIcon}
+      <span className="flex">
+        <h1 className="font-bold">{lable}</h1>
+        {required && <p className="text-red-500">*</p>}
+      </span>
     </div>
   );
 };

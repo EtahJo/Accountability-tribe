@@ -3,7 +3,7 @@ import { CustomInputTypes } from '@/types/types';
 import { withFormsy } from 'formsy-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { InputLabelProps } from '../InputLabel/index';
+import InputLabel, { InputLabelProps } from '../InputLabel/index';
 
 const CustomInput = ({
   name,
@@ -18,10 +18,14 @@ const CustomInput = ({
   isValid,
   Icon,
   disabled,
-  label,
+  lable,
+  labelIcon,
 }: CustomInputTypes & InputLabelProps) => {
   return (
     <div>
+      {lable && (
+        <InputLabel lable={lable} labelIcon={labelIcon} required={required} />
+      )}
       <div className="shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex align-middle">
         {textArea ? (
           <Textarea
@@ -53,7 +57,6 @@ const CustomInput = ({
         {Icon && (
           <div className="place-content-center cursor-pointer">{Icon}</div>
         )}
-        {required && <p>*</p>}
       </div>
       {isFormSubmitted && !isValid && (
         <p className="text-red-500 font-bold">{errorMessage}</p>

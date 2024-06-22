@@ -6,34 +6,40 @@ import Formsy from 'formsy-react';
 
 import { create_session } from '@/action/create-session';
 import { CreateSessionSchema } from '@/schemas/index';
-import Custominput from '@/components/Custominput/index';
+import CustomInput from '@/components/Custominput/index';
 import CustomDateInput from '@/components/CustomDateInput';
 import { Button } from '@/components/ui/button';
 import SectionHeader from '@/components/SectionHeader';
-import InputLabel from '@/components/InputLabel/index';
 import { FaLink, FaCalendar, FaBaseballBall } from 'react-icons/fa';
+import { FormError } from '@/components/Messages/Error';
+import { FormSuccess } from '@/components/Messages/Success';
+import Duration from '@/components/Duration';
 
 const CreateSession = () => {
   const [isPending, startTransition] = useTransition();
   const [goal, setGoal] = useState('');
-  const [startDateTime, setStartDateTime] = useState(new Date());
-  const [endDateTime, setEndDateTime] = useState(new Date());
+  const [startDateTime, setStartDateTime] = useState();
+  const [endDateTime, setEndDateTime] = useState();
   const [meetingLink, setMeetingLink] = useState('');
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
   const onValidSubmit = (vals: z.infer<typeof CreateSessionSchema>) => {
-    console.log(vals);
     startTransition(() => {
       create_session(vals)
         .then((data) => {
           if (data.error) {
-            console.log(data.error);
+            setSuccess('');
+            setError(data.error);
           }
           if (data.success) {
-            console.log(data.success);
+            setError('');
+            setSuccess(data.success);
           }
         })
         .catch((error) => {
-          console.log(error);
+          setSuccess('');
+          setError('Something went wrong');
         });
     });
   };
@@ -48,14 +54,13 @@ const CreateSession = () => {
           onValidSubmit={onValidSubmit}
           className="flex justify-center flex-col items-center"
         >
-          <div className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-10  md:w-[600px] w-[320px] ">
-            <InputLabel
-              label="Session Goal"
+          <div className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-10  md:w-[600px] w-[310px] ">
+            <CustomInput
+              lable="Session Goal"
               labelIcon={<FaBaseballBall className="text-purple" />}
-            />
-            <Custominput
               name="goal"
               value={goal}
+              required
               textArea
               disabled={isPending}
               placeholder="What is the goal for this session ?"
@@ -63,9 +68,12 @@ const CreateSession = () => {
                 setGoal((e.target as HTMLInputElement).value);
               }}
             />
-            <Custominput
+            <CustomInput
+              lable="Link to Scheduled Meeting"
+              labelIcon={<FaLink className="text-purple" />}
               name="meetingLink"
               value={meetingLink}
+              required
               disabled={isPending}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setMeetingLink((e.target as HTMLInputElement).value);
@@ -73,9 +81,22 @@ const CreateSession = () => {
               placeholder="Add link to meeting"
             />
           </div>
-          <div className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-10 relative  flex justify-center  md:w-[600px] w-[320px] ">
+          <div
+            className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-5 relative  flex justify-center 
+           md:w-[600px] w-[310px] flex-col gap-5 "
+          >
+            {endDateTime && startDateTime && (
+              <Duration
+                startDateTime={startDateTime.toISOString()}
+                endDateTime={endDateTime.toISOString()}
+              />
+            )}
+
             <CustomDateInput
+              lable="Start and End Date and Time"
+              labelIcon={<FaCalendar className="text-purple" />}
               className="w-[250px]"
+              required
               name="startEndDateTime"
               value={{ startDateTime, endDateTime }}
               startDateTime={startDateTime}
@@ -86,6 +107,9 @@ const CreateSession = () => {
               }}
               onChangeEnd={(date) => setEndDateTime(date)}
             />
+
+            {error && <FormError message={error} />}
+            {success && <FormSuccess message={success} />}
           </div>
 
           <div className="flex justify-center mt-5">
