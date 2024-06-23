@@ -17,40 +17,7 @@ import {
 const UpcomingSessions = () => {
   const { period } = useContext(PeriodContext);
   const { user } = useCurrentUser();
-  const tempSessions = [
-    {
-      duration: '2',
-      goal: 'Get stuff done and lots more',
-      dateTime: '2024-06-22T09:24:56.268Z',
-      endDateTime: '2024-06-23T11:24:56.268Z',
-      googleLink: '',
-      admin: 'Etah',
-    },
-    {
-      duration: '4',
-      goal: 'Complete table on excel page',
-      dateTime: '2024-06-21T10:24:56.268Z',
-      endDateTime: '2024-06-21T14:24:56.268Z',
-      googleLink: '',
-      admin: 'Arrah',
-    },
-    {
-      duration: '9',
-      goal: 'code the homepage of my website',
-      dateTime: '2024-06-21T19:24:56.268Z',
-      endDateTime: '2024-06-21T20:24:56.268Z',
-      googleLink: '',
-      admin: 'Arrah',
-    },
-    {
-      duration: '14',
-      goal: 'Complete all the work tasks for the day and study 6 chapters',
-      dateTime: '2024-06-20T22:24:56.268Z',
-      endDateTime: '2024-06-21T12:24:56.268Z',
-      googleLink: '',
-      admin: 'Arrah',
-    },
-  ];
+  console.log(user);
 
   return (
     <div>
@@ -62,32 +29,48 @@ const UpcomingSessions = () => {
       />
 
       <div className="flex flex-wrap gap-2 my-5">
-        {tempSessions.map(
-          ({ dateTime, goal, duration, endDateTime, googleLink }, index) => (
-            <div key={index}>
+        {user?.sessions.map(
+          ({
+            startDateTime,
+            goal,
+            duration,
+            endDateTime,
+            googleLink,
+            id,
+            creatorId,
+          }) => (
+            <div key={id}>
               {period == 'day' &&
-                (isToday(dateTime) || isToday(endDateTime)) && (
+                (isToday(startDateTime) || isToday(endDateTime)) && (
                   <UpcomingSession
-                    date={formatDateTime(dateTime, user?.timezone).date}
-                    time={formatDateTime(dateTime, user?.timezone).time}
+                    date={formatDateTime(startDateTime, user?.timezone).date}
+                    time={formatDateTime(startDateTime, user?.timezone).time}
                     goal={goal}
-                    duration={duration}
-                    timeLeft={parseFloat(getTimeDifference(dateTime).minutes)}
-                    isToday={isToday(dateTime)}
+                    duration={JSON.parse(duration)}
+                    timeLeft={parseFloat(
+                      getTimeDifference(startDateTime).minutes
+                    )}
+                    isToday={isToday(startDateTime)}
                     isAfter={checkIsAfter(endDateTime)}
                     meetingLink={googleLink}
+                    sessionId={id}
+                    isAdmin={user?.id === creatorId}
                   />
                 )}
-              {period == 'week' && isThisWeek(dateTime) && (
+              {period == 'week' && isThisWeek(startDateTime) && (
                 <UpcomingSession
-                  date={formatDateTime(dateTime, user?.timezone).date}
-                  time={formatDateTime(dateTime, user?.timezone).time}
+                  date={formatDateTime(startDateTime, user?.timezone).date}
+                  time={formatDateTime(startDateTime, user?.timezone).time}
                   goal={goal}
-                  duration={duration}
-                  timeLeft={parseFloat(getTimeDifference(dateTime).minutes)}
-                  isToday={isToday(dateTime)}
+                  duration={JSON.parse(duration)}
+                  timeLeft={parseFloat(
+                    getTimeDifference(startDateTime).minutes
+                  )}
+                  isToday={isToday(startDateTime)}
                   isAfter={checkIsAfter(endDateTime)}
                   meetingLink={googleLink}
+                  sessionId={id}
+                  isAdmin={user?.id === creatorId}
                 />
               )}
             </div>

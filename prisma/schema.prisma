@@ -65,6 +65,7 @@ model Member {
 model SessionParticipant{
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   name   String
+  goal   String?
   email String @unique
   sessionId String @db.ObjectId
   session Session @relation(fields: [sessionId],references: [id])

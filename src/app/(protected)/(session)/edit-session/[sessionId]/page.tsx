@@ -4,8 +4,8 @@ import React, { useTransition, useState } from 'react';
 import * as z from 'zod';
 import Formsy from 'formsy-react';
 
-import { create_session } from '@/action/create-session';
-import { CreateSessionSchema } from '@/schemas/index';
+import { edit_session } from '@/action/edit-session';
+import { EditSessionSchema } from '@/schemas/index';
 import CustomInput from '@/components/Custominput/index';
 import CustomDateInput from '@/components/CustomDateInput';
 import { Button } from '@/components/ui/button';
@@ -15,24 +15,32 @@ import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import Duration from '@/components/DurationInput/index';
 import { getDuration } from '@/util/DateTime';
+import { useCurrentSession } from '@/hooks/use-current-user';
 
 import { addHours, subHours, addMinutes, subMinutes } from 'date-fns';
 
-const CreateSession = () => {
+const EditSession = ({ params }: { params: { sessionId: string } }) => {
+  const { sessionId } = params;
+  const { currentSession } = useCurrentSession(sessionId);
   const [isPending, startTransition] = useTransition();
-  const [goal, setGoal] = useState('');
-  const [startDateTime, setStartDateTime] = useState<Date>();
-  const [endDateTime, setEndDateTime] = useState<Date>();
-  const [meetingLink, setMeetingLink] = useState('');
+  const [goal, setGoal] = useState(currentSession.goal || undefined);
+  const [startDateTime, setStartDateTime] = useState<Date>(
+    new Date(currentSession.startDateTime) || undefined
+  );
+  const [endDateTime, setEndDateTime] = useState<Date>(
+    new Date(currentSession.endDateTime) || undefined
+  );
+  const [meetingLink, setMeetingLink] = useState(
+    currentSession.meetingLink || undefined
+  );
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
-
-  const onValidSubmit = (vals: z.infer<typeof CreateSessionSchema>) => {
+  const onValidSubmit = (vals: z.infer<typeof EditSessionSchema>) => {
     // console.log(vals);
     startTransition(() => {
-      create_session(vals)
+      edit_session(vals, sessionId)
         .then((data) => {
           if (data.error) {
             setSuccess('');
@@ -53,7 +61,7 @@ const CreateSession = () => {
     <div className=" flex flex-col h-screen items-center align-middle m-auto">
       <div className="m-auto">
         <div className="-mt-14 flex justify-center">
-          <SectionHeader name="Create A Session" />
+          <SectionHeader name="Edit Session" />
         </div>
 
         <Formsy
@@ -196,7 +204,7 @@ const CreateSession = () => {
               size="lg"
               variant={'primary'}
             >
-              Create Session
+              Edit Session
             </Button>
           </div>
         </Formsy>
@@ -205,4 +213,4 @@ const CreateSession = () => {
   );
 };
 
-export default CreateSession;
+export default EditSession;

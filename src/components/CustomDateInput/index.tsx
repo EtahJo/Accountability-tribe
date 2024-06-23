@@ -16,6 +16,7 @@ interface CustomDateTimeInputProps {
   required?: boolean;
   onChangeStart: (val: any) => void;
   onChangeEnd: (val: any) => void;
+  onInputBlur?: () => void;
 }
 const CustomDateTimeInput = ({
   startDateTime,
@@ -27,7 +28,15 @@ const CustomDateTimeInput = ({
   lable,
   labelIcon,
   required,
+  onInputBlur,
 }: CustomDateTimeInputProps & InputLabelProps) => {
+  const today = new Date();
+  const isToday = startDateTime
+    ? startDateTime.toDateString() === today.toDateString()
+    : false;
+
+  const minTime = isToday ? today : new Date(0, 0, 0, 0, 0, 0, 0);
+  const maxTime = new Date(0, 0, 0, 23, 59, 59, 999);
   return (
     <div>
       {lable && (
@@ -41,9 +50,12 @@ const CustomDateTimeInput = ({
           startDate={startDateTime}
           endDate={endDateTime}
           required={required}
+          minTime={minTime}
+          maxTime={maxTime}
           onChange={onChangeStart}
           value={startDateTime}
           selectsStart
+          minDate={today}
           dateFormat={'Pp'}
           calendarClassName=" !flex !flex-nowrap !border-2 !border-purple !shadow-3xl"
           className={cn(
@@ -59,10 +71,14 @@ const CustomDateTimeInput = ({
           required={required}
           disabled={disabled}
           value={endDateTime}
+          minTime={startDateTime}
+          maxTime={maxTime}
           startDate={startDateTime}
           endDate={endDateTime}
           minDate={startDateTime}
           showTimeSelect
+          // onBlur={onInputBlur}
+          onSelect={onInputBlur}
           dateFormat="Pp"
           calendarClassName=" !flex !flex-nowrap !border-2 !border-purple !shadow-3xl select:bg-purple"
           className={cn(

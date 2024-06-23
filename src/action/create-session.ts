@@ -19,10 +19,11 @@ export const create_session = async (
   if (!user) {
     return { error: 'Unauthorised access' };
   }
-  const duration = getDuration(
+  const durationObj = getDuration(
     startEndDateTime.startDateTime.toISOString(),
     startEndDateTime.endDateTime.toISOString()
-  ).hm.toString();
+  ).hm;
+  const duration = JSON.stringify(durationObj);
   const dbUser = await getUserById(user?.id as string);
   await db.session.create({
     data: {

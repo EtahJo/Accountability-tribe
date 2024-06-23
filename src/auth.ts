@@ -24,6 +24,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
         session.user.country = token.country;
         session.user.remember = token.remember;
         session.user.timezone = token.timezone;
+        session.user.sessions = token.sessions;
       }
       return session;
     },
@@ -41,6 +42,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
       token.country = existingUser.country;
       token.remember = existingUser.remember;
       token.timezone = existingUser.timezone;
+      token.sessions = existingUser.sessions;
 
       return token;
     },

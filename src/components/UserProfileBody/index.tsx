@@ -6,7 +6,7 @@ import Tribes from '@/components/Tribes';
 import SelectPeriod from '@/components/SelectPeriod';
 const UserProfileBody = () => {
   return (
-    <div className="grid grid-cols-12">
+    <div className="grid grid-cols-12 pb-24">
       <div className="col-start-2 col-end-9">
         <SelectPeriod />
         <UpcomingSessions />

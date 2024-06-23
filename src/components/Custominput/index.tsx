@@ -19,6 +19,7 @@ const CustomInput = ({
   Icon,
   disabled,
   lable,
+
   labelIcon,
 }: CustomInputTypes & InputLabelProps) => {
   return (

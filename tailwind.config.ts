@@ -101,6 +101,47 @@ const config = {
         '.text-shadow-none': {
           textShadow: 'none',
         },
+        '.custom-spin-buttons': {
+          '&::-webkit-outer-spin-button': {
+            opacity: '1',
+            padding: '5px',
+            margin: '10px 0 0 0',
+            color: '#F2ADEF',
+            'background-color': 'white',
+          },
+          '&::-webkit-inner-spin-button': {
+            opacity: '1',
+            padding: '5px',
+            margin: '10px 0 0 0',
+            color: '#F2ADEF important',
+            'background-color': 'white',
+          },
+        },
+        '.styled-spin-buttons': {
+          '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+            opacity: '1',
+            'background-color': 'white',
+            width: '1rem',
+            height: '1rem',
+            border: '3px solid black important',
+            'border-radius': '50%',
+          },
+        },
+        '.no-spin': {
+          '-webkit-appearance': 'none',
+
+          margin: '0',
+          '&::-webkit-outer-spin-button': {
+            '-webkit-appearance': 'none',
+
+            margin: '0',
+          },
+          '&::-webkit-inner-spin-button': {
+            '-webkit-appearance': 'none',
+
+            margin: '0',
+          },
+        },
       };
 
       addUtilities(newUtilities, ['responsive', 'hover']);
