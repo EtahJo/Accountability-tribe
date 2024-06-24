@@ -13,7 +13,7 @@ const SelectPeriod = () => {
   const { period, changePeriod } = useContext(PeriodContext);
 
   return (
-    <div className="w-[180px] bg-purple border-none flex justify-center items-center rounded-5xl  mb-5  h-[40px] align-middle shadow-lg">
+    <div className="w-[180px] bg-purple border-none flex justify-center items-center rounded-5xl  mb-5  h-[40px] align-middle shadow-lg ">
       <div className=" bg-white rounded-l-5xl h-full flex justify-center align-middle items-center px-2">
         <p className=" text-center  font-bold  text-lightPink">Period:</p>
       </div>

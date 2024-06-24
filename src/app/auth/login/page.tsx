@@ -30,7 +30,6 @@ const Login = () => {
       login(vals)
         .then((data) => {
           if (data?.error) {
-            console.log(data?.error);
             setError(data.error);
           }
           if (data?.success) {

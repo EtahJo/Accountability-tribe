@@ -4,6 +4,7 @@ import { withFormsy } from 'formsy-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import InputLabel, { InputLabelProps } from '../InputLabel/index';
+import { cn } from '@/lib/utils';
 
 const CustomInput = ({
   name,
@@ -19,7 +20,7 @@ const CustomInput = ({
   Icon,
   disabled,
   lable,
-
+  className,
   labelIcon,
 }: CustomInputTypes & InputLabelProps) => {
   return (
@@ -37,9 +38,10 @@ const CustomInput = ({
             value={value}
             autoComplete="off"
             disabled={disabled}
-            className="bg-transparent px-5 py-2 w-full placeholder:text-black 
-            focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0
-            border-none"
+            className={cn(
+              'bg-transparent px-5 py-2 w-full placeholder:text-black focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0 border-none',
+              className
+            )}
           />
         ) : (
           <Input

@@ -1,5 +1,5 @@
 'use client';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { PeriodContext } from '@/context/PeriodContext';
 import { FaClock, FaCalendar } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
@@ -7,9 +7,9 @@ import FullTextOnHover from '@/components/FullTextOnHover';
 import UpcomingSessionDetail from '../UpcomingSessionDetails/index';
 import Link from 'next/link';
 
-interface UpcomingSessionProps {
-  date: string;
-  time: string;
+export interface UpcomingSessionProps {
+  startDate: string;
+  startTime: string;
   goal: string;
   duration: { hours: string; minutes: string };
   timeLeft: number;
@@ -18,11 +18,14 @@ interface UpcomingSessionProps {
   meetingLink: string;
   isAdmin?: boolean;
   sessionId: string;
+  endDate: string;
+  endTime: string;
+  creatorId: string;
 }
 
 const UpcomingSession = ({
-  date,
-  time,
+  startDate,
+  startTime,
   goal,
   duration,
   timeLeft,
@@ -31,12 +34,19 @@ const UpcomingSession = ({
   meetingLink,
   isAdmin,
   sessionId,
+  endDate,
+  endTime,
+  creatorId,
 }: UpcomingSessionProps) => {
   const { period } = useContext(PeriodContext);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   return (
-    <div className="bg-white p-3 w-[390px] rounded-3xl flex items-center gap-2 my-2 justify-between">
-      <div className="flex items-center gap-1">
+    <div className="bg-white p-3 w-[390px] rounded-3xl flex items-center gap-2 my-2 justify-between move-button cursor-pointer">
+      <div
+        className="flex items-center gap-1"
+        onClick={() => setModalIsOpen(true)}
+      >
         <div className="flex  bg-lighterPink  h-[80px] justify-center items-center rounded-3xl px-4 gap-2">
           <FaClock size={30} className="text-purple" />
           <div>
@@ -49,7 +59,7 @@ const UpcomingSession = ({
           </div>
         </div>
         <div>
-          <FullTextOnHover text={goal} />
+          <FullTextOnHover text={goal} isAfter={isAfter} />
 
           {period == 'day' && (
             <div className="flex ">
@@ -73,11 +83,11 @@ const UpcomingSession = ({
               <p className="font-bold whitespace-nowrap text-xs">
                 <>
                   {isAfter ? (
-                    'Past'
+                    <p className="text-normal">Past</p>
                   ) : (
                     <>
                       {' '}
-                      {isToday ? 'Today' : date} at {time}
+                      {isToday ? 'Today' : startDate} at {startTime}
                     </>
                   )}
                 </>
@@ -104,6 +114,25 @@ const UpcomingSession = ({
         </Button>
       )}
       {/* {isAfter&&} */}
+
+      <UpcomingSessionDetail
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        startDate={startDate}
+        startTime={startTime}
+        goal={goal}
+        duration={duration}
+        timeLeft={timeLeft}
+        isToday={isToday}
+        isAfter={isAfter}
+        meetingLink={meetingLink}
+        isAdmin={isAdmin}
+        sessionId={sessionId}
+        period={period}
+        endDate={endDate}
+        endTime={endTime}
+        creatorId={creatorId}
+      />
     </div>
   );
 };

@@ -41,8 +41,6 @@ const Editprofile = () => {
     if (url) {
       vals.image = url;
     }
-
-    console.log(vals);
     startTransition(() => {
       editProfile(vals).then((data) => {
         if (data.error) {

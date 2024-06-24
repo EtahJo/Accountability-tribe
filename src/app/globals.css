@@ -5,3 +5,10 @@
 .move-button {
   @apply transition duration-1000 hover:-translate-y-1 transform hover:duration-300;
 }
+.ReactModal__Overlay--after-open {
+  @apply backdrop-blur-3xl transition-all duration-300;
+}
+
+.ReactModal__Overlay--before-close {
+  @apply backdrop-blur-0;
+}

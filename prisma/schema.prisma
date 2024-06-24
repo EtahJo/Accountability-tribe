@@ -21,7 +21,7 @@ USER
 
 model User {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  username      String?
+  username      String?         @unique
   email         String?         @unique
   password      String?
   emailVerified DateTime?
@@ -58,7 +58,7 @@ model Tribe{
 model Member {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   name   String
-  email  String @unique
+  email  String 
   tribeId String @db.ObjectId
   tribe  Tribe @relation(fields: [tribeId],references: [id])
 }
@@ -66,7 +66,8 @@ model SessionParticipant{
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   name   String
   goal   String?
-  email String @unique
+  country String?
+  email String 
   sessionId String @db.ObjectId
   session Session @relation(fields: [sessionId],references: [id])
 }

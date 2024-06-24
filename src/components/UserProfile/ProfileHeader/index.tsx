@@ -1,5 +1,5 @@
 'use client';
-import { useCurrentUser } from '@/hooks/use-current-user';
+
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { FaUser } from 'react-icons/fa';
@@ -10,11 +10,21 @@ import { FaFacebook, FaLinkedin, FaTwitter, FaEdit } from 'react-icons/fa';
 import countries from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
 import { format, isValidNumber } from 'libphonenumber-js';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 countries.registerLocale(enLocale);
+interface ProfileHeaderProps {
+  user: {} | undefined;
+  phoneNumber: any;
+  countryCode: any;
+}
 
-const ProfileHeader = () => {
-  const { session, user, phoneNumber, countryCode } = useCurrentUser();
+const ProfileHeader = ({
+  user,
+  phoneNumber,
+  countryCode,
+}: ProfileHeaderProps) => {
+  const { session } = useCurrentUser();
   const countryName = countries.getName(user?.country, 'en');
   const isValid = phoneNumber ? isValidNumber(phoneNumber, countryCode) : false;
   const formatedNumber = phoneNumber
@@ -29,17 +39,18 @@ const ProfileHeader = () => {
               Hello,
               <p className=" text-white"> {user?.username}</p>
             </span>
-
-            <Button
-              // variant={'primary'}
-              className="bg-black hover:bg-lightPink flex items-center gap-1 align-middle justify-between group move-button"
-            >
-              <Link href={'/edit-profile'}>Edit information</Link>
-              <FaEdit
-                size={20}
-                className="text-lightPink  group-hover:text-white mb-px"
-              />
-            </Button>
+            {session && user.id === session?.data?.user.id && (
+              <Button
+                // variant={'primary'}
+                className="bg-black hover:bg-lightPink flex items-center gap-1 align-middle justify-between group move-button"
+              >
+                <Link href={'/edit-profile'}>Edit information</Link>
+                <FaEdit
+                  size={20}
+                  className="text-lightPink  group-hover:text-white mb-px"
+                />
+              </Button>
+            )}
           </div>
           <div className="flex justify-between">
             <div>

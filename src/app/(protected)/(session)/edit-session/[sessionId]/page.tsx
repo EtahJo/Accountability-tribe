@@ -38,7 +38,6 @@ const EditSession = ({ params }: { params: { sessionId: string } }) => {
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const onValidSubmit = (vals: z.infer<typeof EditSessionSchema>) => {
-    // console.log(vals);
     startTransition(() => {
       edit_session(vals, sessionId)
         .then((data) => {

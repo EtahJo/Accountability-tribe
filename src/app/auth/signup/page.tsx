@@ -39,7 +39,6 @@ const page = () => {
         })
         .catch((error) => {
           setSuccess('');
-          console.log(error);
           setError('Something went wrong !!');
         });
     });

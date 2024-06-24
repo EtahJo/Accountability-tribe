@@ -5,9 +5,7 @@ import MainButton from '../Button/MainButton';
 const ContactSection = () => {
   const [email, setEmail] = useState<string>('');
   const [message, setMessage] = useState<string>('');
-  const submitHandler = () => {
-    console.log({ email, message });
-  };
+  const submitHandler = () => {};
   return (
     <div className="grid grid-cols-12 my-24 place-content-center">
       <p className="font-bold phone:text-6xl lg:col-start-2 lg:col-end-5 place-content-center col-start-2 col-end-11 mb-10 lg:mb-0 text-5xl">

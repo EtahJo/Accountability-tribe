@@ -26,6 +26,7 @@ export type CustomInputTypes = FormsyInjectedProps<any> & {
   required?: boolean;
   Icon?: React.ReactElement;
   disabled?: boolean;
+  className?: string;
 };
 
 export type CustomCheckboxProps = {

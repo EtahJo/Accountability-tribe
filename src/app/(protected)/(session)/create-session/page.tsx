@@ -30,7 +30,6 @@ const CreateSession = () => {
   const [error, setError] = useState('');
 
   const onValidSubmit = (vals: z.infer<typeof CreateSessionSchema>) => {
-    // console.log(vals);
     startTransition(() => {
       create_session(vals)
         .then((data) => {

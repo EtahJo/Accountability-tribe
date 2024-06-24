@@ -13,7 +13,7 @@ export const editProfile = async (
   if (!user) {
     return { error: 'Unauthorized user :no user' };
   }
-  // console.log('This is the user', user);
+
   const dbUser = await getUserById(user?.id as string);
   if (!dbUser) {
     return { error: 'Unauthorized user :no dbsuer' };
@@ -37,7 +37,6 @@ export const editProfile = async (
     values.password = hashedPassword;
     values.newPassword = undefined;
   }
-  console.log('to be updated', values);
   await db.user.update({
     where: { id: dbUser.id },
     data: { ...values },

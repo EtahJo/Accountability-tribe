@@ -7,7 +7,6 @@ import { db } from '@/lib/db';
 export const signup = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
   if (!validatedFields.success) {
-    console.log('Invalid field');
     return { error: 'Invalid fields!' };
   }
   const { username, email, password, timezone } = validatedFields.data;
@@ -20,6 +19,16 @@ export const signup = async (values: z.infer<typeof RegisterSchema>) => {
   if (existingUser) {
     return {
       error: 'Email already exists',
+    };
+  }
+  const usernameExist = await db.user.findUnique({
+    where: {
+      username,
+    },
+  });
+  if (usernameExist) {
+    return {
+      error: 'Username already exist',
     };
   }
   const user = await db.user.create({

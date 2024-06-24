@@ -25,7 +25,10 @@ export const create_session = async (
   ).hm;
   const duration = JSON.stringify(durationObj);
   const dbUser = await getUserById(user?.id as string);
-  await db.session.create({
+  if (!dbUser) {
+    return { error: 'Unauthorised User' };
+  }
+  const session = await db.session.create({
     data: {
       goal,
       startDateTime: startEndDateTime.startDateTime,
@@ -33,6 +36,15 @@ export const create_session = async (
       meetingLink,
       duration,
       creatorId: dbUser?.id as string,
+    },
+  });
+  await db.sessionParticipant.create({
+    data: {
+      name: dbUser?.username as string,
+      goal,
+      country: dbUser.country,
+      email: dbUser.email as string,
+      sessionId: session.id,
     },
   });
   return { success: 'Session Created' };

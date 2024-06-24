@@ -82,21 +82,30 @@ export const CreateSessionSchema = z.object({
   duration: z.optional(z.string()),
 });
 
-export const EditSessionSchema = z.object({
-  goal: z.optional(
-    z.string().min(1, { message: 'Adding a goal is Essential' })
-  ),
+export const EditSessionSchema = z
+  .object({
+    goal: z.optional(
+      z.string().min(1, { message: 'Adding a goal is Essential' })
+    ),
 
-  startEndDateTime: z.optional(
-    z.object({
-      startDateTime: z.date(),
-      endDateTime: z.date(),
-    })
-  ),
+    startEndDateTime: z.optional(
+      z.object({
+        startDateTime: z.date(),
+        endDateTime: z.date(),
+      })
+    ),
 
-  meetingLink: z.optional(
-    z.string().min(1, { message: 'Please add a Google Meeting Link' })
-  ),
+    meetingLink: z.optional(
+      z.string().min(1, { message: 'Please add a Google Meeting Link' })
+    ),
 
-  duration: z.optional(z.string()),
-});
+    duration: z.optional(z.string()),
+  })
+  .refine((data) => {
+    const date = new Date();
+    if (data?.startEndDateTime) {
+      if (data?.startEndDateTime?.startDateTime < date) {
+        return false;
+      }
+    }
+  });

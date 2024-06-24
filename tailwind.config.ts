@@ -62,6 +62,10 @@ const config = {
             // opacity: '0',
           },
         },
+        zoom: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.1)' },
+        },
 
         wiggle: {
           '0%, 100%': { transform: 'rotate(-3deg)' },
@@ -73,6 +77,7 @@ const config = {
         'accordion-up': 'accordion-up 0.2s ease-out',
         moveHori: ' moveHorizontal 10s ease-in-out infinite ',
         wiggle: 'wiggle 1s ease-in-out infinite',
+        zoom: 'zoom 2s infinite',
       },
       textShadow: {
         sm: '1px 1px 2px rgba(0, 0, 0, 0.5)',

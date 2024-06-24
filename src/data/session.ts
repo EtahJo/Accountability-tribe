@@ -4,6 +4,9 @@ export const getSessionById = async (id: string) => {
   try {
     const session = await db.session.findUnique({
       where: { id },
+      include: {
+        participants: true,
+      },
     });
     return session;
   } catch {
@@ -19,7 +22,6 @@ export const getAllUserSessions = async (email: string) => {
         sessions: true,
       },
     });
-    console.log(getAllUserSessions);
   } catch {
     return null;
   }
