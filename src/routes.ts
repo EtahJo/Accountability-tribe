@@ -5,7 +5,8 @@ export const authRoutes = [
   '/auth/reset',
   '/auth/new-password',
 ];
+export const userProfilePrefix = '/user/';
 export const apiAuthPrefix = '/api/auth';
 
 export const DEFAULT_LOGIN_REDIRECT = '/';
-export const publicRoutes = ['/', '/[username]'];
+export const publicRoutes = ['/'];

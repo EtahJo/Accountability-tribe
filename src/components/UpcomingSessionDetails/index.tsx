@@ -14,6 +14,14 @@ import { get_session_participants } from '@/action/get-session-participants';
 import { add_session } from '@/action/add-session';
 import { isParticipant } from '@/util/Check';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { FormError } from '@/components/Messages/Error';
+import { FormSuccess } from '@/components/Messages/Success';
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 const UpcomingSessionDetail = ({
   isOpen,
@@ -38,6 +46,8 @@ const UpcomingSessionDetail = ({
   const [admin, setAdmin] = useState('');
   const [participants, setParticipants] = useState({});
   const [userIsParticipant, setUserIsParticipant] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
   const { user } = useCurrentUser();
   const onGoing = timeLeft < 0 && !isAfter;
   useEffect(() => {
@@ -55,8 +65,24 @@ const UpcomingSessionDetail = ({
   }, []);
 
   const onValidSubmit = (vals: any) => {
-    console.log(vals);
     setEditGoal(false);
+  };
+  const addSession = (vals: any) => {
+    add_session(vals, sessionId)
+      .then((data) => {
+        if (data?.error) {
+          setSuccess('');
+          setError(data.error);
+        }
+        if (data?.success) {
+          setError('');
+          setSuccess(data.success);
+        }
+      })
+      .catch(() => {
+        setSuccess('');
+        setError('Somethin went wrong');
+      });
   };
   return (
     <ModalWrapper
@@ -129,14 +155,14 @@ const UpcomingSessionDetail = ({
             ) : (
               <>
                 <div className=" justify-center ">
-                  <h1 className="text-2xl font-bold -mr-4">Your Goal</h1>
+                  <h1 className="text-2xl font-bold -mr-4">Goal</h1>
                 </div>
 
                 <p>{goal}</p>
               </>
             )}
           </div>
-          {!onGoing && !editGoal && (
+          {!onGoing && !editGoal && userIsParticipant && (
             <Button
               className="move-button"
               onClick={() => setEditGoal(true)}
@@ -184,9 +210,34 @@ const UpcomingSessionDetail = ({
             </>
           ) : (
             <>
-              <Button size={'slg'} className="py-3 move-button">
-                Add Session
-              </Button>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button size={'slg'} className="py-3 move-button">
+                    Add Session
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="z-[150] w-[310px]">
+                  <Formsy
+                    className="flex flex-col justify-center"
+                    onValidSubmit={addSession}
+                  >
+                    <Custominput
+                      textArea
+                      placeholder="Add your own goal"
+                      name="goal"
+                      value={newGoal}
+                      changeEvent={(e) => {
+                        setNewGoal(e.target.value);
+                      }}
+                    />
+                    {error && <FormError message={error} />}
+                    {success && <FormSuccess message={success} />}
+                    <Button className="move-button" type="submit">
+                      Add Goal
+                    </Button>
+                  </Formsy>
+                </PopoverContent>
+              </Popover>
             </>
           )}
         </div>

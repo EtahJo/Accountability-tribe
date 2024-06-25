@@ -5,7 +5,7 @@ import UserProfileBody from '@/components/UserProfileBody';
 import { useCurrentUser } from '@/hooks/use-current-user';
 
 const UserProfile = () => {
-  const { session, user, phoneNumber, countryCode } = useCurrentUser();
+  const { user, phoneNumber, countryCode } = useCurrentUser();
   return (
     <div>
       <ProfileHeader
@@ -13,7 +13,7 @@ const UserProfile = () => {
         phoneNumber={phoneNumber}
         countryCode={countryCode}
       />
-      <UserProfileBody />
+      <UserProfileBody user={user} sessions={user?.sessions} />
     </div>
   );
 };

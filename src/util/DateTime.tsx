@@ -23,10 +23,10 @@ export function convertMillisecondsToMinutes(milliseconds: any) {
 }
 
 export function getTimeDifference(isoString: string) {
-  const targetDate = parseISO(isoString);
+  // const targetDate = parseISO(isoString);
   const now = new Date();
 
-  const differenceInMs = differenceInMilliseconds(targetDate, now);
+  const differenceInMs = differenceInMilliseconds(isoString, now);
 
   // Convert milliseconds to minutes as a floating-point number
   const differenceInMinutes = convertMillisecondsToMinutes(differenceInMs);
@@ -67,15 +67,15 @@ export function getDuration(startIsoString: string, endIsoString: string) {
 }
 
 export function isToday(dateString: string) {
-  const givenDate = parseISO(dateString);
+  // const givenDate = parseISO(dateString);
   const today = new Date();
-  return isSameDay(givenDate, today);
+  return isSameDay(dateString, today);
 }
 
 export function isThisWeek(dateString: string) {
-  const givenDate = parseISO(dateString);
+  // const givenDate = parseISO(dateString);
   const today = new Date();
-  return isSameWeek(givenDate, today);
+  return isSameWeek(dateString, today);
 }
 export function isThisMonth(dateString: string) {
   const givenDate = parseISO(dateString);
@@ -84,7 +84,7 @@ export function isThisMonth(dateString: string) {
 }
 
 export const checkIsAfter = (dateString: string) => {
-  const targetTime = parseISO(dateString);
+  // const targetTime = parseISO(dateString);
   const currentTime = new Date();
-  return isAfter(currentTime, targetTime);
+  return isAfter(currentTime, dateString);
 };

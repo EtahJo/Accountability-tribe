@@ -3,10 +3,15 @@ import { cn } from '@/lib/utils';
 interface FullTextOnHoverProps {
   text: string;
   isAfter?: boolean;
+  className?: string;
 }
-const FullTextOnHover = ({ text, isAfter }: FullTextOnHoverProps) => {
+const FullTextOnHover = ({
+  text,
+  isAfter,
+  className,
+}: FullTextOnHoverProps) => {
   return (
-    <div className={cn('group relative', isAfter ? 'w-52' : 'w-28')}>
+    <div className={cn('group relative', isAfter ? 'w-52' : 'w-28', className)}>
       <div className="truncate ">{text}</div>
       <p
         className={cn(

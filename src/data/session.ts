@@ -14,14 +14,32 @@ export const getSessionById = async (id: string) => {
   }
 };
 
-export const getAllUserSessions = async (email: string) => {
+// export const getAllUserSessions = async (email: string) => {
+//   try {
+//     const user = await db.user.findUnique({
+//       where: { email },
+//       include: {
+//         sessions: true,
+//       },
+//     });
+//   } catch {
+//     return null;
+//   }
+// };
+
+export const getAllUserSessions = async (username: string) => {
   try {
-    const user = await db.user.findUnique({
-      where: { email },
+    const userSessions = await db.session.findMany({
+      where: {
+        participants: {
+          every: { name: username },
+        },
+      },
       include: {
-        sessions: true,
+        participants: true,
       },
     });
+    return userSessions;
   } catch {
     return null;
   }

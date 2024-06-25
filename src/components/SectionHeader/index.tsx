@@ -12,7 +12,7 @@ const SectionHeader = ({
   buttonIcon,
 }: SectionHeaderType) => {
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center gap-3">
       <div className={classNames('text-4xl font-bold text-shadow-lg')}>
         {' '}
         {icon && <div>{icon}</div>}

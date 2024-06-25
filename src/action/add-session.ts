@@ -35,4 +35,23 @@ export const add_session = async (values: any, sessionId: string) => {
       sessionId: session.id,
     },
   });
+  // await db.user.update({
+  //   where: { id: dbUser.id },
+  //   data: {
+  //     sessions: {
+  //      connect:{id:sessionId}
+  //     },
+  //   },
+  // });
+  // await db.session.create({
+  //   data: {
+  //     goal: participant.goal || session.goal,
+  //     startDateTime: session.startDateTime,
+  //     endDateTime: session.endDateTime,
+  //     meetingLink: session.meetingLink,
+  //     duration: session.duration,
+  //     creatorId: session.creatorId,
+  //   },
+  // });
+  return { success: 'Session Successfully Added' };
 };

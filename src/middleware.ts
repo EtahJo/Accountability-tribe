@@ -6,6 +6,7 @@ import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
   publicRoutes,
+  userProfilePrefix,
 } from './routes';
 
 export const { auth } = NextAuth(authConfig);
@@ -16,6 +17,7 @@ export default auth(
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isApiRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+    const isUserProfileRoute = nextUrl.pathname.startsWith(userProfilePrefix);
 
     if (isApiRoute) return;
     if (isAuthRoute) {
@@ -29,7 +31,7 @@ export default auth(
    in and not in a public route. if so rredirect user to the 
   the log in page */
     }
-    if (!isLoggedIn && !isPublicRoute) {
+    if (!isLoggedIn && !isPublicRoute && !isUserProfileRoute) {
       return Response.redirect(new URL('/auth/login', nextUrl));
     }
     return;

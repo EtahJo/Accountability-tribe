@@ -15,11 +15,15 @@ import {
 import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
 import { Avatar } from '@radix-ui/react-avatar';
+import { useRouter } from 'next/navigation';
 
 const ProfileIcon = () => {
   const { user } = useCurrentUser();
+  const router = useRouter();
   const onClick = () => {
-    logout();
+    logout().then(() => {
+      router.push('/auth/login');
+    });
   };
   return (
     <DropdownMenu>
@@ -49,7 +53,7 @@ const ProfileIcon = () => {
           Hello, {user?.username}
         </p>
         <DropdownMenuItem>
-          <Link href={'/user-profile'}>
+          <Link href={`/user/${user?.username}`}>
             <ProfileIconItem
               title="Visit Your Profile"
               icon={<FaUser size={25} />}

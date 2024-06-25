@@ -28,6 +28,5 @@ export const useCurrentSession = (sessionId: string) => {
   const currentSession = userSessions.find(
     (userSession: any) => userSession.id === sessionId
   );
-  console.log(currentSession);
   return { currentSession };
 };
