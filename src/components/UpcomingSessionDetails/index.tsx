@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useTransition, useEffect } from 'react';
 import ModalWrapper from '@/components/ModalWrap';
 import { Props } from 'react-modal';
 import { UpcomingSessionProps } from '@/components/UpcomingSession';
@@ -8,11 +8,12 @@ import { FaPen, FaClock } from 'react-icons/fa';
 import Link from 'next/link';
 
 import Formsy from 'formsy-react';
-import Custominput from '@/components/Custominput';
+import Custominput from '@/components/CustomInput/index';
 import { get_user_by_id } from '@/action/get-user';
 import { get_session_participants } from '@/action/get-session-participants';
-import { add_session } from '@/action/add-session';
+import { join_session, is_member } from '@/action/join-session';
 import { isParticipant } from '@/util/Check';
+import { edit_session } from '@/action/edit-session';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
@@ -22,7 +23,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-
+interface UpcomingSessionDetailProps {
+  period: string;
+  upcomingSessionChildren?: React.ReactNode;
+}
 const UpcomingSessionDetail = ({
   isOpen,
   onRequestClose,
@@ -39,36 +43,42 @@ const UpcomingSessionDetail = ({
   period,
   endDate,
   endTime,
-  creatorId,
-}: Props & UpcomingSessionProps & { period: string }) => {
+  isMember,
+  members,
+  admin,
+}: // creatorId,
+Props & UpcomingSessionProps & UpcomingSessionDetailProps) => {
+  const [isPending, startTransition] = useTransition();
   const [editGoal, setEditGoal] = useState(false);
   const [newGoal, setNewGoal] = useState('');
-  const [admin, setAdmin] = useState('');
-  const [participants, setParticipants] = useState({});
-  const [userIsParticipant, setUserIsParticipant] = useState(false);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const { user } = useCurrentUser();
   const onGoing = timeLeft < 0 && !isAfter;
-  useEffect(() => {
-    get_user_by_id(creatorId).then((data) => {
-      setAdmin(data.user);
-    });
-    get_session_participants(sessionId).then((data) => {
-      const userIsParticipant = isParticipant(
-        data.participants,
-        user?.username
-      );
-      setUserIsParticipant(userIsParticipant);
-      setParticipants(data);
-    });
-  }, []);
+  useEffect(() => {}, [goal, members]);
 
   const onValidSubmit = (vals: any) => {
-    setEditGoal(false);
+    // startTransition(() => {
+    //   edit_session(vals, sessionId)
+    //     .then((data) => {
+    //       if (data.success) {
+    //         setError('');
+    //         setSuccess(data.success);
+    //       }
+    //       if (data.error) {
+    //         setSuccess('');
+    //         setError(data.error);
+    //       }
+    //     })
+    //     .catch(() => {
+    //       setSuccess('');
+    //       setError('Something went wrong!');
+    //     });
+    // });
+    // setEditGoal(false);
   };
   const addSession = (vals: any) => {
-    add_session(vals, sessionId)
+    join_session(vals, sessionId, user?.id as string)
       .then((data) => {
         if (data?.error) {
           setSuccess('');
@@ -131,7 +141,7 @@ const UpcomingSessionDetail = ({
           <FaClock className="text-purple" />
           <p className="font-bold">Duration:</p>
           <p className="  rounded-md px-2 py-px bg-lightPink">
-            {duration.hours !== '00' && duration.hours + ' h'}
+            {duration.hours !== '00' && duration.hours + 'h '}
             {duration.minutes !== '00' && duration.minutes + 'm'}
           </p>
         </span>
@@ -149,8 +159,17 @@ const UpcomingSessionDetail = ({
                   placeholder="What's your new goal?"
                   changeEvent={(e) => setNewGoal(e.target.value)}
                   className="w-[300px]"
+                  disabled={isPending}
                 />
-                <Button type="submit">Update</Button>
+                {error && <FormError message={error} />}
+                {success && <FormSuccess message={success} />}
+                <Button
+                  type="submit"
+                  className="move-button"
+                  disabled={isPending}
+                >
+                  Update
+                </Button>
               </Formsy>
             ) : (
               <>
@@ -162,7 +181,7 @@ const UpcomingSessionDetail = ({
               </>
             )}
           </div>
-          {!onGoing && !editGoal && userIsParticipant && (
+          {!onGoing && !editGoal && isMember && (
             <Button
               className="move-button"
               onClick={() => setEditGoal(true)}
@@ -175,14 +194,12 @@ const UpcomingSessionDetail = ({
         <div className="flex gap-1 items-center">
           <p>This Session created by</p>
           {/* TODO:Add link to user profile */}
-          <Link href={`/${admin.username}`} className="text-lightPink">
-            {admin.username}
+          <Link href={`/user/${admin}`} className="text-lightPink">
+            {admin}
           </Link>
           <p>
-            has {participants?.participants?.length}
-            {participants?.participants?.length > 1
-              ? ' participants'
-              : ' participant'}
+            has {members}
+            {members > 1 ? ' participants' : ' participant'}
           </p>
         </div>
         <div className="flex flex-col gap-y-4">
@@ -195,7 +212,7 @@ const UpcomingSessionDetail = ({
           <Button className="move-button py-3 bg-lightPink" size={'slg'}>
             Duplicate Session
           </Button>
-          {userIsParticipant ? (
+          {isMember ? (
             <>
               {onGoing && (
                 <Button size={'slg'} className="py-3 move-button">
@@ -210,34 +227,36 @@ const UpcomingSessionDetail = ({
             </>
           ) : (
             <>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button size={'slg'} className="py-3 move-button">
-                    Add Session
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="z-[150] w-[310px]">
-                  <Formsy
-                    className="flex flex-col justify-center"
-                    onValidSubmit={addSession}
-                  >
-                    <Custominput
-                      textArea
-                      placeholder="Add your own goal"
-                      name="goal"
-                      value={newGoal}
-                      changeEvent={(e) => {
-                        setNewGoal(e.target.value);
-                      }}
-                    />
-                    {error && <FormError message={error} />}
-                    {success && <FormSuccess message={success} />}
-                    <Button className="move-button" type="submit">
-                      Add Goal
+              {!isAfter && (
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button size={'slg'} className="py-3 move-button">
+                      Add Session
                     </Button>
-                  </Formsy>
-                </PopoverContent>
-              </Popover>
+                  </PopoverTrigger>
+                  <PopoverContent className="z-[150] w-[310px]">
+                    <Formsy
+                      className="flex flex-col justify-center"
+                      onValidSubmit={addSession}
+                    >
+                      <Custominput
+                        textArea
+                        placeholder="Add your own goal"
+                        name="goal"
+                        value={newGoal}
+                        changeEvent={(e) => {
+                          setNewGoal(e.target.value);
+                        }}
+                      />
+                      {error && <FormError message={error} />}
+                      {success && <FormSuccess message={success} />}
+                      <Button className="move-button" type="submit">
+                        Add Goal
+                      </Button>
+                    </Formsy>
+                  </PopoverContent>
+                </Popover>
+              )}
             </>
           )}
         </div>

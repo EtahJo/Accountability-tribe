@@ -32,7 +32,7 @@ model User {
   facebook     String?
   country      String?
  tribes         TribeUser[]  
-sessions      Session[]
+sessions      SessionParticipant[]
 timezone      String?
 
   image         String?
@@ -48,10 +48,7 @@ model Tribe{
   name         String
   description  String?
   profileImage   String?
-  users        TribeUser[]
-  // members     Member[] 
-
-
+  users        TribeUser[] 
 
 }
 model TribeUser{
@@ -63,31 +60,24 @@ model TribeUser{
     user     User @relation(fields: [userId],references: [id])
      @@unique([userId, tribeId])
 }
-model Member {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  name   String
-  email  String 
-  tribeId String @db.ObjectId
-  // tribe  Tribe @relation(fields: [tribeId],references: [id])
-}
+
 model SessionParticipant{
   id     String @id @default(auto()) @map("_id") @db.ObjectId
-  name   String
-  goal   String?
-  country String?
-  email String 
   sessionId String @db.ObjectId
+  userId    String @db.ObjectId
+  userRole  UserRole
+  goal      String?
+  user      User @relation(fields: [userId],references: [id])
   session Session @relation(fields: [sessionId],references: [id])
+  @@unique([userId,sessionId])
 }
 
 model Session{
    id     String @id @default(auto()) @map("_id") @db.ObjectId
    goal   String
-    creatorId     String @db.ObjectId
    startDateTime DateTime
    endDateTime   DateTime?
    meetingLink   String
    duration    String?
-   admin    User@relation(fields: [creatorId],references: [id])
-   participants SessionParticipant[]
+   users SessionParticipant[]
 }

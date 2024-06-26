@@ -2,7 +2,7 @@
 import { useState, useTransition, useContext } from 'react';
 import * as z from 'zod';
 import Formsy from 'formsy-react';
-import Custominput from '@/components/Custominput/index';
+import Custominput from '@/components/CustomInput/index';
 import { create_tribe } from '@/action/create-tribe';
 import UploadImage from '@/components/UploadImage/index';
 import { ImageUploaderContext } from '@/context/ImageUploadContext';
@@ -19,6 +19,9 @@ const CreateTribe = () => {
   const [isPending, startTransition] = useTransition();
   const { url } = useContext(ImageUploaderContext);
   const onValidSubmit = (vals: z.infer<typeof CreateTribeSchema>) => {
+    if (url) {
+      vals.profileImage = url;
+    }
     startTransition(() => {
       create_tribe(vals).then((data) => {
         if (data?.error) {
@@ -34,12 +37,12 @@ const CreateTribe = () => {
   };
   return (
     <div className="flex justify-center items-center h-screen flex-col gap-y-4">
-      <h1 className="text-center text-5xl font-semibold mt-5 text-shadow-lg">
+      <h1 className="text-center text-5xl font-semibold mb-24 text-shadow-lg">
         Create Tribe
       </h1>
       <div className="bg-white rounded-3xl shadow-3xl w-[400px] p-10">
         <Formsy onValidSubmit={onValidSubmit}>
-          {/* <UploadImage name="profileImage" /> */}
+          <UploadImage name="profileImage" />
           <Custominput
             lable="Tribe Name"
             name="name"

@@ -89,10 +89,13 @@ export const EditSessionSchema = z
     ),
 
     startEndDateTime: z.optional(
-      z.object({
-        startDateTime: z.date(),
-        endDateTime: z.date(),
-      })
+      z.object(
+        {
+          startDateTime: z.date(),
+          endDateTime: z.date(),
+        },
+        { message: 'Date issue' }
+      )
     ),
 
     meetingLink: z.optional(

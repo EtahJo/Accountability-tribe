@@ -1,7 +1,7 @@
 'use client';
 import { useState, useTransition, useContext } from 'react';
 import Formsy from 'formsy-react';
-import Custominput from '@/components/Custominput/index';
+import Custominput from '@/components/CustomInput/index';
 import CustomCheckbox from '@/components/CustomCheckbox/index';
 import { Button } from '@/components/ui/button';
 import { useCurrentUser } from '@/hooks/use-current-user';
@@ -60,7 +60,7 @@ const Editprofile = () => {
     >
       <div className="bg-white rounded-5xl p-5 m-auto w-3/4 shadow-3xl relative">
         <div className="flex flex-col ">
-          <UploadImage name="image" />
+          <UploadImage name="image" presentImage={user?.image} />
           {user?.image && (
             <div className="flex justify-center mt-5">
               <Button

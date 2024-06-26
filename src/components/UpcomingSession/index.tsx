@@ -20,7 +20,9 @@ export interface UpcomingSessionProps {
   sessionId: string;
   endDate: string;
   endTime: string;
-  creatorId: string;
+  isMember: boolean;
+  members: number;
+  admin: string;
 }
 
 const UpcomingSession = ({
@@ -36,7 +38,9 @@ const UpcomingSession = ({
   sessionId,
   endDate,
   endTime,
-  creatorId,
+  isMember,
+  members,
+  admin,
 }: UpcomingSessionProps) => {
   const { period } = useContext(PeriodContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -131,7 +135,9 @@ const UpcomingSession = ({
         period={period}
         endDate={endDate}
         endTime={endTime}
-        creatorId={creatorId}
+        isMember={isMember}
+        members={members}
+        admin={admin}
       />
     </div>
   );

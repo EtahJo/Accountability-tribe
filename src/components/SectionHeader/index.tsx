@@ -1,8 +1,9 @@
-import React from 'react';
+'use client';
 import { SectionHeaderType } from '@/types/types';
-import classNames from 'classnames';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useMyProfileCheck } from '@/context/MyProfileCheckContext';
+import { cn } from '@/lib/utils';
 
 const SectionHeader = ({
   name,
@@ -10,15 +11,23 @@ const SectionHeader = ({
   buttonLink,
   buttonTitle,
   buttonIcon,
+  classNames,
 }: SectionHeaderType) => {
+  const { myProfile } = useMyProfileCheck();
   return (
-    <div className="flex justify-between items-center gap-3">
-      <div className={classNames('text-4xl font-bold text-shadow-lg')}>
+    <div
+      className={cn(
+        'flex items-center gap-3',
+        myProfile ? 'justify-between' : 'justify-start',
+        classNames
+      )}
+    >
+      <div className={cn('text-4xl font-bold text-shadow-lg')}>
         {' '}
         {icon && <div>{icon}</div>}
         <div>{name}</div>
       </div>
-      {buttonLink && (
+      {buttonLink && myProfile && (
         <Button className="move-button flex items-center gap-1">
           {buttonIcon && buttonIcon}
           <Link href={buttonLink}>{buttonTitle}</Link>

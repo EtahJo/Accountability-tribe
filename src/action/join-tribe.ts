@@ -6,10 +6,6 @@ import { getUserById } from '@/data/user';
 import { getTribeUserByTribeUserId } from '@/data/tribe';
 
 export const join_tribe = async (tribeId: string, userId: string) => {
-  //   const user = await currentUser();
-  //   if (!user) {
-  //     return { error: 'Unauthorised access' };
-  //   }
   const dbUser = await getUserById(userId as string);
   if (!dbUser) {
     return { error: 'Unauthorised User' };

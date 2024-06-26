@@ -6,6 +6,7 @@ import { db } from '@/lib/db';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
 import { getDuration } from '@/util/DateTime';
+import { UserRole } from '@prisma/client';
 
 export const create_session = async (
   values: z.infer<typeof CreateSessionSchema>
@@ -35,16 +36,14 @@ export const create_session = async (
       endDateTime: startEndDateTime.endDateTime,
       meetingLink,
       duration,
-      creatorId: dbUser?.id as string,
     },
   });
   await db.sessionParticipant.create({
     data: {
-      name: dbUser?.username as string,
+      user: { connect: { id: dbUser.id } },
+      session: { connect: { id: session.id } },
+      userRole: 'ADMIN',
       goal,
-      country: dbUser.country,
-      email: dbUser.email as string,
-      sessionId: session.id,
     },
   });
   return { success: 'Session Created' };

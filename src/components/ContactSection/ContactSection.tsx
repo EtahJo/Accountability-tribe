@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CustomInput from '../Custominput/index';
+import CustomInput from '../CustomInput/index';
 import Formsy from 'formsy-react';
 import MainButton from '../Button/MainButton';
 const ContactSection = () => {

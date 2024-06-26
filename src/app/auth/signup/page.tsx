@@ -4,7 +4,7 @@ import Link from 'next/link';
 import AuthMessage from '@/components/AuthMessage/index';
 
 import Formsy from 'formsy-react';
-import Custominput from '@/components/Custominput/index';
+import Custominput from '@/components/CustomInput/index';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import * as z from 'zod';
 import { RegisterSchema } from '@/schemas/index';

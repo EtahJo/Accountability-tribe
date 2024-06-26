@@ -1,45 +1,65 @@
 import { db } from '@/lib/db';
 
-export const getSessionById = async (id: string) => {
+export const getAllUserSessions = async (userId: string) => {
   try {
-    const session = await db.session.findUnique({
-      where: { id },
-      include: {
-        participants: true,
-      },
+    const sessions = await db.user.findUnique({
+      where: { id: userId },
+      include: { sessions: { include: { session: true } } },
     });
-    return session;
+    return sessions?.sessions;
+  } catch {
+    return null;
+  }
+};
+export const getAllUsersInSession = async (sessionId: string) => {
+  try {
+    const users = await db.session.findUnique({
+      where: { id: sessionId },
+      include: { users: { include: { user: true } } },
+    });
+    return users?.users;
   } catch {
     return null;
   }
 };
 
-// export const getAllUserSessions = async (email: string) => {
-//   try {
-//     const user = await db.user.findUnique({
-//       where: { email },
-//       include: {
-//         sessions: true,
-//       },
-//     });
-//   } catch {
-//     return null;
-//   }
-// };
-
-export const getAllUserSessions = async (username: string) => {
+export const getSessionUserBySessionUserId = async (
+  sessionId: string,
+  userId: string
+) => {
   try {
-    const userSessions = await db.session.findMany({
+    const sessionUser = await db.sessionParticipant.findUnique({
+      where: { userId_sessionId: { sessionId, userId } },
+    });
+    return sessionUser;
+  } catch {
+    return null;
+  }
+};
+
+export const getSessionAdmin = async (sessionId: string) => {
+  try {
+    const session = await db.sessionParticipant.findFirst({
       where: {
-        participants: {
-          every: { name: username },
-        },
+        sessionId,
+        userRole: 'ADMIN',
       },
       include: {
-        participants: true,
+        user: true,
       },
     });
-    return userSessions;
+    return session?.user;
+  } catch {
+    return null;
+  }
+};
+
+export const getSessionById = async (sessionId: string) => {
+  try {
+    const session = await db.session.findUnique({
+      where: { id: sessionId },
+    });
+    return session;
   } catch {
     return null;
   }

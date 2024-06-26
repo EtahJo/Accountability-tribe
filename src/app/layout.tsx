@@ -7,6 +7,7 @@ import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
 import ImageUploaderProvider from '@/context/ImageUploadContext';
 import PeriodProvider from '@/context/PeriodContext';
+import MyProfileCheckContextProvider from '@/context/MyProfileCheckContext';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -27,13 +28,15 @@ export default async function RootLayout({
       <SessionProvider session={session}>
         <PeriodProvider>
           <ImageUploaderProvider>
-            <body className={inter.className}>
-              <div className="bg-lightPink relative h-full">
-                <Navbar />
-                <div className="sm:pt-28 pt-10">{children}</div>
-                <Footer />
-              </div>
-            </body>
+            <MyProfileCheckContextProvider>
+              <body className={inter.className}>
+                <div className="bg-lightPink relative h-full">
+                  <Navbar />
+                  <div className="sm:pt-28 pt-10">{children}</div>
+                  <Footer />
+                </div>
+              </body>
+            </MyProfileCheckContextProvider>
           </ImageUploaderProvider>
         </PeriodProvider>
       </SessionProvider>

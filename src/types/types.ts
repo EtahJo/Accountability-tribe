@@ -1,5 +1,6 @@
 import { FormsyInjectedProps } from 'formsy-react';
-import React from 'react';
+import { StaticImageData } from 'next/image';
+
 export type AuthContextType = {
   login: boolean;
   setLogin: () => void;
@@ -27,6 +28,9 @@ export type CustomInputTypes = FormsyInjectedProps<any> & {
   Icon?: React.ReactElement;
   disabled?: boolean;
   className?: string;
+  defaultValue?: any;
+  lable?: string;
+  labelIcon?: React.ReactNode;
 };
 
 export type CustomCheckboxProps = {
@@ -59,6 +63,7 @@ export type SectionHeaderType = {
   buttonTitle?: string;
   buttonLink?: string;
   buttonIcon?: React.ReactNode;
+  classNames?: string;
 };
 
 export type TribeSnippetType = {

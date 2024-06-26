@@ -3,7 +3,7 @@ import React, { useState, useTransition } from 'react';
 import * as z from 'zod';
 
 import CustomCheckbox from '@/components/CustomCheckbox/index';
-import Custominput from '@/components/Custominput/index';
+import Custominput from '@/components/CustomInput/index';
 import MainButton from '@/components/Button/MainButton';
 
 import Formsy from 'formsy-react';

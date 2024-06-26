@@ -9,14 +9,18 @@ import { Input } from '@/components/ui/input';
 import { withFormsy } from 'formsy-react';
 import { ImageUploaderContext } from '@/context/ImageUploadContext';
 
-const UploadImage = () => {
+interface UploadImageProps {
+  presentImage: string | null | undefined;
+}
+
+const UploadImage = ({ presentImage }: UploadImageProps) => {
   const { addUrl } = useContext(ImageUploaderContext);
   const [resource, setResource] = useState();
   const { user } = useCurrentUser();
   return (
     <div className="relative -mt-32 ">
       <Avatar className=" w-[180px] h-[180px] z-10 items-center flex justify-center m-auto border-4 border-white">
-        {!resource && !user?.image ? (
+        {!resource && !presentImage ? (
           <AvatarFallback className="bg-black">
             <FaUser className="text-white" size={100} />
           </AvatarFallback>
@@ -25,7 +29,7 @@ const UploadImage = () => {
             width="180"
             height="180"
             crop={'fill'}
-            src={resource?.path || user?.image}
+            src={resource?.path || presentImage}
             sizes="100vw"
             alt="User profile"
           />

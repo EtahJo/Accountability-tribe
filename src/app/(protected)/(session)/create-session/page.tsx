@@ -6,7 +6,7 @@ import Formsy from 'formsy-react';
 
 import { create_session } from '@/action/create-session';
 import { CreateSessionSchema } from '@/schemas/index';
-import CustomInput from '@/components/Custominput/index';
+import CustomInput from '@/components/CustomInput/index';
 import CustomDateInput from '@/components/CustomDateInput';
 import { Button } from '@/components/ui/button';
 import SectionHeader from '@/components/SectionHeader';

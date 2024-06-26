@@ -1,23 +1,41 @@
+'use client';
+import { useEffect } from 'react';
 import UpcomingSessions from '@/components/UpcomingSessions';
 import TodoList from '@/components/TodoList';
 import Posts from '@/components/Posts';
 import Achievements from '@/components/Achievements';
 import Tribes from '@/components/Tribes';
 import SelectPeriod from '@/components/SelectPeriod';
+import { useMyProfileCheck } from '@/context/MyProfileCheckContext';
 
 interface UserProfileBodyProps {
-  user: {} | undefined;
-  sessions: [] | undefined;
-  tribes: [] | undefined;
-  joinTribe: (tribeId: string, userId: string) => {};
+  user: { username: string } | undefined;
+  sessions: {}[] | undefined;
+  tribes:
+    | ({
+        tribe: {
+          id: string;
+          name: string;
+          description: string | null;
+          profileImage: string | null;
+        };
+      } & { id: string; userId: string; tribeId: string; userRole: string })[]
+    | null
+    | undefined;
+  children?: React.ReactNode;
+  pageUserName: string;
 }
 
 const UserProfileBody = ({
   user,
   sessions,
-  tribes,
-  joinTribe,
+  pageUserName,
+  children,
 }: UserProfileBodyProps) => {
+  const { myProfileCheck } = useMyProfileCheck();
+  useEffect(() => {
+    myProfileCheck(user?.username as string, pageUserName);
+  }, []);
   return (
     <div className="grid grid-cols-12 pb-24">
       <div className="col-start-2 col-end-9">
@@ -28,7 +46,8 @@ const UserProfileBody = ({
       </div>
       <div className="col-start-10 col-end-12">
         <Achievements />
-        <Tribes tribes={tribes} joinTribe={joinTribe} />
+        {children}
+        {/* <Tribes tribes={tribes} joinTribe={joinTribe} /> */}
       </div>
     </div>
   );

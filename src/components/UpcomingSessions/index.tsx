@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import SectionHeader from '@/components/SectionHeader';
 import UpcomingSession from '@/components/UpcomingSession';
 import { PeriodContext } from '@/context/PeriodContext';
-import { useCurrentUser } from '@/hooks/use-current-user';
 import { FaPlusCircle } from 'react-icons/fa';
 
 import {
@@ -14,8 +13,30 @@ import {
   checkIsAfter,
 } from '@/util/DateTime';
 interface UpcomingSessionsProps {
-  user: {} | undefined;
-  sessions: [] | undefined;
+  user: { timezone: string; id: string };
+  sessions:
+    | {
+        session: {
+          id: string;
+          startDateTime: string;
+          endDateTime: string;
+          duration: string;
+          meetingLink: string;
+          goal: string;
+        };
+        userRole: string;
+        isMember: boolean;
+        userGoal: string;
+        isUserAdmin: boolean;
+        participants: {
+          number_of_countries: number;
+          participants: [];
+        };
+        admin: {
+          username: string;
+        };
+      }[]
+    | undefined;
 }
 
 const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
@@ -40,66 +61,80 @@ const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
         <div className="flex flex-wrap gap-3 my-5">
           {sessions?.map(
             ({
-              startDateTime,
-              goal,
-              duration,
-              endDateTime,
-              meetingLink,
-              id,
-              creatorId,
+              session,
+              userRole,
+              isMember,
+              userGoal,
+              isUserAdmin,
+              participants,
+              admin,
             }) => {
-              const check = user?.id === creatorId;
               return (
-                <div key={id}>
+                <div key={session.id}>
                   {period == 'day' &&
-                    (isToday(startDateTime) || isToday(endDateTime)) && (
+                    (isToday(session.startDateTime) ||
+                      isToday(session.endDateTime)) && (
                       <UpcomingSession
                         startDate={
-                          formatDateTime(startDateTime, user?.timezone).date
+                          formatDateTime(session.startDateTime, user?.timezone)
+                            .date
                         }
                         startTime={
-                          formatDateTime(startDateTime, user?.timezone).time
+                          formatDateTime(session.startDateTime, user?.timezone)
+                            .time
                         }
                         endDate={
-                          formatDateTime(endDateTime, user?.timezone).date
+                          formatDateTime(session.endDateTime, user?.timezone)
+                            .date
                         }
                         endTime={
-                          formatDateTime(endDateTime, user?.timezone).time
+                          formatDateTime(session.endDateTime, user?.timezone)
+                            .time
                         }
-                        goal={goal}
-                        duration={JSON.parse(duration)}
+                        goal={userGoal || session.goal}
+                        duration={JSON.parse(session.duration)}
                         timeLeft={parseFloat(
-                          getTimeDifference(startDateTime).minutes
+                          getTimeDifference(session.startDateTime).minutes
                         )}
-                        isToday={isToday(startDateTime)}
-                        isAfter={checkIsAfter(endDateTime)}
-                        meetingLink={meetingLink}
-                        sessionId={id}
-                        isAdmin={user?.id === creatorId}
-                        creatorId={creatorId}
+                        isToday={isToday(session.startDateTime)}
+                        isAfter={checkIsAfter(session.endDateTime)}
+                        meetingLink={session.meetingLink}
+                        sessionId={session.id}
+                        isAdmin={isUserAdmin}
+                        isMember={isMember}
+                        members={participants.participants.length}
+                        admin={admin.username}
                       />
                     )}
-                  {period == 'week' && isThisWeek(startDateTime) && (
+                  {period == 'week' && isThisWeek(session.startDateTime) && (
                     <UpcomingSession
                       startDate={
-                        formatDateTime(startDateTime, user?.timezone).date
+                        formatDateTime(session.startDateTime, user?.timezone)
+                          .date
                       }
                       startTime={
-                        formatDateTime(startDateTime, user?.timezone).time
+                        formatDateTime(session.startDateTime, user?.timezone)
+                          .time
                       }
-                      endDate={formatDateTime(endDateTime, user?.timezone).date}
-                      endTime={formatDateTime(endDateTime, user?.timezone).time}
-                      goal={goal}
-                      duration={JSON.parse(duration)}
+                      endDate={
+                        formatDateTime(session.endDateTime, user?.timezone).date
+                      }
+                      endTime={
+                        formatDateTime(session.endDateTime, user?.timezone).time
+                      }
+                      goal={userGoal || session.goal}
+                      duration={JSON.parse(session.duration)}
                       timeLeft={parseFloat(
-                        getTimeDifference(startDateTime).minutes
+                        getTimeDifference(session.startDateTime).minutes
                       )}
-                      isToday={isToday(startDateTime)}
-                      isAfter={checkIsAfter(endDateTime)}
-                      meetingLink={meetingLink}
-                      sessionId={id}
-                      isAdmin={user?.id === creatorId}
-                      creatorId={creatorId}
+                      isToday={isToday(session.startDateTime)}
+                      isAfter={checkIsAfter(session.endDateTime)}
+                      meetingLink={session.meetingLink}
+                      sessionId={session.id}
+                      isMember={isMember}
+                      isAdmin={isUserAdmin}
+                      members={participants.participants.length}
+                      admin={admin.username}
                     />
                   )}
                 </div>

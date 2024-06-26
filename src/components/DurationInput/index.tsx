@@ -22,7 +22,7 @@ interface DurationStateProps {
   hours: string | number;
   minutes: string | number;
 }
-const Duration = ({
+const DurationInput = ({
   startDateTime,
   endDateTime,
   name,
@@ -89,4 +89,4 @@ const Duration = ({
   );
 };
 
-export default withFormsy<DurationProps, any>(Duration);
+export default withFormsy<DurationProps, any>(DurationInput);
