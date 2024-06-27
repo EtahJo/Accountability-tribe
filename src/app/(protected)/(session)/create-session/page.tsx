@@ -15,10 +15,12 @@ import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import Duration from '@/components/DurationInput/index';
 import { getDuration } from '@/util/DateTime';
-
+import { get_all_user_sessions } from '@/action/get-all-user-sessions';
 import { addHours, subHours, addMinutes, subMinutes } from 'date-fns';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 const CreateSession = () => {
+  const { user } = useCurrentUser();
   const [isPending, startTransition] = useTransition();
   const [goal, setGoal] = useState('');
   const [startDateTime, setStartDateTime] = useState<Date>();
@@ -29,8 +31,8 @@ const CreateSession = () => {
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
 
-  const onValidSubmit = (vals: z.infer<typeof CreateSessionSchema>) => {
-    startTransition(() => {
+  const onValidSubmit = async (vals: z.infer<typeof CreateSessionSchema>) => {
+    startTransition(async () => {
       create_session(vals)
         .then((data) => {
           if (data.error) {
@@ -47,6 +49,7 @@ const CreateSession = () => {
           setError('Something went wrong');
         });
     });
+    await get_all_user_sessions(user?.id as string);
   };
   return (
     <div className=" flex flex-col h-screen items-center align-middle m-auto">

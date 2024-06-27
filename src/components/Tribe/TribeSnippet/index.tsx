@@ -6,7 +6,7 @@ import { CldImage } from 'next-cloudinary';
 import { FaUsers } from 'react-icons/fa';
 import FullTextOnHover from '@/components/FullTextOnHover';
 import { join_tribe } from '@/action/join-tribe';
-
+import Link from 'next/link';
 export interface TribeSnippetProps {
   image?: string | null;
   name: string;
@@ -28,10 +28,11 @@ const TribeSnippet = ({
 }: TribeSnippetProps) => {
   useEffect(() => {}, [isMember, members]);
   return (
-    <div
+    <Link
       className=" bg-white flex flex-col items-center 
     justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl 
-     m-auto"
+     m-auto move-button"
+      href={`/tribe/${tribeId}`}
     >
       <Avatar className="w-[80px]  h-[80px] shadow-lg">
         {image ? (
@@ -68,7 +69,7 @@ const TribeSnippet = ({
           Join
         </Button>
       )}
-    </div>
+    </Link>
   );
 };
 

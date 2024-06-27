@@ -26,9 +26,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <SessionProvider session={session}>
-        <PeriodProvider>
-          <ImageUploaderProvider>
-            <MyProfileCheckContextProvider>
+        <ImageUploaderProvider>
+          <MyProfileCheckContextProvider>
+            <PeriodProvider>
               <body className={inter.className}>
                 <div className="bg-lightPink relative h-full">
                   <Navbar />
@@ -36,9 +36,9 @@ export default async function RootLayout({
                   <Footer />
                 </div>
               </body>
-            </MyProfileCheckContextProvider>
-          </ImageUploaderProvider>
-        </PeriodProvider>
+            </PeriodProvider>
+          </MyProfileCheckContextProvider>
+        </ImageUploaderProvider>
       </SessionProvider>
     </html>
   );

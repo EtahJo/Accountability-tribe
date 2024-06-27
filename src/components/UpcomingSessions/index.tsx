@@ -1,5 +1,5 @@
 'use client';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import SectionHeader from '@/components/SectionHeader';
 import UpcomingSession from '@/components/UpcomingSession';
 import { PeriodContext } from '@/context/PeriodContext';
@@ -28,6 +28,7 @@ interface UpcomingSessionsProps {
         isMember: boolean;
         userGoal: string;
         isUserAdmin: boolean;
+        userId: string;
         participants: {
           number_of_countries: number;
           participants: [];
@@ -41,7 +42,9 @@ interface UpcomingSessionsProps {
 
 const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
   const { period } = useContext(PeriodContext);
-
+  useEffect(() => {
+    console.log('Sessions are', sessions);
+  }, [sessions]);
   return (
     <div>
       <SectionHeader
@@ -58,7 +61,7 @@ const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-wrap gap-3 my-5">
+        <div className="flex flex-wrap my-5">
           {sessions?.map(
             ({
               session,
@@ -68,6 +71,7 @@ const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
               isUserAdmin,
               participants,
               admin,
+              userId,
             }) => {
               return (
                 <div key={session.id}>
@@ -96,7 +100,7 @@ const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
                         timeLeft={parseFloat(
                           getTimeDifference(session.startDateTime).minutes
                         )}
-                        isToday={isToday(session.startDateTime)}
+                        isTodayCheck={isToday(session.startDateTime)}
                         isAfter={checkIsAfter(session.endDateTime)}
                         meetingLink={session.meetingLink}
                         sessionId={session.id}
@@ -104,6 +108,8 @@ const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
                         isMember={isMember}
                         members={participants.participants.length}
                         admin={admin.username}
+                        userId={userId}
+                        endDateTime={session.endDateTime}
                       />
                     )}
                   {period == 'week' && isThisWeek(session.startDateTime) && (
@@ -127,7 +133,7 @@ const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
                       timeLeft={parseFloat(
                         getTimeDifference(session.startDateTime).minutes
                       )}
-                      isToday={isToday(session.startDateTime)}
+                      isTodayCheck={isToday(session.startDateTime)}
                       isAfter={checkIsAfter(session.endDateTime)}
                       meetingLink={session.meetingLink}
                       sessionId={session.id}
@@ -135,6 +141,8 @@ const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
                       isAdmin={isUserAdmin}
                       members={participants.participants.length}
                       admin={admin.username}
+                      userId={userId}
+                      endDateTime={session.endDateTime}
                     />
                   )}
                 </div>

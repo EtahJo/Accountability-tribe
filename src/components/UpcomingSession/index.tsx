@@ -13,16 +13,18 @@ export interface UpcomingSessionProps {
   goal: string;
   duration: { hours: string; minutes: string };
   timeLeft: number;
-  isToday: boolean;
+  isTodayCheck: boolean;
   isAfter: boolean;
   meetingLink: string;
   isAdmin?: boolean;
   sessionId: string;
+  userId: string;
   endDate: string;
   endTime: string;
   isMember: boolean;
   members: number;
   admin: string;
+  endDateTime: string;
 }
 
 const UpcomingSession = ({
@@ -31,7 +33,7 @@ const UpcomingSession = ({
   goal,
   duration,
   timeLeft,
-  isToday,
+  isTodayCheck,
   isAfter,
   meetingLink,
   isAdmin,
@@ -41,12 +43,14 @@ const UpcomingSession = ({
   isMember,
   members,
   admin,
+  userId,
+  endDateTime,
 }: UpcomingSessionProps) => {
   const { period } = useContext(PeriodContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   return (
-    <div className="bg-white p-3 w-[390px] rounded-3xl flex items-center gap-2 my-2 justify-between move-button cursor-pointer">
+    <div className="bg-white p-3 w-[400px]  rounded-3xl flex items-center gap-2  justify-between move-button cursor-pointer m-4 ">
       <div
         className="flex items-center gap-1"
         onClick={() => setModalIsOpen(true)}
@@ -91,7 +95,12 @@ const UpcomingSession = ({
                   ) : (
                     <>
                       {' '}
-                      {isToday ? 'Today' : startDate} at {startTime}
+                      {isTodayCheck
+                        ? timeLeft < 0
+                          ? 'Started Today'
+                          : 'Today'
+                        : startDate}{' '}
+                      at {startTime}
                     </>
                   )}
                 </>
@@ -127,7 +136,7 @@ const UpcomingSession = ({
         goal={goal}
         duration={duration}
         timeLeft={timeLeft}
-        isToday={isToday}
+        isTodayCheck={isTodayCheck}
         isAfter={isAfter}
         meetingLink={meetingLink}
         isAdmin={isAdmin}
@@ -138,6 +147,8 @@ const UpcomingSession = ({
         isMember={isMember}
         members={members}
         admin={admin}
+        userId={userId}
+        endDateTime={endDateTime}
       />
     </div>
   );

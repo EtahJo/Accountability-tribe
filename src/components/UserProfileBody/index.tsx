@@ -35,7 +35,7 @@ const UserProfileBody = ({
   const { myProfileCheck } = useMyProfileCheck();
   useEffect(() => {
     myProfileCheck(user?.username as string, pageUserName);
-  }, []);
+  }, [sessions]);
   return (
     <div className="grid grid-cols-12 pb-24">
       <div className="col-start-2 col-end-9">

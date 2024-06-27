@@ -37,11 +37,11 @@ const ProfileIcon = () => {
               crop={'fill'}
               alt="User Profile"
               sizes="100vw"
-              className="rounded-full"
+              className="rounded-full shadow-3xl"
             />
           </Avatar>
         ) : (
-          <div className="rounded-full bg-lightPink p-1.5 cursor-pointer ">
+          <div className="rounded-full bg-lightPink p-1.5 cursor-pointer shadow-3xl ">
             <FaUser size={20} className="text-white" />
           </div>
         )}

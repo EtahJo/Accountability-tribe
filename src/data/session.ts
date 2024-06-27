@@ -58,6 +58,7 @@ export const getSessionById = async (sessionId: string) => {
   try {
     const session = await db.session.findUnique({
       where: { id: sessionId },
+      include: { users: true },
     });
     return session;
   } catch {

@@ -5,13 +5,14 @@ import { currentUser } from '@/lib/authentication';
 import { db } from '@/lib/db';
 import { getUserById } from '@/data/user';
 import { getSessionById, getSessionAdmin } from '@/data/session';
+import { is_member } from '@/action/join-tribe';
 import { checkIsAfter, getTimeDifference, getDuration } from '@/util/DateTime';
 
 export const edit_session = async (
   values: z.infer<typeof EditSessionSchema>,
   sessionId: string
 ) => {
-  console.log(values);
+  // console.log(values);
   // check if fields valied
   // const validatedFields = EditSessionSchema.safeParse(values);
   // console.log(validatedFields.error);
@@ -37,12 +38,14 @@ export const edit_session = async (
 
   // check if user is the admin
   const checkIfAdmin = await getSessionAdmin(session.id);
+
   if (checkIfAdmin?.id !== dbUser.id) {
     return { error: 'You are not authorised to make edits to Session!' };
   }
 
   // check if session has started or end
   // const isAfter = checkIsAfter(session.endDateTime);
+
   const timeLeft = parseFloat(
     getTimeDifference(session.startDateTime.toISOString()).minutes
   );
@@ -58,7 +61,6 @@ export const edit_session = async (
     startEndDateTime?.endDateTime.toISOString() as string
   ).hm;
   const duration = JSON.stringify(durationObj);
-
   await db.session.update({
     where: { id: session.id },
     data: {

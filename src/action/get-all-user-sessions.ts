@@ -14,7 +14,7 @@ export const get_all_user_sessions = async (userId: string) => {
   if (!sessions) {
     return null;
   }
-  //   console.log('Action sessions', sessions);
+  // console.log('Action sessions', sessions);
   const user = await currentUser();
   const modifiedSessions: {}[] = [];
   for (const session of sessions) {
@@ -31,12 +31,12 @@ export const get_all_user_sessions = async (userId: string) => {
       userGoal: session.goal,
       userId: session.userId,
       isMember: isCurrentUserMember.isMember,
-      isUserAdmin: session.userRole === 'ADMIN' && session.userId === user?.id,
+      isUserAdmin: sessionAdmin?.id === user?.id,
       participants,
       admin: sessionAdmin,
     };
     modifiedSessions.push(sessionAndCheck);
   }
 
-  return { sessions: modifiedSessions };
+  return { sessions: modifiedSessions, success: 'Data Recieved' };
 };

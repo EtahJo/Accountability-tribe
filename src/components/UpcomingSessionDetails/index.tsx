@@ -1,19 +1,22 @@
 'use client';
+import * as z from 'zod';
 import { useState, useTransition, useEffect } from 'react';
 import ModalWrapper from '@/components/ModalWrap';
+import { EditSessionSchema } from '@/schemas/index';
 import { Props } from 'react-modal';
 import { UpcomingSessionProps } from '@/components/UpcomingSession';
 import { Button } from '@/components/ui/button';
 import { FaPen, FaClock } from 'react-icons/fa';
 import Link from 'next/link';
+import { isToday } from 'date-fns';
 
 import Formsy from 'formsy-react';
 import Custominput from '@/components/CustomInput/index';
-import { get_user_by_id } from '@/action/get-user';
-import { get_session_participants } from '@/action/get-session-participants';
-import { join_session, is_member } from '@/action/join-session';
-import { isParticipant } from '@/util/Check';
-import { edit_session } from '@/action/edit-session';
+
+import { join_session } from '@/action/join-session';
+import { get_all_user_sessions } from '@/action/get-all-user-sessions';
+import { duplicate_session } from '@/action/duplicate-session';
+import { edit_session_goal } from '@/action/edit-session-goal';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
@@ -35,64 +38,92 @@ const UpcomingSessionDetail = ({
   goal,
   duration,
   timeLeft,
-  isToday,
+  isTodayCheck,
   isAfter,
   meetingLink,
   isAdmin,
   sessionId,
+  userId,
   period,
   endDate,
   endTime,
   isMember,
   members,
   admin,
+  endDateTime,
 }: // creatorId,
 Props & UpcomingSessionProps & UpcomingSessionDetailProps) => {
   const [isPending, startTransition] = useTransition();
   const [editGoal, setEditGoal] = useState(false);
-  const [newGoal, setNewGoal] = useState('');
+  const [newMeetingLink, setNewMeetingLink] = useState('');
+  const [newGoal, setNewGoal] = useState(goal);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const { user } = useCurrentUser();
   const onGoing = timeLeft < 0 && !isAfter;
-  useEffect(() => {}, [goal, members]);
+  // useEffect(() => {}, [newGoal]);
+  const isEndToday = isToday(endDateTime);
 
-  const onValidSubmit = (vals: any) => {
-    // startTransition(() => {
-    //   edit_session(vals, sessionId)
-    //     .then((data) => {
-    //       if (data.success) {
-    //         setError('');
-    //         setSuccess(data.success);
-    //       }
-    //       if (data.error) {
-    //         setSuccess('');
-    //         setError(data.error);
-    //       }
-    //     })
-    //     .catch(() => {
-    //       setSuccess('');
-    //       setError('Something went wrong!');
-    //     });
-    // });
+  const onValidSubmit = (vals: z.infer<typeof EditSessionSchema>) => {
+    startTransition(async () => {
+      edit_session_goal(vals, sessionId)
+        .then((data) => {
+          if (data.success) {
+            setError('');
+            setSuccess(data.success);
+          }
+          if (data.error) {
+            setSuccess('');
+            setError(data.error);
+          }
+        })
+        .catch(() => {
+          setSuccess('');
+          setError('Something went wrong!');
+        });
+      await get_all_user_sessions(userId);
+    });
+
     // setEditGoal(false);
   };
-  const addSession = (vals: any) => {
-    join_session(vals, sessionId, user?.id as string)
-      .then((data) => {
-        if (data?.error) {
+  const addSession = (vals: z.infer<typeof EditSessionSchema>) => {
+    startTransition(() => {
+      join_session(vals, sessionId, user?.id as string)
+        .then((data) => {
+          if (data?.error) {
+            setSuccess('');
+            setError(data.error);
+          }
+          if (data?.success) {
+            setError('');
+            setSuccess(data.success);
+          }
+        })
+        .catch(() => {
           setSuccess('');
-          setError(data.error);
-        }
-        if (data?.success) {
-          setError('');
-          setSuccess(data.success);
-        }
-      })
-      .catch(() => {
-        setSuccess('');
-        setError('Somethin went wrong');
-      });
+          setError('Something went wrong');
+        });
+    });
+  };
+  const duplicateSession = async (vals: z.infer<typeof EditSessionSchema>) => {
+    startTransition(() => {
+      duplicate_session(vals, sessionId)
+        .then((data) => {
+          if (data?.error) {
+            setSuccess('');
+            setError(data.error);
+          }
+          if (data?.success) {
+            setError('');
+            setSuccess(data.success);
+          }
+        })
+        .catch(() => {
+          setSuccess('');
+          setError('Something went wrong');
+        });
+    });
+    await get_all_user_sessions(user?.id as string);
   };
   return (
     <ModalWrapper
@@ -116,7 +147,7 @@ Props & UpcomingSessionProps & UpcomingSessionDetailProps) => {
           )}
           {period === 'week' && !onGoing && !isAfter && (
             <p className="text-center flex gap-x-2 justify-center">
-              {isToday ? 'Today' : startDate} at{' '}
+              {isTodayCheck ? 'Today' : startDate} at{' '}
               <p className="animate-zoom text-lightPink">{startTime}</p>
             </p>
           )}
@@ -170,6 +201,17 @@ Props & UpcomingSessionProps & UpcomingSessionDetailProps) => {
                 >
                   Update
                 </Button>
+                <Button
+                  type="button"
+                  className="move-button"
+                  onClick={() => {
+                    setEditGoal(false);
+                    setNewGoal(goal);
+                  }}
+                  disabled={isPending}
+                >
+                  Done
+                </Button>
               </Formsy>
             ) : (
               <>
@@ -181,25 +223,33 @@ Props & UpcomingSessionProps & UpcomingSessionDetailProps) => {
               </>
             )}
           </div>
-          {!onGoing && !editGoal && isMember && (
+          {!onGoing && !editGoal && isMember && !isAfter && (
             <Button
               className="move-button"
-              onClick={() => setEditGoal(true)}
+              onClick={() => {
+                setError('');
+                setSuccess('');
+                setEditGoal(true);
+              }}
               type="button"
             >
               <FaPen className="text-lightPink" />
             </Button>
           )}
         </div>
-        <div className="flex gap-1 items-center">
-          <p>This Session created by</p>
+        <div className="flex gap-1 flex-wrap">
+          <p className="whitespace-nowrap">This Session created by</p>
           {/* TODO:Add link to user profile */}
           <Link href={`/user/${admin}`} className="text-lightPink">
-            {admin}
+            {isAdmin ? 'you' : admin}
           </Link>
-          <p>
-            has {members}
-            {members > 1 ? ' participants' : ' participant'}
+
+          <p className="whitespace-nowrap">
+            has {members} {members > 1 ? ' participants,' : ' participant'}
+          </p>
+          <p className="font-bold">
+            {' '}
+            {isMember && !isAdmin && 'including you'}
           </p>
         </div>
         <div className="flex flex-col gap-y-4">
@@ -208,10 +258,53 @@ Props & UpcomingSessionProps & UpcomingSessionDetailProps) => {
           <Button>
             <Link href={`/edit-session/${sessionId}`}>Duplicate Session</Link>
           </Button> */}
+          {isEndToday && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button className="move-button py-3 bg-lightPink" size={'slg'}>
+                  Duplicate Session For Tomorrow
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="z-[150] w-[310px]">
+                <Formsy
+                  className="flex flex-col justify-center"
+                  onValidSubmit={duplicateSession}
+                >
+                  <Custominput
+                    textArea
+                    placeholder="Add your new goal"
+                    name="goal"
+                    value={newGoal}
+                    changeEvent={(e) => {
+                      setNewGoal(e.target.value);
+                    }}
+                    disabled={isPending}
+                  />
+                  <Custominput
+                    textArea
+                    placeholder="Add new meeting link"
+                    required
+                    name="meetingLink"
+                    value={newMeetingLink}
+                    changeEvent={(e) => {
+                      setNewMeetingLink(e.target.value);
+                    }}
+                    disabled={isPending}
+                  />
+                  {error && <FormError message={error} />}
+                  {success && <FormSuccess message={success} />}
+                  <Button
+                    className="move-button"
+                    type="submit"
+                    disabled={isPending}
+                  >
+                    Done
+                  </Button>
+                </Formsy>
+              </PopoverContent>
+            </Popover>
+          )}
 
-          <Button className="move-button py-3 bg-lightPink" size={'slg'}>
-            Duplicate Session
-          </Button>
           {isMember ? (
             <>
               {onGoing && (
@@ -230,7 +323,11 @@ Props & UpcomingSessionProps & UpcomingSessionDetailProps) => {
               {!isAfter && (
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button size={'slg'} className="py-3 move-button">
+                    <Button
+                      size={'slg'}
+                      className="py-3 move-button"
+                      disabled={isPending}
+                    >
                       Add Session
                     </Button>
                   </PopoverTrigger>
@@ -247,11 +344,16 @@ Props & UpcomingSessionProps & UpcomingSessionDetailProps) => {
                         changeEvent={(e) => {
                           setNewGoal(e.target.value);
                         }}
+                        disabled={isPending}
                       />
                       {error && <FormError message={error} />}
                       {success && <FormSuccess message={success} />}
-                      <Button className="move-button" type="submit">
-                        Add Goal
+                      <Button
+                        className="move-button"
+                        type="submit"
+                        disabled={isPending}
+                      >
+                        Done
                       </Button>
                     </Formsy>
                   </PopoverContent>

@@ -37,3 +37,24 @@ export const getAllUsersInTribe = async (tribeId: string) => {
     return null;
   }
 };
+
+export const getTribeById = async (tribeId: string) => {
+  try {
+    const tribes = await db.tribe.findUnique({
+      where: { id: tribeId },
+      include: {
+        users: { include: { user: true } },
+      },
+    });
+    return tribes;
+  } catch {
+    return null;
+  }
+};
+
+export const getTribeAdmin = async (tribeId: string) => {
+  try {
+  } catch {
+    return null;
+  }
+};
