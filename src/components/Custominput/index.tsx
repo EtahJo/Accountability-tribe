@@ -21,6 +21,7 @@ const CustomInput = ({
   disabled,
   lable,
   className,
+  inputClassNames,
   labelIcon,
   defaultValue,
 }: CustomInputTypes & InputLabelProps) => {
@@ -29,7 +30,12 @@ const CustomInput = ({
       {lable && (
         <InputLabel lable={lable} labelIcon={labelIcon} required={required} />
       )}
-      <div className="shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex align-middle">
+      <div
+        className={cn(
+          'shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex align-middle',
+          inputClassNames
+        )}
+      >
         {textArea ? (
           <Textarea
             name={name}
@@ -41,7 +47,7 @@ const CustomInput = ({
             disabled={disabled}
             defaultValue={defaultValue}
             className={cn(
-              'bg-transparent px-5 py-2 w-full placeholder:text-black focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0 border-none',
+              'bg-transparent px-5 py-2 w-full placeholder:text-gray-400 focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0 border-none',
               className
             )}
           />
@@ -55,7 +61,7 @@ const CustomInput = ({
             onChange={changeEvent}
             value={value}
             ng-name={name}
-            className=""
+            className="bg-transparent border-none"
             disabled={disabled}
             defaultValue={defaultValue}
           />

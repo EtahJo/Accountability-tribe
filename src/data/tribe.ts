@@ -54,7 +54,44 @@ export const getTribeById = async (tribeId: string) => {
 
 export const getTribeAdmin = async (tribeId: string) => {
   try {
+    const tribe = await db.tribeUser.findFirst({
+      where: {
+        tribeId,
+        userRole: 'ADMIN',
+      },
+      include: {
+        user: true,
+      },
+    });
+    return tribe?.user;
   } catch {
     return null;
+  }
+};
+
+export const getTribesWithSimilarTags = async (tags: string) => {
+  try {
+    const tagsArray = tags.split(',');
+    const tribes = await db.tribe.findMany({
+      where: {
+        tags: {
+          hasSome: tagsArray,
+        },
+      },
+      include: {
+        users: { include: { user: true } },
+      },
+    });
+    return tribes;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getAllTribes = async () => {
+  try {
+    const tribes = await db.tribe.findMany();
+    return tribes;
+  } catch (error) {
+    throw error;
   }
 };

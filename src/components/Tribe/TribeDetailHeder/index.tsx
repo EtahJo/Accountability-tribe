@@ -10,7 +10,7 @@ interface TribeDetailHeaderProps {
   tribeName: string;
   tribeUsers: number;
   tribeDescription: string;
-  users: { user: { username: string; image: string } }[];
+  users: { username: string; image: string; id: string }[];
 }
 const TribeDetailHeader = ({
   profileImage,

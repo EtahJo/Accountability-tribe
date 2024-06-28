@@ -6,7 +6,7 @@ import { Props } from 'react-modal';
 import TribeUser from './TribeUser';
 interface TribeUsersProps {
   tribeName: string;
-  users: { user: { username: string; image: string } }[];
+  users: { user: { username: string; image: string }; userRole: string }[];
 }
 const TribeUsers = ({
   isOpen,
@@ -14,6 +14,7 @@ const TribeUsers = ({
   users,
   tribeName,
 }: Props & TribeUsersProps) => {
+  console.log(users);
   return (
     <ModalWrapper
       isOpen={isOpen}
@@ -33,6 +34,7 @@ const TribeUsers = ({
             <TribeUser
               name={user.user.username}
               profileImage={user.user.image}
+              isAdmin={user.userRole === 'ADMIN'}
             />
           </Link>
         ))}

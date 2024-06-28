@@ -117,3 +117,7 @@ export const CreateTribeSchema = z.object({
   description: z.optional(z.string()),
   profileImage: z.optional(z.string()),
 });
+
+export const CreatePostSchema = z.object({
+  content: z.string().min(2, { message: 'Post must have content' }),
+});

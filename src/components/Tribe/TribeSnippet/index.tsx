@@ -12,7 +12,7 @@ export interface TribeSnippetProps {
   name: string;
   desc: string | null;
   tribeId: string;
-  userId: string;
+  userId: string | undefined | null;
   isMember: boolean;
   members: number | undefined;
 }
@@ -64,7 +64,7 @@ const TribeSnippet = ({
         <Button
           className="my-2 move-button py-3"
           size={'slg'}
-          onClick={() => join_tribe(tribeId, userId)}
+          onClick={() => join_tribe(tribeId, userId as string)}
         >
           Join
         </Button>
