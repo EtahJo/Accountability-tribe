@@ -1,50 +1,22 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Post from '@/components/Posts/Post';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
-const Posts = ({ tribeId }: { tribeId: string }) => {
-  const [posts, setPosts] = useState<
-    | {
-        comments: {}[];
-        content: string;
-        id: string;
-        authorId: string;
-        likes: {}[];
-        author: { username: string; image: string };
-        tribe: { users: { userRole: string }[] };
-      }[]
-    | null
-  >(null);
-  const [error, setError] = useState(null);
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(`/tribe/api/posts/${tribeId}`, {
-          headers: {
-            accept: 'application/json',
-            method: 'GET',
-          },
-        });
+interface PostProps {
+  posts: {
+    comments: {}[];
+    content: string;
+    id: string;
+    authorId: string;
+    likes: {}[];
+    author: { username: string; image: string };
+    tribe: { users: { userRole: string }[] };
+  }[];
+}
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch posts');
-        }
-        const data = await response.json();
-        console.log('Posts >>>', data);
-        setPosts(data);
-      } catch (error: any) {
-        setError(error.message);
-      }
-    };
-    fetchPosts();
-  }, [tribeId]);
-  if (error) {
-    return (
-      <div>
-        <p>{'Error:' + error}</p>
-      </div>
-    );
-  }
+const Posts = ({ posts }: PostProps) => {
+  const { user } = useCurrentUser();
 
   return (
     <div>
@@ -62,6 +34,8 @@ const Posts = ({ tribeId }: { tribeId: string }) => {
               comments={comments}
               likes={likes}
               isAdmin={authorId === admin?.userId}
+              postId={id}
+              hasLiked={likes.some((like) => like.user.id === user?.id)}
             />
           );
         }

@@ -24,6 +24,7 @@ interface UserProfileBodyProps {
     | undefined;
   children?: React.ReactNode;
   pageUserName: string;
+  posts: {}[];
 }
 
 const UserProfileBody = ({
@@ -31,10 +32,14 @@ const UserProfileBody = ({
   sessions,
   pageUserName,
   children,
+  posts,
 }: UserProfileBodyProps) => {
   const { myProfileCheck } = useMyProfileCheck();
   useEffect(() => {
     myProfileCheck(user?.username as string, pageUserName);
+    // const fetchPosts=async()=>{
+
+    // }
   }, [sessions]);
   return (
     <div className="grid grid-cols-12 pb-24">
@@ -42,7 +47,7 @@ const UserProfileBody = ({
         <SelectPeriod />
         <UpcomingSessions user={user} sessions={sessions} />
         <TodoList />
-        <Posts />
+        <Posts posts={posts} />
       </div>
       <div className="col-start-10 col-end-12">
         <Achievements />

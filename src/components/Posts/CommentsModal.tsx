@@ -4,7 +4,7 @@ import { Props } from 'react-modal';
 import Comment from '@/components/Comment';
 interface CommentsModalProps {
   comments: {
-    user: { username: string; image: string };
+    author: { username: string; image: string };
     content: string;
     id: string;
   }[];
@@ -23,8 +23,8 @@ const CommentsModal = ({
       {comments?.map((comment) => (
         <Comment
           key={comment?.id}
-          username={comment?.user?.username}
-          profileImage={comment?.user?.image}
+          username={comment?.author?.username}
+          profileImage={comment?.author?.image}
           comment={comment?.content}
         />
       ))}

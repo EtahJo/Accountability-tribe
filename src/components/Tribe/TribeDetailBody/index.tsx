@@ -21,6 +21,7 @@ interface SimilarTribesProp {}
 const TribeDetailBody = ({ tribeInfo }: TribeDetailBodyProps) => {
   const { user } = useCurrentUser();
   const [similarTribes, setSimilarTribes] = useState<any>(null);
+  const [posts, setPosts] = useState<{}[] | null>(null);
   const [error, setError] = useState<{ error: { message: string } } | null>(
     null
   );
@@ -43,6 +44,26 @@ const TribeDetailBody = ({ tribeInfo }: TribeDetailBodyProps) => {
     };
     console.log(tribeInfo);
     fetchSimilarTribes();
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(`/tribe/api/posts/${tribeInfo.id}`, {
+          headers: {
+            accept: 'application/json',
+            method: 'GET',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const data = await response.json();
+        console.log('Posts >>>', data);
+        setPosts(data);
+      } catch (error: any) {
+        setError(error.message);
+      }
+    };
+    fetchPosts();
   }, []);
   return (
     <div className=" flex flex-col justify-center items-center">
@@ -52,7 +73,7 @@ const TribeDetailBody = ({ tribeInfo }: TribeDetailBodyProps) => {
           <SectionHeader name="Shared Experiences and Lots More" />
 
           {/** Posts */}
-          <Posts tribeId={tribeInfo.id} />
+          <Posts posts={posts} />
         </div>
         <div>
           <SectionHeader name="Similar Tribes" />

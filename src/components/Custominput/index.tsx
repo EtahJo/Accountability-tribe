@@ -23,8 +23,8 @@ const CustomInput = ({
   className,
   inputClassNames,
   labelIcon,
-  defaultValue,
-}: CustomInputTypes & InputLabelProps) => {
+}: // defaultValue,
+CustomInputTypes & InputLabelProps) => {
   return (
     <div>
       {lable && (
@@ -45,7 +45,7 @@ const CustomInput = ({
             value={value}
             autoComplete="off"
             disabled={disabled}
-            defaultValue={defaultValue}
+            // defaultValue={defaultValue}
             className={cn(
               'bg-transparent px-5 py-2 w-full placeholder:text-gray-400 focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0 border-none',
               className
@@ -63,7 +63,7 @@ const CustomInput = ({
             ng-name={name}
             className="bg-transparent border-none"
             disabled={disabled}
-            defaultValue={defaultValue}
+            // defaultValue={defaultValue}
           />
         )}
         {Icon && (

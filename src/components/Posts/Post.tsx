@@ -4,29 +4,52 @@ import { CldImage } from 'next-cloudinary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Comment from '@/components/Comment';
 import CommentsModal from '@/components/Posts/CommentsModal';
-import { FaUser } from 'react-icons/fa';
+import { FaUser, FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
+import { create_like } from '@/action/create-like';
 import Link from 'next/link';
 import LikeModal from '@/components/Posts/LikeModal';
 import CommentForm from '../Forms/CommentForm';
+import { Button } from '../ui/button';
 interface PostProps {
+  postId: string;
   profileImage: string;
   username: string;
   isAdmin: boolean;
   postContent: string;
+  hasLiked: boolean;
   likes: {}[];
-  comments: {}[];
+  comments: {
+    author: { username: string; image: string };
+    content: string;
+    id: string;
+  }[];
 }
 const Post = ({
+  postId,
   profileImage,
   username,
   isAdmin,
   postContent,
   likes,
   comments,
+  hasLiked,
 }: PostProps) => {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [openLikeModal, setOpenLikeModal] = useState(false);
+  const [like, setLike] = useState(false);
   const firstFiveComments = comments.slice(0, 5);
+  const Liked = () => {
+    if (!hasLiked) {
+      create_like(postId).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        }
+        if (data.success) {
+          setLike((prev) => !prev);
+        }
+      });
+    }
+  };
   return (
     <div className="bg-white rounded-2xl p-5 shadow-3xl my-5">
       <div className="flex items-center gap-x-3">
@@ -59,14 +82,41 @@ const Post = ({
         <p>{postContent}</p>
       </div>
       <div className="flex justify-between items-center mx-2">
-        {likes.length > 0 && (
-          <p
-            className="text-purple cursor-pointer"
-            onClick={() => setOpenLikeModal(true)}
-          >
-            {likes.length} Likes
-          </p>
-        )}
+        <div className="ml-5 flex items-center gap-x-2">
+          <Button className="move-button" size={'icon'} onClick={Liked}>
+            {hasLiked || like ? (
+              <div>
+                <FaThumbsUp className="text-purple cursor-pointer peer" />
+                <p
+                  className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
+                 left-3 hidden peer peer-hover:block text-black"
+                >
+                  Liked
+                </p>
+              </div>
+            ) : (
+              <div className="relative">
+                <FaRegThumbsUp className="text-purple cursor-pointer peer" />
+                <p
+                  className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
+                 left-3 hidden peer peer-hover:block text-black"
+                >
+                  Like
+                </p>
+              </div>
+            )}
+          </Button>
+
+          {likes.length > 0 && (
+            <p
+              className="text-purple cursor-pointer"
+              onClick={() => setOpenLikeModal(true)}
+            >
+              {likes.length} {likes.length > 1 ? 'Likes' : 'Like'}
+            </p>
+          )}
+        </div>
+
         {comments.length > 0 && (
           <p
             className="text-lightPink cursor-pointer"
@@ -76,7 +126,7 @@ const Post = ({
           </p>
         )}
       </div>
-      <CommentForm />
+      <CommentForm postId={postId} />
       <CommentsModal
         isOpen={openCommentModal}
         onRequestClose={() => setOpenCommentModal(false)}
@@ -91,9 +141,10 @@ const Post = ({
         <div className="bg-gray-100 p-3 rounded-2xl ">
           {firstFiveComments.map((comment) => (
             <Comment
-              profileImage=""
-              username="Etah"
-              comment="This is a great post"
+              key={comment.id}
+              profileImage={comment.author.image}
+              username={comment.author.username}
+              comment={comment.content}
             />
           ))}
         </div>

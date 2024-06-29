@@ -10,6 +10,18 @@ import { get_all_user_sessions } from '@/action/get-all-user-sessions';
 import Tribes from '@/components/Tribes/index';
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 
+async function getData(username: string) {
+  const res = await fetch(`http://localhost:3000/user/api/posts/${username}`, {
+    next: {
+      tags: ['userPosts'],
+    },
+  });
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return res.json();
+}
+
 const page = async ({ params }: { params: { username: string } }) => {
   const { username } = params;
   const user = await currentUser();
@@ -17,6 +29,8 @@ const page = async ({ params }: { params: { username: string } }) => {
   const countryCode = data.user?.number?.split(',')[0].toUpperCase();
   const tribes = await getAllUserTribes(data.user?.id as string);
   const sessions = await get_all_user_sessions(data.user?.id as string);
+  const posts = await getData(username);
+
   if (data.error) {
     return (
       <div className="h-screen flex justify-center">
@@ -38,6 +52,7 @@ const page = async ({ params }: { params: { username: string } }) => {
           sessions={sessions?.sessions}
           tribes={tribes}
           pageUserName={username}
+          posts={posts}
         >
           <Tribes>
             {tribes?.map(async ({ tribe }) => {

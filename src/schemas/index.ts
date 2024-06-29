@@ -121,3 +121,7 @@ export const CreateTribeSchema = z.object({
 export const CreatePostSchema = z.object({
   content: z.string().min(2, { message: 'Post must have content' }),
 });
+
+export const CreateCommentSchema = z.object({
+  content: z.string().min(1, { message: 'Comment Content required' }),
+});
