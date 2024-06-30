@@ -39,6 +39,7 @@ timezone      String?
   comments     Comment[]
   posts        Post[]
     likes   Like[]
+    commentLikes     Comment[] @relation("CommentLikes")
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -103,6 +104,8 @@ model Post {
   tribeId   String   @db.ObjectId
   comments  Comment[]
   likes    Like[]
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Comment {
@@ -112,4 +115,10 @@ model Comment {
   authorId String  @db.ObjectId
   post    Post     @relation(fields: [postId], references: [id])
   postId  String   @db.ObjectId
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+   parent      Comment?    @relation("CommentReplies", fields: [parentId], references: [id])
+  parentId    String?     @db.ObjectId
+  replies     Comment[]   @relation("CommentReplies")
+  likedBy     User[]      @relation("CommentLikes")
 }
