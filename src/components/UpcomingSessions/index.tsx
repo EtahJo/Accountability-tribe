@@ -13,38 +13,33 @@ import {
   checkIsAfter,
 } from '@/util/DateTime';
 interface UpcomingSessionsProps {
-  user: { timezone: string; id: string };
-  sessions:
-    | {
-        session: {
-          id: string;
-          startDateTime: string;
-          endDateTime: string;
-          duration: string;
-          meetingLink: string;
-          goal: string;
-        };
-        userRole: string;
-        isMember: boolean;
-        userGoal: string;
-        isUserAdmin: boolean;
-        userId: string;
-        participants: {
-          number_of_countries: number;
-          participants: [];
-        };
-        admin: {
-          username: string;
-        };
-      }[]
-    | undefined;
+  currentUser: { timezone: string; id: string };
+  sessions: {
+    session: {
+      id: string;
+      startDateTime: string;
+      endDateTime: string;
+      duration: string;
+      meetingLink: string;
+      goal: string;
+    };
+    userRole: string;
+    isMember: boolean;
+    goal: string;
+    isUserAdmin: boolean;
+    userId: string;
+    participants: {
+      number_of_countries: number;
+      participants: [];
+    };
+    admin: {
+      username: string;
+    };
+  }[];
 }
 
-const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
+const UpcomingSessions = ({ currentUser, sessions }: UpcomingSessionsProps) => {
   const { period } = useContext(PeriodContext);
-  useEffect(() => {
-    console.log('Sessions are', sessions);
-  }, [sessions]);
   return (
     <div>
       <SectionHeader
@@ -67,7 +62,7 @@ const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
               session,
               userRole,
               isMember,
-              userGoal,
+              goal,
               isUserAdmin,
               participants,
               admin,
@@ -80,22 +75,30 @@ const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
                       isToday(session.endDateTime)) && (
                       <UpcomingSession
                         startDate={
-                          formatDateTime(session.startDateTime, user?.timezone)
-                            .date
+                          formatDateTime(
+                            session.startDateTime,
+                            currentUser?.timezone
+                          ).date
                         }
                         startTime={
-                          formatDateTime(session.startDateTime, user?.timezone)
-                            .time
+                          formatDateTime(
+                            session.startDateTime,
+                            currentUser?.timezone
+                          ).time
                         }
                         endDate={
-                          formatDateTime(session.endDateTime, user?.timezone)
-                            .date
+                          formatDateTime(
+                            session.endDateTime,
+                            currentUser?.timezone
+                          ).date
                         }
                         endTime={
-                          formatDateTime(session.endDateTime, user?.timezone)
-                            .time
+                          formatDateTime(
+                            session.endDateTime,
+                            currentUser?.timezone
+                          ).time
                         }
-                        goal={userGoal || session.goal}
+                        goal={goal || session.goal}
                         duration={JSON.parse(session.duration)}
                         timeLeft={parseFloat(
                           getTimeDifference(session.startDateTime).minutes
@@ -105,7 +108,9 @@ const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
                         meetingLink={session.meetingLink}
                         sessionId={session.id}
                         isAdmin={isUserAdmin}
-                        isMember={isMember}
+                        isMember={currentUser.sessions.some(
+                          (session) => session.sessionId === session.id
+                        )}
                         members={participants.participants.length}
                         admin={admin.username}
                         userId={userId}
@@ -115,20 +120,30 @@ const UpcomingSessions = ({ user, sessions }: UpcomingSessionsProps) => {
                   {period == 'week' && isThisWeek(session.startDateTime) && (
                     <UpcomingSession
                       startDate={
-                        formatDateTime(session.startDateTime, user?.timezone)
-                          .date
+                        formatDateTime(
+                          session.startDateTime,
+                          currentUser?.timezone
+                        ).date
                       }
                       startTime={
-                        formatDateTime(session.startDateTime, user?.timezone)
-                          .time
+                        formatDateTime(
+                          session.startDateTime,
+                          currentUser?.timezone
+                        ).time
                       }
                       endDate={
-                        formatDateTime(session.endDateTime, user?.timezone).date
+                        formatDateTime(
+                          session.endDateTime,
+                          currentUser?.timezone
+                        ).date
                       }
                       endTime={
-                        formatDateTime(session.endDateTime, user?.timezone).time
+                        formatDateTime(
+                          session.endDateTime,
+                          currentUser?.timezone
+                        ).time
                       }
-                      goal={userGoal || session.goal}
+                      goal={goal || session.goal}
                       duration={JSON.parse(session.duration)}
                       timeLeft={parseFloat(
                         getTimeDifference(session.startDateTime).minutes

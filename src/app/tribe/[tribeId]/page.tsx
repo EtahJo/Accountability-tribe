@@ -1,71 +1,59 @@
-'use client';
-import { useState, useEffect } from 'react';
 import TribeDetailHeader from '@/components/Tribe/TribeDetailHeder/index';
 import TribeDetailBody, {
   TribeDetailBodyProps,
 } from '@/components/Tribe/TribeDetailBody/index';
 
-interface TribeStateProps {
-  id: string;
-  name: string;
-  description: string;
-  profileImage: string;
-  tribeId: string;
-  users: { username: string; image: string; id: string }[];
-  tags: string[];
+async function getTribeInfo(tribeId: string) {
+  const response = await fetch(`http://localhost:3000/tribe/api/${tribeId}`, {
+    headers: {
+      accept: 'application/json',
+      method: 'GET',
+    },
+  });
+  if (!response.ok) {
+    throw new Error('Failed to fetch tribe');
+  }
+  return response.json();
 }
-function TribeProfile({ params }: { params: { tribeId: string } }) {
-  const { tribeId } = params;
-  const [tribeInfo, setTribeInfo] = useState<TribeStateProps | null>(null);
-  const [similarTribes, setSimilarTribes] =
-    useState<TribeDetailBodyProps | null>(null);
-  const [error, setError] = useState<{ error: { message: string } } | null>(
-    null
-  );
-  useEffect(() => {
-    const fetchTribe = async () => {
-      try {
-        const response = await fetch(`/tribe/api/${tribeId}`, {
-          headers: {
-            accept: 'application/json',
-            method: 'GET',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch tribe');
-        }
-        const data = await response.json();
-
-        setTribeInfo(data);
-      } catch (error: any) {
-        setError(error.message);
-      }
-    };
-    fetchTribe();
-    const fetchSimilarTribes = async () => {
-      try {
-        const response = await fetch(
-          `/tribe/api?tags=${tribeInfo?.tags.join(',')}`
-        );
-        if (!response.ok) {
-          throw new Error('Failed to fetch tribe');
-        }
-        const data = await response.json();
-        console.log(data);
-        setSimilarTribes(data);
-      } catch (error: any) {
-        setError(error.message);
-      }
-    };
-    fetchSimilarTribes();
-  }, [tribeId]);
-  if (error)
-    return (
-      <div>
-        <p>{'Error:' + error}</p>
-      </div>
+async function getSimilarTribes(tribeInfo: any) {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/tribe/api?tags=${tribeInfo?.tags.join(',')}`
     );
+    if (!response.ok) {
+      throw new Error('Failed to fetch tribe');
+    }
+    return response.json();
+  } catch (error: any) {
+    // setError(error.message);
+  }
+}
+async function getPostsData(tribeId: string) {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/tribe/api/posts/${tribeId}`,
+      {
+        headers: {
+          accept: 'application/json',
+          method: 'GET',
+        },
+        next: {
+          tags: ['tribePosts'],
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch posts');
+    }
+    return response.json();
+  } catch (error: any) {}
+}
+async function TribeProfile({ params }: { params: { tribeId: string } }) {
+  const { tribeId } = params;
+  const tribeInfo = await getTribeInfo(tribeId);
+  const similarTribes = await getSimilarTribes(tribeInfo);
+  const posts = await getPostsData(tribeId);
   if (!tribeInfo) return <div>Loading...</div>;
   return (
     <div className="flex flex-col gap-y-10">
@@ -76,7 +64,7 @@ function TribeProfile({ params }: { params: { tribeId: string } }) {
         tribeDescription={tribeInfo.description}
         users={tribeInfo.users}
       />
-      <TribeDetailBody tribeInfo={tribeInfo} />
+      <TribeDetailBody tribeInfo={tribeInfo} posts={posts} />
     </div>
   );
 }

@@ -1,35 +1,67 @@
 import { get_user_by_username } from '@/action/get-user';
-import { getAllUserSessions } from '@/data/session';
+
 import ProfileHeader from '@/components/UserProfile/ProfileHeader/index';
 import UserProfileBody from '@/components/UserProfileBody/index';
 import { currentUser } from '@/lib/authentication';
-import { getAllUserTribes } from '@/data/tribe';
+
 import { is_member } from '@/action/join-tribe';
 import { get_tribe_members } from '@/action/get-tribe-members';
-import { get_all_user_sessions } from '@/action/get-all-user-sessions';
 import Tribes from '@/components/Tribes/index';
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
+// import { getSessionData } from './data';
 
-async function getData(username: string) {
-  const res = await fetch(`http://localhost:3000/user/api/posts/${username}`, {
-    next: {
-      tags: ['userPosts'],
-    },
-  });
-  if (!res.ok) {
+async function getPostData(username: string) {
+  const postsRes = await fetch(
+    `http://localhost:3000/user/api/posts/${username}`,
+    {
+      next: {
+        tags: ['userPosts'],
+      },
+    }
+  );
+  if (!postsRes.ok) {
     throw new Error('Failed to fetch data');
   }
-  return res.json();
+  return postsRes.json();
 }
+async function getSessionData(username: string, currentUserId: string) {
+  const sessionRes = await fetch(
+    `http://localhost:3000/user/api/sessions/${username}/${currentUserId}`,
+    {
+      next: {
+        tags: ['userSessions'],
+      },
+    }
+  );
+  if (!sessionRes.ok) {
+    throw new Error('Failed to fetch data');
+  }
 
+  return sessionRes.json();
+}
+async function getTribesData(username: string) {
+  const tribesRes = await fetch(
+    `http://localhost:3000/user/api/tribes/${username}`,
+    {
+      next: {
+        tags: ['userTribes'],
+      },
+    }
+  );
+  if (!tribesRes.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return tribesRes.json();
+}
 const page = async ({ params }: { params: { username: string } }) => {
   const { username } = params;
   const user = await currentUser();
   const data = await get_user_by_username(username);
   const countryCode = data.user?.number?.split(',')[0].toUpperCase();
-  const tribes = await getAllUserTribes(data.user?.id as string);
-  const sessions = await get_all_user_sessions(data.user?.id as string);
-  const posts = await getData(username);
+  const posts = await getPostData(username);
+  const sessions = await getSessionData(username, user?.id as string);
+  const tribes = await getTribesData(username);
 
   if (data.error) {
     return (
@@ -49,7 +81,7 @@ const page = async ({ params }: { params: { username: string } }) => {
         />
         <UserProfileBody
           user={user}
-          sessions={sessions?.sessions}
+          sessions={sessions}
           tribes={tribes}
           pageUserName={username}
           posts={posts}

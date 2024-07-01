@@ -5,6 +5,7 @@ import { CreateTribeSchema } from '@/schemas/index';
 import { db } from '@/lib/db';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
+import { revalidateTag } from 'next/cache';
 
 export const create_tribe = async (
   values: z.infer<typeof CreateTribeSchema>
@@ -13,7 +14,7 @@ export const create_tribe = async (
   if (!validatedFields.success) {
     return { error: 'Invalid field' };
   }
-  const { name, description, profileImage } = validatedFields.data;
+  const { name, description, profileImage, tags } = validatedFields.data;
   const user = await currentUser();
   if (!user) {
     return { error: 'Unauthorised access' };
@@ -27,6 +28,7 @@ export const create_tribe = async (
       name,
       description,
       profileImage,
+      tags,
     },
   });
   await db.tribeUser.create({
@@ -36,5 +38,6 @@ export const create_tribe = async (
       userRole: 'ADMIN',
     },
   });
+  revalidateTag('userTribes');
   return { success: 'Tribe Successfully Created' };
 };

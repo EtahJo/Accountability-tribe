@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PeriodContext } from '@/context/PeriodContext';
 import { FaClock, FaCalendar } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
@@ -48,6 +48,7 @@ const UpcomingSession = ({
 }: UpcomingSessionProps) => {
   const { period } = useContext(PeriodContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  useEffect(() => {}, [isMember]);
 
   return (
     <div className="bg-white p-3 w-[400px]  rounded-3xl flex items-center gap-2  justify-between move-button cursor-pointer m-4 ">

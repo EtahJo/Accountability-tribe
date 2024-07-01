@@ -1,5 +1,4 @@
 'use client';
-import { useEffect, useState } from 'react';
 import Post from '@/components/Posts/Post';
 import { useCurrentUser } from '@/hooks/use-current-user';
 
@@ -12,16 +11,25 @@ interface PostProps {
     likes: {}[];
     author: { username: string; image: string };
     tribe: { users: { userRole: string }[] };
+    createdAt: string;
   }[];
 }
 
 const Posts = ({ posts }: PostProps) => {
   const { user } = useCurrentUser();
-
   return (
     <div>
       {posts?.map(
-        ({ id, tribe, author, content, authorId, likes, comments }) => {
+        ({
+          id,
+          tribe,
+          author,
+          content,
+          authorId,
+          likes,
+          comments,
+          createdAt,
+        }) => {
           const admin: {} | undefined = tribe.users.find(
             (user) => (user.userRole = 'ADMIN')
           );
@@ -33,6 +41,7 @@ const Posts = ({ posts }: PostProps) => {
               postContent={content}
               comments={comments}
               likes={likes}
+              createdAt={createdAt}
               isAdmin={authorId === admin?.userId}
               postId={id}
               hasLiked={likes.some((like) => like.user.id === user?.id)}

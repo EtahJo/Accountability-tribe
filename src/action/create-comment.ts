@@ -35,11 +35,21 @@ export const create_comment = async (
   await db.comment.create({
     data: {
       content,
-      postId,
-      authorId: dbUser.id,
+      post: {
+        connect: { id: postId },
+      },
+      author: {
+        connect: { id: dbUser.id },
+      },
+      //   author
+      //   postId,
+      //   authorId: dbUser.id,
     },
   });
   //   revalidatePath(`/user/${dbUser.username}`);
+  revalidateTag('tribePosts');
   revalidateTag('userPosts');
+  // revalidateTag('userTribes');
+
   return { success: 'Comment Created' };
 };

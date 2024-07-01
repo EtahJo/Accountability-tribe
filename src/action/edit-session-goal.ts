@@ -6,7 +6,7 @@ import { getSessionUserBySessionUserId } from '@/data/session';
 import { EditSessionSchema } from '@/schemas/index';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
-import { get_all_user_sessions } from './get-all-user-sessions';
+import { revalidateTag } from 'next/cache';
 
 export const edit_session_goal = async (
   values: z.infer<typeof EditSessionSchema>,
@@ -37,7 +37,7 @@ export const edit_session_goal = async (
       goal,
     },
   });
-  //   await getSessionUserBySessionUserId(sessionId, dbUser.id);
-  //   await get_all_user_sessions(pageUserId);
+
+  revalidateTag('userSessions');
   return { success: 'Goal Successfully Updated' };
 };

@@ -1,6 +1,6 @@
 'use client';
 import * as z from 'zod';
-import { useState, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import Formsy from 'formsy-react';
 
 import CustomInput from '@/components/CustomInput/index';
@@ -42,8 +42,8 @@ const EditSessionForm = ({ session }: EditSessionProps) => {
   const [minutes, setMinutes] = useState(0);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+
   const onValidSubmit = (vals: z.infer<typeof EditSessionSchema>) => {
-    console.log(vals);
     startTransition(() => {
       edit_session(vals, session?.id as string)
         .then((data) => {
@@ -100,8 +100,8 @@ const EditSessionForm = ({ session }: EditSessionProps) => {
       >
         {endDateTime && startDateTime && (
           <DurationInput
-            startDateTime={startDateTime.toISOString()}
-            endDateTime={endDateTime.toISOString()}
+            startDateTime={startDateTime?.toISOString()}
+            endDateTime={endDateTime?.toISOString()}
             name="duration"
             hours={hours}
             minutes={minutes}

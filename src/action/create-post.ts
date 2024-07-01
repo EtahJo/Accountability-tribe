@@ -5,6 +5,7 @@ import { CreatePostSchema } from '@/schemas';
 import { currentUser } from '@/lib/authentication';
 import { getTribeAdmin, getTribeUserByTribeUserId } from '@/data/tribe';
 import { getUserById } from '@/data/user';
+import { revalidateTag } from 'next/cache';
 
 export const create_post = async (
   values: z.infer<typeof CreatePostSchema>,
@@ -25,7 +26,6 @@ export const create_post = async (
     return { error: 'Unauthorised User' };
   }
   const tribeUser = await getTribeUserByTribeUserId(tribeId, dbUser.id);
-  console.log('Tribe user');
   if (!tribeUser) {
     return { error: 'Only tribe members can add post to tribe' };
   }
@@ -40,6 +40,12 @@ export const create_post = async (
       approved,
     },
   });
+  const tags = ['tribePosts', 'userPosts'];
+  for (const tag of tags) {
+    revalidateTag(tag);
+  }
+  // revalidateTag('userPosts');
+  // revalidateTag('tribePosts');
   const returnMessage =
     tribeAdmin?.id === dbUser.id
       ? 'Post Successfully Created'

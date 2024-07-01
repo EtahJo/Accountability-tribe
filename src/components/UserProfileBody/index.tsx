@@ -45,7 +45,7 @@ const UserProfileBody = ({
     <div className="grid grid-cols-12 pb-24">
       <div className="col-start-2 col-end-9">
         <SelectPeriod />
-        <UpcomingSessions user={user} sessions={sessions} />
+        <UpcomingSessions currentUser={user} sessions={sessions} />
         <TodoList />
         <Posts posts={posts} />
       </div>

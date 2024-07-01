@@ -18,6 +18,7 @@ import TimeZoneInput from '@/components/TimeZoneInput/index';
 const page = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [timezone, setTimezone] = useState('');
   const [vissible, setVissible] = useState<boolean>(false);
@@ -121,9 +122,9 @@ const page = () => {
               type={vissible ? 'text' : 'password'}
               placeholder=" Confirm Password"
               disabled={isPending}
-              value={password}
+              value={confirmPassword}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setPassword((e.target as HTMLInputElement).value);
+                setConfirmPassword((e.target as HTMLInputElement).value);
               }}
               Icon={
                 vissible ? (

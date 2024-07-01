@@ -14,7 +14,6 @@ import Formsy from 'formsy-react';
 import Custominput from '@/components/CustomInput/index';
 
 import { join_session } from '@/action/join-session';
-import { get_all_user_sessions } from '@/action/get-all-user-sessions';
 import { duplicate_session } from '@/action/duplicate-session';
 import { edit_session_goal } from '@/action/edit-session-goal';
 import { useCurrentUser } from '@/hooks/use-current-user';
@@ -61,7 +60,7 @@ Props & UpcomingSessionProps & UpcomingSessionDetailProps) => {
   const [error, setError] = useState('');
   const { user } = useCurrentUser();
   const onGoing = timeLeft < 0 && !isAfter;
-  // useEffect(() => {}, [newGoal]);
+  useEffect(() => {}, [isMember]);
   const isEndToday = isToday(endDateTime);
 
   const onValidSubmit = (vals: z.infer<typeof EditSessionSchema>) => {
@@ -81,7 +80,6 @@ Props & UpcomingSessionProps & UpcomingSessionDetailProps) => {
           setSuccess('');
           setError('Something went wrong!');
         });
-      await get_all_user_sessions(userId);
     });
 
     // setEditGoal(false);
@@ -123,7 +121,6 @@ Props & UpcomingSessionProps & UpcomingSessionDetailProps) => {
           setError('Something went wrong');
         });
     });
-    await get_all_user_sessions(user?.id as string);
   };
   return (
     <ModalWrapper

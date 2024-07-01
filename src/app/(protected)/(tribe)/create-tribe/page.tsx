@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import { CreateTribeSchema } from '@/schemas/index';
+import CustomTagsInput from '@/components/CustomTagsInput/index';
 
 const CreateTribe = () => {
   const [name, setName] = useState('');
@@ -17,7 +18,17 @@ const CreateTribe = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isPending, startTransition] = useTransition();
+  const [tags, setTags] = useState(new Set());
   const { url } = useContext(ImageUploaderContext);
+  const addTag = (tag) => {
+    setTags(new Set(tags).add(tag));
+  };
+  const handleRemove = (item: any) => {
+    const newItems = new Set(tags);
+    newItems.delete(item);
+    setTags(newItems);
+  };
+  const tagsString = Array.from(tags);
   const onValidSubmit = (vals: z.infer<typeof CreateTribeSchema>) => {
     if (url) {
       vals.profileImage = url;
@@ -60,6 +71,13 @@ const CreateTribe = () => {
             placeholder="Tell people what the tribe is about"
             value={description}
             changeEvent={(e) => setDescription(e.target.value)}
+          />
+          <CustomTagsInput
+            name="tags"
+            lable="Select  atleast 2 Tribe Tags"
+            value={tagsString}
+            addTag={addTag}
+            handleRemoveFxn={handleRemove}
           />
           {error && <FormError message={error} />}
           {success && <FormSuccess message={success} />}

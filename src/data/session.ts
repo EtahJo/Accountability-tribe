@@ -4,7 +4,7 @@ export const getAllUserSessions = async (userId: string) => {
   try {
     const sessions = await db.user.findUnique({
       where: { id: userId },
-      include: { sessions: { include: { session: true } } },
+      include: { sessions: { include: { session: true, user: true } } },
     });
     return sessions?.sessions;
   } catch {

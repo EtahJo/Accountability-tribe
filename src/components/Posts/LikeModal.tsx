@@ -3,7 +3,7 @@ import ModalWrapper from '@/components/ModalWrap';
 import { Props } from 'react-modal';
 import TribeUser from '@/components/Tribe/TribeUsers/TribeUser';
 interface LikeModalProps {
-  likes: {}[];
+  likes: { user: { username: string; image: string } }[];
 }
 
 const LikeModal = ({

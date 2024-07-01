@@ -5,11 +5,14 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Comment from '@/components/Comment';
 import CommentsModal from '@/components/Posts/CommentsModal';
 import { FaUser, FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
-import { create_like } from '@/action/create-like';
+import { create_post_like } from '@/action/create-like';
 import Link from 'next/link';
 import LikeModal from '@/components/Posts/LikeModal';
 import CommentForm from '../Forms/CommentForm';
+import { formatDateTime, getDuration } from '@/util/DateTime';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import { Button } from '../ui/button';
+
 interface PostProps {
   postId: string;
   profileImage: string;
@@ -17,12 +20,13 @@ interface PostProps {
   isAdmin: boolean;
   postContent: string;
   hasLiked: boolean;
-  likes: {}[];
+  likes: { user: { username: string; image: string } }[];
   comments: {
     author: { username: string; image: string };
     content: string;
     id: string;
   }[];
+  createdAt: string;
 }
 const Post = ({
   postId,
@@ -33,16 +37,18 @@ const Post = ({
   likes,
   comments,
   hasLiked,
-}: PostProps) => {
+  createdAt,
+}: // createdAt,
+PostProps) => {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [openLikeModal, setOpenLikeModal] = useState(false);
   const [like, setLike] = useState(false);
+  const { user } = useCurrentUser();
   const firstFiveComments = comments.slice(0, 5);
   const Liked = () => {
     if (!hasLiked) {
-      create_like(postId).then((data) => {
+      create_post_like(postId).then((data) => {
         if (data.error) {
-          console.log(data.error);
         }
         if (data.success) {
           setLike((prev) => !prev);
@@ -50,14 +56,23 @@ const Post = ({
       });
     }
   };
+  const NowDateTime = new Date();
+  const theDuration = getDuration(createdAt, NowDateTime.toISOString());
+  const duration =
+    parseInt(theDuration.minutes) < 60
+      ? theDuration.hm.minutes + ' minutes'
+      : theDuration.hours < 24
+      ? Math.floor(theDuration.hours) + ' h'
+      : Math.floor(theDuration.days) + ' days';
+
   return (
     <div className="bg-white rounded-2xl p-5 shadow-3xl my-5">
-      <div className="flex items-center gap-x-3">
+      <div className="flex items-start gap-x-3">
         <Link
           className="flex items-center gap-2 cursor-pointer"
           href={`/user/${username}`}
         >
-          <Avatar className=" w-[40px] h-[40px] z-10 items-center border-2 border-lightPink  shadow-3xl">
+          <Avatar className=" w-[40px] h-[40px] items-center border-2 border-lightPink  shadow-3xl">
             {!profileImage ? (
               <AvatarFallback className="bg-black">
                 <FaUser className="text-white" size={100} />
@@ -73,11 +88,16 @@ const Post = ({
               />
             )}
           </Avatar>
-          <p className="font-bold text-xl">{username}</p>
+          <div>
+            <p className="font-bold text-xl">{username}</p>
+
+            <p>{duration}</p>
+          </div>
         </Link>
 
-        {isAdmin && <p className="text-sm text-lightPink">Admin</p>}
+        {isAdmin && <p className="text-sm text-lightPink mt-2">Admin</p>}
       </div>
+
       <div className="w-full bg-lighterPink rounded-2xl p-5 mt-6 mb-4">
         <p>{postContent}</p>
       </div>

@@ -15,7 +15,7 @@ const Comment = ({ profileImage, username, comment }: CommentProps) => {
         href={`/user/${username}`}
         className="flex items-center gap-x-2 cursor-pointer"
       >
-        <Avatar className=" w-[30px] h-[30px] z-10 items-center border-2 border-lightPink  shadow-3xl">
+        <Avatar className=" w-[30px] h-[30px] items-center border-2 border-lightPink  shadow-3xl">
           {!profileImage ? (
             <AvatarFallback className="bg-black">
               <FaUser className="text-white" size={50} />

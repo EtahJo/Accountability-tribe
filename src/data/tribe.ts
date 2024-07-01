@@ -25,6 +25,17 @@ export const getAllUserTribes = async (userId: string) => {
     return null;
   }
 };
+export const getAllUserTribesByUsername = async (username: string) => {
+  try {
+    const tribes = await db.user.findUnique({
+      where: { username },
+      include: { tribes: { include: { tribe: true } } },
+    });
+    return tribes?.tribes;
+  } catch {
+    return null;
+  }
+};
 
 export const getAllUsersInTribe = async (tribeId: string) => {
   try {

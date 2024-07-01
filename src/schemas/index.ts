@@ -116,6 +116,7 @@ export const CreateTribeSchema = z.object({
   name: z.string().min(1, { message: 'Please add tribe name' }),
   description: z.optional(z.string()),
   profileImage: z.optional(z.string()),
+  tags: z.array(z.string(), { message: 'Select atleast one tag' }),
 });
 
 export const CreatePostSchema = z.object({

@@ -2,6 +2,7 @@
 import { db } from '@/lib/db';
 import { getSessionUserBySessionUserId } from '@/data/session';
 import { getUserById } from '@/data/user';
+import { revalidateTag } from 'next/cache';
 
 export const join_session = async (
   values: any,
@@ -25,7 +26,7 @@ export const join_session = async (
       goal: values.goal,
     },
   });
-
+  revalidateTag('userSessions');
   return { success: 'Session Successfully Added' };
 };
 
@@ -33,6 +34,7 @@ export const is_member = async (sessionId: string, userId: string) => {
   const sessionUser = await getSessionUserBySessionUserId(sessionId, userId);
   if (sessionUser) {
     return { isMember: true };
+  } else {
+    return { isMember: false };
   }
-  return { isMember: false };
 };

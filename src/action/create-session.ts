@@ -7,6 +7,7 @@ import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
 import { getDuration } from '@/util/DateTime';
 import { UserRole } from '@prisma/client';
+import { revalidateTag } from 'next/cache';
 
 export const create_session = async (
   values: z.infer<typeof CreateSessionSchema>
@@ -46,5 +47,6 @@ export const create_session = async (
       goal,
     },
   });
+  revalidateTag('userSessions');
   return { success: 'Session Created' };
 };

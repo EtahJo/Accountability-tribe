@@ -14,7 +14,6 @@ const TribeUsers = ({
   users,
   tribeName,
 }: Props & TribeUsersProps) => {
-  console.log(users);
   return (
     <ModalWrapper
       isOpen={isOpen}

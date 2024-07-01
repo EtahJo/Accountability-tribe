@@ -6,6 +6,7 @@ import { currentUser } from '@/lib/authentication';
 import { db } from '@/lib/db';
 import { EditSessionSchema } from '@/schemas/index';
 import { addDays, isToday } from 'date-fns';
+import { revalidateTag } from 'next/cache';
 
 export const duplicate_session = async (
   values: z.infer<typeof EditSessionSchema>,
@@ -50,5 +51,6 @@ export const duplicate_session = async (
       goal,
     },
   });
+  revalidateTag('userSessions');
   return { success: 'Session Duplicated' };
 };

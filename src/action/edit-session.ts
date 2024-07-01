@@ -5,20 +5,13 @@ import { currentUser } from '@/lib/authentication';
 import { db } from '@/lib/db';
 import { getUserById } from '@/data/user';
 import { getSessionById, getSessionAdmin } from '@/data/session';
-import { is_member } from '@/action/join-tribe';
-import { checkIsAfter, getTimeDifference, getDuration } from '@/util/DateTime';
+import { getTimeDifference, getDuration } from '@/util/DateTime';
+import { revalidateTag } from 'next/cache';
 
 export const edit_session = async (
   values: z.infer<typeof EditSessionSchema>,
   sessionId: string
 ) => {
-  // console.log(values);
-  // check if fields valied
-  // const validatedFields = EditSessionSchema.safeParse(values);
-  // console.log(validatedFields.error);
-  // if (!validatedFields.success) {
-  //   return { error: 'Invalid Fields' };
-  // }
   const { goal, startEndDateTime, meetingLink } = values;
   // check if user logged in
   const user = await currentUser();
@@ -73,6 +66,7 @@ export const edit_session = async (
   });
 
   // TODO: send email to all participants
+  revalidateTag('userSessions');
 
   return { success: 'Changes successfully made to Session' };
 
