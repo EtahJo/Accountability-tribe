@@ -3,7 +3,7 @@ import { CustomInputTypes } from '@/types/types';
 import { withFormsy } from 'formsy-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import InputLabel, { InputLabelProps } from '../InputLabel/index';
+import InputLabel, { InputLabelProps } from '@/components/InputLabel/index';
 import { cn } from '@/lib/utils';
 
 const CustomInput = ({

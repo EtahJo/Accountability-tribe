@@ -1,5 +1,6 @@
 import * as z from 'zod';
 import { boolean } from 'zod';
+// import { Priority } from '@prisma/client';
 
 export const LoginSchema = z.object({
   email: z.string().email({ message: 'Email is required' }),
@@ -126,3 +127,12 @@ export const CreatePostSchema = z.object({
 export const CreateCommentSchema = z.object({
   content: z.string().min(1, { message: 'Comment Content required' }),
 });
+
+export const CreateTaskSchema = z.object({
+  title: z.string().min(1, { message: 'Every task needs a title' }),
+  description: z.optional(z.string()),
+  priority: z.number(),
+  dueDate: z.date(),
+});
+
+export const CreateTaskArraySchema = z.array(CreateTaskSchema);

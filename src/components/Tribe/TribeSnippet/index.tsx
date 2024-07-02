@@ -28,38 +28,45 @@ const TribeSnippet = ({
 }: TribeSnippetProps) => {
   useEffect(() => {}, [isMember, members]);
   return (
-    <Link
-      className=" bg-white flex flex-col items-center 
-    justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl 
-     m-auto move-button"
-      href={`/tribe/${tribeId}`}
+    <div
+      className="bg-white flex flex-col items-center 
+    justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl m-auto"
     >
-      <Avatar className="w-[80px]  h-[80px] shadow-lg">
-        {image ? (
-          <CldImage
-            width={'100'}
-            height="100"
-            crop={'fill'}
-            src={image}
-            sizes="100vw"
-            alt="Tribe profile"
-          />
-        ) : (
-          <AvatarFallback className="bg-black">
-            <FaUsers className="text-white" size={100} />
-          </AvatarFallback>
+      <Link
+        className="move-button m-auto flex flex-col items-center"
+        href={`/tribe/${tribeId}`}
+      >
+        <Avatar className="w-[80px]  h-[80px] shadow-lg">
+          {image ? (
+            <CldImage
+              width={'100'}
+              height="100"
+              crop={'fill'}
+              src={image}
+              sizes="100vw"
+              alt="Tribe profile"
+            />
+          ) : (
+            <AvatarFallback className="bg-black">
+              <FaUsers className="text-white" size={100} />
+            </AvatarFallback>
+          )}
+        </Avatar>
+        <p className="font-bold text-purple text-xl whitespace-nowrap">
+          {name}
+        </p>
+        {members && (
+          <p className="whitespace-nowrap">
+            {members} {members > 1 ? 'members' : 'member'}
+          </p>
         )}
-      </Avatar>
-      <p className="font-bold text-purple text-xl whitespace-nowrap">{name}</p>
-      <p className="whitespace-nowrap">
-        {members === 0 ? 'Loading ...' : members + ' members'}
-      </p>
-      {desc && (
-        <div className="bg-lighterPink mx-2 rounded-xl p-2">
-          <FullTextOnHover text={desc} className="w-[200px] text-center" />
-        </div>
-      )}
 
+        {desc && (
+          <div className="bg-lighterPink mx-2 rounded-xl p-2">
+            <FullTextOnHover text={desc} className="w-[200px] text-center" />
+          </div>
+        )}
+      </Link>
       {!isMember && (
         <Button
           className="my-2 move-button py-3"
@@ -69,7 +76,7 @@ const TribeSnippet = ({
           Join
         </Button>
       )}
-    </Link>
+    </div>
   );
 };
 

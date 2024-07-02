@@ -54,6 +54,21 @@ async function getTribesData(username: string) {
 
   return tribesRes.json();
 }
+async function getTasksData(username: string) {
+  const tasksRes = await fetch(
+    `http://localhost:3000/user/api/tasks/${username}`,
+    {
+      next: {
+        tags: ['userTasks'],
+      },
+    }
+  );
+  if (!tasksRes.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return tasksRes.json();
+}
 const page = async ({ params }: { params: { username: string } }) => {
   const { username } = params;
   const user = await currentUser();
@@ -62,6 +77,7 @@ const page = async ({ params }: { params: { username: string } }) => {
   const posts = await getPostData(username);
   const sessions = await getSessionData(username, user?.id as string);
   const tribes = await getTribesData(username);
+  const tasks = await getTasksData(username);
 
   if (data.error) {
     return (
@@ -85,6 +101,7 @@ const page = async ({ params }: { params: { username: string } }) => {
           tribes={tribes}
           pageUserName={username}
           posts={posts}
+          tasks={tasks}
         >
           <Tribes>
             {tribes?.map(async ({ tribe }) => {

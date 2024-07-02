@@ -6,7 +6,21 @@ export const getAllTribePosts = async (tribeId: string) => {
       where: { tribeId, approved: true },
       include: {
         author: true,
-        comments: { include: { author: true } },
+        comments: {
+          include: {
+            author: true,
+            likes: { include: { user: true } },
+            replies: {
+              include: {
+                author: true,
+                likes: { include: { user: true } },
+                replies: {
+                  include: { author: true, likes: { include: { user: true } } },
+                },
+              },
+            },
+          },
+        },
         likes: { include: { user: true } },
         tribe: { include: { users: true } },
       },
@@ -22,7 +36,21 @@ export const getAllUserPosts = async (authorId: string) => {
       where: { authorId, approved: true },
       include: {
         author: true,
-        comments: { include: { author: true } },
+        comments: {
+          include: {
+            author: true,
+            likes: { include: { user: true } },
+            replies: {
+              include: {
+                author: true,
+                likes: { include: { user: true } },
+                replies: {
+                  include: { author: true, likes: { include: { user: true } } },
+                },
+              },
+            },
+          },
+        },
         likes: { include: { user: true } },
         tribe: { include: { users: true } },
       },

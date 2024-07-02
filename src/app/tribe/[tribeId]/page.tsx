@@ -54,6 +54,7 @@ async function TribeProfile({ params }: { params: { tribeId: string } }) {
   const tribeInfo = await getTribeInfo(tribeId);
   const similarTribes = await getSimilarTribes(tribeInfo);
   const posts = await getPostsData(tribeId);
+  console.log('This are similar tribes', similarTribes);
   if (!tribeInfo) return <div>Loading...</div>;
   return (
     <div className="flex flex-col gap-y-10">
@@ -64,7 +65,11 @@ async function TribeProfile({ params }: { params: { tribeId: string } }) {
         tribeDescription={tribeInfo.description}
         users={tribeInfo.users}
       />
-      <TribeDetailBody tribeInfo={tribeInfo} posts={posts} />
+      <TribeDetailBody
+        tribeInfo={tribeInfo}
+        posts={posts}
+        similarTribes={similarTribes}
+      />
     </div>
   );
 }

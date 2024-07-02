@@ -1,6 +1,7 @@
 'use client';
 import Post from '@/components/Posts/Post';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import SectionHeader from '@/components/SectionHeader';
 
 interface PostProps {
   posts: {
@@ -19,6 +20,7 @@ const Posts = ({ posts }: PostProps) => {
   const { user } = useCurrentUser();
   return (
     <div>
+      <SectionHeader name="Shared Experiences and Lots More" />
       {posts?.map(
         ({
           id,

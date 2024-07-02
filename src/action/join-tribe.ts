@@ -1,9 +1,9 @@
 'use server';
 
 import { db } from '@/lib/db';
-import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
 import { getTribeUserByTribeUserId } from '@/data/tribe';
+import { revalidateTag } from 'next/cache';
 
 export const join_tribe = async (tribeId: string, userId: string) => {
   const dbUser = await getUserById(userId as string);
@@ -22,7 +22,8 @@ export const join_tribe = async (tribeId: string, userId: string) => {
       userRole: 'USER',
     },
   });
-
+  revalidateTag('tribePosts');
+  revalidateTag('userPosts');
   return { success: 'Successfully Joined Tribe' };
 };
 

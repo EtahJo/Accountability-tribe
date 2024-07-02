@@ -17,7 +17,17 @@ enum UserRole{
 ADMIN
 USER
 }
-
+enum Status{
+  COMPLETE
+  STARTED 
+  PROGRESS
+  NOTSTARTED
+}
+enum Priority{
+  HIGH
+  LOW
+  FIRST
+}
 
 model User {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
@@ -39,13 +49,35 @@ timezone      String?
   comments     Comment[]
   posts        Post[]
     likes   Like[]
-    // commentLikesIds String[]
-  // commentLikes     Comment[] @relation("CommentLikes")
+    tasks   Task[]
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+ model Task{
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  status     Status
+  priority  Int
+  dueDate   DateTime
+  userId      String  @db.ObjectId
+  user User  @relation(fields: [userId],references: [id])
+  sessions    SessionTask[]
+   createdAt   DateTime  @default(now())
+  updatedAt DateTime @updatedAt
+ }
 
+ model SessionTask{
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionId String   @db.ObjectId
+  taskId    String   @db.ObjectId
+
+  session   Session  @relation(fields: [sessionId], references: [id])
+  task      Task     @relation(fields: [taskId], references: [id])
+
+  @@index([sessionId, taskId], name: "session_task_unique")
+ }
 
 
 model Tribe{
@@ -87,6 +119,7 @@ model Session{
    meetingLink   String
    duration    String?
    users SessionParticipant[]
+   tasks   SessionTask[]
 }
 model Like {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
@@ -99,13 +132,6 @@ model Like {
   createdAt DateTime  @default(now())
 
 }
-// model CommentLike{
-//    id     String @id @default(auto()) @map("_id") @db.ObjectId
-//   user   User   @relation(fields: [userId], references: [id])
-//   userId String @db.ObjectId
-//   comment   Comment   @relation(fields: [commentId], references: [id])
-//   commentId String @db.ObjectId
-// }
 model Post {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   content   String
@@ -133,5 +159,4 @@ model Comment {
   parentId    String?     @db.ObjectId
   replies     Comment[]   @relation("CommentReplies")
   likes      Like[]
-  // likedBy     User[]      @relation("CommentLikes")
 }

@@ -21,6 +21,11 @@ export function formatDateTime(dateTime: string, timezone: string) {
 export function convertMillisecondsToMinutes(milliseconds: any) {
   return (milliseconds / 60000).toFixed(2); // 60000 is the number of milliseconds in a minute
 }
+function convertDaysToWeeks(days: number) {
+  const weeks = Math.floor(days / 7);
+  const remainingDays = days % 7;
+  return { weeks, remainingDays };
+}
 
 export function getTimeDifference(isoString: string) {
   // const targetDate = parseISO(isoString);
@@ -48,6 +53,7 @@ export function getDuration(startIsoString: string, endIsoString: string) {
   const differenceInMinutes = convertMillisecondsToMinutes(differenceInMs);
   // Convert milliseconds to days as a floating-point number
   const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);
+  const differnceInWeeks = convertDaysToWeeks(differenceInDays);
 
   const differenceInHours = differenceInMs / (1000 * 60 * 60);
   const absHours = Math.floor(differenceInHours);
@@ -63,6 +69,7 @@ export function getDuration(startIsoString: string, endIsoString: string) {
     days: differenceInDays,
     hours: differenceInHours,
     hm: { hours, minutes },
+    weeks: differnceInWeeks,
   };
 }
 

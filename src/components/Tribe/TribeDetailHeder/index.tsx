@@ -21,11 +21,8 @@ const TribeDetailHeader = ({
 }: TribeDetailHeaderProps) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   return (
-    <div className="flex justify-center">
-      <div
-        className="bg-white shadow-3xl rounded-3xl w-3/4 p-10 flex 
-  justify-center pt-24 flex-col relative"
-      >
+    <div className=" grid  grid-cols-10">
+      <div className="bg-white shadow-3xl rounded-3xl p-10  pt-24 flex-col relative col-start-2 col-end-10 mx-2">
         <div className="flex items-center justify-center">
           <div className="flex items-center">
             <div

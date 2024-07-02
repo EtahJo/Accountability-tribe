@@ -17,7 +17,7 @@ const LikeModal = ({
       onRequestClose={onRequestClose}
       className="bg-white w-[330px]"
     >
-      {likes.map((like) => (
+      {likes?.map((like) => (
         <TribeUser
           name={like?.user?.username}
           profileImage={like?.user?.image}

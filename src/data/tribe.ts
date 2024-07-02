@@ -100,7 +100,13 @@ export const getTribesWithSimilarTags = async (tags: string) => {
 };
 export const getAllTribes = async () => {
   try {
-    const tribes = await db.tribe.findMany();
+    const tribes = await db.tribe.findMany({
+      include: {
+        users: {
+          include: { user: true },
+        },
+      },
+    });
     return tribes;
   } catch (error) {
     throw error;

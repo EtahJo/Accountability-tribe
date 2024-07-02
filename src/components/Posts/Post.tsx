@@ -12,6 +12,7 @@ import CommentForm from '../Forms/CommentForm';
 import { formatDateTime, getDuration } from '@/util/DateTime';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Button } from '../ui/button';
+import { comment } from 'postcss';
 
 interface PostProps {
   postId: string;
@@ -20,11 +21,30 @@ interface PostProps {
   isAdmin: boolean;
   postContent: string;
   hasLiked: boolean;
-  likes: { user: { username: string; image: string } }[];
+  likes: { user: { username: string; image: string; id: string } }[];
   comments: {
     author: { username: string; image: string };
     content: string;
     id: string;
+    createdAt: string;
+    likes: { user: { username: string; image: string; id: string } }[];
+    parentId: string;
+    replies: {
+      author: { username: string; image: string };
+      content: string;
+      id: string;
+      createdAt: string;
+      likes: { user: { username: string; image: string; id: string } }[];
+      parentId: string;
+      replies: {
+        author: { username: string; image: string };
+        content: string;
+        id: string;
+        createdAt: string;
+        likes: { user: { username: string; image: string; id: string } }[];
+        parentId: string;
+      }[];
+    }[];
   }[];
   createdAt: string;
 }
@@ -47,23 +67,26 @@ PostProps) => {
   const firstFiveComments = comments.slice(0, 5);
   const Liked = () => {
     if (!hasLiked) {
+      setLike(true);
       create_post_like(postId).then((data) => {
         if (data.error) {
         }
         if (data.success) {
-          setLike((prev) => !prev);
         }
       });
     }
   };
+  console.log(comments);
   const NowDateTime = new Date();
   const theDuration = getDuration(createdAt, NowDateTime.toISOString());
   const duration =
     parseInt(theDuration.minutes) < 60
-      ? theDuration.hm.minutes + ' minutes'
-      : theDuration.hours < 24
+      ? Math.floor(parseInt(theDuration.minutes)) + ' m'
+      : theDuration.hours < 48
       ? Math.floor(theDuration.hours) + ' h'
-      : Math.floor(theDuration.days) + ' days';
+      : Math.floor(theDuration.days) < 30
+      ? Math.floor(theDuration.days) + ' days'
+      : theDuration.weeks.weeks + 'w';
 
   return (
     <div className="bg-white rounded-2xl p-5 shadow-3xl my-5">
@@ -159,14 +182,24 @@ PostProps) => {
       />
       {comments.length > 0 && (
         <div className="bg-gray-100 p-3 rounded-2xl ">
-          {firstFiveComments.map((comment) => (
-            <Comment
-              key={comment.id}
-              profileImage={comment.author.image}
-              username={comment.author.username}
-              comment={comment.content}
-            />
-          ))}
+          {firstFiveComments.map(
+            (comment) =>
+              !comment.parentId && (
+                <Comment
+                  key={comment.id}
+                  profileImage={comment.author.image}
+                  username={comment.author.username}
+                  comment={comment.content}
+                  createdAt={comment.createdAt}
+                  commentLiked={comment.likes?.some(
+                    (like) => like.user.id === user?.id
+                  )}
+                  commentLikes={comment.likes}
+                  commentId={comment.id}
+                  replies={comment.replies}
+                />
+              )
+          )}
         </div>
       )}
     </div>
