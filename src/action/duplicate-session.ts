@@ -49,6 +49,7 @@ export const duplicate_session = async (
       session: { connect: { id: sessionDuplicate.id } },
       userRole: 'ADMIN',
       goal,
+      adminUserName: dbUser.username,
     },
   });
   revalidateTag('userSessions');

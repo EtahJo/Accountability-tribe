@@ -5,6 +5,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 import Todo from '@/components/TodoList/Todo';
 
 const TodoList = ({ tasks }: { tasks: {}[] }) => {
+  console.log('This are tasks', tasks);
   return (
     <div>
       <SectionHeader
@@ -15,12 +16,16 @@ const TodoList = ({ tasks }: { tasks: {}[] }) => {
       />
       <div className="flex flex-wrap my-5">
         {tasks?.map((task) => (
-          <div>
+          <div key={task.id}>
             <Todo
               taskTitle={task.title}
               priority={task.priority}
               description={task.description}
               status={task.status}
+              id={task.id}
+              dueDate={task.dueDate}
+              sessionParticipants={task.sessionParticipants}
+              taskId={task.id}
             />
           </div>
         ))}

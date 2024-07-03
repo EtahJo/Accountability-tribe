@@ -20,7 +20,7 @@ const CreateTribe = () => {
   const [isPending, startTransition] = useTransition();
   const [tags, setTags] = useState(new Set());
   const { url } = useContext(ImageUploaderContext);
-  const addTag = (tag) => {
+  const addTag = (tag: any) => {
     setTags(new Set(tags).add(tag));
   };
   const handleRemove = (item: any) => {
@@ -28,7 +28,38 @@ const CreateTribe = () => {
     newItems.delete(item);
     setTags(newItems);
   };
-  const tagsString = Array.from(tags);
+  const tagsArray = Array.from(tags);
+  const availableTags = [
+    {
+      id: 1,
+      text: 'Study',
+    },
+    {
+      id: 2,
+      text: 'Fitness',
+    },
+    {
+      id: 3,
+      text: 'Spiritual',
+    },
+    {
+      id: 7,
+      text: 'Dieting',
+    },
+    {
+      id: 4,
+      text: 'Software development',
+    },
+
+    {
+      id: 5,
+      text: 'Self Development',
+    },
+    {
+      id: 6,
+      text: 'Book Club',
+    },
+  ];
   const onValidSubmit = (vals: z.infer<typeof CreateTribeSchema>) => {
     if (url) {
       vals.profileImage = url;
@@ -75,9 +106,10 @@ const CreateTribe = () => {
           <CustomTagsInput
             name="tags"
             lable="Select  atleast 2 Tribe Tags"
-            value={tagsString}
+            value={tagsArray}
             addTag={addTag}
             handleRemoveFxn={handleRemove}
+            availableTags={availableTags}
           />
           {error && <FormError message={error} />}
           {success && <FormSuccess message={success} />}

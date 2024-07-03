@@ -1,79 +1,115 @@
 'use client';
-import { useState } from 'react';
-import { FaCheck, FaCaretDown, FaCaretUp } from 'react-icons/fa';
+import { useState, useTransition } from 'react';
+import { FaCheck } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
+import { useCurrentUser } from '@/hooks/use-current-user';
+import FullTextOnHover from '../FullTextOnHover/index';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
+import { formatDateTime } from '@/util/DateTime';
+import { edit_task } from '@/action/edit-task';
+import StatusUpdate from '@/components/TodoList/StatusUpdate';
+import SessionModal from '@/components/TodoList/SessionModal';
+import PriorityUpdate from '@/components/TodoList/PriorityUpdate';
 
 interface TodoProps {
   taskTitle: string;
   priority: number;
   description: string;
   status: string;
+  id: string;
+  dueDate: string;
+  taskId: string;
+  sessionParticipants: {}[];
 }
-const Todo = ({ taskTitle, priority, description, status }: TodoProps) => {
-  const [showDetail, setShowDetail] = useState(false);
-
+const Todo = ({
+  taskTitle,
+  priority,
+  description,
+  status,
+  id,
+  dueDate,
+  sessionParticipants,
+  taskId,
+}: TodoProps) => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [completed, setCompleted] = useState(false);
+  const { user }: any = useCurrentUser();
   return (
-    <div
-      className={cn(
-        'bg-white rounded-2xl p-4 my-2 w-[320px] shadow-3xl transition-all mx-2 h-[100px] duration-700',
-        showDetail && 'h-auto'
-      )}
+    <Accordion
+      type="single"
+      collapsible
+      className={cn('bg-white rounded-2xl my-2 w-[320px] shadow-3xl mx-2 p-2')}
     >
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="h-6 w-6 bg-transparent border-lightPink border-2 rounded-full flex items-center justify-center ">
-            <FaCheck className="text-purple m-auto" />
-          </div>
-          <div>
-            <p className="font-bold text-lg">{taskTitle}</p>
-            <div className="flex items-center gap-2 ">
-              <p
+      <AccordionItem value={id} className="border-b-0">
+        <AccordionTrigger className="hover:no-underline">
+          <div className="flex gap-x-2 items-center">
+            <div
+              className="h-6 w-6 bg-transparent border-lightPink border-2 rounded-full flex items-center justify-center cursor-pointer "
+              onClick={() => {
+                setCompleted((prev) => !prev);
+                if (status === 'COMPLETE') {
+                  edit_task({ status: 'PROGRESS' }, taskId);
+                } else {
+                  edit_task({ status: 'COMPLETE' }, taskId);
+                }
+              }}
+            >
+              <FaCheck
                 className={cn(
-                  'text-white bg-purple rounded-xl px-2 py-px text-xs whitespace-nowrap',
-                  priority === 2 && 'bg-green-600',
-                  priority === 3 && 'bg-gray-500',
-                  priority === 1 && 'bg-purple'
+                  'text-purple m-auto',
+                  status === 'COMPLETE' || completed ? 'block' : 'hidden'
                 )}
-              >
-                {priority === 1 && 'FIRST PRIORITY'}
-                {priority === 2 && 'HIGH PRIORITY'}
-                {priority === 3 && 'LOW PRIORITY'}
-              </p>
-              <p className="rounded-xl border-lightPink border-2 px-2 py-px text-xs">
-                {status === 'NOTSTARTED' ? 'NOT STARTED' : status}
-              </p>
+              />
+            </div>
+            <div>
+              <p className="font-bold text-lg text-start">{taskTitle}</p>
+              <div className="flex items-center gap-2 ">
+                <PriorityUpdate priority={priority} taskId={taskId} />
+                <StatusUpdate status={status} taskId={taskId} />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col justify-center items-center">
-          <div
-            onClick={() => {
-              setShowDetail((prev) => !prev);
-            }}
-            className="cursor-pointer"
-          >
-            {showDetail ? (
-              <FaCaretUp size={30} />
-            ) : (
-              <FaCaretDown className="" size={30} />
-            )}
-          </div>
-        </div>
-      </div>
-      {showDetail && (
-        <div
+        </AccordionTrigger>
+
+        <AccordionContent
           className={cn(
-            'bg-lighterPink mt-3 rounded-2xl p-2 transition-all duration-1000'
+            'bg-lighterPink mt-3 rounded-2xl p-2 flex items-center justify-between'
           )}
         >
-          <p>{description}</p>
-          <span>
-            <p>Due Date: </p>
-            <p className="text-purple font-bold">04/06/2024</p>
-          </span>
-        </div>
-      )}
-    </div>
+          <div className=" flex flex-col gap-1">
+            <FullTextOnHover
+              text={description}
+              textClassName="top-0"
+              className="w-52"
+            />
+
+            <span className="flex">
+              <p>Due: </p>
+              <p className="text-purple font-bold">
+                {formatDateTime(dueDate, user?.timezone).date}
+              </p>
+            </span>
+          </div>
+          <Badge
+            className="whitespace-nowrap w-28 cursor-pointer pr-2"
+            onClick={() => setIsOpenModal(true)}
+          >
+            In {sessionParticipants.length} Sessions
+          </Badge>
+        </AccordionContent>
+      </AccordionItem>
+      <SessionModal
+        sessionParticipants={sessionParticipants}
+        isOpen={isOpenModal}
+        onRequestClose={() => setIsOpenModal(false)}
+      />
+    </Accordion>
   );
 };
 

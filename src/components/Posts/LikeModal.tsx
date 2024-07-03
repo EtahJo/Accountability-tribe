@@ -17,8 +17,9 @@ const LikeModal = ({
       onRequestClose={onRequestClose}
       className="bg-white w-[330px]"
     >
-      {likes?.map((like) => (
+      {likes?.map((like, index) => (
         <TribeUser
+          key={index}
           name={like?.user?.username}
           profileImage={like?.user?.image}
           //   {/* don't want admin to show*/}

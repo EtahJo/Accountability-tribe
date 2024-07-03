@@ -13,11 +13,11 @@ import InputLabel, { InputLabelProps } from '@/components/InputLabel/index';
 interface CustomSelectInputProps {
   placeholder: string;
   items: {
-    name: string;
-    value: any;
+    title: string;
+    id: any;
   }[];
   onValueChange: any;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 const CustomSelectInput = ({
@@ -44,7 +44,7 @@ const CustomSelectInput = ({
         </SelectTrigger>
         <SelectContent>
           {items.map((item) => (
-            <SelectItem value={item.value}>{item.name}</SelectItem>
+            <SelectItem value={item.id}>{item.title}</SelectItem>
           ))}
         </SelectContent>
       </Select>

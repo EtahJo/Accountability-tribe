@@ -16,7 +16,7 @@ export const create_session = async (
   if (!validatedFields.success) {
     return { error: 'Invalid Fields' };
   }
-  const { goal, startEndDateTime, meetingLink } = validatedFields.data;
+  const { goal, startEndDateTime, meetingLink, taskIds } = validatedFields.data;
   const user = await currentUser();
   if (!user) {
     return { error: 'Unauthorised access' };
@@ -39,14 +39,39 @@ export const create_session = async (
       duration,
     },
   });
-  await db.sessionParticipant.create({
+  const sessionParticipant = await db.sessionParticipant.create({
     data: {
       user: { connect: { id: dbUser.id } },
       session: { connect: { id: session.id } },
       userRole: 'ADMIN',
       goal,
+      adminUserName: dbUser.username,
     },
   });
+  await db.session.update({
+    where: {
+      id: session.id,
+    },
+    data: {
+      participants: {
+        increment: 1,
+      },
+    },
+  });
+  if (taskIds) {
+    await db.$transaction(
+      taskIds.map((taskId) =>
+        db.sessionTask.create({
+          data: {
+            taskId,
+            sessionParticipantId: sessionParticipant.id,
+          },
+        })
+      )
+    );
+  }
+
   revalidateTag('userSessions');
-  return { success: 'Session Created' };
+  revalidateTag('userTasks');
+  return { success: 'Session Created', session, sessionParticipant };
 };

@@ -76,7 +76,6 @@ PostProps) => {
       });
     }
   };
-  console.log(comments);
   const NowDateTime = new Date();
   const theDuration = getDuration(createdAt, NowDateTime.toISOString());
   const duration =

@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { create_task } from '@/action/create-task';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
+import CreateSessionForm from '@/components/Forms/CreateSessionForm';
 
 const CreateTask = () => {
   const [isPending, startTransition] = useTransition();
@@ -25,16 +26,16 @@ const CreateTask = () => {
   ]);
   const items = [
     {
-      name: 'First Priority',
-      value: '1',
+      title: 'First Priority',
+      id: '1',
     },
     {
-      name: 'High Priority',
-      value: '2',
+      title: 'High Priority',
+      id: '2',
     },
     {
-      name: 'Low Priority',
-      value: '3',
+      title: 'Low Priority',
+      id: '3',
     },
   ];
   const handleAddTask = () => {
@@ -54,7 +55,6 @@ const CreateTask = () => {
     setTasks(updatedTasks);
   };
   const onValidSubmit = () => {
-    console.log(tasks);
     startTransition(() => {
       create_task(tasks).then((data) => {
         if (data.error) {
@@ -130,6 +130,18 @@ const CreateTask = () => {
               }}
               disabled={isPending}
             />
+            {/* <div className="m-auto bg-lighterPink rounded-2xl">
+              <CreateSessionForm
+                error={error}
+                success={success}
+                setError={setError}
+              />
+            </div> */}
+            {/* <div className="flex justify-end">
+              <Button type="button" className="move-button">
+                Create Session
+              </Button>
+            </div> */}
           </div>
         ))}
         {error && <FormError message={error} />}

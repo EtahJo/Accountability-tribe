@@ -63,20 +63,20 @@ timezone      String?
   dueDate   DateTime
   userId      String  @db.ObjectId
   user User  @relation(fields: [userId],references: [id])
-  sessions    SessionTask[]
+  sessionParticipants    SessionTask[]
    createdAt   DateTime  @default(now())
   updatedAt DateTime @updatedAt
  }
 
  model SessionTask{
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  sessionId String   @db.ObjectId
+  sessionParticipantId String   @db.ObjectId
   taskId    String   @db.ObjectId
 
-  session   Session  @relation(fields: [sessionId], references: [id])
+  sessionParticipant   SessionParticipant  @relation(fields: [sessionParticipantId], references: [id])
   task      Task     @relation(fields: [taskId], references: [id])
 
-  @@index([sessionId, taskId], name: "session_task_unique")
+  @@unique([sessionParticipantId, taskId])
  }
 
 
@@ -106,6 +106,8 @@ model SessionParticipant{
   userId    String @db.ObjectId
   userRole  UserRole
   goal      String?
+  tasks     SessionTask[]
+  adminUserName  String?
   user      User @relation(fields: [userId],references: [id])
   session Session @relation(fields: [sessionId],references: [id])
   @@unique([userId,sessionId])
@@ -118,8 +120,9 @@ model Session{
    endDateTime   DateTime?
    meetingLink   String
    duration    String?
+   participants Int? @default(0)
    users SessionParticipant[]
-   tasks   SessionTask[]
+  //  tasks   SessionTask[]
 }
 model Like {
   id     String @id @default(auto()) @map("_id") @db.ObjectId

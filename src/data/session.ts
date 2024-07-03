@@ -65,3 +65,14 @@ export const getSessionById = async (sessionId: string) => {
     return null;
   }
 };
+
+export const getSessionParticipantById = async (
+  sessionParticipantId: string
+) => {
+  try {
+    const sessionParticipant = await db.sessionParticipant.findUnique({
+      where: { id: sessionParticipantId },
+    });
+    return sessionParticipant;
+  } catch {}
+};

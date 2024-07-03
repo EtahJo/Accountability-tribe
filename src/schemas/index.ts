@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { boolean } from 'zod';
-// import { Priority } from '@prisma/client';
+import { Status } from '@prisma/client';
 
 export const LoginSchema = z.object({
   email: z.string().email({ message: 'Email is required' }),
@@ -70,6 +70,10 @@ export const EditProfileSchema = z
       path: ['newPassword'],
     }
   );
+export const CreateSessionTaskSchema = z.object({
+  taskId: z.string(),
+  // sessionParticipantId: z.string(),
+});
 
 export const CreateSessionSchema = z.object({
   goal: z.string().min(1, { message: 'Adding a goal is Essential' }),
@@ -77,6 +81,7 @@ export const CreateSessionSchema = z.object({
     startDateTime: z.date(),
     endDateTime: z.date(),
   }),
+  taskIds: z.optional(z.array(z.string())),
   meetingLink: z
     .string()
     .min(1, { message: 'Please add a Google Meeting Link' }),
@@ -136,3 +141,19 @@ export const CreateTaskSchema = z.object({
 });
 
 export const CreateTaskArraySchema = z.array(CreateTaskSchema);
+
+export const EditTaskSchema = z.object({
+  title: z.optional(z.string()),
+  description: z.optional(z.string()),
+  priority: z.optional(z.number()),
+  dueDate: z.optional(z.date()),
+  status: z.optional(
+    z.enum([
+      Status.COMPLETE,
+      Status.NOTSTARTED,
+      Status.PROGRESS,
+      Status.STARTED,
+    ])
+  ),
+  sessionParticipantId: z.optional(z.string()),
+});

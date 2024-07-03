@@ -1,7 +1,7 @@
 'use server';
 
 import * as z from 'zod';
-import { CreateTaskSchema, CreateTaskArraySchema } from '@/schemas/index';
+import { CreateTaskArraySchema } from '@/schemas/index';
 import { currentUser } from '@/lib/authentication';
 import { db } from '@/lib/db';
 import { getUserById } from '@/data/user';
@@ -9,7 +9,7 @@ import { revalidateTag } from 'next/cache';
 
 export const create_task = async (
   values: z.infer<typeof CreateTaskArraySchema>,
-  sessionId?: string
+  sessionParticipantId?: string
 ) => {
   const validatedFields = CreateTaskArraySchema.safeParse(values);
   if (!validatedFields.success) {
@@ -26,7 +26,7 @@ export const create_task = async (
     return { error: 'Unauthorised User' };
   }
 
-  /// TODO: add logic for when the is a sessionId
+  /// TODO: add logic for when the is a sessionParticipantId
 
   await db.$transaction(
     tasks.map(({ title, description, priority, dueDate }) =>

@@ -1,5 +1,5 @@
 'use Client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { withFormsy } from 'formsy-react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -8,6 +8,7 @@ import InputLabel, { InputLabelProps } from '../InputLabel/index';
 interface CustomTagsInputProps {
   addTag: (tag: any) => void;
   handleRemoveFxn: (tag: any) => void;
+  availableTags: { text?: string; title?: string; id?: string | number }[];
 }
 
 const CustomTagsInput = ({
@@ -16,46 +17,9 @@ const CustomTagsInput = ({
   required,
   addTag,
   handleRemoveFxn,
+  availableTags,
 }: CustomTagsInputProps & InputLabelProps) => {
   const [selectedTags, setSelectedTags] = useState(new Set());
-  const [availableTags, setAvailableTags] = useState([
-    {
-      id: 1,
-      text: 'Study',
-      selected: false,
-    },
-    {
-      id: 2,
-      text: 'Fitness',
-      selected: false,
-    },
-    {
-      id: 3,
-      text: 'Spiritual',
-      selected: false,
-    },
-    {
-      id: 7,
-      text: 'Dieting',
-      selected: false,
-    },
-    {
-      id: 4,
-      text: 'Software development',
-      selected: false,
-    },
-
-    {
-      id: 5,
-      text: 'Self Development',
-      selected: false,
-    },
-    {
-      id: 6,
-      text: 'Book Club',
-      selected: false,
-    },
-  ]);
   const handleRemove = (item: any) => {
     const newItems = new Set(selectedTags);
     newItems.delete(item);
@@ -68,38 +32,39 @@ const CustomTagsInput = ({
         <InputLabel lable={lable} labelIcon={labelIcon} required={required} />
       )}
       <div className=" gap-2 border-2 border-black p-2 rounded-2xl col-start-1 col-end-4 flex flex-wrap">
-        {availableTags.map((tag) => (
+        {availableTags.map((tag, index) => (
           <p
-            key={tag.id}
+            key={index}
             className={cn(
               'bg-lighterPink p-2 rounded-2xl cursor-pointer',
               selectedTags.has(tag) ? 'bg-lightPink' : 'bg-lighterPink'
             )}
             onClick={() => {
               setSelectedTags(new Set(selectedTags).add(tag));
-              addTag(tag.text);
+              addTag(tag.text || tag.id);
             }}
           >
-            {tag.text}
+            {tag.text || tag.title}
           </p>
         ))}
       </div>
       <Input value={'hello'} className="hidden" />
       <div className="flex flex-wrap gap-2">
-        {Array.from(selectedTags).map((tag) => (
-          <div className="bg-purple p-2 rounded-2xl flex items-center gap-1 ">
+        {Array.from(selectedTags).map((tag: any, index) => (
+          <div
+            className="bg-purple p-2 rounded-2xl flex items-center gap-1 "
+            key={index}
+          >
             <p
               className="text-white p-2 rounded-full bg-black cursor-pointer"
               onClick={() => {
                 handleRemove(tag);
-                handleRemoveFxn(tag.text);
+                handleRemoveFxn(tag.text || tag.id);
               }}
             >
               X
             </p>
-            <p key={tag.id} className="">
-              {tag.text}
-            </p>
+            <p className="">{tag.text || tag.title}</p>
           </div>
         ))}
       </div>

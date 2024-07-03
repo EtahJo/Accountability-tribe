@@ -21,9 +21,9 @@ export interface UpcomingSessionProps {
   userId: string;
   endDate: string;
   endTime: string;
-  isMember: boolean;
+  isMember?: boolean;
   members: number;
-  admin: string;
+  admin?: string;
   endDateTime: string;
 }
 
@@ -51,7 +51,7 @@ const UpcomingSession = ({
   useEffect(() => {}, [isMember]);
 
   return (
-    <div className="bg-white p-3 w-[400px]  rounded-3xl flex items-center gap-2  justify-between move-button cursor-pointer m-4 ">
+    <div className="bg-white p-3 w-[400px]  rounded-3xl flex items-center gap-2  justify-between move-button cursor-pointer m-4  shadow-3xl">
       <div
         className="flex items-center gap-1"
         onClick={() => setModalIsOpen(true)}
