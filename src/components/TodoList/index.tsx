@@ -5,7 +5,6 @@ import { FaPlusCircle } from 'react-icons/fa';
 import Todo from '@/components/TodoList/Todo';
 
 const TodoList = ({ tasks }: { tasks: {}[] }) => {
-  console.log('This are tasks', tasks);
   return (
     <div>
       <SectionHeader
