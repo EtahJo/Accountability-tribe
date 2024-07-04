@@ -29,7 +29,6 @@ const CommentForm = ({ postId }: { postId: string }) => {
           name="content"
           value={comment}
           disabled={isPending}
-          changeEvent={(e) => setComment(e.target.value)}
           placeholder="React to post (Be Positive)"
           Icon={
             <Button type="submit" disabled={isPending}>

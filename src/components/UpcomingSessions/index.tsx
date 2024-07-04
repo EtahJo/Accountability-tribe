@@ -3,7 +3,8 @@ import { useContext, useEffect } from 'react';
 import SectionHeader from '@/components/SectionHeader';
 import UpcomingSession from '@/components/UpcomingSession';
 import { PeriodContext } from '@/context/PeriodContext';
-import { FaPlusCircle } from 'react-icons/fa';
+import { FaPlusCircle, FaArrowRight } from 'react-icons/fa';
+import Link from 'next/link';
 
 import {
   formatDateTime,
@@ -14,6 +15,7 @@ import {
 } from '@/util/DateTime';
 interface UpcomingSessionsProps {
   currentUser: { timezone: string; id: string };
+  username: string;
   sessions: {
     session: {
       id: string;
@@ -38,7 +40,11 @@ interface UpcomingSessionsProps {
   }[];
 }
 
-const UpcomingSessions = ({ currentUser, sessions }: UpcomingSessionsProps) => {
+const UpcomingSessions = ({
+  currentUser,
+  sessions,
+  username,
+}: UpcomingSessionsProps) => {
   const { period } = useContext(PeriodContext);
   return (
     <div>
@@ -166,6 +172,12 @@ const UpcomingSessions = ({ currentUser, sessions }: UpcomingSessionsProps) => {
           )}
         </div>
       )}
+      <div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto ">
+        <Link href={`/user/${username}/sessions?page=1`}>
+          View All Sessions
+        </Link>
+        <FaArrowRight />
+      </div>
     </div>
   );
 };

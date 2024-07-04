@@ -12,6 +12,12 @@ import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import CreateSessionForm from '@/components/Forms/CreateSessionForm';
 
+interface TaskProps {
+  title: string;
+  description: string;
+  dueDate: Date;
+  priority: number;
+}
 const CreateTask = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState('');
@@ -49,7 +55,7 @@ const CreateTask = () => {
       },
     ]);
   };
-  const handleChange = (index: number, key: string, e: any) => {
+  const handleChange = (index: number, key: any, e: any) => {
     const updatedTasks = [...tasks];
     updatedTasks[index][key] = e.target.value;
     setTasks(updatedTasks);

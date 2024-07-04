@@ -23,14 +23,14 @@ interface CommentProps {
     content: string;
     id: string;
     createdAt: string;
-    likes: { user: { username: string; image: string } }[];
+    likes: { user: { username: string; image: string; id: string } }[];
     parentId: string;
     replies: {
       author: { username: string; image: string };
       content: string;
       id: string;
       createdAt: string;
-      likes: { user: { username: string; image: string } }[];
+      likes: { user: { username: string; image: string; id: string } }[];
       parentId: string;
     }[];
   }[];
@@ -169,9 +169,8 @@ const Comment = ({
       {showReplies && (
         <div>
           {replies.map((reply) => (
-            <div>
+            <div key={reply.id}>
               <Comment
-                key={reply.id}
                 profileImage={reply.author.image}
                 username={reply.author.username}
                 comment={reply.content}

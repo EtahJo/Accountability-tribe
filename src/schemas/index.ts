@@ -147,6 +147,7 @@ export const EditTaskSchema = z.object({
   description: z.optional(z.string()),
   priority: z.optional(z.number()),
   dueDate: z.optional(z.date()),
+  dateCompleted: z.optional(z.date()),
   status: z.optional(
     z.enum([
       Status.COMPLETE,

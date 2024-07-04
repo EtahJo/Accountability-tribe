@@ -7,7 +7,7 @@ interface MyProfileCheckContextProps {
   myProfileCheck: (currentUsername: string, pageUsername: string) => void;
 }
 
-const MyProfileCheckContext = createContext<MyProfileCheckContextProps>({
+export const MyProfileCheckContext = createContext<MyProfileCheckContextProps>({
   myProfile: false,
   myProfileCheck(currentUsername, pageUsername) {},
 });
@@ -29,4 +29,4 @@ const MyProfileCheckContextProvider = ({
 };
 
 export default MyProfileCheckContextProvider;
-export const useMyProfileCheck = () => useContext(MyProfileCheckContext);
+// export const useMyProfileCheck = () => useContext(MyProfileCheckContext);

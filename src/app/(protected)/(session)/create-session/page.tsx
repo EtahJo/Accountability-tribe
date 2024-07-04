@@ -19,8 +19,9 @@ async function getTasksData(username: string) {
 }
 
 const CreateSession = async () => {
-  const user = await currentUser();
+  const user: any = await currentUser();
   const tasks = await getTasksData(user?.username);
+  // console.log('Tasks are>>', tasks);
   return (
     <div className=" flex flex-col h-screen items-center align-middle m-auto">
       <div className="m-auto">

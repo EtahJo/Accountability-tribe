@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar } from '@/components/ui/avatar';
 import { FaUser } from 'react-icons/fa';
 import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
@@ -14,7 +14,19 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 
 countries.registerLocale(enLocale);
 interface ProfileHeaderProps {
-  user: {} | undefined;
+  user:
+    | {
+        country: string;
+        id: string;
+        username: string;
+        number: string;
+        email: string;
+        facebook: string;
+        x: string;
+        image: string;
+        linkedIn: string;
+      }
+    | undefined;
   phoneNumber: any;
   countryCode: any;
 }
@@ -24,11 +36,11 @@ const ProfileHeader = ({
   phoneNumber,
   countryCode,
 }: ProfileHeaderProps) => {
-  const { session } = useCurrentUser();
-  const countryName = countries.getName(user?.country, 'en');
+  const { session }: any = useCurrentUser();
+  const countryName = countries.getName(user?.country as string, 'en');
   const isValid = phoneNumber ? isValidNumber(phoneNumber, countryCode) : false;
   const formatedNumber = phoneNumber
-    ? format(phoneNumber, countryCode, 'International')
+    ? format(phoneNumber, countryCode, 'INTERNATIONAL')
     : '';
   return (
     <div className="py-10">
@@ -36,10 +48,11 @@ const ProfileHeader = ({
         <div className="col-start-2 col-end-9">
           <div className="flex items-center border-b-[1px] border-b-black justify-between pb-2 my-5">
             <span className="text-lightPink flex items-center font-semibold text-4xl">
-              Hello,
+              {session && user?.id === session?.data?.user.id ? 'Hello,' : ''}
               <p className=" text-white"> {user?.username}</p>
             </span>
-            {session && user.id === session?.data?.user.id && (
+
+            {session && user?.id === session?.data?.user.id && (
               <Button
                 // variant={'primary'}
                 className="bg-black hover:bg-lightPink flex items-center gap-1 align-middle justify-between group move-button"

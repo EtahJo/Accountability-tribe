@@ -10,12 +10,12 @@ import { withFormsy } from 'formsy-react';
 import { ImageUploaderContext } from '@/context/ImageUploadContext';
 
 interface UploadImageProps {
-  presentImage: string | null | undefined;
+  presentImage?: string | null | undefined;
 }
 
 const UploadImage = ({ presentImage }: UploadImageProps) => {
   const { addUrl } = useContext(ImageUploaderContext);
-  const [resource, setResource] = useState();
+  const [resource, setResource] = useState<any>();
   const { user } = useCurrentUser();
   return (
     <div className="relative -mt-32 ">
@@ -38,7 +38,7 @@ const UploadImage = ({ presentImage }: UploadImageProps) => {
 
       <CldUploadWidget
         signatureEndpoint={'/api/sign-image'}
-        onSuccess={(result, { widget }) => {
+        onSuccess={(result: any, { widget }) => {
           setResource(result?.info);
           addUrl(result?.info.path);
         }}

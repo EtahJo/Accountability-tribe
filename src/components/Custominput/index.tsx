@@ -23,8 +23,12 @@ const CustomInput = ({
   className,
   inputClassNames,
   labelIcon,
+  setValue,
 }: // defaultValue,
 CustomInputTypes & InputLabelProps) => {
+  const onChange = (e: any) => {
+    setValue(e.target.value);
+  };
   return (
     <div>
       {lable && (
@@ -41,9 +45,9 @@ CustomInputTypes & InputLabelProps) => {
             name={name}
             required={required}
             placeholder={placeholder}
-            onChange={changeEvent}
+            onChange={onChange}
             value={value}
-            autoComplete="off"
+            // autoComplete="off"
             disabled={disabled}
             // defaultValue={defaultValue}
             className={cn(
@@ -53,14 +57,14 @@ CustomInputTypes & InputLabelProps) => {
           />
         ) : (
           <Input
-            autoComplete="off"
+            // autoComplete="off"
             type={type}
             placeholder={placeholder}
             name={name}
             required={required}
-            onChange={changeEvent}
+            onChange={onChange}
             value={value}
-            ng-name={name}
+            // ng-name={name}
             className="bg-transparent border-none"
             disabled={disabled}
             // defaultValue={defaultValue}

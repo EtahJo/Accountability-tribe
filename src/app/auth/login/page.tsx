@@ -64,9 +64,6 @@ const Login = () => {
               placeholder="Email"
               required
               value={email}
-              changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setEmail((e.target as HTMLInputElement).value);
-              }}
               validations="isEmail"
               validationError="This is not a valid Email"
               disabled={isPending}
@@ -77,9 +74,6 @@ const Login = () => {
               placeholder="Password"
               value={password}
               disabled={isPending}
-              changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setPassword((e.target as HTMLInputElement).value);
-              }}
               Icon={
                 vissible ? (
                   <AiFillEyeInvisible

@@ -28,8 +28,8 @@ const TribeUsers = ({
         >
           {tribeName} Members
         </h1>
-        {users.map((user) => (
-          <Link href={`/user/${user.user.username}`}>
+        {users.map((user, index) => (
+          <Link href={`/user/${user.user.username}`} key={index}>
             <TribeUser
               name={user.user.username}
               profileImage={user.user.image}

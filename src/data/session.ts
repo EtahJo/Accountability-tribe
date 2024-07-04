@@ -1,12 +1,42 @@
 import { db } from '@/lib/db';
 
-export const getAllUserSessions = async (userId: string) => {
+export const getTotalNumberOfUserSessions = async (userId: string) => {
+  const sessions = await db.sessionParticipant.findMany({
+    where: { userId },
+  });
+  return sessions.length;
+};
+
+export const getAllUserSessions = async (
+  userId: string,
+  pageLimit: number,
+  pageNumber: number
+  // skipCount: number
+) => {
   try {
-    const sessions = await db.user.findUnique({
+    const totalItems = await getTotalNumberOfUserSessions(userId);
+    const totalPages = Math.ceil(totalItems / pageLimit);
+    const sessions: any = await db.user.findUnique({
       where: { id: userId },
-      include: { sessions: { include: { session: true, user: true } } },
+      include: {
+        sessions: {
+          include: { session: true, user: true },
+          take: pageLimit + 1,
+          skip: pageLimit * (pageNumber - 1),
+          orderBy: {
+            session: {
+              startDateTime: 'asc',
+            },
+          },
+        },
+      },
     });
-    return sessions?.sessions;
+    const hasMore = sessions?.sessions.length > pageLimit;
+    const result = hasMore
+      ? sessions.sessions.slice(0, pageLimit)
+      : sessions.sessions;
+
+    return { sessions: result, hasMore, totalPages };
   } catch {
     return null;
   }

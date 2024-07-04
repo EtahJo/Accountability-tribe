@@ -77,9 +77,6 @@ const EditSessionForm = ({ session }: EditSessionProps) => {
           textArea
           disabled={isPending}
           placeholder="What is the goal for this session ?"
-          changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setGoal((e.target as HTMLInputElement).value);
-          }}
         />
         <CustomInput
           lable="Link to Scheduled Meeting"
@@ -88,9 +85,6 @@ const EditSessionForm = ({ session }: EditSessionProps) => {
           value={meetingLink}
           required
           disabled={isPending}
-          changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setMeetingLink((e.target as HTMLInputElement).value);
-          }}
           placeholder="Add link to meeting"
         />
       </div>

@@ -1,5 +1,5 @@
 import { getUserByUsername } from '@/data/user';
-import { NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import {
   getAllUserSessions,
   getSessionAdmin,
@@ -8,18 +8,27 @@ import {
 
 import { get_session_participants } from '@/action/get-session-participants';
 
-export async function GET(req: Request, context: any) {
+export async function GET(req: NextRequest, context: any) {
   const { params } = context;
+  const searchParams = req.nextUrl.searchParams;
+  const pageString = searchParams.get('page');
+  const page = parseInt(pageString as string, 10);
 
   try {
     const dbUser = await getUserByUsername(params.username);
-    const userSessions = await getAllUserSessions(dbUser?.id as string);
+    const perPage = 6;
+
+    const userSessions = await getAllUserSessions(
+      dbUser?.id as string,
+      perPage,
+      page
+    );
     if (!userSessions) {
       return NextResponse.json({});
     }
 
     const sessions: {}[] = [];
-    for (const session of userSessions) {
+    for (const session of userSessions.sessions) {
       const sessionUser = await getSessionUserBySessionUserId(
         session.sessionId,
         params.currentUserId
@@ -42,8 +51,15 @@ export async function GET(req: Request, context: any) {
       };
       sessions.push(sessionAndCheck);
     }
-    return NextResponse.json(sessions);
+    const returnValue = pageString
+      ? {
+          sessions,
+          hasMore: userSessions.hasMore,
+          totalPages: userSessions.totalPages,
+        }
+      : sessions;
+    return NextResponse.json(returnValue);
   } catch (error) {
-    return null;
+    return NextResponse.json({ error });
   }
 }

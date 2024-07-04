@@ -1,12 +1,13 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import UpcomingSessions from '@/components/UpcomingSessions';
 import TodoList from '@/components/TodoList';
 import Posts from '@/components/Posts';
 import Achievements from '@/components/Achievements';
 import Tribes from '@/components/Tribes';
 import SelectPeriod from '@/components/SelectPeriod';
-import { useMyProfileCheck } from '@/context/MyProfileCheckContext';
+// import { useMyProfileCheck } from '@/context/MyProfileCheckContext';
+import { MyProfileCheckContext } from '@/context/MyProfileCheckContext';
 
 interface UserProfileBodyProps {
   user: { username: string } | undefined;
@@ -36,7 +37,8 @@ const UserProfileBody = ({
   posts,
   tasks,
 }: UserProfileBodyProps) => {
-  const { myProfileCheck } = useMyProfileCheck();
+  // const { myProfileCheck } = useMyProfileCheck();
+  const { myProfileCheck } = useContext(MyProfileCheckContext);
   useEffect(() => {
     myProfileCheck(user?.username as string, pageUserName);
     // const fetchPosts=async()=>{
@@ -47,12 +49,16 @@ const UserProfileBody = ({
     <div className="grid grid-cols-12 pb-24">
       <div className="col-start-2 col-end-9">
         <SelectPeriod />
-        <UpcomingSessions currentUser={user} sessions={sessions} />
+        <UpcomingSessions
+          currentUser={user}
+          sessions={sessions}
+          username={pageUserName}
+        />
         <TodoList tasks={tasks} />
         <Posts posts={posts} />
       </div>
       <div className="col-start-10 col-end-12">
-        <Achievements />
+        <Achievements tasks={tasks} />
         {children}
         {/* <Tribes tribes={tribes} joinTribe={joinTribe} /> */}
       </div>

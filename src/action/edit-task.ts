@@ -49,6 +49,7 @@ export const edit_task = async (
     where: { id: taskId },
     data: {
       ...values,
+      dateCompleted: status === 'COMPLETE' ? new Date() : null,
     },
   });
   if (sessionParticipantId) {

@@ -5,7 +5,7 @@ export const get_session_participants = async (sessionId: string) => {
   const sessionParticipants = await getAllUsersInSession(sessionId);
 
   const countries = new Set();
-  sessionParticipants?.forEach((participant) => {
+  sessionParticipants?.forEach((participant: any) => {
     countries.add(participant.country);
   });
   return {

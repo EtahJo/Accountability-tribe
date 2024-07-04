@@ -1,9 +1,11 @@
 'use client';
+import { useContext } from 'react';
 import { SectionHeaderType } from '@/types/types';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useMyProfileCheck } from '@/context/MyProfileCheckContext';
+// import { useMyProfileCheck } from '@/context/MyProfileCheckContext';
 import { cn } from '@/lib/utils';
+import { MyProfileCheckContext } from '@/context/MyProfileCheckContext';
 
 const SectionHeader = ({
   name,
@@ -13,7 +15,8 @@ const SectionHeader = ({
   buttonIcon,
   classNames,
 }: SectionHeaderType) => {
-  const { myProfile } = useMyProfileCheck();
+  const { myProfile } = useContext(MyProfileCheckContext);
+  // const { myProfile } = useMyProfileCheck();
   return (
     <div
       className={cn(

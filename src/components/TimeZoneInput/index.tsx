@@ -28,8 +28,8 @@ const TimeZoneInput = ({ value, onChange }: TimeZoneInputProps) => {
         <SelectValue placeholder="Please Select your Timezone" />
       </SelectTrigger>
       <SelectContent className="w-[300px]">
-        {options.map((option) => (
-          <SelectItem value={parseTimezone(option.value).value}>
+        {options.map((option, index) => (
+          <SelectItem value={parseTimezone(option.value).value} key={index}>
             {option.label}
           </SelectItem>
         ))}

@@ -21,7 +21,7 @@ export type CarouselSlideType = {
 
 export type CustomInputTypes = FormsyInjectedProps<any> & {
   type?: string;
-  changeEvent: (val: any) => void;
+  changeEvent?: (val: any) => void;
   placeholder: string;
   textArea?: boolean;
   required?: boolean;

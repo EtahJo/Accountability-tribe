@@ -26,7 +26,7 @@ async function getPostData(username: string) {
 }
 async function getSessionData(username: string, currentUserId: string) {
   const sessionRes = await fetch(
-    `http://localhost:3000/user/api/sessions/${username}/${currentUserId}`,
+    `http://localhost:3000/user/api/sessions/${username}/${currentUserId}?page=${1}`,
     {
       next: {
         tags: ['userSessions'],
@@ -69,20 +69,33 @@ async function getTasksData(username: string) {
 
   return tasksRes.json();
 }
+async function getUserData(username: string) {
+  const userRes = await fetch(`http://localhost:3000/user/api/${username}`, {
+    next: {
+      tags: ['userInfo'],
+    },
+  });
+  if (!userRes.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return userRes.json();
+}
 const page = async ({ params }: { params: { username: string } }) => {
   const { username } = params;
-  const user = await currentUser();
-  const data = await get_user_by_username(username);
-  const countryCode = data.user?.number?.split(',')[0].toUpperCase();
+  const user: any = await currentUser();
+  // const data = await get_user_by_username(username);
+  const userData = await getUserData(username);
+  const countryCode = userData?.number?.split(',')[0].toUpperCase();
   const posts = await getPostData(username);
   const sessions = await getSessionData(username, user?.id as string);
   const tribes = await getTribesData(username);
   const tasks = await getTasksData(username);
+  // console.log('sessions is>>>', sessions);
 
-  if (data.error) {
+  if (userData.error) {
     return (
       <div className="h-screen flex justify-center">
-        <p>{data.error}</p>
+        <p>{userData.error}</p>
       </div>
     );
   }
@@ -91,24 +104,25 @@ const page = async ({ params }: { params: { username: string } }) => {
     <div>
       <div>
         <ProfileHeader
-          user={data.user}
-          phoneNumber={data.user?.number}
+          user={userData}
+          phoneNumber={userData?.number}
           countryCode={countryCode}
         />
         <UserProfileBody
           user={user}
-          sessions={sessions}
+          sessions={sessions.sessions}
           tribes={tribes}
           pageUserName={username}
           posts={posts}
           tasks={tasks}
         >
           <Tribes>
-            {tribes?.map(async ({ tribe }) => {
+            {tribes?.map(async ({ tribe }: any) => {
               const members = await get_tribe_members(tribe.id);
               const isMember = await is_member(tribe.id, user?.id as string);
               return (
                 <TribeSnippet
+                  key={tribe.id}
                   name={tribe?.name}
                   desc={tribe?.description}
                   tribeId={tribe?.id}

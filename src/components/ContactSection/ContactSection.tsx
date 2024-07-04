@@ -24,18 +24,12 @@ const ContactSection = () => {
             value={email}
             validations="isEmail"
             validationError="This not a valid email"
-            changeEvent={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setEmail((event.target as HTMLInputElement).value);
-            }}
           />
           <CustomInput
             textArea
             name="Message"
             placeholder="Enter your message"
             value={message}
-            changeEvent={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setMessage((event.target as HTMLInputElement).value);
-            }}
             required
             validationError="Please add message"
           />

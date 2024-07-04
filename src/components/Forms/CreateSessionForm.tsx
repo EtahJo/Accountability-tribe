@@ -79,9 +79,6 @@ const CreateSessionForm = ({ tasks }: CreateSessionFormprops) => {
           textArea
           disabled={isPending}
           placeholder="What is the goal for this session ?"
-          changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setGoal((e.target as HTMLInputElement).value);
-          }}
         />
         <CustomInput
           lable="Link to Scheduled Meeting"
@@ -90,9 +87,6 @@ const CreateSessionForm = ({ tasks }: CreateSessionFormprops) => {
           value={meetingLink}
           required
           disabled={isPending}
-          changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setMeetingLink((e.target as HTMLInputElement).value);
-          }}
           placeholder="Add link to meeting"
         />
         <CustomTagsInput

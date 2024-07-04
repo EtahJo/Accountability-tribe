@@ -44,7 +44,9 @@ const CustomSelectInput = ({
         </SelectTrigger>
         <SelectContent>
           {items.map((item) => (
-            <SelectItem value={item.id}>{item.title}</SelectItem>
+            <SelectItem value={item.id} key={item.id}>
+              {item.title}
+            </SelectItem>
           ))}
         </SelectContent>
       </Select>

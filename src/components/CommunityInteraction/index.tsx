@@ -39,8 +39,8 @@ const CommunityInteraction = () => {
         <div className="bg-white rounded-3xl largePhone:h-80 largePhone:w-80 rotate-45 absolute medPhone:-top-40 350:h-60 350:w-60 -left-16 largePhone:left-0 h-52 w-52 -top-20" />
         <div className="absolute largePhone:left-8 medPhone:-top-16 -top-10 z-50 largePhone:w-60 medPhone:w-52 w-48 -left-12">
           <Slider {...settings}>
-            {slides.map((slide) => (
-              <CarouselSlide src={slide.src} />
+            {slides.map((slide, index) => (
+              <CarouselSlide src={slide.src} key={index} />
             ))}
           </Slider>
         </div>

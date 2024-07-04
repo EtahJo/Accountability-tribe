@@ -4,7 +4,7 @@ import { PeriodContext } from '@/context/PeriodContext';
 import { FaClock, FaCalendar } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import FullTextOnHover from '@/components/FullTextOnHover';
-import UpcomingSessionDetail from '../UpcomingSessionDetails/index';
+import UpcomingSessionDetailModal from '../UpcomingSessionDetails/Modal';
 import Link from 'next/link';
 
 export interface UpcomingSessionProps {
@@ -129,7 +129,7 @@ const UpcomingSession = ({
       )}
       {/* {isAfter&&} */}
 
-      <UpcomingSessionDetail
+      <UpcomingSessionDetailModal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
         startDate={startDate}

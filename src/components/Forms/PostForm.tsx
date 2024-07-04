@@ -40,9 +40,6 @@ const PostForm = ({ tribeId }: { tribeId: string }) => {
           textArea
           disabled={isPending}
           value={content}
-          changeEvent={(e) => {
-            setContent(e.target.value);
-          }}
         />
         {error && <FormError message={error} />}
         {success && <FormSuccess message={success} />}

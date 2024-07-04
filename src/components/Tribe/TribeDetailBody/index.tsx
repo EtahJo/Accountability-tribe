@@ -4,6 +4,7 @@ import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import PostForm from '@/components/Forms/PostForm';
 import Posts from '@/components/Posts/index';
+import SectionHeader from '@/components/SectionHeader/index';
 
 export interface TribeDetailBodyProps {
   tribeInfo: {
@@ -55,7 +56,7 @@ const TribeDetailBody = ({
               tribeId: string;
               users: { id: string }[];
             }) => (
-              <div>
+              <div key={tribe.id}>
                 {tribe.id !== tribeInfo.id && (
                   <TribeSnippet
                     name={tribe.name}

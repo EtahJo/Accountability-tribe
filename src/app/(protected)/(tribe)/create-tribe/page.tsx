@@ -92,7 +92,6 @@ const CreateTribe = () => {
             disabled={isPending}
             placeholder="Add Tribe Name"
             value={name}
-            changeEvent={(e) => setName(e.target.value)}
           />
           <Custominput
             lable="Tribe Description"
@@ -101,7 +100,6 @@ const CreateTribe = () => {
             name="description"
             placeholder="Tell people what the tribe is about"
             value={description}
-            changeEvent={(e) => setDescription(e.target.value)}
           />
           <CustomTagsInput
             name="tags"
