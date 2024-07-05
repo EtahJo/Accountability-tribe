@@ -147,6 +147,9 @@ const config = {
             margin: '0',
           },
         },
+        '.break-inside-avoid': {
+          'break-inside': 'avoid',
+        },
       };
 
       addUtilities(newUtilities, ['responsive', 'hover']);

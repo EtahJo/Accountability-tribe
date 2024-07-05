@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, context: any) {
 
   try {
     const dbUser = await getUserByUsername(params.username);
-    const perPage = 6;
+    const perPage = 12;
 
     const userSessions = await getAllUserSessions(
       dbUser?.id as string,
@@ -26,6 +26,7 @@ export async function GET(req: NextRequest, context: any) {
     if (!userSessions) {
       return NextResponse.json({});
     }
+    // console.log('userSession', userSessions);
 
     const sessions: {}[] = [];
     for (const session of userSessions.sessions) {
@@ -39,6 +40,7 @@ export async function GET(req: NextRequest, context: any) {
 
       const sessionAndCheck = {
         sessionId: session.sessionId,
+        sessionParticipantId: session.id,
         session: session.session,
         userRole: session.userRole,
         goal: session.goal,
@@ -48,6 +50,7 @@ export async function GET(req: NextRequest, context: any) {
         participants,
         admin: sessionAdmin,
         user: session.user,
+        tasks: session.tasks,
       };
       sessions.push(sessionAndCheck);
     }

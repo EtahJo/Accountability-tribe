@@ -1,4 +1,5 @@
 import { db } from '@/lib/db';
+import { date } from 'zod';
 
 export const getTotalNumberOfUserSessions = async (userId: string) => {
   const sessions = await db.sessionParticipant.findMany({
@@ -20,12 +21,28 @@ export const getAllUserSessions = async (
       where: { id: userId },
       include: {
         sessions: {
-          include: { session: true, user: true },
+          include: {
+            session: true,
+            user: { include: { tasks: true } },
+            tasks: {
+              include: {
+                task: {
+                  include: {
+                    sessionParticipants: {
+                      include: {
+                        sessionParticipant: { include: { session: true } },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
           take: pageLimit + 1,
           skip: pageLimit * (pageNumber - 1),
           orderBy: {
             session: {
-              startDateTime: 'asc',
+              startDateTime: 'desc',
             },
           },
         },
@@ -105,4 +122,83 @@ export const getSessionParticipantById = async (
     });
     return sessionParticipant;
   } catch {}
+};
+
+const getOngoingUserSessionsTotal = async (userId: string) => {
+  const sessions = await db.user.findUnique({
+    where: { id: userId },
+    include: {
+      sessions: {
+        where: {
+          session: {
+            endDateTime: {
+              gt: new Date(),
+            },
+            startDateTime: {
+              lte: new Date(),
+            },
+          },
+        },
+      },
+    },
+  });
+  return sessions?.sessions.length;
+};
+export const getAllOngoingUserSessions = async (
+  userId: string,
+  pageLimit: number,
+  pageNumber: number
+) => {
+  try {
+    const totalItems = await getOngoingUserSessionsTotal(userId);
+    const totalPages = totalItems && Math.ceil(totalItems / pageLimit);
+    const sessions = await db.user.findUnique({
+      where: { id: userId },
+      include: {
+        sessions: {
+          where: {
+            session: {
+              endDateTime: {
+                gt: new Date(),
+              },
+              startDateTime: {
+                lte: new Date(),
+              },
+            },
+          },
+          include: {
+            session: true,
+            user: { include: { tasks: true } },
+            tasks: {
+              include: {
+                task: {
+                  include: {
+                    sessionParticipants: {
+                      include: {
+                        sessionParticipant: { include: { session: true } },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          take: pageLimit + 1,
+          skip: pageLimit * (pageNumber - 1),
+          orderBy: {
+            session: {
+              startDateTime: 'asc',
+            },
+          },
+        },
+      },
+    });
+    const hasMore = sessions && sessions?.sessions.length > pageLimit;
+    const result = hasMore
+      ? sessions?.sessions.slice(0, pageLimit)
+      : sessions?.sessions;
+    return { sessions: result, hasMore, totalPages };
+  } catch {
+    return null;
+  }
 };

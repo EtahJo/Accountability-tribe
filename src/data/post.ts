@@ -7,6 +7,9 @@ export const getAllTribePosts = async (tribeId: string) => {
       include: {
         author: true,
         comments: {
+          orderBy: {
+            createdAt: 'desc',
+          },
           include: {
             author: true,
             likes: { include: { user: true } },
@@ -37,6 +40,9 @@ export const getAllUserPosts = async (authorId: string) => {
       include: {
         author: true,
         comments: {
+          orderBy: {
+            createdAt: 'desc',
+          },
           include: {
             author: true,
             likes: { include: { user: true } },

@@ -16,19 +16,14 @@ import { edit_task } from '@/action/edit-task';
 import StatusUpdate from '@/components/TodoList/StatusUpdate';
 import SessionModal from '@/components/TodoList/SessionModal';
 import PriorityUpdate from '@/components/TodoList/PriorityUpdate';
+import { Task } from '@prisma/client';
 
 interface TodoProps {
-  taskTitle: string;
-  priority: number;
-  description: string;
-  status: string;
-  id: string;
-  dueDate: string;
   taskId: string;
   sessionParticipants: {}[];
 }
 const Todo = ({
-  taskTitle,
+  title,
   priority,
   description,
   status,
@@ -36,7 +31,7 @@ const Todo = ({
   dueDate,
   sessionParticipants,
   taskId,
-}: TodoProps) => {
+}: Task & TodoProps) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [completed, setCompleted] = useState(false);
   const { user }: any = useCurrentUser();
@@ -68,7 +63,7 @@ const Todo = ({
               />
             </div>
             <div>
-              <p className="font-bold text-lg text-start">{taskTitle}</p>
+              <p className="font-bold text-lg text-start">{title}</p>
               <div className="flex items-center gap-2 ">
                 <PriorityUpdate priority={priority} taskId={taskId} />
                 <StatusUpdate status={status} taskId={taskId} />
@@ -84,7 +79,7 @@ const Todo = ({
         >
           <div className=" flex flex-col gap-1">
             <FullTextOnHover
-              text={description}
+              text={description as string}
               textClassName="top-0"
               className="w-52"
             />
@@ -100,7 +95,7 @@ const Todo = ({
             className="whitespace-nowrap w-28 cursor-pointer pr-2"
             onClick={() => setIsOpenModal(true)}
           >
-            In {sessionParticipants.length} Sessions
+            In {sessionParticipants?.length} Sessions
           </Badge>
         </AccordionContent>
       </AccordionItem>

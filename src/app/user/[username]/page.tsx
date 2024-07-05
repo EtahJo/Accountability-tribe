@@ -91,6 +91,7 @@ const page = async ({ params }: { params: { username: string } }) => {
   const tribes = await getTribesData(username);
   const tasks = await getTasksData(username);
   // console.log('sessions is>>>', sessions);
+  const firstSixSessions = sessions?.sessions.slice(0, 6);
 
   if (userData.error) {
     return (
@@ -110,7 +111,7 @@ const page = async ({ params }: { params: { username: string } }) => {
         />
         <UserProfileBody
           user={user}
-          sessions={sessions.sessions}
+          sessions={firstSixSessions}
           tribes={tribes}
           pageUserName={username}
           posts={posts}

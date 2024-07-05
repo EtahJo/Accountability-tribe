@@ -16,7 +16,10 @@ const ModalWrapper = ({
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel={contentLabel}
-      className={cn('rounded-3xl shadow-3xl p-5 m-auto mt-52', className)}
+      className={cn(
+        ' m-auto flex justify-center items-center mt-24 flex-col',
+        className
+      )}
       closeTimeoutMS={100}
     >
       {children}

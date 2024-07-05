@@ -1,10 +1,12 @@
 'use server';
-
+import * as z from 'zod';
 import { db } from '@/lib/db';
 import { getSessionById, getSessionParticipantById } from '@/data/session';
 import { getTaskById } from '@/data/task';
 import { revalidateTag } from 'next/cache';
 import { isAfter } from 'date-fns';
+import { checkIsAfter } from '@/util/DateTime';
+import { LinkMultipleTaskSchema } from '@/schemas/index';
 
 export const link_task_session = async (
   sessionParticipantId: string,
@@ -13,6 +15,7 @@ export const link_task_session = async (
   const sessionParticipant = await getSessionParticipantById(
     sessionParticipantId
   );
+  console.log('Session participant', sessionParticipant);
   const session = await getSessionById(sessionParticipant?.sessionId as string);
   if (!session) {
     return { error: 'Session does not exist' };
@@ -21,12 +24,14 @@ export const link_task_session = async (
     return { error: 'Add session to link to task' };
   }
   const dateNow = new Date();
-  const checkIsAfter = isAfter(session.endDateTime as Date, dateNow);
-  if (checkIsAfter) {
+  const isAfter = checkIsAfter(session?.endDateTime);
+  console.log(isAfter, session.endDateTime, dateNow);
+  if (isAfter) {
     return { error: 'Session has already ended' };
   }
 
-  const task = await getTaskById(taskId);
+  const task = await getTaskById(taskId as string);
+  console.log('task is >>', task, taskId);
   if (!task) {
     return { error: 'Task does not exist' };
   }
@@ -38,4 +43,21 @@ export const link_task_session = async (
   });
   revalidateTag('userTasks');
   revalidateTag('userSessions');
+  return { success: 'Task added to session' };
 };
+
+// export const link_multiple_tasks = async (
+//   values: z.infer<typeof LinkMultipleTaskSchema>,
+//   sessionParticipantId: string
+// ) => {
+//   const validdatedFields = LinkMultipleTaskSchema.safeParse(values);
+//   if (!validdatedFields.success) {
+//     return { error: 'Invalid Fields' };
+//   }
+//   const { taskIds } = validdatedFields.data;
+//   taskIds.map(
+//     async ({ value }) => await link_task_session(sessionParticipantId, value)
+//   );
+
+//   return { success: 'Tasks added to session' };
+// };

@@ -1,8 +1,9 @@
 'use client';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { SectionHeaderType } from '@/types/types';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useCurrentUser } from '@/hooks/use-current-user';
 // import { useMyProfileCheck } from '@/context/MyProfileCheckContext';
 import { cn } from '@/lib/utils';
 import { MyProfileCheckContext } from '@/context/MyProfileCheckContext';
@@ -14,9 +15,14 @@ const SectionHeader = ({
   buttonTitle,
   buttonIcon,
   classNames,
-}: SectionHeaderType) => {
-  const { myProfile } = useContext(MyProfileCheckContext);
-  // const { myProfile } = useMyProfileCheck();
+  pageUsername,
+}: // myProfile,
+SectionHeaderType) => {
+  const { myProfile, myProfileCheck } = useContext(MyProfileCheckContext);
+  const { user }: any = useCurrentUser();
+  useEffect(() => {
+    myProfileCheck(user?.username as string, pageUsername);
+  }, []);
   return (
     <div
       className={cn(

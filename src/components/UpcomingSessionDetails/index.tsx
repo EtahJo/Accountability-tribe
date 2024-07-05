@@ -1,9 +1,7 @@
 'use client';
 import * as z from 'zod';
 import { useState, useTransition, useEffect } from 'react';
-import ModalWrapper from '@/components/ModalWrap';
 import { EditSessionSchema } from '@/schemas/index';
-import { Props } from 'react-modal';
 import { UpcomingSessionProps } from '@/components/UpcomingSession';
 import { Button } from '@/components/ui/button';
 import { FaPen, FaClock } from 'react-icons/fa';
@@ -12,22 +10,28 @@ import { isToday } from 'date-fns';
 
 import Formsy from 'formsy-react';
 import Custominput from '@/components/CustomInput/index';
+import SelectTasks from '@/components/CustomMultipleSelectInput/SelectTasks';
 
 import { join_session } from '@/action/join-session';
 import { duplicate_session } from '@/action/duplicate-session';
 import { edit_session_goal } from '@/action/edit-session-goal';
+import { link_task_session } from '@/action/link-task-to-session';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import {
   Popover,
-  PopoverAnchor,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import Todo from '@/components/TodoList/Todo';
+
 interface UpcomingSessionDetailProps {
   period: string;
   upcomingSessionChildren?: React.ReactNode;
+  tasks?: {}[];
+  pageUser?: { tasks: {}[] };
+  sessionParticipantId: string;
 }
 const UpcomingSessionDetail = ({
   startDate,
@@ -48,6 +52,9 @@ const UpcomingSessionDetail = ({
   members,
   admin,
   endDateTime,
+  tasks,
+  pageUser,
+  sessionParticipantId,
 }: // creatorId,
 UpcomingSessionProps & UpcomingSessionDetailProps) => {
   const [isPending, startTransition] = useTransition();
@@ -120,8 +127,20 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
         });
     });
   };
+  const addTaskToSession = async (vals: any) => {
+    vals.taskIds.map((task: any) =>
+      link_task_session(sessionParticipantId, task.value).then((data) => {
+        if (data?.error) {
+          console.log(data.error);
+        }
+        if (data.success) {
+          console.log(data.success);
+        }
+      })
+    );
+  };
   return (
-    <div className="flex flex-col gap-y-6">
+    <div className="bg-white p-5 rounded-3xl shadow-3xl ">
       <div className="bg-purple rounded-2xl px-5 py-2 text-xl font-bold text-white ">
         {isAfter && <p className="text-center">This Session has ended</p>}
         {onGoing && (
@@ -140,179 +159,137 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
           </p>
         )}
       </div>
-      <div className="flex justify-between mx-4">
-        <div className="flex items-start gap-2">
-          <p className="font-bold">Start:</p>
-          <span>
-            <p>{startDate}</p>
-            <p>{startTime}</p>
+      <div className="flex items-center gap-4 ">
+        <div className="flex flex-col gap-y-6 p-4 border-purple border-2 rounded-3xl my-2">
+          <div className="flex justify-between mx-4">
+            <div className="flex items-start gap-2">
+              <p className="font-bold">Start:</p>
+              <span>
+                <p>{startDate}</p>
+                <p>{startTime}</p>
+              </span>
+            </div>
+            <div className="flex items-start gap-2">
+              <p className="font-bold">End:</p>
+              <span>
+                <p>{endDate}</p>
+                <p>{endTime}</p>
+              </span>
+            </div>
+          </div>
+          <span className="flex items-center gap-1 mx-4">
+            <FaClock className="text-purple" />
+            <p className="font-bold">Duration:</p>
+            <p className="  rounded-md px-2 py-px bg-lightPink">
+              {duration.hours !== '00' && duration.hours + 'h '}
+              {duration.minutes !== '00' && duration.minutes + 'm'}
+            </p>
           </span>
-        </div>
-        <div className="flex items-start gap-2">
-          <p className="font-bold">End:</p>
-          <span>
-            <p>{endDate}</p>
-            <p>{endTime}</p>
-          </span>
-        </div>
-      </div>
-      <span className="flex items-center gap-1 mx-4">
-        <FaClock className="text-purple" />
-        <p className="font-bold">Duration:</p>
-        <p className="  rounded-md px-2 py-px bg-lightPink">
-          {duration.hours !== '00' && duration.hours + 'h '}
-          {duration.minutes !== '00' && duration.minutes + 'm'}
-        </p>
-      </span>
-      <div className="bg-lighterPink p-5 rounded-2xl flex justify-between items-center">
-        <div>
-          {editGoal ? (
-            <Formsy
-              className="flex flex-col gap-y-2"
-              onValidSubmit={onValidSubmit}
-            >
-              <Custominput
-                textArea
-                name="goal"
-                value={newGoal}
-                placeholder="What's your new goal?"
-                className="w-[300px]"
-                disabled={isPending}
-              />
-              {error && <FormError message={error} />}
-              {success && <FormSuccess message={success} />}
+          <div className="bg-lighterPink p-5 rounded-2xl flex justify-between items-center">
+            <div>
+              {editGoal ? (
+                <Formsy
+                  className="flex flex-col gap-y-2"
+                  onValidSubmit={onValidSubmit}
+                >
+                  <Custominput
+                    textArea
+                    name="goal"
+                    value={newGoal}
+                    placeholder="What's your new goal?"
+                    className="w-[300px]"
+                    disabled={isPending}
+                  />
+                  {error && <FormError message={error} />}
+                  {success && <FormSuccess message={success} />}
+                  <Button
+                    type="submit"
+                    className="move-button"
+                    disabled={isPending}
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    type="button"
+                    className="move-button"
+                    onClick={() => {
+                      setEditGoal(false);
+                      setNewGoal(goal);
+                    }}
+                    disabled={isPending}
+                  >
+                    Done
+                  </Button>
+                </Formsy>
+              ) : (
+                <>
+                  <div className=" justify-center ">
+                    <h1 className="text-2xl font-bold -mr-4">Title</h1>
+                  </div>
+
+                  <p>{goal}</p>
+                </>
+              )}
+            </div>
+            {!onGoing && !editGoal && isMember && !isAfter && (
               <Button
-                type="submit"
-                className="move-button"
-                disabled={isPending}
-              >
-                Update
-              </Button>
-              <Button
-                type="button"
                 className="move-button"
                 onClick={() => {
-                  setEditGoal(false);
-                  setNewGoal(goal);
+                  setError('');
+                  setSuccess('');
+                  setEditGoal(true);
                 }}
-                disabled={isPending}
+                type="button"
               >
-                Done
-              </Button>
-            </Formsy>
-          ) : (
-            <>
-              <div className=" justify-center ">
-                <h1 className="text-2xl font-bold -mr-4">Goal</h1>
-              </div>
-
-              <p>{goal}</p>
-            </>
-          )}
-        </div>
-        {!onGoing && !editGoal && isMember && !isAfter && (
-          <Button
-            className="move-button"
-            onClick={() => {
-              setError('');
-              setSuccess('');
-              setEditGoal(true);
-            }}
-            type="button"
-          >
-            <FaPen className="text-lightPink" />
-          </Button>
-        )}
-      </div>
-      <div className="flex gap-1 flex-wrap">
-        <p className="whitespace-nowrap">This Session created by</p>
-        {/* TODO:Add link to user profile */}
-        <Link href={`/user/${admin}`} className="text-lightPink">
-          {isAdmin ? 'you' : admin}
-        </Link>
-
-        <p className="whitespace-nowrap">
-          has {members} {members > 1 ? ' participants,' : ' participant'}
-        </p>
-        <p className="font-bold"> {isMember && !isAdmin && 'including you'}</p>
-      </div>
-      <div className="flex flex-col gap-y-4">
-        {isEndToday && (
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button className="move-button py-3 bg-lightPink" size={'slg'}>
-                Duplicate Session For Tomorrow
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="z-[150] w-[310px]">
-              <Formsy
-                className="flex flex-col justify-center"
-                onValidSubmit={duplicateSession}
-              >
-                <Custominput
-                  textArea
-                  placeholder="Add your new goal"
-                  name="goal"
-                  value={newGoal}
-                  disabled={isPending}
-                />
-                <Custominput
-                  placeholder="Add new meeting link"
-                  required
-                  name="meetingLink"
-                  value={newMeetingLink}
-                  disabled={isPending}
-                />
-                {error && <FormError message={error} />}
-                {success && <FormSuccess message={success} />}
-                <Button
-                  className="move-button"
-                  type="submit"
-                  disabled={isPending}
-                >
-                  Done
-                </Button>
-              </Formsy>
-            </PopoverContent>
-          </Popover>
-        )}
-
-        {isMember ? (
-          <>
-            {onGoing && (
-              <Button size={'slg'} className="py-3 move-button">
-                <Link href={meetingLink}>Join</Link>
+                <FaPen className="text-lightPink" />
               </Button>
             )}
-            {timeLeft > 2 && !isAfter && isAdmin && (
-              <Button className="move-button py-3" size={'slg'}>
-                <Link href={`/edit-session/${sessionId}`}>Edit</Link>
-              </Button>
-            )}
-          </>
-        ) : (
-          <>
-            {!isAfter && (
+          </div>
+
+          <div className="flex gap-x-2 flex-wrap -mt-5 ml-2 ">
+            <p className="whitespace-nowrap">This Session created by</p>
+            {/* TODO:Add link to user profile */}
+            <Link href={`/user/${admin}`} className="text-lightPink">
+              {isAdmin ? 'you' : admin}
+            </Link>
+
+            <p className="whitespace-nowrap">
+              has {members} {members > 1 ? ' participants,' : ' participant'}
+            </p>
+            <p className="font-bold">
+              {' '}
+              {isMember && !isAdmin && 'including you'}
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-y-4">
+            {isEndToday && (
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    className="move-button py-3 bg-lightPink"
                     size={'slg'}
-                    className="py-3 move-button"
-                    disabled={isPending}
                   >
-                    Add Session
+                    Duplicate Session For Tomorrow
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="z-[150] w-[310px]">
                   <Formsy
                     className="flex flex-col justify-center"
-                    onValidSubmit={addSession}
+                    onValidSubmit={duplicateSession}
                   >
                     <Custominput
                       textArea
-                      placeholder="Add your own goal"
+                      placeholder="Add your new goal"
                       name="goal"
                       value={newGoal}
+                      disabled={isPending}
+                    />
+                    <Custominput
+                      placeholder="Add new meeting link"
+                      required
+                      name="meetingLink"
+                      value={newMeetingLink}
                       disabled={isPending}
                     />
                     {error && <FormError message={error} />}
@@ -328,8 +305,88 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
                 </PopoverContent>
               </Popover>
             )}
-          </>
-        )}
+
+            {isMember ? (
+              <>
+                {onGoing && (
+                  <Button size={'slg'} className="py-3 move-button">
+                    <Link href={meetingLink}>Join</Link>
+                  </Button>
+                )}
+                {timeLeft > 2 && !isAfter && isAdmin && (
+                  <Button className="move-button py-3" size={'slg'}>
+                    <Link href={`/edit-session/${sessionId}`}>Edit</Link>
+                  </Button>
+                )}
+              </>
+            ) : (
+              <>
+                {!isAfter && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        size={'slg'}
+                        className="py-3 move-button"
+                        disabled={isPending}
+                      >
+                        Add Session
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="z-[150] w-[310px]">
+                      <Formsy
+                        className="flex flex-col justify-center"
+                        onValidSubmit={addSession}
+                      >
+                        <Custominput
+                          textArea
+                          placeholder="Add your own goal"
+                          name="goal"
+                          value={newGoal}
+                          disabled={isPending}
+                        />
+                        {error && <FormError message={error} />}
+                        {success && <FormSuccess message={success} />}
+                        <Button
+                          className="move-button"
+                          type="submit"
+                          disabled={isPending}
+                        >
+                          Done
+                        </Button>
+                      </Formsy>
+                    </PopoverContent>
+                  </Popover>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col justify-center items-center">
+          {tasks?.map(({ task }: any) => (
+            <Todo
+              key={task.id}
+              taskTitle={task.title}
+              priority={task.priority}
+              description={task.description}
+              status={task.status}
+              id={task.id}
+              dueDate={task.dueDate}
+              sessionParticipants={task.sessionParticipants}
+              taskId={task.id}
+            />
+          ))}
+          {isMember && !isAfter && (
+            <Formsy onValidSubmit={addTaskToSession}>
+              <SelectTasks
+                name="taskIds"
+                options={pageUser?.tasks as { id: string; title: string }[]}
+              />
+              <Button type="submit" size={'slg'} className="py-2">
+                Add Task
+              </Button>
+            </Formsy>
+          )}
+        </div>
       </div>
     </div>
   );

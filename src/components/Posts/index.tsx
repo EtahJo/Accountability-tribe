@@ -14,13 +14,17 @@ interface PostProps {
     tribe: { users: { userRole: string }[] };
     createdAt: string;
   }[];
+  pageUsername: string;
 }
 
-const Posts = ({ posts }: PostProps) => {
+const Posts = ({ posts, pageUsername }: PostProps) => {
   const { user } = useCurrentUser();
   return (
     <div>
-      <SectionHeader name="Shared Experiences and Lots More" />
+      <SectionHeader
+        name="Shared Experiences and Lots More"
+        pageUsername={pageUsername}
+      />
       {posts?.map(
         ({
           id,

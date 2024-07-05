@@ -74,7 +74,9 @@ export const CreateSessionTaskSchema = z.object({
   taskId: z.string(),
   // sessionParticipantId: z.string(),
 });
-
+export const LinkMultipleTaskSchema = z.object({
+  taskIds: z.array(z.object({ value: z.string(), label: z.string() })),
+});
 export const CreateSessionSchema = z.object({
   goal: z.string().min(1, { message: 'Adding a goal is Essential' }),
   startEndDateTime: z.object({

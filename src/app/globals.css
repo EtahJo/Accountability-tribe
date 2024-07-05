@@ -12,3 +12,9 @@
 .ReactModal__Overlay--before-close {
   @apply backdrop-blur-0;
 }
+
+@layer utilities {
+  .flex-basis-200 {
+    flex-basis: 200px;
+  }
+}

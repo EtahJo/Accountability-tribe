@@ -71,14 +71,14 @@ const CreateSessionForm = ({ tasks }: CreateSessionFormprops) => {
     >
       <div className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-10  md:w-[600px] w-[310px] ">
         <CustomInput
-          lable="Session Goal"
+          lable="Session Title"
           labelIcon={<FaBaseballBall className="text-purple" />}
           name="goal"
           value={goal}
           required
           textArea
           disabled={isPending}
-          placeholder="What is the goal for this session ?"
+          placeholder="What is the session Title ?"
         />
         <CustomInput
           lable="Link to Scheduled Meeting"

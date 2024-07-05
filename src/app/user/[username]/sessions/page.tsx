@@ -1,5 +1,9 @@
 import { currentUser } from '@/lib/authentication';
 import UpcomingSessionDetail from '@/components/UpcomingSessionDetails';
+import SectionHeader from '@/components/SectionHeader';
+import { FaPlusCircle } from 'react-icons/fa';
+import UpcomingSession from '@/components/UpcomingSession/index';
+
 import Link from 'next/link';
 import {
   formatDateTime,
@@ -38,13 +42,14 @@ const UserSessions = async ({
   const { username } = params;
   const current_user: any = await currentUser();
   let page = parseInt(searchParams.page, 10);
-  console.log('Frontend page', page);
+  console.log('Frontend page', searchParams);
   page = !page || page < 1 ? 1 : page;
   const sessions = await getSessionData(
     username,
     current_user?.id as string,
     page
   );
+  // console.log('Sessions are', sessions);
 
   const prevPage = page - 1 > 0 ? page - 1 : 1;
   const nextPage = page + 1;
@@ -59,9 +64,21 @@ const UserSessions = async ({
   const isPageOutofRange = page > totalPages;
 
   return (
-    <div className="h-full pb-2">
-      <div className="flex flex-wrap gap-4 justify-center mb-4 ">
-        {sessions.sessions.map(
+    <div className="h-full pb-32">
+      <div className="grid grid-cols-12 my-5 mx-5">
+        <SectionHeader
+          name="Upcoming Work or Study Sessions"
+          buttonLink="/create-session"
+          buttonTitle="Create Session"
+          buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
+          // myProfile={username === current_user.username}
+          pageUsername={username}
+          classNames="col-start-2 col-end-12"
+        />
+      </div>
+
+      <div className="flex flex-wrap justify-center gap-4 my-5">
+        {sessions.sessions?.map(
           ({
             session,
             userRole,
@@ -71,12 +88,15 @@ const UserSessions = async ({
             participants,
             admin,
             userId,
-          }) => (
+            tasks,
+            sessionParticipantId,
+            user,
+          }: any) => (
             <div
-              className="bg-white w-[450px] p-2 rounded-2xl shadow-3xl "
+              className="bg-white w-[450px] p-2 rounded-2xl shadow-3xl h-max "
               key={session.id}
             >
-              <UpcomingSessionDetail
+              <UpcomingSession
                 startDate={
                   formatDateTime(session.startDateTime, current_user?.timezone)
                     .date
@@ -95,7 +115,7 @@ const UserSessions = async ({
                 meetingLink={session.meetingLink}
                 isAdmin={isUserAdmin}
                 sessionId={session.id}
-                period={'day'}
+                // period={'day'}
                 endDate={
                   formatDateTime(session.endDateTime, current_user?.timezone)
                     .date
@@ -109,6 +129,9 @@ const UserSessions = async ({
                 admin={admin.username}
                 userId={userId}
                 endDateTime={session.endDateTime}
+                tasks={tasks}
+                pageUser={user}
+                sessionParticipantId={sessionParticipantId}
               />
             </div>
           )

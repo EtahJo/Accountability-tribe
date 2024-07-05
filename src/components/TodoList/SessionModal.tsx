@@ -27,7 +27,7 @@ const SessionModal = ({
     >
       <div className="flex flex-col justify-center items-center">
         <h1 className="font-bold text-2xl">Task Sessions</h1>
-        {sessionParticipants.map(({ sessionParticipant }: any) => (
+        {sessionParticipants?.map(({ sessionParticipant }: any) => (
           <UpcomingSession
             key={sessionParticipant.id}
             startDate={

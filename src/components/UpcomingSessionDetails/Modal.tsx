@@ -3,9 +3,12 @@ import ModalWrapper from '../ModalWrap/index';
 import { Props } from 'react-modal';
 import UpcomingSessionDetail from '@/components/UpcomingSessionDetails';
 import { UpcomingSessionProps } from '@/components/UpcomingSession';
-interface UpcomingSessionDetailProps {
+interface UpcomingSessionDetailModalProps {
   period: string;
   upcomingSessionChildren?: React.ReactNode;
+  tasks?: {}[];
+  pageUser?: {};
+  sessionParticipantId: string;
 }
 
 const UpcomingSessionDetailModal = ({
@@ -29,13 +32,16 @@ const UpcomingSessionDetailModal = ({
   endDateTime,
   endTime,
   period,
-}: Props & UpcomingSessionDetailProps & UpcomingSessionProps) => {
+  tasks,
+  pageUser,
+  sessionParticipantId,
+}: Props & UpcomingSessionDetailModalProps & UpcomingSessionProps) => {
   return (
     <ModalWrapper
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Session Details"
-      className={'  bg-white w-[450px] '}
+      className={' w-max'}
     >
       <UpcomingSessionDetail
         startDate={startDate}
@@ -56,6 +62,9 @@ const UpcomingSessionDetailModal = ({
         admin={admin}
         userId={userId}
         endDateTime={endDateTime}
+        tasks={tasks}
+        pageUser={pageUser}
+        sessionParticipantId={sessionParticipantId}
       />
     </ModalWrapper>
   );

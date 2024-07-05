@@ -15,6 +15,7 @@ const CommentForm = ({ postId }: { postId: string }) => {
     startTransition(() => {
       create_comment(vals, postId).then((data) => {
         if (data.error) {
+          console.log(data.error);
         }
         if (data.success) {
           setComment('');

@@ -38,13 +38,13 @@ const UserProfileBody = ({
   tasks,
 }: UserProfileBodyProps) => {
   // const { myProfileCheck } = useMyProfileCheck();
-  const { myProfileCheck } = useContext(MyProfileCheckContext);
-  useEffect(() => {
-    myProfileCheck(user?.username as string, pageUserName);
-    // const fetchPosts=async()=>{
+  // const { myProfileCheck } = useContext(MyProfileCheckContext);
+  // useEffect(() => {
+  //   myProfileCheck(user?.username as string, pageUserName);
+  //   // const fetchPosts=async()=>{
 
-    // }
-  }, [sessions]);
+  //   // }
+  // }, [sessions]);
   return (
     <div className="grid grid-cols-12 pb-24">
       <div className="col-start-2 col-end-9">
@@ -54,8 +54,8 @@ const UserProfileBody = ({
           sessions={sessions}
           username={pageUserName}
         />
-        <TodoList tasks={tasks} />
-        <Posts posts={posts} />
+        <TodoList tasks={tasks} pageUsername={pageUserName} />
+        <Posts posts={posts} pageUsername={pageUserName} />
       </div>
       <div className="col-start-10 col-end-12">
         <Achievements tasks={tasks} />

@@ -30,6 +30,7 @@ interface UpcomingSessionsProps {
     goal: string;
     isUserAdmin: boolean;
     userId: string;
+    sessionParticipantId: string;
     participants: {
       number_of_countries: number;
       participants: [];
@@ -52,6 +53,7 @@ const UpcomingSessions = ({
         name="Upcoming Work or Study Sessions"
         buttonLink="/create-session"
         buttonTitle="Create Session"
+        pageUsername={username}
         buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
       />
       {sessions?.length === 0 ? (
@@ -73,6 +75,7 @@ const UpcomingSessions = ({
               participants,
               admin,
               userId,
+              sessionParticipantId,
             }) => {
               return (
                 <div key={session.id}>
@@ -121,6 +124,7 @@ const UpcomingSessions = ({
                         admin={admin.username}
                         userId={userId}
                         endDateTime={session.endDateTime}
+                        sessionParticipantId={sessionParticipantId}
                       />
                     )}
                   {period == 'week' && isThisWeek(session.startDateTime) && (
@@ -164,6 +168,7 @@ const UpcomingSessions = ({
                       admin={admin.username}
                       userId={userId}
                       endDateTime={session.endDateTime}
+                      sessionParticipantId={sessionParticipantId}
                     />
                   )}
                 </div>
