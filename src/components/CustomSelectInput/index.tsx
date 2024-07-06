@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import InputLabel, { InputLabelProps } from '@/components/InputLabel/index';
 
-interface CustomSelectInputProps {
+export interface CustomSelectInputProps {
   placeholder: string;
   items: {
     title: string;
@@ -18,10 +18,10 @@ interface CustomSelectInputProps {
   }[];
   onValueChange: any;
   disabled?: boolean;
+  value?: any;
 }
 
 const CustomSelectInput = ({
-  name,
   placeholder,
   items,
   lable,
@@ -29,13 +29,14 @@ const CustomSelectInput = ({
   required,
   onValueChange,
   disabled,
-}: FormsyInjectedProps<any> & InputLabelProps & CustomSelectInputProps) => {
+  value,
+}: InputLabelProps & CustomSelectInputProps) => {
   return (
     <div>
       {lable && (
         <InputLabel lable={lable} labelIcon={labelIcon} required={required} />
       )}
-      <Select name={name} onValueChange={onValueChange} disabled={disabled}>
+      <Select onValueChange={onValueChange} disabled={disabled} value={value}>
         <SelectTrigger className="shadow-3xl bg-lighterPink rounded-3xl p-2 my-4 flex align-middle border-none placeholder:text-gray-400">
           <SelectValue
             placeholder={placeholder}
@@ -54,4 +55,4 @@ const CustomSelectInput = ({
   );
 };
 
-export default withFormsy(CustomSelectInput);
+export default CustomSelectInput;

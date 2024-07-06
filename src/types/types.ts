@@ -65,7 +65,7 @@ export type SectionHeaderType = {
   buttonLink?: string;
   buttonIcon?: React.ReactNode;
   classNames?: string;
-  pageUsername: string;
+  pageUsername?: string;
 };
 
 export type TribeSnippetType = {

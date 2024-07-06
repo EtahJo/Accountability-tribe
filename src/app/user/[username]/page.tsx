@@ -26,7 +26,7 @@ async function getPostData(username: string) {
 }
 async function getSessionData(username: string, currentUserId: string) {
   const sessionRes = await fetch(
-    `http://localhost:3000/user/api/sessions/${username}/${currentUserId}?page=${1}`,
+    `http://localhost:3000/user/api/sessions/${username}/${currentUserId}?page=${1}&filter=${'all'}`,
     {
       next: {
         tags: ['userSessions'],
@@ -90,7 +90,7 @@ const page = async ({ params }: { params: { username: string } }) => {
   const sessions = await getSessionData(username, user?.id as string);
   const tribes = await getTribesData(username);
   const tasks = await getTasksData(username);
-  // console.log('sessions is>>>', sessions);
+  console.log('sessions is>>>', sessions);
   const firstSixSessions = sessions?.sessions.slice(0, 6);
 
   if (userData.error) {

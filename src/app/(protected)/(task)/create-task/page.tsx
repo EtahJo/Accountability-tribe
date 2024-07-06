@@ -2,7 +2,7 @@
 import { useState, useTransition } from 'react';
 import Formsy from 'formsy-react';
 import CustomInput from '@/components/CustomInput/index';
-import CustomSelectInput from '@/components/CustomSelectInput/index';
+import FormsySelectInput from '@/components/CustomSelectInput/FormsySelectInput';
 import SectionHeader from '@/components/SectionHeader/index';
 // import { Priority } from '@prisma/client';
 import DateOnlyInput from '@/components/CustomDateInput/DateOnlyInput';
@@ -112,7 +112,7 @@ const CreateTask = () => {
               changeEvent={(e) => handleChange(index, 'description', e)}
               disabled={isPending}
             />
-            <CustomSelectInput
+            <FormsySelectInput
               placeholder="Select Priority Level"
               lable="Task Priority"
               items={items}

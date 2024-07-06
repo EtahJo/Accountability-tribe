@@ -1,7 +1,7 @@
 'use client';
 import { useTransition } from 'react';
 import Formsy from 'formsy-react';
-import CustomSelectInput from '../CustomSelectInput/index';
+import FormsySelectInput from '@/components/CustomSelectInput/FormsySelectInput';
 import { Status } from '@prisma/client';
 import { edit_task } from '@/action/edit-task';
 import {
@@ -43,7 +43,7 @@ const StatusUpdate = ({ status, taskId }: StatusUpdateProps) => {
       </PopoverTrigger>
       <PopoverContent>
         <Formsy>
-          <CustomSelectInput
+          <FormsySelectInput
             name="status"
             onValueChange={(value: any) => {
               startTransition(() => {

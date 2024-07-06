@@ -1,7 +1,7 @@
 'use client';
 import { useTransition } from 'react';
 import Formsy from 'formsy-react';
-import CustomSelectInput from '../CustomSelectInput/index';
+import FormsySelectInput from '@/components/CustomSelectInput/FormsySelectInput';
 import { edit_task } from '@/action/edit-task';
 import { cn } from '@/lib/utils';
 import {
@@ -48,7 +48,7 @@ const PriorityUpdate = ({ priority, taskId }: PriorityUpdateProps) => {
       </PopoverTrigger>
       <PopoverContent>
         <Formsy>
-          <CustomSelectInput
+          <FormsySelectInput
             name="priority"
             items={items}
             placeholder={

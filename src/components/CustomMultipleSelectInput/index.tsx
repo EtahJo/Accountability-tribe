@@ -11,7 +11,6 @@ interface CustomMultipleSelectInputProps {
   onChange: (val: any) => void;
   value: any;
   placeholder?: string;
-  noOptionsMessage: string;
 }
 const CustomMultipleSelectInput = ({
   options,

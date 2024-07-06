@@ -1,7 +1,11 @@
 'use server';
 import * as z from 'zod';
 import { db } from '@/lib/db';
-import { getSessionById, getSessionParticipantById } from '@/data/session';
+import {
+  getSessionById,
+  getSessionParticipantById,
+  getSessionTaskByTaskIdSessionId,
+} from '@/data/session';
 import { getTaskById } from '@/data/task';
 import { revalidateTag } from 'next/cache';
 import { isAfter } from 'date-fns';
@@ -34,6 +38,13 @@ export const link_task_session = async (
   console.log('task is >>', task, taskId);
   if (!task) {
     return { error: 'Task does not exist' };
+  }
+  const taskPresent = await getSessionTaskByTaskIdSessionId(
+    taskId,
+    sessionParticipantId
+  );
+  if (taskPresent) {
+    return { error: 'Task already in session' };
   }
   await db.sessionTask.create({
     data: {
