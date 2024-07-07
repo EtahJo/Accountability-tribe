@@ -11,10 +11,12 @@ import { FormSuccess } from '@/components/Messages/Success';
 import { Button } from '@/components/ui/button';
 import { edit_session } from '@/action/edit-session';
 
-import { FaBaseballBall, FaLink, FaCalendar } from 'react-icons/fa';
+import { FaBaseballBall, FaLink, FaCalendar, FaTasks } from 'react-icons/fa';
 import { getDuration } from '@/util/DateTime';
 import { EditSessionSchema } from '@/schemas/index';
 import { addHours, subHours, addMinutes, subMinutes } from 'date-fns';
+import SelectTasks from '@/components/CustomMultipleSelectInput/SelectTasks';
+import Todo from '@/components/TodoList/Todo';
 
 interface EditSessionProps {
   session: {
@@ -25,8 +27,14 @@ interface EditSessionProps {
     meetingLink: string;
     duration: string | null;
   } | null;
+  sessionTasks: {}[];
+  unCompletedTasks: {}[];
 }
-const EditSessionForm = ({ session }: EditSessionProps) => {
+const EditSessionForm = ({
+  session,
+  unCompletedTasks,
+  sessionTasks,
+}: EditSessionProps) => {
   const [isPending, startTransition] = useTransition();
   const [goal, setGoal] = useState(session?.goal || undefined);
   const [startDateTime, setStartDateTime] = useState<Date>(
@@ -87,7 +95,33 @@ const EditSessionForm = ({ session }: EditSessionProps) => {
           disabled={isPending}
           placeholder="Add link to meeting"
         />
+        <div>
+          <h1 className="font-bold text-center">Session Tasks</h1>
+          <div className="flex flex-col justify-center items-center">
+            {sessionTasks?.map(({ task }) => (
+              <Todo
+                title={task.title}
+                priority={task.priority}
+                description={task.description}
+                status={task.status}
+                id={task.id}
+                dueDate={task.dueDate}
+                sessionParticipants={task.sessionParticipants}
+                taskId={task.id}
+                dateCompleted={task.dateCompleted}
+                userId={task.userId}
+              />
+            ))}
+          </div>
+        </div>
+        <SelectTasks
+          lable="Add Tasks to work on"
+          labelIcon={<FaTasks className="text-purple" />}
+          name="taskIds"
+          options={unCompletedTasks as { id: string; title: string }[]}
+        />
       </div>
+
       <div
         className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-5 relative  flex justify-center 
    md:w-[600px] w-[310px] flex-col gap-5 "

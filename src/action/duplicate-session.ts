@@ -7,12 +7,13 @@ import { db } from '@/lib/db';
 import { EditSessionSchema } from '@/schemas/index';
 import { addDays, isToday } from 'date-fns';
 import { revalidateTag } from 'next/cache';
+import { link_task_session } from './link-task-to-session';
 
 export const duplicate_session = async (
   values: z.infer<typeof EditSessionSchema>,
   sessionId: string
 ) => {
-  const { goal, meetingLink } = values;
+  const { goal, meetingLink, taskIds } = values;
   const user = await currentUser();
   if (!user) {
     return { error: 'Unauthorised access' };
@@ -43,7 +44,7 @@ export const duplicate_session = async (
     },
   });
 
-  await db.sessionParticipant.create({
+  const sessionParticipantDuplicate = await db.sessionParticipant.create({
     data: {
       user: { connect: { id: dbUser.id } },
       session: { connect: { id: sessionDuplicate.id } },
@@ -52,6 +53,18 @@ export const duplicate_session = async (
       adminUserName: dbUser.username,
     },
   });
+  if (taskIds) {
+    await db.$transaction(
+      taskIds.map((taskId) =>
+        db.sessionTask.create({
+          data: {
+            taskId: taskId.value,
+            sessionParticipantId: sessionParticipantDuplicate.id,
+          },
+        })
+      )
+    );
+  }
   revalidateTag('userSessions');
   return { success: 'Session Duplicated' };
 };

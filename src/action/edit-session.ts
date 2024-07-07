@@ -4,7 +4,11 @@ import { EditSessionSchema } from '@/schemas/index';
 import { currentUser } from '@/lib/authentication';
 import { db } from '@/lib/db';
 import { getUserById } from '@/data/user';
-import { getSessionById, getSessionAdmin } from '@/data/session';
+import {
+  getSessionById,
+  getSessionAdmin,
+  getSessionUserBySessionUserId,
+} from '@/data/session';
 import { getTimeDifference, getDuration } from '@/util/DateTime';
 import { revalidateTag } from 'next/cache';
 
@@ -12,7 +16,7 @@ export const edit_session = async (
   values: z.infer<typeof EditSessionSchema>,
   sessionId: string
 ) => {
-  const { goal, startEndDateTime, meetingLink } = values;
+  const { goal, startEndDateTime, meetingLink, taskIds } = values;
   // check if user logged in
   const user = await currentUser();
   if (!user) {
@@ -25,6 +29,7 @@ export const edit_session = async (
   }
   // get session from database
   const session = await getSessionById(sessionId);
+
   if (!session) {
     return { error: 'Session does not exit' };
   }
@@ -35,6 +40,10 @@ export const edit_session = async (
   if (checkIfAdmin?.id !== dbUser.id) {
     return { error: 'You are not authorised to make edits to Session!' };
   }
+  const sessionParticipant = await getSessionUserBySessionUserId(
+    session.id,
+    dbUser.id
+  );
 
   // check if session has started or end
   // const isAfter = checkIsAfter(session.endDateTime);
@@ -64,7 +73,18 @@ export const edit_session = async (
       duration,
     },
   });
-
+  if (taskIds) {
+    await db.$transaction(
+      taskIds.map((taskId) =>
+        db.sessionTask.create({
+          data: {
+            taskId: taskId.value,
+            sessionParticipantId: sessionParticipant?.id as string,
+          },
+        })
+      )
+    );
+  }
   // TODO: send email to all participants
   revalidateTag('userSessions');
 

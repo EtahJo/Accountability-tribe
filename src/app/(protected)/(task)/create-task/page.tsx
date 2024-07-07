@@ -55,7 +55,7 @@ const CreateTask = () => {
       },
     ]);
   };
-  const handleChange = (index: number, key: any, e: any) => {
+  const handleChange = (index: number, key: string, e: any) => {
     const updatedTasks = [...tasks];
     updatedTasks[index][key] = e.target.value;
     setTasks(updatedTasks);
@@ -97,7 +97,11 @@ const CreateTask = () => {
             <CustomInput
               name="title"
               value={task.title}
-              changeEvent={(e) => handleChange(index, 'title', e)}
+              changeEvent={(e) => {
+                const updatedTasks = [...tasks];
+                updatedTasks[index]['title'] = e.target.value;
+                setTasks(updatedTasks);
+              }}
               placeholder="Finish Chapter"
               lable="Task Title"
               required
@@ -109,7 +113,11 @@ const CreateTask = () => {
               placeholder="I will be completing..."
               value={task.description}
               lable="Task Description"
-              changeEvent={(e) => handleChange(index, 'description', e)}
+              changeEvent={(e) => {
+                const updatedTasks = [...tasks];
+                updatedTasks[index]['description'] = e.target.value;
+                setTasks(updatedTasks);
+              }}
               disabled={isPending}
             />
             <FormsySelectInput

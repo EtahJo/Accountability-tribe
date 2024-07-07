@@ -83,7 +83,9 @@ export const CreateSessionSchema = z.object({
     startDateTime: z.date(),
     endDateTime: z.date(),
   }),
-  taskIds: z.optional(z.array(z.string())),
+  taskIds: z.optional(
+    z.array(z.object({ value: z.string(), label: z.string() }))
+  ),
   meetingLink: z
     .string()
     .min(1, { message: 'Please add a Google Meeting Link' }),
@@ -95,7 +97,9 @@ export const EditSessionSchema = z
     goal: z.optional(
       z.string().min(1, { message: 'Adding a goal is Essential' })
     ),
-
+    taskIds: z.optional(
+      z.array(z.object({ value: z.string(), label: z.string() }))
+    ),
     startEndDateTime: z.optional(
       z.object(
         {
@@ -159,4 +163,11 @@ export const EditTaskSchema = z.object({
     ])
   ),
   sessionParticipantId: z.optional(z.string()),
+});
+
+export const FilterSchema = z.object({
+  durationHours: z.optional(z.string().default('0')),
+  durationMinutes: z.optional(z.string().default('0')),
+  startTime: z.optional(z.string()),
+  endTime: z.optional(z.string()),
 });

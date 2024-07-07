@@ -29,12 +29,12 @@ const CustomMultipleSelectInput = ({
       classNames={{
         container: (state) =>
           state.isFocused
-            ? 'shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex w-[280px] !outline-none'
-            : 'shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex w-[280px]',
+            ? 'shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex w-full !outline-none'
+            : 'shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex w-full',
         control: (state) =>
           state.isFocused
-            ? 'flex w-[280px] !border-none !bg-transparent !outline-none p-px'
-            : '  flex w-[280px] !border-none !bg-transparent outline-none',
+            ? 'flex w-full !border-none !bg-transparent !outline-none p-px'
+            : '  flex w-full !border-none !bg-transparent outline-none',
         valueContainer: (state) =>
           state.isMulti
             ? '!bg-transparent rounded-3xl   border-none '

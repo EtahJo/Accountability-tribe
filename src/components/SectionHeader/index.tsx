@@ -18,16 +18,16 @@ const SectionHeader = ({
   pageUsername,
 }: // myProfile,
 SectionHeaderType) => {
-  const { myProfile, myProfileCheck } = useContext(MyProfileCheckContext);
+  // const { myProfile, myProfileCheck } = useContext(MyProfileCheckContext);
   const { user }: any = useCurrentUser();
-  useEffect(() => {
-    myProfileCheck(user?.username as string, pageUsername);
-  }, []);
+  // useEffect(() => {
+  //   myProfileCheck(user?.username as string, pageUsername);
+  // }, []);
   return (
     <div
       className={cn(
         'flex items-center gap-3',
-        myProfile ? 'justify-between' : 'justify-start',
+        user.username === pageUsername ? 'justify-between' : 'justify-start',
         classNames
       )}
     >
@@ -36,7 +36,7 @@ SectionHeaderType) => {
         {icon && <div>{icon}</div>}
         <div>{name}</div>
       </div>
-      {buttonLink && myProfile && (
+      {buttonLink && user.username === pageUsername && (
         <Button className="move-button flex items-center gap-1">
           {buttonIcon && buttonIcon}
           <Link href={buttonLink}>{buttonTitle}</Link>

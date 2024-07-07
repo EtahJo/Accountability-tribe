@@ -20,7 +20,7 @@ export async function GET(req: NextRequest, context: any) {
   const page = parseInt(pageString as string, 10);
 
   const filter = searchParams.get('filter');
-  console.log('Filter is>>', filter);
+
   try {
     const dbUser = await getUserByUsername(params.username);
     const perPage = 12;
@@ -38,14 +38,9 @@ export async function GET(req: NextRequest, context: any) {
         ? await getAllUserSessionsTomorrow(dbUser?.id as string, perPage, page)
         : await getAllUserSessions(dbUser?.id as string, perPage, page);
 
-    // userSessions =
-    //   filter === 'ongoing' &&
-
-    // console.log('usersessions is>> ', userSessions);
     if (!userSessions) {
       return NextResponse.json({});
     }
-    // console.log('userSession', userSessions);
 
     const sessions: {}[] = [];
 
@@ -78,7 +73,7 @@ export async function GET(req: NextRequest, context: any) {
       ? {
           sessions,
           hasMore: userSessions.hasMore,
-          totalPages: Math.ceil(userSessions.sessions.length / perPage),
+          totalPages: userSessions.totalPages,
         }
       : sessions;
     return NextResponse.json(returnValue);

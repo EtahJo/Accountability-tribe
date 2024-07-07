@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-
+import { Status } from '@prisma/client';
 export const getAllUserTasks = async (userId: string) => {
   try {
     const tasks = await db.task.findMany({
@@ -40,5 +40,19 @@ export const getSessionTaskByTaskIdAndSessionParticipantId = async (
       where: { sessionParticipantId_taskId: { sessionParticipantId, taskId } },
     });
     return SessionTask;
+  } catch {}
+};
+
+export const getUserUnCompletedTask = async (userId: string) => {
+  try {
+    const tasks = await db.task.findMany({
+      where: {
+        userId,
+        status: {
+          not: Status.COMPLETE,
+        },
+      },
+    });
+    return tasks;
   } catch {}
 };

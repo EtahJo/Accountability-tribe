@@ -63,7 +63,7 @@ export const create_session = async (
       taskIds.map((taskId) =>
         db.sessionTask.create({
           data: {
-            taskId,
+            taskId: taskId.value,
             sessionParticipantId: sessionParticipant.id,
           },
         })
@@ -73,5 +73,6 @@ export const create_session = async (
 
   revalidateTag('userSessions');
   revalidateTag('userTasks');
+  revalidateTag('userUnCompletedTasks');
   return { success: 'Session Created', session, sessionParticipant };
 };

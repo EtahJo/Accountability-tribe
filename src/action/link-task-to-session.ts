@@ -19,7 +19,7 @@ export const link_task_session = async (
   const sessionParticipant = await getSessionParticipantById(
     sessionParticipantId
   );
-  console.log('Session participant', sessionParticipant);
+
   const session = await getSessionById(sessionParticipant?.sessionId as string);
   if (!session) {
     return { error: 'Session does not exist' };
@@ -29,13 +29,13 @@ export const link_task_session = async (
   }
   const dateNow = new Date();
   const isAfter = checkIsAfter(session?.endDateTime);
-  console.log(isAfter, session.endDateTime, dateNow);
+
   if (isAfter) {
     return { error: 'Session has already ended' };
   }
 
   const task = await getTaskById(taskId as string);
-  console.log('task is >>', task, taskId);
+
   if (!task) {
     return { error: 'Task does not exist' };
   }
@@ -54,6 +54,7 @@ export const link_task_session = async (
   });
   revalidateTag('userTasks');
   revalidateTag('userSessions');
+  revalidateTag('userUnCompletedTasks');
   return { success: 'Task added to session' };
 };
 

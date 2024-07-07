@@ -27,6 +27,8 @@ interface UpcomingSessionsProps {
     };
     userRole: string;
     isMember: boolean;
+    tasks: {}[];
+    user: {};
     goal: string;
     isUserAdmin: boolean;
     userId: string;
@@ -76,6 +78,8 @@ const UpcomingSessions = ({
               admin,
               userId,
               sessionParticipantId,
+              user,
+              tasks,
             }) => {
               return (
                 <div key={session.id}>
@@ -83,6 +87,8 @@ const UpcomingSessions = ({
                     (isToday(session.startDateTime) ||
                       isToday(session.endDateTime)) && (
                       <UpcomingSession
+                        tasks={tasks}
+                        pageUser={user}
                         startDate={
                           formatDateTime(
                             session.startDateTime,
@@ -129,6 +135,8 @@ const UpcomingSessions = ({
                     )}
                   {period == 'week' && isThisWeek(session.startDateTime) && (
                     <UpcomingSession
+                      tasks={tasks}
+                      pageUser={user}
                       startDate={
                         formatDateTime(
                           session.startDateTime,

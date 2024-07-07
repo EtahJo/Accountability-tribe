@@ -67,5 +67,6 @@ export const edit_task = async (
     return { success: 'Task added to session' };
   }
   revalidateTag('userTasks');
+  revalidateTag('userUnCompletedTasks');
   return { success: 'Task Successfully Updated' };
 };

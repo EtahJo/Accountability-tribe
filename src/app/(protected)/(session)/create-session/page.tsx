@@ -4,10 +4,10 @@ import { currentUser } from '@/lib/authentication';
 
 async function getTasksData(username: string) {
   const tasksRes = await fetch(
-    `http://localhost:3000/user/api/tasks/${username}`,
+    `http://localhost:3000/user/api/tasks/${username}/unCompleted`,
     {
       next: {
-        tags: ['userTasks'],
+        tags: ['userUnCompletedTasks'],
       },
     }
   );
@@ -21,7 +21,6 @@ async function getTasksData(username: string) {
 const CreateSession = async () => {
   const user: any = await currentUser();
   const tasks = await getTasksData(user?.username);
-  // console.log('Tasks are>>', tasks);
   return (
     <div className=" flex flex-col h-screen items-center align-middle m-auto">
       <div className="m-auto">

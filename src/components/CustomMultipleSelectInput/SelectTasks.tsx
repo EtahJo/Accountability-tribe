@@ -1,7 +1,7 @@
 'use client';
 import CustomMultipleSelectInput from '@/components/CustomMultipleSelectInput';
 import { withFormsy, FormsyInjectedProps } from 'formsy-react';
-
+import InputLabel, { InputLabelProps } from '@/components/InputLabel/index';
 interface OptionType {
   id: string;
   title: string;
@@ -10,20 +10,30 @@ interface OptionType {
 const SelectTasks = ({
   setValue,
   value,
+  labelIcon,
+  lable,
+  required,
   options, // a list of  all user tasks that are not yet added to session
-}: FormsyInjectedProps<OptionType> & { options: OptionType[] }) => {
+}: FormsyInjectedProps<OptionType> & {
+  options: OptionType[];
+} & InputLabelProps) => {
   const onChange = (selectedOptions: any) => {
     setValue(selectedOptions);
   };
   return (
-    <CustomMultipleSelectInput
-      value={value}
-      options={options.map((options) => ({
-        value: options.id,
-        label: options.title,
-      }))}
-      onChange={onChange}
-    />
+    <div>
+      {lable && (
+        <InputLabel lable={lable} labelIcon={labelIcon} required={required} />
+      )}
+      <CustomMultipleSelectInput
+        value={value}
+        options={options?.map((options) => ({
+          value: options.id,
+          label: options.title,
+        }))}
+        onChange={onChange}
+      />
+    </div>
   );
 };
 

@@ -68,6 +68,9 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
   useEffect(() => {}, [isMember]);
   const isEndToday = isToday(endDateTime);
 
+  const taskGoodToAdd = pageUser.tasks.filter(
+    (task: {}) => !tasks?.includes(task)
+  );
   const onValidSubmit = (vals: z.infer<typeof EditSessionSchema>) => {
     startTransition(async () => {
       edit_session_goal(vals, sessionId)
@@ -128,16 +131,18 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
     });
   };
   const addTaskToSession = async (vals: any) => {
-    vals.taskIds.map((task: any) =>
-      link_task_session(sessionParticipantId, task.value).then((data) => {
-        if (data?.error) {
-          console.log(data.error);
-        }
-        if (data.success) {
-          console.log(data.success);
-        }
-      })
-    );
+    startTransition(() => {
+      vals.taskIds.map((task: any) =>
+        link_task_session(sessionParticipantId, task.value).then((data) => {
+          if (data?.error) {
+            console.log(data.error);
+          }
+          if (data.success) {
+            console.log(data.success);
+          }
+        })
+      );
+    });
   };
   return (
     <div className="bg-white p-5 rounded-3xl shadow-3xl ">
@@ -285,6 +290,12 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
                       value={newGoal}
                       disabled={isPending}
                     />
+                    <SelectTasks
+                      name="taskIds"
+                      options={
+                        pageUser?.tasks as { id: string; title: string }[]
+                      }
+                    />
                     <Custominput
                       placeholder="Add new meeting link"
                       required
@@ -365,7 +376,7 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
           {tasks?.map(({ task }: any) => (
             <Todo
               key={task.id}
-              taskTitle={task.title}
+              title={task.title}
               priority={task.priority}
               description={task.description}
               status={task.status}
@@ -377,12 +388,22 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
           ))}
           {isMember && !isAfter && (
             <Formsy onValidSubmit={addTaskToSession}>
-              <SelectTasks
-                name="taskIds"
-                options={pageUser?.tasks as { id: string; title: string }[]}
-              />
-              <Button type="submit" size={'slg'} className="py-2">
-                Add Task
+              <div className="w-[300px]">
+                <SelectTasks
+                  name="taskIds"
+                  options={
+                    taskGoodToAdd?.tasks as { id: string; title: string }[]
+                  }
+                />
+              </div>
+
+              <Button
+                type="submit"
+                size={'slg'}
+                className="py-2"
+                disabled={isPending}
+              >
+                Add Tasks
               </Button>
             </Formsy>
           )}

@@ -7,7 +7,13 @@ import CustomInput from '@/components/CustomInput/index';
 import CustomDateInput from '@/components/CustomDateInput';
 import { create_session } from '@/action/create-session';
 import { CreateSessionSchema } from '@/schemas/index';
-import { FaLink, FaCalendar, FaBaseballBall } from 'react-icons/fa';
+import {
+  FaLink,
+  FaCalendar,
+  FaBaseballBall,
+  FaCheckDouble,
+  FaTasks,
+} from 'react-icons/fa';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import Duration from '@/components/DurationInput/index';
@@ -16,7 +22,7 @@ import { addHours, subHours, addMinutes, subMinutes } from 'date-fns';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import Formsy from 'formsy-react';
 import { Button } from '@/components/ui/button';
-import CustomTagsInput from '@/components/CustomTagsInput';
+import SelectTasks from '@/components/CustomMultipleSelectInput/SelectTasks';
 
 interface CreateSessionFormprops {
   tasks: {}[];
@@ -33,18 +39,7 @@ const CreateSessionForm = ({ tasks }: CreateSessionFormprops) => {
   const [minutes, setMinutes] = useState(0);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
-  const [taskIds, setTaskIds] = useState(new Set());
-  const [taskSet, setTaskSet] = useState(new Set());
 
-  const addTask = (taskId: any) => {
-    setTaskIds(new Set(taskIds).add(taskId));
-  };
-  const handleRemove = (item: any) => {
-    const newItems = new Set(taskIds);
-    newItems.delete(item);
-    setTaskIds(newItems);
-  };
-  const taskIdArray = Array.from(taskIds);
   const onValidSubmit = async (vals: z.infer<typeof CreateSessionSchema>) => {
     startTransition(async () => {
       create_session(vals)
@@ -89,13 +84,12 @@ const CreateSessionForm = ({ tasks }: CreateSessionFormprops) => {
           disabled={isPending}
           placeholder="Add link to meeting"
         />
-        <CustomTagsInput
+
+        <SelectTasks
+          lable="Add Tasks to work on"
+          labelIcon={<FaTasks className="text-purple" />}
           name="taskIds"
-          lable="Select Tasks to Accomplish"
-          availableTags={tasks}
-          addTag={addTask}
-          handleRemoveFxn={handleRemove}
-          value={taskIdArray}
+          options={tasks as { id: string; title: string }[]}
         />
       </div>
       <div

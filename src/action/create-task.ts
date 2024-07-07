@@ -44,5 +44,6 @@ export const create_task = async (
   );
 
   revalidateTag('userTasks');
+  revalidateTag('userUnCompletedTasks');
   return { success: 'Tasks Successfully Created' };
 };
