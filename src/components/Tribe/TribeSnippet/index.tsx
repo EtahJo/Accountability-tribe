@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button';
 import { CldImage } from 'next-cloudinary';
 import { FaUsers } from 'react-icons/fa';
 import FullTextOnHover from '@/components/FullTextOnHover';
-import { join_tribe } from '@/action/join-tribe';
+import { join_tribe } from '@/action/tribe/join-tribe';
 import Link from 'next/link';
+import { toast } from 'sonner';
+
 export interface TribeSnippetProps {
   image?: string | null;
   name: string;
@@ -71,7 +73,16 @@ const TribeSnippet = ({
         <Button
           className="my-2 move-button py-3"
           size={'slg'}
-          onClick={() => join_tribe(tribeId, userId as string)}
+          onClick={() =>
+            join_tribe(tribeId, userId as string).then((data) => {
+              if (data.error) {
+                toast.error(data.error);
+              }
+              if (data.success) {
+                toast.success(data.success);
+              }
+            })
+          }
         >
           Join
         </Button>

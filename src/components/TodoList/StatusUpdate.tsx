@@ -3,7 +3,7 @@ import { useTransition } from 'react';
 import Formsy from 'formsy-react';
 import FormsySelectInput from '@/components/CustomSelectInput/FormsySelectInput';
 import { Status } from '@prisma/client';
-import { edit_task } from '@/action/edit-task';
+import { edit_task } from '@/action/task/edit-task';
 import {
   Popover,
   PopoverContent,

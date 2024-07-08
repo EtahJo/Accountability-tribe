@@ -22,11 +22,10 @@ async function getTasksData(username: string) {
 const EditSession = async ({ params }: { params: { sessionId: string } }) => {
   const { sessionId } = params;
   const user: any = await currentUser();
-  // const session = await getSessionById(sessionId);
   const session = await getSessionUserBySessionUserId(sessionId, user.id);
   const tasks = await getTasksData(user?.username);
-  const goodToAddTasks = tasks.filter((task: {}) =>
-    session?.tasks.some((task1) => task.id !== task1.taskId)
+  const goodToAddTasks = tasks.filter(
+    (task: {}) => !session?.tasks.some((task1) => task.id === task1.taskId)
   );
 
   return (

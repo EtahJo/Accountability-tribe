@@ -88,9 +88,7 @@ const GetAllSessions = ({
               Filter :{' '}
               <p className="font-bold">
                 {' '}
-                {' ' + filter === 'thisWeek'
-                  ? 'THIS WEEK'
-                  : filter.toUpperCase()}
+                {filter === 'thisWeek' ? 'THIS WEEK' : filter.toUpperCase()}
               </p>
             </Button>
           </DropdownMenuTrigger>

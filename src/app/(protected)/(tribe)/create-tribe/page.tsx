@@ -3,7 +3,7 @@ import { useState, useTransition, useContext } from 'react';
 import * as z from 'zod';
 import Formsy from 'formsy-react';
 import Custominput from '@/components/CustomInput/index';
-import { create_tribe } from '@/action/create-tribe';
+import { create_tribe } from '@/action/tribe/create-tribe';
 import UploadImage from '@/components/UploadImage/index';
 import { ImageUploaderContext } from '@/context/ImageUploadContext';
 import { Button } from '@/components/ui/button';

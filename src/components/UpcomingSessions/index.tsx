@@ -123,9 +123,7 @@ const UpcomingSessions = ({
                         meetingLink={session.meetingLink}
                         sessionId={session.id}
                         isAdmin={isUserAdmin}
-                        isMember={currentUser.sessions.some(
-                          (session) => session.sessionId === session.id
-                        )}
+                        isMember={isMember}
                         members={participants.participants.length}
                         admin={admin.username}
                         userId={userId}

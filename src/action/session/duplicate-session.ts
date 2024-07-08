@@ -7,7 +7,7 @@ import { db } from '@/lib/db';
 import { EditSessionSchema } from '@/schemas/index';
 import { addDays, isToday } from 'date-fns';
 import { revalidateTag } from 'next/cache';
-import { link_task_session } from './link-task-to-session';
+import { link_task_session } from '../task/link-task-to-session';
 
 export const duplicate_session = async (
   values: z.infer<typeof EditSessionSchema>,
@@ -51,6 +51,16 @@ export const duplicate_session = async (
       userRole: 'ADMIN',
       goal,
       adminUserName: dbUser.username,
+    },
+  });
+  await db.session.update({
+    where: {
+      id: sessionDuplicate.id,
+    },
+    data: {
+      participants: {
+        increment: 1,
+      },
     },
   });
   if (taskIds) {

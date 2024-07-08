@@ -6,7 +6,7 @@ import CustomCheckbox from '@/components/CustomCheckbox/index';
 import { Button } from '@/components/ui/button';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { EditProfileSchema } from '@/schemas/index';
-import { editProfile } from '@/action/edit-profile';
+import { editProfile } from '@/action/auth/edit-profile';
 import * as z from 'zod';
 import UploadImage from '@/components/UploadImage/index';
 import { ImageUploaderContext } from '@/context/ImageUploadContext';

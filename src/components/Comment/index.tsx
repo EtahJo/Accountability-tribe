@@ -6,7 +6,7 @@ import { FaUser, FaThumbsUp, FaRegThumbsUp, FaComment } from 'react-icons/fa';
 import { CldImage } from 'next-cloudinary';
 import { formatDateTime, getDuration } from '@/util/DateTime';
 import { Button } from '@/components/ui/button';
-import { create_comment_like } from '@/action/create-like';
+import { create_comment_like } from '@/action/like/create-like';
 import LikeModal from '@/components/Posts/LikeModal';
 import CommentResponseForm from '../Forms/CommentResponseForm';
 import { useCurrentUser } from '@/hooks/use-current-user';

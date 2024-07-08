@@ -2,8 +2,7 @@
 import Formsy from 'formsy-react';
 import CustomInput from '../CustomInput/index';
 import { Button } from '@/components/ui/button';
-import { detail_session_filter } from '@/action/detail-session-filter';
-import { get_filtered_data } from '@/action/get-filtered-data';
+import { detail_session_filter } from '@/action/session/detail-session-filter';
 
 interface FilterFormProps {
   data: {}[];

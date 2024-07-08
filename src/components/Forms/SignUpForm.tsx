@@ -5,7 +5,7 @@ import Custominput from '@/components/CustomInput/index';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import * as z from 'zod';
 import { RegisterSchema } from '@/schemas/index';
-import { signup } from '@/action/signup';
+import { signup } from '@/action/auth/signup';
 import { Button } from '@/components/ui/button';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';

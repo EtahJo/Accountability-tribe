@@ -12,11 +12,14 @@ import {
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { formatDateTime } from '@/util/DateTime';
-import { edit_task } from '@/action/edit-task';
+import { edit_task } from '@/action/task/edit-task';
 import StatusUpdate from '@/components/TodoList/StatusUpdate';
 import SessionModal from '@/components/TodoList/SessionModal';
 import PriorityUpdate from '@/components/TodoList/PriorityUpdate';
 import { Task } from '@prisma/client';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import DeleteConfirmation from '@/components/confirmations/DeleteConfirmation';
 
 interface TodoProps {
   taskId: string;
@@ -27,10 +30,11 @@ const Todo = ({
   priority,
   description,
   status,
-  id,
+  // id,
   dueDate,
   sessionParticipants,
   taskId,
+  userId,
 }: Task & TodoProps) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -41,7 +45,7 @@ const Todo = ({
       collapsible
       className={cn('bg-white rounded-2xl my-2 w-[320px] shadow-3xl mx-2 p-2')}
     >
-      <AccordionItem value={id} className="border-b-0">
+      <AccordionItem value={taskId} className="border-b-0">
         <AccordionTrigger className="hover:no-underline">
           <div className="flex gap-x-2 items-center">
             <div
@@ -63,40 +67,68 @@ const Todo = ({
               />
             </div>
             <div>
-              <p className="font-bold text-lg text-start">{title}</p>
+              <p className="font-bold text-base text-start">{title}</p>
               <div className="flex items-center gap-2 ">
-                <PriorityUpdate priority={priority} taskId={taskId} />
+                <PriorityUpdate
+                  priority={priority}
+                  taskId={taskId}
+                  userId={userId}
+                />
                 <StatusUpdate status={status} taskId={taskId} />
               </div>
             </div>
           </div>
         </AccordionTrigger>
 
-        <AccordionContent
-          className={cn(
-            'bg-lighterPink mt-3 rounded-2xl p-2 flex items-center justify-between'
-          )}
-        >
-          <div className=" flex flex-col gap-1">
-            <FullTextOnHover
-              text={description as string}
-              textClassName="top-0"
-              className="w-52"
-            />
-
-            <span className="flex">
-              <p>Due: </p>
-              <p className="text-purple font-bold">
-                {formatDateTime(dueDate, user?.timezone).date}
-              </p>
-            </span>
-          </div>
-          <Badge
-            className="whitespace-nowrap w-28 cursor-pointer pr-2"
-            onClick={() => setIsOpenModal(true)}
+        <AccordionContent>
+          <div
+            className={cn(
+              'bg-lighterPink mt-3 rounded-2xl p-2 flex items-center justify-between'
+            )}
           >
-            In {sessionParticipants?.length} Sessions
-          </Badge>
+            <div className=" flex flex-col gap-1">
+              <FullTextOnHover
+                text={description as string}
+                textClassName="top-0"
+                className="w-52"
+              />
+
+              <span className="flex">
+                <p>Due: </p>
+                <p className="text-purple font-bold">
+                  {formatDateTime(dueDate, user?.timezone).date}
+                </p>
+              </span>
+            </div>
+            <Badge
+              className="whitespace-nowrap w-28 cursor-pointer pr-2"
+              onClick={() => setIsOpenModal(true)}
+            >
+              In {sessionParticipants?.length} Sessions
+            </Badge>
+          </div>
+          {user.id === userId && (
+            <div>
+              <Link
+                href={`/edit-task/${taskId}`}
+                className="flex justify-center mt-2"
+              >
+                <Button size={'slg'} className="py-2">
+                  Edit
+                </Button>
+              </Link>
+              <DeleteConfirmation
+                trigger={
+                  <Button className="py-2 mt-2" size={'slg'}>
+                    Delete Task
+                  </Button>
+                }
+                confirmationMessage="Are you sure you want to delete task?"
+                consequenceMessage="This action is not reversible"
+                action={<Button>Delete</Button>}
+              />
+            </div>
+          )}
         </AccordionContent>
       </AccordionItem>
       <SessionModal

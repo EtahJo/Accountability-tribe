@@ -5,7 +5,7 @@ import CustomInput from '@/components/CustomInput/index';
 import { Button } from '@/components/ui/button';
 import * as z from 'zod';
 import { CreatePostSchema } from '@/schemas/index';
-import { create_post } from '@/action/create-post';
+import { create_post } from '@/action/post/create-post';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 

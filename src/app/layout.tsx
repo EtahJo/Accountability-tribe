@@ -4,6 +4,8 @@ import { Inter } from 'next/font/google';
 import Navbar from '@/components/Navbar/index';
 import Footer from '@/components/Footer/index';
 import { SessionProvider } from 'next-auth/react';
+import { Toaster } from '@/components/ui/sonner';
+
 import { auth } from '@/auth';
 import ImageUploaderProvider from '@/context/ImageUploadContext';
 import PeriodProvider from '@/context/PeriodContext';
@@ -24,22 +26,23 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html lang="en">
-      <SessionProvider session={session}>
-        <PeriodProvider>
-          <ImageUploaderProvider>
-            <MyProfileCheckContextProvider>
+    <SessionProvider session={session}>
+      <PeriodProvider>
+        <ImageUploaderProvider>
+          <MyProfileCheckContextProvider>
+            <html lang="en">
               <body className={inter.className}>
                 <div className="bg-lightPink relative h-full">
                   <Navbar />
                   <div className="sm:pt-28 pt-10">{children}</div>
                   <Footer />
+                  <Toaster />
                 </div>
               </body>
-            </MyProfileCheckContextProvider>
-          </ImageUploaderProvider>
-        </PeriodProvider>
-      </SessionProvider>
-    </html>
+            </html>
+          </MyProfileCheckContextProvider>
+        </ImageUploaderProvider>
+      </PeriodProvider>
+    </SessionProvider>
   );
 }

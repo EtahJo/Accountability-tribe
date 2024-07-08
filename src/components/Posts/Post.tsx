@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Comment from '@/components/Comment';
 import CommentsModal from '@/components/Posts/CommentsModal';
 import { FaUser, FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
-import { create_post_like } from '@/action/create-like';
+import { create_post_like } from '@/action/like/create-like';
 import Link from 'next/link';
 import LikeModal from '@/components/Posts/LikeModal';
 import CommentForm from '../Forms/CommentForm';

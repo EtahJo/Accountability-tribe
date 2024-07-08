@@ -4,8 +4,8 @@ import ProfileHeader from '@/components/UserProfile/ProfileHeader/index';
 import UserProfileBody from '@/components/UserProfileBody/index';
 import { currentUser } from '@/lib/authentication';
 
-import { is_member } from '@/action/join-tribe';
-import { get_tribe_members } from '@/action/get-tribe-members';
+import { is_member } from '@/action/tribe/join-tribe';
+import { get_tribe_members } from '@/action/tribe/get-tribe-members';
 import Tribes from '@/components/Tribes/index';
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 // import { getSessionData } from './data';

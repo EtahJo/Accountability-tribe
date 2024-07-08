@@ -1,17 +1,16 @@
 'use server';
-
 import * as z from 'zod';
-import { db } from '@/lib/db';
 import { CreateCommentSchema } from '@/schemas/index';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
-import { getPostById } from '@/data/post';
-import { is_member } from '@/action/join-tribe';
+import { getCommentById } from '@/data/comment';
+import { is_member } from '@/action/tribe/join-tribe';
+import { db } from '@/lib/db';
 import { revalidateTag } from 'next/cache';
 
-export const create_comment = async (
+export const create_comment_response = async (
   values: z.infer<typeof CreateCommentSchema>,
-  postId: string
+  commentId: string
 ) => {
   const validatedFields = CreateCommentSchema.safeParse(values);
   if (!validatedFields.success) {
@@ -27,29 +26,22 @@ export const create_comment = async (
   if (!dbUser) {
     return { error: 'Unauthorised User' };
   }
-  const post = await getPostById(postId);
-  const isMember = await is_member(post?.tribeId as string, dbUser.id);
+  const comment = await getCommentById(commentId);
+  const post = comment?.post;
+  const tribeId = post?.tribeId;
+  const isMember = await is_member(tribeId as string, dbUser.id);
   if (!isMember.result) {
     return { error: 'Join tribe to be able to comment' };
   }
   await db.comment.create({
     data: {
       content,
-      post: {
-        connect: { id: postId },
-      },
-      author: {
-        connect: { id: dbUser.id },
-      },
-      //   author
-      //   postId,
-      //   authorId: dbUser.id,
+      author: { connect: { id: dbUser.id } },
+      parent: { connect: { id: commentId } },
+      post: { connect: { id: post?.id } },
     },
   });
-  //   revalidatePath(`/user/${dbUser.username}`);
   revalidateTag('tribePosts');
   revalidateTag('userPosts');
-  // revalidateTag('userTribes');
-
-  return { success: 'Comment Created' };
+  return { success: 'Comment created' };
 };

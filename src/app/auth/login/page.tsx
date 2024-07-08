@@ -10,11 +10,11 @@ import Formsy from 'formsy-react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import Link from 'next/link';
 import AuthMessage from '@/components/AuthMessage/index';
-import { login } from '@/action/login';
+import { login } from '@/action/auth/login';
 import { LoginSchema } from '@/schemas/index';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { editProfile } from '@/action/edit-profile';
+import { editProfile } from '@/action/auth/edit-profile';
 import { FormError } from '@/components/Messages/Error';
 
 const Login = () => {

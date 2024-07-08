@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import authConfig from './auth.config';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { db } from './lib/db';
-import { getUserByEmail, getUserById } from './data/user';
+import { getUserById } from './data/user';
 
 export const { signIn, signOut, auth, handlers } = NextAuth({
   pages: {
@@ -25,6 +25,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
         session.user.remember = token.remember;
         session.user.timezone = token.timezone;
         session.user.sessions = token.sessions;
+        session.user.tasks = token.tasks;
       }
       return session;
     },
@@ -43,6 +44,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
       token.remember = existingUser.remember;
       token.timezone = existingUser.timezone;
       token.sessions = existingUser.sessions;
+      token.tasks = existingUser.tasks;
 
       return token;
     },

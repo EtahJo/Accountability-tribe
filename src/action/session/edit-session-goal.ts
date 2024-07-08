@@ -1,7 +1,7 @@
 'use server';
 import * as z from 'zod';
 import { db } from '@/lib/db';
-import { is_member } from '@/action/join-tribe';
+import { is_member } from '@/action/tribe/join-tribe';
 import { getSessionUserBySessionUserId } from '@/data/session';
 import { EditSessionSchema } from '@/schemas/index';
 import { currentUser } from '@/lib/authentication';

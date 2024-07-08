@@ -5,7 +5,7 @@ import * as z from 'zod';
 
 import CustomInput from '@/components/CustomInput/index';
 import CustomDateInput from '@/components/CustomDateInput';
-import { create_session } from '@/action/create-session';
+import { create_session } from '@/action/session/create-session';
 import { CreateSessionSchema } from '@/schemas/index';
 import {
   FaLink,

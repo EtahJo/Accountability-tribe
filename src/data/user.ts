@@ -1,4 +1,5 @@
 import { db } from '@/lib/db';
+import { Status } from '@prisma/client';
 
 export const getUserByEmail = async (email: string) => {
   try {
@@ -17,6 +18,13 @@ export const getUserById = async (id: string) => {
       where: { id },
       include: {
         sessions: true,
+        tasks: {
+          where: {
+            status: {
+              not: Status.COMPLETE,
+            },
+          },
+        },
       },
     });
     return user;

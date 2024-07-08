@@ -4,7 +4,7 @@ import { IoIosNotificationsOutline } from 'react-icons/io';
 import { FaUser } from 'react-icons/fa';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import ProfileIconItem from '../ProfileIconItem/index';
-import { logout } from '@/action/logout';
+import { logout } from '@/action/auth/logout';
 import { ExitIcon } from '@radix-ui/react-icons';
 import {
   DropdownMenu,

@@ -19,7 +19,7 @@ export const join_session = async (
   }
 
   const sessionAdmin = await getSessionAdmin(sessionId);
-  await db.sessionParticipant.create({
+  const sessionParticipant = await db.sessionParticipant.create({
     data: {
       user: { connect: { id: dbUser.id } },
       session: { connect: { id: sessionId } },
@@ -28,6 +28,18 @@ export const join_session = async (
       adminUserName: sessionAdmin?.username,
     },
   });
+  if (values.taskIds) {
+    await db.$transaction(
+      values.taskIds.map((taskId: any) =>
+        db.sessionTask.create({
+          data: {
+            taskId: taskId.value,
+            sessionParticipantId: sessionParticipant.id,
+          },
+        })
+      )
+    );
+  }
   await db.session.update({
     where: { id: sessionId },
     data: {

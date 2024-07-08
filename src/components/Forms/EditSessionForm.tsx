@@ -9,7 +9,7 @@ import CustomDateInput from '@/components/CustomDateInput';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import { Button } from '@/components/ui/button';
-import { edit_session } from '@/action/edit-session';
+import { edit_session } from '@/action/session/edit-session';
 
 import { FaBaseballBall, FaLink, FaCalendar, FaTasks } from 'react-icons/fa';
 import { getDuration } from '@/util/DateTime';

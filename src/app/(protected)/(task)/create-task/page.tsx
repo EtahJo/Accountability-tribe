@@ -4,13 +4,11 @@ import Formsy from 'formsy-react';
 import CustomInput from '@/components/CustomInput/index';
 import FormsySelectInput from '@/components/CustomSelectInput/FormsySelectInput';
 import SectionHeader from '@/components/SectionHeader/index';
-// import { Priority } from '@prisma/client';
 import DateOnlyInput from '@/components/CustomDateInput/DateOnlyInput';
 import { Button } from '@/components/ui/button';
-import { create_task } from '@/action/create-task';
+import { create_task } from '@/action/task/create-task';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
-import CreateSessionForm from '@/components/Forms/CreateSessionForm';
 
 interface TaskProps {
   title: string;
@@ -55,11 +53,7 @@ const CreateTask = () => {
       },
     ]);
   };
-  const handleChange = (index: number, key: string, e: any) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index][key] = e.target.value;
-    setTasks(updatedTasks);
-  };
+
   const onValidSubmit = () => {
     startTransition(() => {
       create_task(tasks).then((data) => {

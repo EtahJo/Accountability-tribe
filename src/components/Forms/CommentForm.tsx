@@ -6,7 +6,7 @@ import Formsy from 'formsy-react';
 import CustomInput from '@/components/CustomInput';
 import { Button } from '@/components/ui/button';
 import { FaPaperPlane } from 'react-icons/fa';
-import { create_comment } from '@/action/create-comment';
+import { create_comment } from '@/action/comment /create-comment';
 
 const CommentForm = ({ postId }: { postId: string }) => {
   const [comment, setComment] = useState('');

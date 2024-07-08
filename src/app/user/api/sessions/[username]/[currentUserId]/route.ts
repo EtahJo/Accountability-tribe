@@ -11,7 +11,7 @@ import {
   getAllUserSessionsTomorrow,
 } from '@/data/session';
 
-import { get_session_participants } from '@/action/get-session-participants';
+import { get_session_participants } from '@/action/session/get-session-participants';
 
 export async function GET(req: NextRequest, context: any) {
   const { params } = context;

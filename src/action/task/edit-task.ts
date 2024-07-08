@@ -10,7 +10,7 @@ import { db } from '@/lib/db';
 import { EditTaskSchema } from '@/schemas/index';
 import { revalidateTag } from 'next/cache';
 import { currentUser } from '@/lib/authentication';
-import { link_task_session } from '@/action/link-task-to-session';
+import { link_task_session } from '@/action/task/link-task-to-session';
 
 export const edit_task = async (
   values: z.infer<typeof EditTaskSchema>,
