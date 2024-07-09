@@ -2,7 +2,7 @@
 import { useContext, useEffect } from 'react';
 import SectionHeader from '@/components/SectionHeader';
 import UpcomingSession from '@/components/UpcomingSession';
-import { PeriodContext } from '@/context/PeriodContext';
+// import { PeriodContext } from '@/context/PeriodContext';
 import { FaPlusCircle, FaArrowRight } from 'react-icons/fa';
 import Link from 'next/link';
 
@@ -48,7 +48,8 @@ const UpcomingSessions = ({
   sessions,
   username,
 }: UpcomingSessionsProps) => {
-  const { period } = useContext(PeriodContext);
+  // const { period } = useContext(PeriodContext);
+  const period = 'day';
   return (
     <div>
       <SectionHeader

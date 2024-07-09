@@ -6,11 +6,13 @@ import { AiFillPlusCircle } from 'react-icons/ai';
 import Profile from '../../../public/profile-pic.jpeg';
 import CompletionLevel from '../CompletionLevel/index';
 import MovingText from '../MovingText/index';
+import HeroLoggedIn from '@/components/HomePage/HeroSection/HeroLoggedIn';
 
 const HomeLoggedIn = () => {
   return (
     <div className="pb-48 px-20">
-      <div className="grid grid-cols-12 grid-rows-3 relative -my-20 m-auto">
+      <HeroLoggedIn />
+      {/* <div className="grid grid-cols-12 grid-rows-3 relative -my-20 m-auto">
         <div className="col-start-1 col-end-3 row-start-2 row-end-3 z-30 ml-10">
           <MovingText textOne="Build" textTwo="Your Tribe" colorDown />
         </div>
@@ -21,7 +23,7 @@ const HomeLoggedIn = () => {
         <div className="col-start-6 col-end-8 row-start-2 row-end-3 z-30">
           <MovingText textOne="Be" textTwo="Accountable" colorDown />
         </div>
-      </div>
+      </div> */}
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-11 lg:col-start-1 lg:col-end-9 bg-white rounded-3xl p-6 shadow-buttonInner">
           <div className="shadow-3xl rounded-full">
@@ -30,13 +32,13 @@ const HomeLoggedIn = () => {
                 <SectionHeader name="Your Tribes" />
               </div>
               <div className="flex overflow-scroll bg-blend-overlay">
+                {/* <TribeSnippet name="Tribe Name" members={200} />
                 <TribeSnippet name="Tribe Name" members={200} />
                 <TribeSnippet name="Tribe Name" members={200} />
                 <TribeSnippet name="Tribe Name" members={200} />
                 <TribeSnippet name="Tribe Name" members={200} />
                 <TribeSnippet name="Tribe Name" members={200} />
-                <TribeSnippet name="Tribe Name" members={200} />
-                <TribeSnippet name="Tribe Name" members={200} />
+                <TribeSnippet name="Tribe Name" members={200} /> */}
               </div>
             </div>
           </div>

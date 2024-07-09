@@ -72,7 +72,7 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
   useEffect(() => {}, [isMember]);
   const isEndToday = isToday(endDateTime);
 
-  const taskGoodToAdd = user.tasks.filter(
+  const taskGoodToAdd = user?.tasks.filter(
     (task: {}) =>
       !tasks?.some((task1) => {
         return task.id === task1.taskId;
@@ -450,6 +450,7 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
               dueDate={task.dueDate}
               sessionParticipants={task.sessionParticipants}
               taskId={task.id}
+              userId={task.userId}
             />
           ))}
           {isMember && !isAfter && pageUser.username === user.username && (

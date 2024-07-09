@@ -2,10 +2,8 @@
 import { useContext, useState } from 'react';
 import { AiFillCamera } from 'react-icons/ai';
 import { CldUploadWidget, CldImage } from 'next-cloudinary';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { FaUser } from 'react-icons/fa';
-import { useCurrentUser } from '@/hooks/use-current-user';
-import { Input } from '@/components/ui/input';
 import { withFormsy } from 'formsy-react';
 import { ImageUploaderContext } from '@/context/ImageUploadContext';
 
@@ -16,7 +14,6 @@ interface UploadImageProps {
 const UploadImage = ({ presentImage }: UploadImageProps) => {
   const { addUrl } = useContext(ImageUploaderContext);
   const [resource, setResource] = useState<any>();
-  const { user } = useCurrentUser();
   return (
     <div className="relative -mt-32 ">
       <Avatar className=" w-[180px] h-[180px] z-10 items-center flex justify-center m-auto border-4 border-white">

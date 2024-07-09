@@ -13,13 +13,15 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { formatDateTime } from '@/util/DateTime';
 import { edit_task } from '@/action/task/edit-task';
+import { delete_task } from '@/action/task/delete-task';
 import StatusUpdate from '@/components/TodoList/StatusUpdate';
 import SessionModal from '@/components/TodoList/SessionModal';
 import PriorityUpdate from '@/components/TodoList/PriorityUpdate';
 import { Task } from '@prisma/client';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import DeleteConfirmation from '@/components/confirmations/DeleteConfirmation';
+import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
+import { toast } from 'sonner';
 
 interface TodoProps {
   taskId: string;
@@ -39,6 +41,16 @@ const Todo = ({
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [completed, setCompleted] = useState(false);
   const { user }: any = useCurrentUser();
+  const deleteTask = () => {
+    delete_task(taskId).then((data) => {
+      if (data?.error) {
+        toast.error(data.error);
+      }
+      if (data.success) {
+        toast.success(data.success);
+      }
+    });
+  };
   return (
     <Accordion
       type="single"
@@ -48,24 +60,29 @@ const Todo = ({
       <AccordionItem value={taskId} className="border-b-0">
         <AccordionTrigger className="hover:no-underline">
           <div className="flex gap-x-2 items-center">
-            <div
-              className="h-6 w-6 bg-transparent border-lightPink border-2 rounded-full flex items-center justify-center cursor-pointer "
-              onClick={() => {
-                setCompleted((prev) => !prev);
-                if (status === 'COMPLETE') {
-                  edit_task({ status: 'PROGRESS' }, taskId);
-                } else {
-                  edit_task({ status: 'COMPLETE' }, taskId);
-                }
-              }}
-            >
-              <FaCheck
-                className={cn(
-                  'text-purple m-auto',
-                  status === 'COMPLETE' || completed ? 'block' : 'hidden'
-                )}
-              />
-            </div>
+            {user?.id === userId ? (
+              <div
+                className="h-6 w-6 bg-transparent border-lightPink border-2 rounded-full flex items-center justify-center cursor-pointer "
+                onClick={() => {
+                  setCompleted((prev) => !prev);
+                  if (status === 'COMPLETE') {
+                    edit_task({ status: 'PROGRESS' }, taskId);
+                  } else {
+                    edit_task({ status: 'COMPLETE' }, taskId);
+                  }
+                }}
+              >
+                <FaCheck
+                  className={cn(
+                    'text-purple m-auto',
+                    status === 'COMPLETE' || completed ? 'block' : 'hidden'
+                  )}
+                />
+              </div>
+            ) : (
+              <div className="ml-3" />
+            )}
+
             <div>
               <p className="font-bold text-base text-start">{title}</p>
               <div className="flex items-center gap-2 ">
@@ -74,7 +91,7 @@ const Todo = ({
                   taskId={taskId}
                   userId={userId}
                 />
-                <StatusUpdate status={status} taskId={taskId} />
+                <StatusUpdate status={status} taskId={taskId} userId={userId} />
               </div>
             </div>
           </div>
@@ -102,12 +119,16 @@ const Todo = ({
             </div>
             <Badge
               className="whitespace-nowrap w-28 cursor-pointer pr-2"
-              onClick={() => setIsOpenModal(true)}
+              onClick={() => {
+                if (sessionParticipants.length > 0) {
+                  setIsOpenModal(true);
+                }
+              }}
             >
               In {sessionParticipants?.length} Sessions
             </Badge>
           </div>
-          {user.id === userId && (
+          {user?.id === userId && (
             <div>
               <Link
                 href={`/edit-task/${taskId}`}
@@ -119,13 +140,17 @@ const Todo = ({
               </Link>
               <DeleteConfirmation
                 trigger={
-                  <Button className="py-2 mt-2" size={'slg'}>
+                  <Button
+                    className="py-2 mt-2"
+                    size={'slg'}
+                    variant="destructive"
+                  >
                     Delete Task
                   </Button>
                 }
                 confirmationMessage="Are you sure you want to delete task?"
                 consequenceMessage="This action is not reversible"
-                action={<Button>Delete</Button>}
+                action={<Button onClick={deleteTask}>Delete</Button>}
               />
             </div>
           )}

@@ -7,10 +7,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { PeriodContext } from '@/context/PeriodContext';
+// import { PeriodContext } from '@/context/PeriodContext';
 
 const SelectPeriod = () => {
-  const { period, changePeriod } = useContext(PeriodContext);
+  // const { period, changePeriod } = useContext(PeriodContext);
+  const period = 'day';
 
   return (
     <div className="w-[180px] bg-purple border-none flex justify-center items-center rounded-5xl  mb-5  h-[40px] align-middle shadow-lg ">
@@ -21,7 +22,7 @@ const SelectPeriod = () => {
         name="Period"
         defaultValue={period}
         onValueChange={(val) => {
-          changePeriod(val);
+          // changePeriod(val);
         }}
       >
         <SelectTrigger

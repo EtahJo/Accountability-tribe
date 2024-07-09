@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 interface MyProfileCheckContextProps {
   myProfile: boolean;
@@ -29,4 +29,3 @@ const MyProfileCheckContextProvider = ({
 };
 
 export default MyProfileCheckContextProvider;
-// export const useMyProfileCheck = () => useContext(MyProfileCheckContext);

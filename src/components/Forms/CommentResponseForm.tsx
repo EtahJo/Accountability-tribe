@@ -7,6 +7,7 @@ import CustomInput from '@/components/CustomInput';
 import { Button } from '@/components/ui/button';
 import { FaPaperPlane } from 'react-icons/fa';
 import { create_comment_response } from '@/action/comment /create-comment-response';
+import { toast } from 'sonner';
 
 const CommentResponseForm = ({ commentId }: { commentId: string }) => {
   const [comment, setComment] = useState('');
@@ -16,6 +17,10 @@ const CommentResponseForm = ({ commentId }: { commentId: string }) => {
       create_comment_response(vals, commentId).then((data) => {
         if (data.success) {
           setComment('');
+          toast.success(data.success);
+        }
+        if (data.error) {
+          toast.error(data.error);
         }
       });
     });

@@ -8,8 +8,7 @@ import { Toaster } from '@/components/ui/sonner';
 
 import { auth } from '@/auth';
 import ImageUploaderProvider from '@/context/ImageUploadContext';
-import PeriodProvider from '@/context/PeriodContext';
-import MyProfileCheckContextProvider from '@/context/MyProfileCheckContext';
+// import PeriodProvider from '@/context/PeriodContext';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -27,22 +26,20 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <SessionProvider session={session}>
-      <PeriodProvider>
-        <ImageUploaderProvider>
-          <MyProfileCheckContextProvider>
-            <html lang="en">
-              <body className={inter.className}>
-                <div className="bg-lightPink relative h-full">
-                  <Navbar />
-                  <div className="sm:pt-28 pt-10">{children}</div>
-                  <Footer />
-                  <Toaster />
-                </div>
-              </body>
-            </html>
-          </MyProfileCheckContextProvider>
-        </ImageUploaderProvider>
-      </PeriodProvider>
+      {/* <PeriodProvider> */}
+      <ImageUploaderProvider>
+        <html lang="en">
+          <body className={inter.className}>
+            <div className="bg-lightPink relative h-full">
+              <Navbar />
+              <div className="sm:pt-28 pt-10">{children}</div>
+              <Footer />
+              <Toaster />
+            </div>
+          </body>
+        </html>
+      </ImageUploaderProvider>
+      {/* </PeriodProvider> */}
     </SessionProvider>
   );
 }

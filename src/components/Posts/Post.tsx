@@ -13,6 +13,7 @@ import { formatDateTime, getDuration } from '@/util/DateTime';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Button } from '../ui/button';
 import { comment } from 'postcss';
+import { toast } from 'sonner';
 
 interface PostProps {
   postId: string;
@@ -70,8 +71,10 @@ PostProps) => {
       setLike(true);
       create_post_like(postId).then((data) => {
         if (data.error) {
+          toast.error(data.error);
         }
         if (data.success) {
+          toast.success(data.success);
         }
       });
     }

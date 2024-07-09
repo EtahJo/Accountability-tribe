@@ -116,7 +116,7 @@ const page = async ({ params }: { params: { username: string } }) => {
           posts={posts}
           tasks={tasks}
         >
-          <Tribes>
+          <Tribes pageUsername={username}>
             {tribes?.map(async ({ tribe }: any) => {
               const members = await get_tribe_members(tribe.id);
               const isMember = await is_member(tribe.id, user?.id as string);

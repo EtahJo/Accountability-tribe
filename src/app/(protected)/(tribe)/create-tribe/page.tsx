@@ -13,13 +13,14 @@ import { CreateTribeSchema } from '@/schemas/index';
 import CustomTagsInput from '@/components/CustomTagsInput/index';
 
 const CreateTribe = () => {
+  const { url } = useContext(ImageUploaderContext);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isPending, startTransition] = useTransition();
   const [tags, setTags] = useState(new Set());
-  const { url } = useContext(ImageUploaderContext);
+
   const addTag = (tag: any) => {
     setTags(new Set(tags).add(tag));
   };

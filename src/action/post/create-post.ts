@@ -19,7 +19,7 @@ export const create_post = async (
   const { content } = validatedFields.data;
   const user = await currentUser();
   if (!user) {
-    return { error: 'Unauthorised access' };
+    return { error: 'Sign up or login to post' };
   }
   const dbUser = await getUserById(user?.id as string);
   if (!dbUser) {

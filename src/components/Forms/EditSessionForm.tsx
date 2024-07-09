@@ -100,6 +100,7 @@ const EditSessionForm = ({
           <div className="flex flex-col justify-center items-center">
             {sessionTasks?.map(({ task }) => (
               <Todo
+                key={task.id}
                 title={task.title}
                 priority={task.priority}
                 description={task.description}

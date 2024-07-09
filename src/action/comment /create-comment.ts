@@ -21,7 +21,7 @@ export const create_comment = async (
   const { content } = validatedFields.data;
   const user = await currentUser();
   if (!user) {
-    return { error: 'Unauthorised access' };
+    return { error: 'Sign up or login to comment' };
   }
   const dbUser = await getUserById(user?.id as string);
   if (!dbUser) {
@@ -41,9 +41,6 @@ export const create_comment = async (
       author: {
         connect: { id: dbUser.id },
       },
-      //   author
-      //   postId,
-      //   authorId: dbUser.id,
     },
   });
   //   revalidatePath(`/user/${dbUser.username}`);

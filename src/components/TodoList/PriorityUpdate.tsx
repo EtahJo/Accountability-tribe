@@ -35,7 +35,7 @@ const PriorityUpdate = ({ priority, taskId, userId }: PriorityUpdateProps) => {
   ];
   return (
     <div>
-      {user.id === userId ? (
+      {user?.id === userId ? (
         <Popover>
           <PopoverTrigger asChild>
             <p

@@ -1,6 +1,6 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import { PeriodContext } from '@/context/PeriodContext';
+// import { PeriodContext } from '@/context/PeriodContext';
 import { FaClock, FaCalendar } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import FullTextOnHover from '@/components/FullTextOnHover';
@@ -52,7 +52,8 @@ const UpcomingSession = ({
   pageUser,
   sessionParticipantId,
 }: UpcomingSessionProps) => {
-  const { period } = useContext(PeriodContext);
+  // const { period } = useContext(PeriodContext);
+  const period = 'day';
   const [modalIsOpen, setModalIsOpen] = useState(false);
   useEffect(() => {}, [isMember]);
 

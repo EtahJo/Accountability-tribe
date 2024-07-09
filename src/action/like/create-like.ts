@@ -7,7 +7,7 @@ import { revalidateTag } from 'next/cache';
 export const create_post_like = async (postId: string) => {
   const user = await currentUser();
   if (!user) {
-    return { error: 'Unauthorised access' };
+    return { error: 'Sign up or login to like ' };
   }
   const dbUser = await getUserById(user?.id as string);
   if (!dbUser) {

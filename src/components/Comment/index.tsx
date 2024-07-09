@@ -10,6 +10,8 @@ import { create_comment_like } from '@/action/like/create-like';
 import LikeModal from '@/components/Posts/LikeModal';
 import CommentResponseForm from '../Forms/CommentResponseForm';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { toast } from 'sonner';
+
 interface CommentProps {
   profileImage: string;
   username: string;
@@ -53,7 +55,11 @@ const Comment = ({
   const Liked = () => {
     if (!commentLiked) {
       setLike(true);
-      create_comment_like(commentId);
+      create_comment_like(commentId).then((data) => {
+        if (data?.error) {
+          toast.error(data?.error);
+        }
+      });
     }
   };
   const NowDateTime = new Date();

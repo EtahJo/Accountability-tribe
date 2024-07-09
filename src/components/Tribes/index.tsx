@@ -1,22 +1,19 @@
 'use client';
-import { useContext } from 'react';
 import SectionHeader from '../SectionHeader/index';
 import { FaPlusCircle } from 'react-icons/fa';
-// import { useMyProfileCheck } from '@/context/MyProfileCheckContext';
-import { MyProfileCheckContext } from '@/context/MyProfileCheckContext';
 
 interface TribesProps {
   children: React.ReactNode;
+  pageUsername: string;
 }
-const Tribes = ({ children }: TribesProps) => {
-  // const { myProfile } = useMyProfileCheck();
-  const { myProfile } = useContext(MyProfileCheckContext);
+const Tribes = ({ children, pageUsername }: TribesProps) => {
   return (
     <div className="flex flex-col justify-center">
       <SectionHeader
         name="Tribes"
-        classNames={myProfile ? 'justify-between' : 'justify-center'}
+        classNames=""
         buttonTitle="Create Tribe"
+        pageUsername={pageUsername}
         buttonLink="/create-tribe"
         buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
       />

@@ -17,9 +17,9 @@ import PhoneNumberInput from '@/components/PhoneNumberInput/index';
 import TimeZoneInput from '@/components/TimeZoneInput';
 
 const Editprofile = () => {
+  const { url } = useContext(ImageUploaderContext);
   const [isPending, startTransition] = useTransition();
   const { user, phoneNumber } = useCurrentUser();
-  const { url } = useContext(ImageUploaderContext);
   const [formData, setFormData] = useState({
     username: user?.username || undefined,
     email: user?.email || undefined,

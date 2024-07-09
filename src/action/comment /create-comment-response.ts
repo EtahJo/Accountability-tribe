@@ -20,7 +20,7 @@ export const create_comment_response = async (
   const { content } = validatedFields.data;
   const user = await currentUser();
   if (!user) {
-    return { error: 'Unauthorised access' };
+    return { error: 'Sign up or login to respond to comments' };
   }
   const dbUser = await getUserById(user?.id as string);
   if (!dbUser) {

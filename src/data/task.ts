@@ -26,6 +26,9 @@ export const getTaskById = async (taskId: string) => {
   try {
     const task = await db.task.findUnique({
       where: { id: taskId },
+      include: {
+        sessionParticipants: true,
+      },
     });
     return task;
   } catch {}

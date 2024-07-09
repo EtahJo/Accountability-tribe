@@ -7,6 +7,7 @@ import CustomInput from '@/components/CustomInput';
 import { Button } from '@/components/ui/button';
 import { FaPaperPlane } from 'react-icons/fa';
 import { create_comment } from '@/action/comment /create-comment';
+import { toast } from 'sonner';
 
 const CommentForm = ({ postId }: { postId: string }) => {
   const [comment, setComment] = useState('');
@@ -15,10 +16,11 @@ const CommentForm = ({ postId }: { postId: string }) => {
     startTransition(() => {
       create_comment(vals, postId).then((data) => {
         if (data.error) {
-          console.log(data.error);
+          toast.error(data.error);
         }
         if (data.success) {
           setComment('');
+          toast.success(data.success);
         }
       });
     });

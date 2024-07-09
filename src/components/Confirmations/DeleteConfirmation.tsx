@@ -28,7 +28,7 @@ const DeleteConfirmation = ({
 }: DeleteConfirmationProps) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger>{trigger}</AlertDialogTrigger>
+      <AlertDialogTrigger className="w-full">{trigger}</AlertDialogTrigger>
       <AlertDialogContent className="z-[200]">
         <AlertDialogHeader>
           <AlertDialogTitle>{confirmationMessage}</AlertDialogTitle>
