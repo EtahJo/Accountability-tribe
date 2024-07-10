@@ -5,19 +5,25 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
-const BackgroundSlideShow = ({ slides }: BackgroundSlideShowProps) => {
+const BackgroundSlideShow = ({
+  slides,
+  className,
+  imageClass,
+  asChild,
+}: BackgroundSlideShowProps) => {
   const settings = {
     infinite: true,
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
     innitialSlide: 0,
-    pauseOnHover: false,
+    pauseOnHover: asChild,
     autoplay: true,
     swipe: false,
     swipeToSlide: false,
-    arrows: false,
+    arrows: asChild,
     adaptiveHeight: true,
   };
   return (
@@ -26,14 +32,17 @@ const BackgroundSlideShow = ({ slides }: BackgroundSlideShowProps) => {
         {slides.map((slide, index) => (
           <div
             key={index}
-            className="h-screen w-screen relative bg-lightPink bg-blend-normal"
+            className={cn(' relative bg-lightPink bg-blend-normal', className)}
           >
             <Image
               src={slide.src}
               alt="slider image"
               priority
               fill
-              className="fixed object-cover bottom-0 left-0 h-full bg-blend-normal"
+              className={cn(
+                'fixed object-cover bottom-0 left-0 h-full bg-blend-normal',
+                imageClass
+              )}
             />
             <div className="bg-lightPink mix-blend-overlay absolute inset-0" />
           </div>

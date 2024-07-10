@@ -41,6 +41,8 @@ model User {
   X            String?
   facebook     String?
   country      String?
+  hightlighted  Boolean @default(false)
+  streak        Streak?
  tribes         TribeUser[]  
 sessions      SessionParticipant[]
 timezone      String?
@@ -53,6 +55,16 @@ timezone      String?
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Streak {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @unique @db.ObjectId
+  count       Int      @default(0)
+  lastUpdated DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@map("streaks")
 }
  model Task{
   id          String         @id @default(auto()) @map("_id") @db.ObjectId
@@ -89,6 +101,7 @@ model Tribe{
   tags           String[]
   posts         Post[]
   users        TribeUser[] 
+  recommended  Boolean @default(false)
 
 }
 model TribeUser{

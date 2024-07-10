@@ -11,6 +11,10 @@ import { EditTaskSchema } from '@/schemas/index';
 import { revalidateTag } from 'next/cache';
 import { currentUser } from '@/lib/authentication';
 import { link_task_session } from '@/action/task/link-task-to-session';
+import { getStreakByUserId } from '@/data/streak';
+import { Status } from '@prisma/client';
+import { startOfDay, isSameDay, differenceInDays } from 'date-fns';
+import { Streak } from '@prisma/client';
 
 export const edit_task = async (
   values: z.infer<typeof EditTaskSchema>,
@@ -52,6 +56,60 @@ export const edit_task = async (
       dateCompleted: status === 'COMPLETE' ? new Date() : null,
     },
   });
+  if (status === Status.COMPLETE) {
+    const streak: Streak = await getStreakByUserId(dbUser.id);
+    const now = new Date();
+    if (streak) {
+      const daysDifference = differenceInDays(
+        startOfDay(now),
+        startOfDay(streak.lastUpdated)
+      );
+      // get the difference between days
+      // if the day is same, make no change
+      if (daysDifference === 0) {
+        return { error: 'Already increased for the day' };
+      } else if (daysDifference === 1) {
+        // if it is the next day increase by one
+        await db.streak.update({
+          where: { userId: dbUser.id },
+          data: {
+            count: {
+              increment: 1,
+            },
+            lastUpdated: now,
+          },
+        });
+      } else {
+        // if it is more than one reset streak
+        await db.streak.update({
+          where: { userId: dbUser.id },
+          data: {
+            count: 1,
+            lastUpdated: now,
+          },
+        });
+      }
+    } else {
+      await db.streak.create({
+        data: {
+          userId: dbUser.id,
+          count: 1,
+          lastUpdated: now,
+        },
+      });
+    }
+    if (streak.count === 1) {
+      await db.user.update({
+        where: {
+          id: dbUser.id,
+        },
+        data: {
+          hightlighted: true,
+        },
+      });
+    }
+  }
+  // if (dbUser.streak === )
   if (sessionParticipantId) {
     const SessionTask = await getSessionTaskByTaskIdAndSessionParticipantId(
       taskId,

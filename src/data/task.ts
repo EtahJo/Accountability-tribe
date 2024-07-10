@@ -21,7 +21,14 @@ export const getAllUserTasks = async (userId: string) => {
     return tasks;
   } catch {}
 };
-
+export const getHighPriorityTasks = async (userId: string) => {
+  try {
+    const tasks = await db.task.findMany({
+      where: { userId, priority: 2 },
+    });
+    return tasks;
+  } catch {}
+};
 export const getTaskById = async (taskId: string) => {
   try {
     const task = await db.task.findUnique({

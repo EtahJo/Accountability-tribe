@@ -17,7 +17,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
     <div className="align-middle flex justify-center">
       <div className="fixed right-0 w-full bottom-0 z-0 h-full ">
-        <BackgroundSlideShow slides={slides} />
+        <BackgroundSlideShow slides={slides} className="h-screen w-screen" />
       </div>
       <div
         className="flex phone:justify-around lg:gap-60 h-full lg:flex-row flex-col-reverse xl:gap-96 gap-x-0 pb-32 

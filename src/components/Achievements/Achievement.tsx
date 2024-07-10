@@ -1,9 +1,7 @@
 'use client';
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -22,9 +20,9 @@ const Achievement = ({ dateCompleted, taskTitle }: AchievementProps) => {
         <CardTitle>Completed {taskTitle}</CardTitle>
         <CardDescription className="flex items-center gap-1">
           On The
-          <p className="text-lightPink">
+          <span className="text-lightPink">
             {day} of {format(dateCompleted, ' MMMM-yyyy')}
-          </p>
+          </span>
         </CardDescription>
       </CardHeader>
     </Card>

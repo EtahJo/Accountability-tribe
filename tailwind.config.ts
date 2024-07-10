@@ -33,6 +33,8 @@ const config = {
         buttonInner: '0px 4px 4px 0px #00000040 inset',
         roundright: '-10px 10px 0 #F2ADEF',
         roundleft: '10px 10px 0px #F2ADEF',
+        roundTleft: '10px -10px 0px #F2ADEF',
+        roundTright: '-10px -10px 0px #F2ADEF',
       },
       borderRadius: {
         '5xl': '50px',

@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import CustomInput from '../CustomInput/index';
 import Formsy from 'formsy-react';

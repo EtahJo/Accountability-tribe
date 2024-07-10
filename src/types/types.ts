@@ -42,6 +42,9 @@ export type CustomCheckboxProps = {
 
 export type BackgroundSlideShowProps = {
   slides: { src: string }[];
+  imageClass?: string;
+  className?: string;
+  asChild?: boolean;
 };
 
 export type CompletionLeveltype = {

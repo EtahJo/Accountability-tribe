@@ -1,131 +1,136 @@
 import React from 'react';
-import SectionHeader from '../SectionHeader/index';
-import TribeSnippet from '../Tribe/TribeSnippet/index';
-import TribeSnippetTwo from '../Tribe/TribeSnippetTwo/index';
-import { AiFillPlusCircle } from 'react-icons/ai';
-import Profile from '../../../public/profile-pic.jpeg';
-import CompletionLevel from '../CompletionLevel/index';
-import MovingText from '../MovingText/index';
+import SectionHeader from '@/components/SectionHeader';
 import HeroLoggedIn from '@/components/HomePage/HeroSection/HeroLoggedIn';
-
-const HomeLoggedIn = () => {
+import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
+import UpcomingSessionDetail from '@/components/UpcomingSessionDetails';
+import Todo from '@/components/TodoList/Todo';
+import ContactSection from '@/components/ContactSection/ContactSection';
+import {
+  formatDateTime,
+  getTimeDifference,
+  isToday,
+  isThisWeek,
+  checkIsAfter,
+} from '@/util/DateTime';
+import { date } from 'zod';
+const HomeLoggedIn = ({ highlightedUsers }: { highlightedUsers: {}[] }) => {
   return (
     <div className="pb-48 px-20">
-      <HeroLoggedIn />
-      {/* <div className="grid grid-cols-12 grid-rows-3 relative -my-20 m-auto">
-        <div className="col-start-1 col-end-3 row-start-2 row-end-3 z-30 ml-10">
-          <MovingText textOne="Build" textTwo="Your Tribe" colorDown />
-        </div>
-        <div className="col-start-3 col-end-5 row-start-1 row-end-3 place-content-center z-30 ml-16 ">
-          <MovingText textOne="Stay" textTwo="Consistent" colorUp />
-        </div>
-        <div className="before:absolute bg-white h-14 w-8/12 rounded-full absolute top-[35%] before:animate-moveHori before:bg-purple before:rounded-full before:-inset-1 before:m-2" />
-        <div className="col-start-6 col-end-8 row-start-2 row-end-3 z-30">
-          <MovingText textOne="Be" textTwo="Accountable" colorDown />
-        </div>
-      </div> */}
-      <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-11 lg:col-start-1 lg:col-end-9 bg-white rounded-3xl p-6 shadow-buttonInner">
-          <div className="shadow-3xl rounded-full">
-            <div className="bg-white rounded-full relative p-2 shadow-buttonInner">
-              <div className="absolute -top-3 left-8">
-                <SectionHeader name="Your Tribes" />
-              </div>
-              <div className="flex overflow-scroll bg-blend-overlay">
-                {/* <TribeSnippet name="Tribe Name" members={200} />
-                <TribeSnippet name="Tribe Name" members={200} />
-                <TribeSnippet name="Tribe Name" members={200} />
-                <TribeSnippet name="Tribe Name" members={200} />
-                <TribeSnippet name="Tribe Name" members={200} />
-                <TribeSnippet name="Tribe Name" members={200} />
-                <TribeSnippet name="Tribe Name" members={200} /> */}
-              </div>
-            </div>
-          </div>
-          <div className="relative bg-white rounded-3xl shadow-buttonInner p-3 mt-10">
-            <div className="absolute -top-3 right-7">
-              <SectionHeader name="Add Task" icon={<AiFillPlusCircle />} />
-            </div>
-            <div className="bg-purple rounded-2xl p-2 my-7">
-              <p className="text-white font-bold uppercase text-4xl text-center">
-                What needs to get done today
-              </p>
-            </div>
-            <div>
-              <CompletionLevel
-                percentage="100%"
-                title="Task not done"
-                completed
+      <HeroLoggedIn HighlightedUsers={highlightedUsers} />
+      <SectionHeader name="Take Note" />
+      <div className="flex items-center gap-2">
+        <div className="w-3/4">
+          <div className="bg-purple p-10 rounded-5xl my-5 flex flex-col ">
+            <h1 className="text-2xl font-bold text-white uppercase mb-3">
+              {' '}
+              Some High Priority Task
+            </h1>
+            <div className="flex items-center ">
+              <Todo
+                title={'Some task'}
+                priority={'FIRST'}
+                description={'Some top priority task'}
+                status={'STARTED'}
+                // id={task.id}
+                dueDate={new Date('2024-07-14')}
+                sessionParticipants={[]}
+                taskId={''}
+                // dateCompleted={task.dateCompleted}
+                userId={''}
               />
-              <CompletionLevel
-                percentage="30%"
-                title="Task not done"
-                unCompleted
+              <Todo
+                title={'Some task'}
+                priority={'FIRST'}
+                description={'Some top priority task'}
+                status={'STARTED'}
+                // id={task.id}
+                dueDate={new Date('2024-07-14')}
+                sessionParticipants={[]}
+                taskId={''}
+                // dateCompleted={task.dateCompleted}
+                userId={''}
               />
-              <CompletionLevel
-                percentage="60%"
-                title="Task not done"
-                unCompleted
-              />
-              <CompletionLevel
-                percentage="90%"
-                title="Task not done"
-                unCompleted
-                carriedOver
+              <Todo
+                title={'Some task'}
+                priority={'FIRST'}
+                description={'Some top priority task'}
+                status={'STARTED'}
+                // id={task.id}
+                dueDate={new Date('2024-07-14')}
+                sessionParticipants={[]}
+                taskId={''}
+                // dateCompleted={task.dateCompleted}
+                userId={''}
               />
             </div>
           </div>
+
+          <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col ">
+            <h1 className="text-2xl font-bold text-white uppercase">
+              {' '}
+              Recommended Tribes
+            </h1>
+            <div className="justify-start items-center gap-2 flex flex-wrap">
+              <TribeSnippet
+                name="Some tribe"
+                desc={'some stuff'}
+                tribeId="222"
+                userId={'9999'}
+                isMember={true}
+                members={29}
+              />
+              <TribeSnippet
+                name="Some tribe"
+                desc={'some stuff'}
+                tribeId="222"
+                userId={'9999'}
+                isMember={true}
+                members={29}
+              />
+              <TribeSnippet
+                name="Some tribe"
+                desc={'some stuff'}
+                tribeId="222"
+                userId={'9999'}
+                isMember={true}
+                members={29}
+              />
+            </div>
+          </div>
         </div>
-        <div className=" col-span-11 lg:col-start-9 lg:col-end-12 mt-4">
-          <div className="bg-white relative rounded-full shadow-buttonInner p-4">
-            <div className="absolute -top-3 left-8">
-              <SectionHeader name="Keep This in Mind" />
-            </div>
-            <p className="pl-5">
-              You have been given this mountain to show others that it can be
-              moved.
-            </p>
-          </div>
-          <div>
-            <div className="mt-6">
-              <p className="font-bold text-3xl text-center mb-px">
-                Popular Public Tribes
-              </p>
-              <div className="bg-purple rounded-full h-3" />
-            </div>
-            <div className="bg-white rounded-3xl mt-5 p-4">
-              <TribeSnippetTwo
-                tribeName="Tribe Name"
-                members={200}
-                description="The description of the tribe, i want to check if ellipsis is working well"
-                link="/"
-                profileImage={Profile}
-              />
-              <TribeSnippetTwo
-                tribeName="Tribe Name"
-                members={200}
-                description="The description of the tribe ..."
-                link="/"
-                profileImage={Profile}
-              />
-              <TribeSnippetTwo
-                tribeName="Tribe Name"
-                members={200}
-                description="The description of the tribe ..."
-                link="/"
-                profileImage={Profile}
-              />
-              <TribeSnippetTwo
-                tribeName="Tribe Name"
-                members={200}
-                description="The description of the tribe ..."
-                link="/"
-                profileImage={Profile}
-              />
-            </div>
-          </div>
+
+        <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col ">
+          <h1 className="text-2xl font-bold text-white uppercase mb-3">
+            {' '}
+            Your Next Session
+          </h1>
+          <UpcomingSessionDetail
+            startDate={'2024-07-14'}
+            startTime={'11:00'}
+            goal={'Get stuff done'}
+            duration={{ hours: '2', minutes: '30' }}
+            timeLeft={20}
+            isTodayCheck={true}
+            isAfter={false}
+            meetingLink={''}
+            isAdmin={true}
+            sessionId={''}
+            period={'day'}
+            endDate={'2024-07-14'}
+            endTime={'13:00:00'}
+            isMember={true}
+            members={2}
+            admin={'Etah'}
+            userId={''}
+            endDateTime={'2024-07-14T13:00:00.985Z'}
+            tasks={[]}
+            pageUser={{}}
+            sessionParticipantId={''}
+          />
         </div>
       </div>
+
+      <ContactSection />
     </div>
   );
 };

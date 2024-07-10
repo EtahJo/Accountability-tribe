@@ -32,7 +32,7 @@ const TribeSnippet = ({
   return (
     <div
       className="bg-white flex flex-col items-center 
-    justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl m-auto"
+    justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl m-auto w-[300px]"
     >
       <Link
         className="move-button m-auto flex flex-col items-center"

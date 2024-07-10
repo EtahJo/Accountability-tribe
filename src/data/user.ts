@@ -46,3 +46,21 @@ export const getUserByUsername = async (username: string) => {
     return null;
   }
 };
+
+export const getHiglightedUsers = async () => {
+  try {
+    const users = await db.user.findMany({
+      where: { hightlighted: true },
+      include: {
+        tribes: {
+          include: {
+            tribe: true,
+          },
+        },
+      },
+    });
+    return users;
+  } catch {
+    return null;
+  }
+};
