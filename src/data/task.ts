@@ -24,7 +24,26 @@ export const getAllUserTasks = async (userId: string) => {
 export const getHighPriorityTasks = async (userId: string) => {
   try {
     const tasks = await db.task.findMany({
-      where: { userId, priority: 2 },
+      where: {
+        userId,
+        OR: [{ priority: 1 }, { priority: 2 }],
+        status: {
+          not: Status.COMPLETE,
+        },
+      },
+      include: {
+        user: true,
+        sessionParticipants: {
+          include: {
+            sessionParticipant: {
+              include: { session: true },
+            },
+          },
+        },
+      },
+      orderBy: {
+        priority: 'asc',
+      },
     });
     return tasks;
   } catch {}
@@ -61,6 +80,21 @@ export const getUserUnCompletedTask = async (userId: string) => {
         status: {
           not: Status.COMPLETE,
         },
+      },
+    });
+    return tasks;
+  } catch {}
+};
+
+export const getUserCompletedTask = async (userId: string) => {
+  try {
+    const tasks = await db.task.findMany({
+      where: {
+        userId,
+        status: Status.COMPLETE,
+      },
+      orderBy: {
+        dateCompleted: 'desc',
       },
     });
     return tasks;

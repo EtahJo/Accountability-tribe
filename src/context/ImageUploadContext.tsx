@@ -7,7 +7,7 @@ interface ImageUploadProps {
   addUrl: (val: string) => void;
 }
 export const ImageUploaderContext = createContext<ImageUploadProps>({
-  url: undefined,
+  url: '',
   addUrl: (val: string) => {},
 });
 export default function ImageUploaderProvider({

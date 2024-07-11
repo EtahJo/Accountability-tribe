@@ -51,6 +51,7 @@ timezone      String?
   comments     Comment[]
   posts        Post[]
     likes   Like[]
+    tribeVisits TribeVisit[]
     tasks   Task[]
  
   createdAt DateTime @default(now())
@@ -102,6 +103,7 @@ model Tribe{
   posts         Post[]
   users        TribeUser[] 
   recommended  Boolean @default(false)
+  tribeVisit  TribeVisit[]
 
 }
 model TribeUser{
@@ -176,4 +178,15 @@ model Comment {
   parentId    String?     @db.ObjectId
   replies     Comment[]   @relation("CommentReplies")
   likes      Like[]
+}
+
+model TribeVisit {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String  @db.ObjectId
+  tribe    Tribe    @relation(fields: [tribeId], references: [id])
+  tribeId  String   @db.ObjectId
+  lastVisit DateTime @default(now())
+
+  @@unique([userId,tribeId])
 }

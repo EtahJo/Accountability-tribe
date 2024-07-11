@@ -57,7 +57,7 @@ export const edit_task = async (
     },
   });
   if (status === Status.COMPLETE) {
-    const streak: Streak = await getStreakByUserId(dbUser.id);
+    const streak: any = await getStreakByUserId(dbUser.id);
     const now = new Date();
     if (streak) {
       const daysDifference = differenceInDays(
@@ -98,6 +98,7 @@ export const edit_task = async (
         },
       });
     }
+    console.log(streak);
     if (streak.count === 1) {
       await db.user.update({
         where: {

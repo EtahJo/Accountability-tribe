@@ -37,7 +37,11 @@ const Todo = ({
   sessionParticipants,
   taskId,
   userId,
-}: Task & TodoProps) => {
+}: Pick<
+  Task,
+  'dueDate' | 'title' | 'description' | 'status' | 'id' | 'userId' | 'priority'
+> &
+  TodoProps) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [completed, setCompleted] = useState(false);
   const { user }: any = useCurrentUser();

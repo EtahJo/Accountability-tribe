@@ -50,13 +50,21 @@ export const getUserByUsername = async (username: string) => {
 export const getHiglightedUsers = async () => {
   try {
     const users = await db.user.findMany({
-      where: { hightlighted: true },
+      where: {
+        hightlighted: true,
+        streak: {
+          count: {
+            gte: 1,
+          },
+        },
+      },
       include: {
         tribes: {
           include: {
             tribe: true,
           },
         },
+        streak: true,
       },
     });
     return users;

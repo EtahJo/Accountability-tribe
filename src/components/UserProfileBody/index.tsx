@@ -21,8 +21,9 @@ interface UserProfileBodyProps {
     | undefined;
   children?: React.ReactNode;
   pageUserName: string;
-  posts: {}[];
+  posts?: {}[];
   tasks: {}[];
+  completedTasks: {}[];
 }
 
 const UserProfileBody = ({
@@ -32,6 +33,7 @@ const UserProfileBody = ({
   children,
   posts,
   tasks,
+  completedTasks,
 }: UserProfileBodyProps) => {
   return (
     <div className="grid grid-cols-12 pb-24">
@@ -46,9 +48,8 @@ const UserProfileBody = ({
         <Posts posts={posts} pageUsername={pageUserName} />
       </div>
       <div className="col-start-10 col-end-12">
-        <Achievements tasks={tasks} />
+        <Achievements completedTasks={completedTasks} />
         {children}
-        {/* <Tribes tribes={tribes} joinTribe={joinTribe} /> */}
       </div>
     </div>
   );

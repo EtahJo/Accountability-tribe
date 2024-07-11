@@ -65,6 +65,7 @@ const UpcomingSessionDetailModal = ({
         tasks={tasks}
         pageUser={pageUser}
         sessionParticipantId={sessionParticipantId}
+        showDeleteOrLeave
       />
     </ModalWrapper>
   );

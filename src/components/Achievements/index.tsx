@@ -1,24 +1,21 @@
 import SectionHeader from '@/components/SectionHeader';
 import Achievement from '@/components/Achievements/Achievement';
 interface AchievementsProps {
-  tasks: {}[];
+  completedTasks: {}[];
 }
 
-const Achievements = ({ tasks }: AchievementsProps) => {
+const Achievements = ({ completedTasks }: AchievementsProps) => {
   return (
     <div className="mb-4">
       <SectionHeader name="Achievements" />
       <div>
-        {tasks.map(
-          (task) =>
-            task.status === 'COMPLETE' && (
-              <Achievement
-                key={task.id}
-                taskTitle={task.title}
-                dateCompleted={task.dateCompleted}
-              />
-            )
-        )}
+        {completedTasks?.map((task) => (
+          <Achievement
+            key={task.id}
+            taskTitle={task.title}
+            dateCompleted={task.dateCompleted}
+          />
+        ))}
       </div>
     </div>
   );

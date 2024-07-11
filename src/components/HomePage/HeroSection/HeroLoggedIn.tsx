@@ -1,13 +1,22 @@
-// 'use client';
+'use client';
 import BackgroundSlideShow from '@/components/BackgroundSlidShow/index';
 import { FaEllipsisH } from 'react-icons/fa';
 import ToolTip from '@/components/ToolTip';
 import UserSnippet from '@/components/UserSnippet/index';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Link from 'next/link';
-import { higlightedUsers } from '@/data/user';
+import { User } from '@prisma/client';
 
-const HeroLoggedIn = ({ highlightedUsers }: { highlightedUsers: {}[] }) => {
+export type highlightedUsersType = Pick<
+  User,
+  'id' | 'username' | 'country' | 'image'
+> & { streak: { count: number }; tribes: {}[] };
+
+const HeroLoggedIn = ({
+  highlightedUsers,
+}: {
+  highlightedUsers: highlightedUsersType[];
+}) => {
   const slides = [
     { src: '/bg-mountain.jpg' },
     {
@@ -72,14 +81,20 @@ const HeroLoggedIn = ({ highlightedUsers }: { highlightedUsers: {}[] }) => {
             </p>
           </span>
           <div className="flex items-center gap-x-2">
-            {highlightedUsers?.map((user) => (
-              <UserSnippet
-                username={user.username}
-                numberOfTribes={user.tribes.length}
-                userCountry={user.country}
-                streak={user.streak}
-              />
-            ))}
+            {highlightedUsers?.map(
+              ({ username, country, image, id, streak, tribes }) => {
+                return (
+                  <UserSnippet
+                    key={id}
+                    username={username}
+                    numberOfTribes={tribes.length}
+                    userCountry={country}
+                    streak={streak?.count}
+                    userImage={image}
+                  />
+                );
+              }
+            )}
 
             <ToolTip
               trigger={

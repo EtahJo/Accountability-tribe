@@ -36,6 +36,7 @@ interface UpcomingSessionDetailProps {
   tasks?: {}[];
   pageUser?: { tasks: {}[] };
   sessionParticipantId: string;
+  showDeleteOrLeave?: boolean;
 }
 const UpcomingSessionDetail = ({
   startDate,
@@ -59,6 +60,7 @@ const UpcomingSessionDetail = ({
   tasks, // tasks already part of the session
   pageUser, // the user profile we are looking at
   sessionParticipantId,
+  showDeleteOrLeave,
 }: // creatorId,
 UpcomingSessionProps & UpcomingSessionDetailProps) => {
   const [isPending, startTransition] = useTransition();
@@ -408,7 +410,7 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
             </div>
           </div>
           <div>
-            {(isAfter || members === 1) && isAdmin ? (
+            {(isAfter || members === 1) && showDeleteOrLeave && isAdmin ? (
               <DeleteConfirmation
                 trigger={
                   <Button variant={'destructive'}>Delete Session</Button>
@@ -422,7 +424,8 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
                 }
               />
             ) : (
-              isMember && (
+              isMember &&
+              showDeleteOrLeave && (
                 <DeleteConfirmation
                   trigger={<Button variant={'secondary'}>Leave Session</Button>}
                   confirmationMessage="Are you sure you want to leave Session"

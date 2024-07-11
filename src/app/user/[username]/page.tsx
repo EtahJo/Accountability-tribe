@@ -56,7 +56,7 @@ async function getTribesData(username: string) {
 }
 async function getTasksData(username: string) {
   const tasksRes = await fetch(
-    `http://localhost:3000/user/api/tasks/${username}`,
+    `http://localhost:3000/user/api/tasks/${username}/uncompleted`,
     {
       next: {
         tags: ['userTasks'],
@@ -68,6 +68,21 @@ async function getTasksData(username: string) {
   }
 
   return tasksRes.json();
+}
+async function getCompletedTasksData(username: string) {
+  const completedTasksRes = await fetch(
+    `http://localhost:3000/user/api/tasks/${username}/completed-task`,
+    {
+      next: {
+        tags: ['userCompletedTasks'],
+      },
+    }
+  );
+  if (!completedTasksRes.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return completedTasksRes.json();
 }
 async function getUserData(username: string) {
   const userRes = await fetch(`http://localhost:3000/user/api/${username}`, {
@@ -83,14 +98,13 @@ async function getUserData(username: string) {
 const page = async ({ params }: { params: { username: string } }) => {
   const { username } = params;
   const user: any = await currentUser();
-  // const data = await get_user_by_username(username);
   const userData = await getUserData(username);
   const countryCode = userData?.number?.split(',')[0].toUpperCase();
   const posts = await getPostData(username);
   const sessions = await getSessionData(username, user?.id as string);
   const tribes = await getTribesData(username);
   const tasks = await getTasksData(username);
-  const firstSixSessions = sessions?.sessions.slice(0, 6);
+  const completedTask = await getCompletedTasksData(username);
 
   if (userData.error) {
     return (
@@ -110,11 +124,12 @@ const page = async ({ params }: { params: { username: string } }) => {
         />
         <UserProfileBody
           user={user}
-          sessions={firstSixSessions}
+          sessions={sessions.sessions}
           tribes={tribes}
           pageUserName={username}
           posts={posts}
           tasks={tasks}
+          completedTasks={completedTask}
         >
           <Tribes pageUsername={username}>
             {tribes?.map(async ({ tribe }: any) => {

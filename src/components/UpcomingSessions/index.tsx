@@ -1,9 +1,15 @@
 'use client';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import SectionHeader from '@/components/SectionHeader';
 import UpcomingSession from '@/components/UpcomingSession';
-// import { PeriodContext } from '@/context/PeriodContext';
 import { FaPlusCircle, FaArrowRight } from 'react-icons/fa';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 import Link from 'next/link';
 
 import {
@@ -48,8 +54,6 @@ const UpcomingSessions = ({
   sessions,
   username,
 }: UpcomingSessionsProps) => {
-  // const { period } = useContext(PeriodContext);
-  const period = 'day';
   return (
     <div>
       <SectionHeader
@@ -59,6 +63,7 @@ const UpcomingSessions = ({
         pageUsername={username}
         buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
       />
+
       {sessions?.length === 0 ? (
         <div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
           <div>
@@ -67,26 +72,33 @@ const UpcomingSessions = ({
           </div>
         </div>
       ) : (
-        <div className="flex flex-wrap my-5">
-          {sessions?.map(
-            ({
-              session,
-              userRole,
-              isMember,
-              goal,
-              isUserAdmin,
-              participants,
-              admin,
-              userId,
-              sessionParticipantId,
-              user,
-              tasks,
-            }) => {
-              return (
-                <div key={session.id}>
-                  {period == 'day' &&
-                    (isToday(session.startDateTime) ||
-                      isToday(session.endDateTime)) && (
+        <div>
+          <Carousel
+            opts={{
+              align: 'center',
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {sessions?.map(
+                ({
+                  session,
+                  userRole,
+                  isMember,
+                  goal,
+                  isUserAdmin,
+                  participants,
+                  admin,
+                  userId,
+                  sessionParticipantId,
+                  user,
+                  tasks,
+                }) => {
+                  return (
+                    <CarouselItem
+                      key={session.id}
+                      className="lg:basis-1/2 md:1"
+                    >
                       <UpcomingSession
                         tasks={tasks}
                         pageUser={user}
@@ -131,57 +143,14 @@ const UpcomingSessions = ({
                         endDateTime={session.endDateTime}
                         sessionParticipantId={sessionParticipantId}
                       />
-                    )}
-                  {period == 'week' && isThisWeek(session.startDateTime) && (
-                    <UpcomingSession
-                      tasks={tasks}
-                      pageUser={user}
-                      startDate={
-                        formatDateTime(
-                          session.startDateTime,
-                          currentUser?.timezone
-                        ).date
-                      }
-                      startTime={
-                        formatDateTime(
-                          session.startDateTime,
-                          currentUser?.timezone
-                        ).time
-                      }
-                      endDate={
-                        formatDateTime(
-                          session.endDateTime,
-                          currentUser?.timezone
-                        ).date
-                      }
-                      endTime={
-                        formatDateTime(
-                          session.endDateTime,
-                          currentUser?.timezone
-                        ).time
-                      }
-                      goal={goal || session.goal}
-                      duration={JSON.parse(session.duration)}
-                      timeLeft={parseFloat(
-                        getTimeDifference(session.startDateTime).minutes
-                      )}
-                      isTodayCheck={isToday(session.startDateTime)}
-                      isAfter={checkIsAfter(session.endDateTime)}
-                      meetingLink={session.meetingLink}
-                      sessionId={session.id}
-                      isMember={isMember}
-                      isAdmin={isUserAdmin}
-                      members={participants.participants.length}
-                      admin={admin.username}
-                      userId={userId}
-                      endDateTime={session.endDateTime}
-                      sessionParticipantId={sessionParticipantId}
-                    />
-                  )}
-                </div>
-              );
-            }
-          )}
+                    </CarouselItem>
+                  );
+                }
+              )}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </div>
       )}
       <div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto ">

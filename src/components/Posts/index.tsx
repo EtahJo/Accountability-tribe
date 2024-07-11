@@ -2,6 +2,13 @@
 import Post from '@/components/Posts/Post';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import SectionHeader from '@/components/SectionHeader';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 
 interface PostProps {
   posts: {
@@ -25,36 +32,49 @@ const Posts = ({ posts, pageUsername }: PostProps) => {
         name="Shared Experiences and Lots More"
         pageUsername={pageUsername}
       />
-      {posts?.map(
-        ({
-          id,
-          tribe,
-          author,
-          content,
-          authorId,
-          likes,
-          comments,
-          createdAt,
-        }) => {
-          const admin: {} | undefined = tribe.users.find(
-            (user) => (user.userRole = 'ADMIN')
-          );
-          return (
-            <Post
-              key={id}
-              username={author.username}
-              profileImage={author.image}
-              postContent={content}
-              comments={comments}
-              likes={likes}
-              createdAt={createdAt}
-              isAdmin={authorId === admin?.userId}
-              postId={id}
-              hasLiked={likes.some((like) => like.user.id === user?.id)}
-            />
-          );
-        }
-      )}
+      <Carousel
+        opts={{
+          align: 'center',
+        }}
+        className="w-full "
+      >
+        <CarouselContent className="w-full">
+          {posts?.map(
+            ({
+              id,
+              tribe,
+              author,
+              content,
+              authorId,
+              likes,
+              comments,
+              createdAt,
+            }) => {
+              const admin: {} | undefined = tribe.users.find(
+                (user) => (user.userRole = 'ADMIN')
+              );
+              return (
+                <CarouselItem className="">
+                  <Post
+                    key={id}
+                    username={author.username}
+                    profileImage={author.image}
+                    postContent={content}
+                    comments={comments}
+                    likes={likes}
+                    createdAt={createdAt}
+                    isAdmin={authorId === admin?.userId}
+                    postId={id}
+                    hasLiked={likes.some((like) => like.user.id === user?.id)}
+                  />
+                </CarouselItem>
+              );
+            }
+          )}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
     </div>
   );
 };

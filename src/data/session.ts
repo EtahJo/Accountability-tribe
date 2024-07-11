@@ -1,5 +1,4 @@
 import { db } from '@/lib/db';
-import { date } from 'zod';
 import {
   startOfWeek,
   endOfWeek,
@@ -19,50 +18,44 @@ export const getAllUserSessions = async (
   userId: string,
   pageLimit: number,
   pageNumber: number
-  // skipCount: number
 ) => {
   try {
     const totalItems = await getTotalNumberOfUserSessions(userId);
     const totalPages = Math.ceil(totalItems / pageLimit);
-    const sessions: any = await db.user.findUnique({
-      where: { id: userId },
+
+    const sessions = await db.sessionParticipant.findMany({
+      where: { userId },
       include: {
-        sessions: {
+        session: true,
+        user: {
           include: {
-            session: true,
-            user: {
+            tasks: { where: { status: { not: Status.COMPLETE } } },
+          },
+        },
+        tasks: {
+          include: {
+            task: {
               include: {
-                tasks: { where: { status: { not: Status.COMPLETE } } },
-              },
-            },
-            tasks: {
-              include: {
-                task: {
+                sessionParticipants: {
                   include: {
-                    sessionParticipants: {
-                      include: {
-                        sessionParticipant: { include: { session: true } },
-                      },
-                    },
+                    sessionParticipant: { include: { session: true } },
                   },
                 },
               },
             },
           },
-          take: pageLimit + 1,
-          skip: pageLimit * (pageNumber - 1),
-          orderBy: {
-            session: {
-              startDateTime: 'desc',
-            },
-          },
+        },
+      },
+      take: pageLimit + 1,
+      skip: pageLimit * (pageNumber - 1),
+      orderBy: {
+        session: {
+          startDateTime: 'desc',
         },
       },
     });
-    const hasMore = sessions?.sessions.length > pageLimit;
-    const result = hasMore
-      ? sessions.sessions.slice(0, pageLimit)
-      : sessions.sessions;
+    const hasMore = sessions?.length > pageLimit;
+    const result = hasMore ? sessions.slice(0, pageLimit) : sessions;
 
     return { sessions: result, hasMore, totalPages };
   } catch {
@@ -586,6 +579,55 @@ export const getSessionTaskByTaskIdSessionId = async (
       where: { sessionParticipantId_taskId: { sessionParticipantId, taskId } },
     });
     return sessionTask;
+  } catch {
+    return null;
+  }
+};
+
+export const getUserClosestSession = async (userId: string) => {
+  try {
+    const session = await db.sessionParticipant.findFirst({
+      where: {
+        userId,
+        session: {
+          startDateTime: {
+            gte: new Date(),
+          },
+        },
+      },
+      include: {
+        session: {
+          include: {
+            users: true,
+          },
+        },
+        user: {
+          include: {
+            tasks: { where: { status: { not: Status.COMPLETE } } },
+          },
+        },
+        tasks: {
+          include: {
+            task: {
+              include: {
+                sessionParticipants: {
+                  include: {
+                    sessionParticipant: { include: { session: true } },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        session: {
+          startDateTime: 'asc',
+        },
+      },
+    });
+
+    return session;
   } catch {
     return null;
   }

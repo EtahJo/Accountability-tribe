@@ -13,10 +13,10 @@ import { Button } from '@/components/ui/Button';
 import ToolTip from '@/components/ToolTip';
 
 interface UserSnippetProps {
-  username: string;
-  userImage?: string;
-  numberOfTribes: {}[];
-  userCountry?: string;
+  username: string | null;
+  userImage?: string | null;
+  numberOfTribes: number;
+  userCountry?: string | null;
   streak: number;
 }
 const UserSnippet = ({
@@ -72,10 +72,10 @@ const UserSnippet = ({
               <p>Belongs to</p>
               <Link href={`/tribes/${username}`}>
                 <Button variant={'link'} className="text-purple m-0 p-0">
-                  {numberOfTribes.length}
+                  {numberOfTribes}
                 </Button>
               </Link>{' '}
-              <p>tribes</p>
+              <p>{numberOfTribes > 1 ? 'tribes' : 'tribe'}</p>
             </span>
           </div>
 

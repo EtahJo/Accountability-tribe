@@ -3,11 +3,10 @@
 import HomePageLoggedIn from '@/components/HomePage/HomePageLoggedIn';
 import HomePageLoggedOut from '@/components/HomePage/HomePageLoggedOut';
 import { currentUser } from '@/lib/authentication';
-// import { useCurrentUser } from '@/hooks/use-current-user';
 
 async function getHighlightedUsers() {
   const highlightedUsers = await fetch(
-    'http://localhost:3000/api/highlighted-users',
+    'http://localhost:3000/user/api/highlighted-users',
     {
       next: {
         tags: ['highlightedUsers'],
@@ -19,26 +18,70 @@ async function getHighlightedUsers() {
   }
   return highlightedUsers.json();
 }
-async function getUserData(username: string) {
-  const userRes = await fetch(`http://localhost:3000/user/api/${username}`, {
-    next: {
-      tags: ['userInfo'],
-    },
-  });
-  if (!userRes.ok) {
+
+async function getHighPriorityTasks(username: string) {
+  const highPriorityTasks = await fetch(
+    `http://localhost:3000/user/api/tasks/${username}/high-priority`,
+    {
+      next: {
+        tags: ['highPriority'],
+      },
+    }
+  );
+  if (!highPriorityTasks.ok) {
     throw new Error('Failed to fetch data');
   }
-  return userRes.json();
+  return highPriorityTasks.json();
+}
+
+async function getRecommendedTribes() {
+  const recommendedTribes = await fetch(
+    'http://localhost:3000/tribe/api/recommended-tribes',
+    {
+      next: {
+        tags: ['recommendedTribes'],
+      },
+    }
+  );
+  if (!recommendedTribes.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return recommendedTribes.json();
+}
+async function getClosestSession(username: string) {
+  const closestSession = await fetch(
+    `http://localhost:3000/user/api/sessions/${username}/closest-session`,
+    {
+      next: {
+        tags: ['closestSession'],
+      },
+    }
+  );
+  if (!closestSession.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return closestSession.json();
 }
 const Home = async () => {
-  const user = await currentUser();
-  const tryUser = await getUserData('Etah');
-  // const highlightedUsers = await getHighlightedUsers();
-  // console.log('Highlighted users >>', highlightedUsers);
+  const user: any = await currentUser();
+
+  const highlightedUsers = await getHighlightedUsers();
+  const highPriorityTasks = await getHighPriorityTasks(
+    user?.username as string
+  );
+  const recommendedTribes = await getRecommendedTribes();
+  const closestSession = await getClosestSession(user.username);
+  // console.log('High priority tasks task >>', highPriorityTasks);
   return (
     <main className="">
       {user ? (
-        <HomePageLoggedIn highlightedUsers={[]} />
+        <HomePageLoggedIn
+          highlightedUsers={highlightedUsers}
+          highPriorityTasks={highPriorityTasks}
+          user={user}
+          recommendedTribes={recommendedTribes}
+          session={closestSession}
+        />
       ) : (
         <HomePageLoggedOut />
       )}
