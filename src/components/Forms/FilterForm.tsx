@@ -3,7 +3,7 @@ import Formsy from 'formsy-react';
 import CustomInput from '../CustomInput/index';
 import { Button } from '@/components/ui/button';
 import { detail_session_filter } from '@/action/session/detail-session-filter';
-
+import { toast } from 'sonner';
 interface FilterFormProps {
   data: {}[];
   getFilteredData: (data: any) => void;
@@ -13,7 +13,7 @@ const FilterForm = ({ data, getFilteredData }: FilterFormProps) => {
   const onValidSubmit = (vals: any) => {
     detail_session_filter(data, vals).then((data) => {
       if (data.error) {
-        console.log(data.error);
+        toast.error(data.error);
       }
       if (data.filteredData) {
         getFilteredData(data.filteredData);

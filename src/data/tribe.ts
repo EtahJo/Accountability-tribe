@@ -1,6 +1,7 @@
 import { db } from '@/lib/db';
 import { startOfWeek, endOfWeek, subWeeks } from 'date-fns';
 import { currentUser } from '@/lib/authentication';
+import { Tribe } from '@prisma/client';
 
 export const getTribeUserByTribeUserId = async (
   tribeId: string,
@@ -36,6 +37,7 @@ export const getAllUserTribes = async (userId: string) => {
         },
       },
     });
+
     return tribes?.tribes;
   } catch {
     return null;

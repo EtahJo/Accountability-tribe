@@ -71,7 +71,6 @@ const Home = async () => {
   );
   const recommendedTribes = await getRecommendedTribes();
   const closestSession = await getClosestSession(user.username);
-  // console.log('High priority tasks task >>', highPriorityTasks);
   return (
     <main className="">
       {user ? (

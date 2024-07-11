@@ -145,6 +145,7 @@ const page = async ({ params }: { params: { username: string } }) => {
                   isMember={isMember.result}
                   userId={user?.id as string}
                   image={tribe?.profileImage}
+                  lastVisit={tribe.tribeVisit[0]?.lastVisit}
                 />
               );
             })}

@@ -8,6 +8,8 @@ import FullTextOnHover from '@/components/FullTextOnHover';
 import { join_tribe } from '@/action/tribe/join-tribe';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { formatDateTime } from '@/util/DateTime';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 export interface TribeSnippetProps {
   image?: string | null;
@@ -17,6 +19,7 @@ export interface TribeSnippetProps {
   userId: string | undefined | null;
   isMember: boolean;
   members: number | undefined;
+  lastVisit?: string;
 }
 
 const TribeSnippet = ({
@@ -27,13 +30,32 @@ const TribeSnippet = ({
   isMember,
   members,
   userId,
+  lastVisit,
 }: TribeSnippetProps) => {
+  const { user }: any = useCurrentUser();
   useEffect(() => {}, [isMember, members]);
   return (
     <div
       className="bg-white flex flex-col items-center 
-    justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl m-auto w-[300px]"
+    justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl m-auto w-[300px] relative"
     >
+      <div className="flex justify-end   w-full absolute right-0 top-0">
+        <div className="text-gray-500 text-[10px] bg-lighterPink rounded-3xl p-2  flex flex-col items-center justify-center">
+          {lastVisit ? (
+            <>
+              {' '}
+              <p className="font-bold text-black">Last Visit</p>
+              <p>{formatDateTime(lastVisit, user?.timezone).date}</p>
+              <p>{formatDateTime(lastVisit, user?.timezone).time}</p>
+            </>
+          ) : (
+            <>
+              <p>Never Visited</p>
+            </>
+          )}
+        </div>
+      </div>
+
       <Link
         className="move-button m-auto flex flex-col items-center"
         href={`/tribe/${tribeId}`}

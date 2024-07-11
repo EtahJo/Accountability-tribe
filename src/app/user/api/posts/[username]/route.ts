@@ -7,7 +7,6 @@ export async function GET(req: Request, context: any) {
   try {
     const user = await getUserByUsername(params.username);
     const userPosts = await getAllUserPosts(user?.id as string);
-    console.log('User posts>>', userPosts);
     return NextResponse.json(userPosts);
   } catch {}
 }

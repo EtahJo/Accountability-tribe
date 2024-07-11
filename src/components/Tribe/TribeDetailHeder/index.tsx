@@ -1,15 +1,18 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CldImage } from 'next-cloudinary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { FaUser } from 'react-icons/fa';
 import TribeUsers from '@/components/Tribe/TribeUsers';
+import { tribe_visit } from '@/action/tribe/tribe-visit';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 interface TribeDetailHeaderProps {
   profileImage: string;
   tribeName: string;
   tribeUsers: number;
   tribeDescription: string;
+  tribeId: string;
   users: { username: string; image: string; id: string }[];
 }
 const TribeDetailHeader = ({
@@ -18,8 +21,22 @@ const TribeDetailHeader = ({
   tribeUsers,
   tribeDescription,
   users,
+  tribeId,
 }: TribeDetailHeaderProps) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const { user } = useCurrentUser();
+  useEffect(() => {
+    const updateLastVisit = async () => {
+      try {
+        await tribe_visit(tribeId, user?.id as string);
+      } catch (error) {
+        console.log('Last visit update error', error);
+      }
+    };
+    if (user) {
+      updateLastVisit();
+    }
+  }, []);
   return (
     <div className=" grid  grid-cols-10">
       <div className="bg-white shadow-3xl rounded-3xl p-10  pt-24 flex-col relative col-start-2 col-end-10 mx-2">

@@ -98,7 +98,7 @@ export const edit_task = async (
         },
       });
     }
-    console.log(streak);
+
     if (streak.count === 1) {
       await db.user.update({
         where: {

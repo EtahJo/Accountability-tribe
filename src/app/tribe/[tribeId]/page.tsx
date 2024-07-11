@@ -63,6 +63,7 @@ async function TribeProfile({ params }: { params: { tribeId: string } }) {
         tribeUsers={tribeInfo.users.length}
         tribeDescription={tribeInfo.description}
         users={tribeInfo.users}
+        tribeId={tribeId}
       />
       <TribeDetailBody
         tribeInfo={tribeInfo}
