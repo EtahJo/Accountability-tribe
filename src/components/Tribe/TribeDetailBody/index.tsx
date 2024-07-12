@@ -5,6 +5,7 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 import PostForm from '@/components/Forms/PostForm';
 import Posts from '@/components/Posts/index';
 import SectionHeader from '@/components/SectionHeader/index';
+import { Post } from '@prisma/client';
 
 export interface TribeDetailBodyProps {
   tribeInfo: {
@@ -18,12 +19,14 @@ export interface TribeDetailBodyProps {
   };
   posts: {}[];
   similarTribes: {}[];
+  newPosts: Post[];
 }
 
 const TribeDetailBody = ({
   tribeInfo,
   posts,
   similarTribes,
+  newPosts,
 }: TribeDetailBodyProps) => {
   const { user } = useCurrentUser();
   const [error, setError] = useState<{ error: { message: string } } | null>(
@@ -36,7 +39,7 @@ const TribeDetailBody = ({
           <PostForm tribeId={tribeInfo.id} />
 
           {/** Posts */}
-          <Posts posts={posts} />
+          <Posts posts={posts} newPosts={newPosts} />
         </div>
         <div className="col-start-10 col-end-12">
           <SectionHeader name="Similar Tribes" />

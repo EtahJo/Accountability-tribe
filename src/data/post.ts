@@ -1,6 +1,9 @@
 import { db } from '@/lib/db';
 
-export const getAllTribePosts = async (tribeId: string) => {
+export const getAllTribePosts = async (
+  tribeId: string,
+  currentUserId: string
+) => {
   try {
     const posts = await db.post.findMany({
       where: { tribeId, approved: true },
@@ -25,7 +28,15 @@ export const getAllTribePosts = async (tribeId: string) => {
           },
         },
         likes: { include: { user: true } },
-        tribe: { include: { users: true } },
+        tribe: {
+          include: {
+            users: true,
+            tribeVisit: { where: { userId: currentUserId } },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
     return posts;
@@ -33,7 +44,10 @@ export const getAllTribePosts = async (tribeId: string) => {
     throw error;
   }
 };
-export const getAllUserPosts = async (authorId: string) => {
+export const getAllUserPosts = async (
+  authorId: string,
+  currentUserId: string
+) => {
   try {
     const posts = await db.post.findMany({
       where: { authorId, approved: true },
@@ -45,6 +59,7 @@ export const getAllUserPosts = async (authorId: string) => {
           },
           include: {
             author: true,
+
             likes: { include: { user: true } },
             replies: {
               include: {
@@ -58,7 +73,17 @@ export const getAllUserPosts = async (authorId: string) => {
           },
         },
         likes: { include: { user: true } },
-        tribe: { include: { users: true } },
+        tribe: {
+          include: {
+            users: true,
+            tribeVisit: {
+              where: { userId: currentUserId },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
     return posts;
@@ -90,6 +115,9 @@ export const getAllTribeNewPosts = async (
         createdAt: {
           gt: userlastVisit,
         },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
     return newPosts;

@@ -9,11 +9,12 @@ import { create_post_like } from '@/action/like/create-like';
 import Link from 'next/link';
 import LikeModal from '@/components/Posts/LikeModal';
 import CommentForm from '../Forms/CommentForm';
-import { formatDateTime, getDuration } from '@/util/DateTime';
+import { getDuration } from '@/util/DateTime';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Button } from '../ui/button';
-import { comment } from 'postcss';
 import { toast } from 'sonner';
+import { Tribe, TribeVisit, Post } from '@prisma/client';
+import { Badge } from '@/components/ui/badge';
 
 interface PostProps {
   postId: string;
@@ -22,6 +23,7 @@ interface PostProps {
   isAdmin: boolean;
   postContent: string;
   hasLiked: boolean;
+  tribe?: Tribe & { tribeVisit: TribeVisit[] };
   likes: { user: { username: string; image: string; id: string } }[];
   comments: {
     author: { username: string; image: string };
@@ -48,6 +50,7 @@ interface PostProps {
     }[];
   }[];
   createdAt: string;
+  newPosts: Post[];
 }
 const Post = ({
   postId,
@@ -59,6 +62,8 @@ const Post = ({
   comments,
   hasLiked,
   createdAt,
+  tribe,
+  newPosts,
 }: // createdAt,
 PostProps) => {
   const [openCommentModal, setOpenCommentModal] = useState(false);
@@ -89,39 +94,60 @@ PostProps) => {
       : Math.floor(theDuration.days) < 30
       ? Math.floor(theDuration.days) + ' days'
       : theDuration.weeks.weeks + 'w';
-
   return (
-    <div className="bg-white rounded-2xl p-5 shadow-3xl my-5">
-      <div className="flex items-start gap-x-3">
-        <Link
-          className="flex items-center gap-2 cursor-pointer"
-          href={`/user/${username}`}
-        >
-          <Avatar className=" w-[40px] h-[40px] items-center border-2 border-lightPink  shadow-3xl">
-            {!profileImage ? (
-              <AvatarFallback className="bg-black">
-                <FaUser className="text-white" size={100} />
-              </AvatarFallback>
-            ) : (
-              <CldImage
-                width="180"
-                height="180"
-                crop={'fill'}
-                src={profileImage}
-                sizes="100vw"
-                alt="Tribe profile"
-              />
-            )}
-          </Avatar>
-          <div>
-            <p className="font-bold text-xl">{username}</p>
+    <div className="bg-white rounded-2xl p-5  my-5 relative">
+      <div className="flex justify-between">
+        <div className="flex items-start gap-x-2">
+          <Link
+            className="flex items-center gap-2 cursor-pointer"
+            href={`/user/${username}`}
+          >
+            <Avatar className=" w-[40px] h-[40px] items-center border-2 border-lightPink  shadow-3xl">
+              {!profileImage ? (
+                <AvatarFallback className="bg-black">
+                  <FaUser className="text-white" size={100} />
+                </AvatarFallback>
+              ) : (
+                <CldImage
+                  width="180"
+                  height="180"
+                  crop={'fill'}
+                  src={profileImage}
+                  sizes="100vw"
+                  alt="Tribe profile"
+                />
+              )}
+            </Avatar>
+            <div>
+              <p className="font-bold text-xl">{username}</p>
 
-            <p>{duration}</p>
-          </div>
-        </Link>
-
-        {isAdmin && <p className="text-sm text-lightPink mt-2">Admin</p>}
+              <p>{duration}</p>
+            </div>
+          </Link>
+          {isAdmin && <p className="text-sm text-lightPink mt-2">Admin</p>}
+        </div>
+        {tribe && (
+          <span className="flex items-center gap-2">
+            <p>Posted In :</p>
+            <Link href={`/tribe/${tribe.id}`}>
+              <Button
+                variant={'link'}
+                className="font-bold text-lightPink mx-0 px-0"
+              >
+                {tribe.name}
+              </Button>
+            </Link>
+          </span>
+        )}
       </div>
+      {tribe?.tribeVisit?.length === 1 &&
+        new Date(createdAt) > new Date(tribe?.tribeVisit[0]?.lastVisit) && (
+          //  ||
+          // (newPosts?.some((post) => post.id == postId)
+          <Badge className="absolute top-0 right-0 bg-purple rounded-2xl">
+            New Post
+          </Badge>
+        )}
 
       <div className="w-full bg-lighterPink rounded-2xl p-5 mt-6 mb-4">
         <p>{postContent}</p>

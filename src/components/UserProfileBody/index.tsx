@@ -27,7 +27,7 @@ interface UserProfileBodyProps {
 }
 
 const UserProfileBody = ({
-  user,
+  user, // current user
   sessions,
   pageUserName,
   children,
@@ -44,7 +44,10 @@ const UserProfileBody = ({
           sessions={sessions}
           username={pageUserName}
         />
-        <TodoList tasks={tasks} pageUsername={pageUserName} />
+        {pageUserName === user?.username && (
+          <TodoList tasks={tasks} pageUsername={pageUserName} />
+        )}
+
         <Posts posts={posts} pageUsername={pageUserName} />
       </div>
       <div className="col-start-10 col-end-12">

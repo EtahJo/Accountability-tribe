@@ -82,7 +82,7 @@ export const getAllUsersInTribe = async (tribeId: string) => {
   }
 };
 
-export const getTribeById = async (tribeId: string) => {
+export const getTribeById = async (tribeId: string, currentUserId: string) => {
   try {
     const user = await currentUser();
     const tribes = await db.tribe.findUnique({
@@ -91,7 +91,7 @@ export const getTribeById = async (tribeId: string) => {
         users: { include: { user: true } },
         tribeVisit: {
           where: {
-            userId: user?.id,
+            userId: currentUserId,
           },
         },
       },

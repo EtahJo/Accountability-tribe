@@ -6,7 +6,10 @@ export async function GET(req: Request, context: any) {
   const { params } = context;
   try {
     const user = await getUserByUsername(params.username);
-    const userPosts = await getAllUserPosts(user?.id as string);
+    const userPosts = await getAllUserPosts(
+      user?.id as string,
+      params.currentUserId
+    );
     return NextResponse.json(userPosts);
   } catch {}
 }

@@ -18,3 +18,10 @@
     flex-basis: 200px;
   }
 }
+.circle-message-before {
+  @apply relative before:bg-transparent before:rounded-full
+  before:absolute before:w-[95px] before:h-[95px]
+  before:border-purple before:border-2 before:m-auto before:top-0 
+  before:left-0 before:bottom-0 before:right-1 before:-ml-1 
+  before:border-l-0 before:mr-2 before:animate-spin before:duration-1000;
+}

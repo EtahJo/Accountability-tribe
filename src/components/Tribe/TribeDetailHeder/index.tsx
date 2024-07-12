@@ -59,17 +59,26 @@ const TribeDetailHeader = ({
           <div className="flex items-center">
             <div
               className="w-[100px] h-[100px] rounded-full 
-     bg-lightPink flex justify-center items-center shadow-buttonInner p-2 -mt-24"
+     bg-lightPink flex justify-center items-center shadow-buttonInner
+      p-2 -mt-24 relative"
             >
-              <p className="text-shadow-xl text-center whitespace-normal font-bold text-lg">
+              {/* <div className="bg-red-50 rounded-full w-[90px] h-[90px] absolute" /> */}
+              <p
+                className="text-shadow-xl text-center whitespace-normal 
+              font-bold text-lg circle-message-before"
+              >
                 You can do it
               </p>
+              {/* </div> */}
             </div>
             <div
               className="w-[100px] h-[100px] rounded-full  
      bg-lightPink flex justify-center items-center shadow-buttonInner p-2"
             >
-              <p className="text-shadow-xl text-center whitespace-normal font-bold text-lg">
+              <p
+                className="text-shadow-xl text-center whitespace-normal 
+              font-bold text-lg circle-message-before"
+              >
                 Yes you can
               </p>
             </div>
@@ -98,7 +107,10 @@ const TribeDetailHeader = ({
               className="w-[100px] h-[100px] rounded-full 
      bg-lightPink flex justify-center items-center shadow-buttonInner p-2"
             >
-              <p className="text-shadow-xl text-center whitespace-normal font-bold text-lg">
+              <p
+                className="text-shadow-xl text-center 
+              whitespace-normal font-bold text-lg circle-message-before"
+              >
                 Be Strong
               </p>
             </div>
@@ -106,7 +118,10 @@ const TribeDetailHeader = ({
               className="w-[100px] h-[100px] rounded-full  bg-lightPink flex 
             justify-center items-center shadow-buttonInner p-2 -mt-24"
             >
-              <p className="text-shadow-xl text-center whitespace-normal font-bold text-lg">
+              <p
+                className="text-shadow-xl text-center whitespace-normal
+               font-bold text-lg circle-message-before before:-ml-3"
+              >
                 Be Bold
               </p>
             </div>

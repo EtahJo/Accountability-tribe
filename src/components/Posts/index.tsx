@@ -1,5 +1,6 @@
 'use client';
-import Post from '@/components/Posts/Post';
+import { useState, useEffect } from 'react';
+import PostSnippet from '@/components/Posts/Post';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import SectionHeader from '@/components/SectionHeader';
 import {
@@ -10,6 +11,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { usePathname } from 'next/navigation';
+import { Tribe, TribeUser, Post } from '@prisma/client';
 
 interface PostProps {
   posts: {
@@ -19,16 +21,22 @@ interface PostProps {
     authorId: string;
     likes: {}[];
     author: { username: string; image: string };
-    tribe: { users: { userRole: string }[] };
+    tribe: Tribe & { users: TribeUser[] };
     createdAt: string;
   }[];
   pageUsername: string;
+  newPosts: Post[];
 }
 
-const Posts = ({ posts, pageUsername }: PostProps) => {
+const Posts = ({ posts, pageUsername, newPosts }: PostProps) => {
+  const [currentNewPosts, setCurrentNewPosts] = useState<Post[]>([]);
   const { user } = useCurrentUser();
   const pathname = usePathname();
-  if (posts.length === 0 && pathname.startsWith('/tribe')) {
+  useEffect(() => {
+    setCurrentNewPosts(newPosts);
+  }, [newPosts, currentNewPosts]);
+
+  if (posts?.length === 0 && pathname.startsWith('/tribe')) {
     return (
       <div className="bg-white p-2 rounded-3xl shadow-3xl">
         <p className="font-bold text-2xl text-center">
@@ -36,12 +44,8 @@ const Posts = ({ posts, pageUsername }: PostProps) => {
         </p>
       </div>
     );
-  } else if (posts.length === 0 && !pathname.startsWith('/tribe')) {
-    return (
-      <div className="bg-white p-2 rounded-3xl shadow-3xl">
-        <p className="font-bold text-2xl text-center">No posts</p>
-      </div>
-    );
+  } else if (posts?.length === 0 && !pathname.startsWith('/tribe')) {
+    return null;
   }
   return (
     <div>
@@ -67,12 +71,12 @@ const Posts = ({ posts, pageUsername }: PostProps) => {
               comments,
               createdAt,
             }) => {
-              const admin: {} | undefined = tribe.users.find(
+              const admin: {} | undefined = tribe?.users.find(
                 (user) => (user.userRole = 'ADMIN')
               );
               return (
                 <CarouselItem className="">
-                  <Post
+                  <PostSnippet
                     key={id}
                     username={author.username}
                     profileImage={author.image}
@@ -83,6 +87,8 @@ const Posts = ({ posts, pageUsername }: PostProps) => {
                     isAdmin={authorId === admin?.userId}
                     postId={id}
                     hasLiked={likes.some((like) => like.user.id === user?.id)}
+                    tribe={tribe}
+                    newPosts={newPosts}
                   />
                 </CarouselItem>
               );

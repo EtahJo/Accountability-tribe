@@ -19,7 +19,7 @@ export async function GET(req: NextRequest, context: any) {
     const newPosts =
       tribe.tribeVisit.length === 1
         ? await getAllTribeNewPosts(tribe.id, tribe.tribeVisit[0].lastVisit)
-        : await getAllTribePosts(tribe.id);
+        : await getAllTribePosts(tribe.id, userIdQuery as string);
     modifiedData.push({
       ...tribe,
       newPosts,

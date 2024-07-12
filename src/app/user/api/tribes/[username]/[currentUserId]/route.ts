@@ -22,14 +22,13 @@ export async function GET(req: Request, context: any) {
               tribe.tribeId,
               tribe.tribe?.tribeVisit[0]?.lastVisit
             )
-          : await getAllTribePosts(tribe.tribeId);
+          : await getAllTribePosts(tribe.tribeId, params.currentUserId);
       modifiedData.push({
         ...tribe,
         newPosts,
       });
     }
-    console.log('modified>>', modifiedData, 'Tribes', tribes);
-    // console.log('Current user', user);
+
     return NextResponse.json(modifiedData);
   } catch (error) {
     console.log('Tribes Error is>>', error);

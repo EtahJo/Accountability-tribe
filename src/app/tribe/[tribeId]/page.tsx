@@ -4,13 +4,16 @@ import TribeDetailBody, {
 } from '@/components/Tribe/TribeDetailBody/index';
 import { currentUser } from '@/lib/authentication';
 
-async function getTribeInfo(tribeId: string) {
-  const response = await fetch(`http://localhost:3000/tribe/api/${tribeId}`, {
-    headers: {
-      accept: 'application/json',
-      method: 'GET',
-    },
-  });
+async function getTribeInfo(tribeId: string, currentUserId: string) {
+  const response = await fetch(
+    `http://localhost:3000/tribe/api/${currentUserId}/${tribeId}`,
+    {
+      headers: {
+        accept: 'application/json',
+        method: 'GET',
+      },
+    }
+  );
   if (!response.ok) {
     throw new Error('Failed to fetch tribe');
   }
@@ -36,10 +39,10 @@ async function getSimilarTribes(tribeInfo: any, currentUserId: String) {
     // setError(error.message);
   }
 }
-async function getPostsData(tribeId: string) {
+async function getPostsData(tribeId: string, currentUserId: string) {
   try {
     const response = await fetch(
-      `http://localhost:3000/tribe/api/posts/${tribeId}`,
+      `http://localhost:3000/tribe/api/posts/${tribeId}/${currentUserId}`,
       {
         headers: {
           accept: 'application/json',
@@ -60,9 +63,10 @@ async function getPostsData(tribeId: string) {
 async function TribeProfile({ params }: { params: { tribeId: string } }) {
   const { tribeId } = params;
   const user = await currentUser();
-  const tribeInfo = await getTribeInfo(tribeId);
+  const tribeInfo = await getTribeInfo(tribeId, user?.id as string);
   const similarTribes = await getSimilarTribes(tribeInfo, user?.id as string);
-  const posts = await getPostsData(tribeId);
+  const posts = await getPostsData(tribeId, user?.id as string);
+  const newPosts = posts.newPosts;
   if (!tribeInfo) return <div>Loading...</div>;
   return (
     <div className="flex flex-col gap-y-10">
@@ -79,8 +83,9 @@ async function TribeProfile({ params }: { params: { tribeId: string } }) {
       />
       <TribeDetailBody
         tribeInfo={tribeInfo}
-        posts={posts}
+        posts={posts.posts}
         similarTribes={similarTribes}
+        newPosts={newPosts}
       />
     </div>
   );

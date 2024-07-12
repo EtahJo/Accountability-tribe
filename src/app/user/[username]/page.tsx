@@ -1,5 +1,3 @@
-import { get_user_by_username } from '@/action/get-user';
-
 import ProfileHeader from '@/components/UserProfile/ProfileHeader/index';
 import UserProfileBody from '@/components/UserProfileBody/index';
 import { currentUser } from '@/lib/authentication';
@@ -8,11 +6,10 @@ import { is_member } from '@/action/tribe/join-tribe';
 import { get_tribe_members } from '@/action/tribe/get-tribe-members';
 import Tribes from '@/components/Tribes/index';
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
-// import { getSessionData } from './data';
 
-async function getPostData(username: string) {
+async function getPostData(username: string, currentUserId: string) {
   const postsRes = await fetch(
-    `http://localhost:3000/user/api/posts/${username}`,
+    `http://localhost:3000/user/api/posts/${username}/${currentUserId}`,
     {
       next: {
         tags: ['userPosts'],
@@ -100,12 +97,11 @@ const page = async ({ params }: { params: { username: string } }) => {
   const user: any = await currentUser();
   const userData = await getUserData(username);
   const countryCode = userData?.number?.split(',')[0].toUpperCase();
-  const posts = await getPostData(username);
+  const posts = await getPostData(username, user?.id);
   const sessions = await getSessionData(username, user?.id as string);
   const tribes = await getTribesData(username, user?.id);
   const tasks = await getTasksData(username);
   const completedTask = await getCompletedTasksData(username);
-  console.log('Tribes Data >>', tribes);
 
   if (userData.error) {
     return (

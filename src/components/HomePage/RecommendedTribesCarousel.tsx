@@ -24,7 +24,6 @@ const RecommendedTribesCarousel = ({
   const numberOFItemsToBeMappedThrough = recommendedTribes.filter(
     (tribe) => !tribe.users.some((user) => user.userId === userId)
   );
-  console.log('Recommended tribes >>', numberOFItemsToBeMappedThrough);
   return (
     <div className="mx-9">
       <Carousel
