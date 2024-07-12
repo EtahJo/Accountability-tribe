@@ -1,0 +1,37 @@
+import { getAllUserTribesByUsername } from '@/data/tribe';
+import { getAllTribeNewPosts, getAllTribePosts } from '@/data/post';
+import { NextResponse } from 'next/server';
+import { currentUser } from '@/lib/authentication';
+import { useCurrentUser } from '@/hooks/use-current-user';
+export async function GET(req: Request, context: any) {
+  const { params } = context;
+  try {
+    // const user = useCurrentUser();
+    const tribes = await getAllUserTribesByUsername(
+      params.username,
+      params.currentUserId
+    );
+    const modifiedData = [];
+    if (!tribes) {
+      return NextResponse.json([]);
+    }
+    for (const tribe of tribes) {
+      const newPosts =
+        tribe.tribe?.tribeVisit.length === 1
+          ? await getAllTribeNewPosts(
+              tribe.tribeId,
+              tribe.tribe?.tribeVisit[0]?.lastVisit
+            )
+          : await getAllTribePosts(tribe.tribeId);
+      modifiedData.push({
+        ...tribe,
+        newPosts,
+      });
+    }
+    console.log('modified>>', modifiedData, 'Tribes', tribes);
+    // console.log('Current user', user);
+    return NextResponse.json(modifiedData);
+  } catch (error) {
+    console.log('Tribes Error is>>', error);
+  }
+}

@@ -43,10 +43,9 @@ export const create_comment = async (
       },
     },
   });
-  //   revalidatePath(`/user/${dbUser.username}`);
+
   revalidateTag('tribePosts');
   revalidateTag('userPosts');
-  // revalidateTag('userTribes');
 
   return { success: 'Comment Created' };
 };

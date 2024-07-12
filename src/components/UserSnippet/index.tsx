@@ -9,7 +9,7 @@ import { FaUser, FaBolt } from 'react-icons/fa';
 import { CldImage } from 'next-cloudinary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import CountryFlag from '@/components/CountryFlag/index';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import ToolTip from '@/components/ToolTip';
 
 interface UserSnippetProps {

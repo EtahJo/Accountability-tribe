@@ -39,9 +39,9 @@ async function getSessionData(username: string, currentUserId: string) {
 
   return sessionRes.json();
 }
-async function getTribesData(username: string) {
+async function getTribesData(username: string, currentUserId: string) {
   const tribesRes = await fetch(
-    `http://localhost:3000/user/api/tribes/${username}`,
+    `http://localhost:3000/user/api/tribes/${username}/${currentUserId}`,
     {
       next: {
         tags: ['userTribes'],
@@ -102,9 +102,10 @@ const page = async ({ params }: { params: { username: string } }) => {
   const countryCode = userData?.number?.split(',')[0].toUpperCase();
   const posts = await getPostData(username);
   const sessions = await getSessionData(username, user?.id as string);
-  const tribes = await getTribesData(username);
+  const tribes = await getTribesData(username, user?.id);
   const tasks = await getTasksData(username);
   const completedTask = await getCompletedTasksData(username);
+  console.log('Tribes Data >>', tribes);
 
   if (userData.error) {
     return (
@@ -132,7 +133,7 @@ const page = async ({ params }: { params: { username: string } }) => {
           completedTasks={completedTask}
         >
           <Tribes pageUsername={username}>
-            {tribes?.map(async ({ tribe }: any) => {
+            {tribes?.map(async ({ tribe, newPosts }: any) => {
               const members = await get_tribe_members(tribe.id);
               const isMember = await is_member(tribe.id, user?.id as string);
               return (
@@ -146,6 +147,7 @@ const page = async ({ params }: { params: { username: string } }) => {
                   userId={user?.id as string}
                   image={tribe?.profileImage}
                   lastVisit={tribe.tribeVisit[0]?.lastVisit}
+                  newPosts={newPosts}
                 />
               );
             })}

@@ -34,9 +34,9 @@ async function getHighPriorityTasks(username: string) {
   return highPriorityTasks.json();
 }
 
-async function getRecommendedTribes() {
+async function getRecommendedTribes(currentUserId: string) {
   const recommendedTribes = await fetch(
-    'http://localhost:3000/tribe/api/recommended-tribes',
+    `http://localhost:3000/tribe/api/recommended-tribes/${currentUserId}`,
     {
       next: {
         tags: ['recommendedTribes'],
@@ -69,7 +69,7 @@ const Home = async () => {
   const highPriorityTasks = await getHighPriorityTasks(
     user?.username as string
   );
-  const recommendedTribes = await getRecommendedTribes();
+  const recommendedTribes = await getRecommendedTribes(user?.id as string);
   const closestSession = await getClosestSession(user.username);
   return (
     <main className="">

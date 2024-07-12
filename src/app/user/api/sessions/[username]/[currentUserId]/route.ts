@@ -38,8 +38,8 @@ export async function GET(req: NextRequest, context: any) {
         ? await getAllUserSessionsTomorrow(dbUser?.id as string, perPage, page)
         : await getAllUserSessions(dbUser?.id as string, perPage, page);
 
-    if (!userSessions) {
-      return NextResponse.json({});
+    if (!userSessions?.sessions) {
+      return NextResponse.json([]);
     }
 
     const sessions: {}[] = [];

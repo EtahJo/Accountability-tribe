@@ -2,6 +2,7 @@ import TribeDetailHeader from '@/components/Tribe/TribeDetailHeder/index';
 import TribeDetailBody, {
   TribeDetailBodyProps,
 } from '@/components/Tribe/TribeDetailBody/index';
+import { currentUser } from '@/lib/authentication';
 
 async function getTribeInfo(tribeId: string) {
   const response = await fetch(`http://localhost:3000/tribe/api/${tribeId}`, {
@@ -15,10 +16,17 @@ async function getTribeInfo(tribeId: string) {
   }
   return response.json();
 }
-async function getSimilarTribes(tribeInfo: any) {
+async function getSimilarTribes(tribeInfo: any, currentUserId: String) {
   try {
     const response = await fetch(
-      `http://localhost:3000/tribe/api?tags=${tribeInfo?.tags.join(',')}`
+      `http://localhost:3000/tribe/api/?userId=${currentUserId}&tags=${tribeInfo?.tags.join(
+        ','
+      )}`,
+      {
+        next: {
+          tags: ['userSimilarTribes'],
+        },
+      }
     );
     if (!response.ok) {
       throw new Error('Failed to fetch tribe');
@@ -51,8 +59,9 @@ async function getPostsData(tribeId: string) {
 }
 async function TribeProfile({ params }: { params: { tribeId: string } }) {
   const { tribeId } = params;
+  const user = await currentUser();
   const tribeInfo = await getTribeInfo(tribeId);
-  const similarTribes = await getSimilarTribes(tribeInfo);
+  const similarTribes = await getSimilarTribes(tribeInfo, user?.id as string);
   const posts = await getPostsData(tribeId);
   if (!tribeInfo) return <div>Loading...</div>;
   return (
@@ -64,6 +73,9 @@ async function TribeProfile({ params }: { params: { tribeId: string } }) {
         tribeDescription={tribeInfo.description}
         users={tribeInfo.users}
         tribeId={tribeId}
+        isMember={tribeInfo.users.some(
+          (tribeUser) => tribeUser.userId === user?.id
+        )}
       />
       <TribeDetailBody
         tribeInfo={tribeInfo}

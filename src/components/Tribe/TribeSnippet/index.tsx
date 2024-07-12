@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 import { formatDateTime } from '@/util/DateTime';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { Badge } from '@/components/ui/badge';
 
 export interface TribeSnippetProps {
   image?: string | null;
@@ -20,6 +21,7 @@ export interface TribeSnippetProps {
   isMember: boolean;
   members: number | undefined;
   lastVisit?: string;
+  newPosts?: {}[];
 }
 
 const TribeSnippet = ({
@@ -31,6 +33,7 @@ const TribeSnippet = ({
   members,
   userId,
   lastVisit,
+  newPosts,
 }: TribeSnippetProps) => {
   const { user }: any = useCurrentUser();
   useEffect(() => {}, [isMember, members]);
@@ -39,8 +42,13 @@ const TribeSnippet = ({
       className="bg-white flex flex-col items-center 
     justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl m-auto w-[300px] relative"
     >
-      <div className="flex justify-end   w-full absolute right-0 top-0">
-        <div className="text-gray-500 text-[10px] bg-lighterPink rounded-3xl p-2  flex flex-col items-center justify-center">
+      {newPosts && newPosts.length > 0 && (
+        <Badge className="bg-purple absolute left-1 top-1 rounded-3xl">
+          {newPosts.length} new posts
+        </Badge>
+      )}
+      <div className="flex justify-end   w-full absolute right-1 top-1">
+        <div className="text-gray-500 text-[10px] bg-lighterPink rounded-3xl px-2  flex flex-col items-center justify-center">
           {lastVisit ? (
             <>
               {' '}
@@ -106,7 +114,7 @@ const TribeSnippet = ({
             })
           }
         >
-          Join
+          Join Us
         </Button>
       )}
     </div>

@@ -43,9 +43,11 @@ export const getAllUserTribes = async (userId: string) => {
     return null;
   }
 };
-export const getAllUserTribesByUsername = async (username: string) => {
+export const getAllUserTribesByUsername = async (
+  username: string,
+  currentUserId: string
+) => {
   try {
-    const user = await currentUser(); /// the user who is logged in
     const tribes = await db.user.findUnique({
       where: { username },
       include: {
@@ -54,7 +56,7 @@ export const getAllUserTribesByUsername = async (username: string) => {
             tribe: {
               include: {
                 tribeVisit: {
-                  where: { userId: user?.id },
+                  where: { userId: currentUserId },
                 },
               },
             },
@@ -117,9 +119,11 @@ export const getTribeAdmin = async (tribeId: string) => {
   }
 };
 
-export const getTribesWithSimilarTags = async (tags: string) => {
+export const getTribesWithSimilarTags = async (
+  tags: string,
+  currentUserId: string
+) => {
   try {
-    const user = await currentUser();
     const tagsArray = tags.split(',');
     const tribes = await db.tribe.findMany({
       where: {
@@ -131,7 +135,7 @@ export const getTribesWithSimilarTags = async (tags: string) => {
         users: { include: { user: true } },
         tribeVisit: {
           where: {
-            userId: user?.id,
+            userId: currentUserId,
           },
         },
       },
@@ -141,9 +145,8 @@ export const getTribesWithSimilarTags = async (tags: string) => {
     throw error;
   }
 };
-export const getAllTribes = async () => {
+export const getAllTribes = async (currentUserId: string) => {
   try {
-    const user = await currentUser();
     const tribes = await db.tribe.findMany({
       include: {
         users: {
@@ -151,7 +154,7 @@ export const getAllTribes = async () => {
         },
         tribeVisit: {
           where: {
-            userId: user?.id,
+            userId: currentUserId,
           },
         },
       },
@@ -162,9 +165,8 @@ export const getAllTribes = async () => {
   }
 };
 
-export const getActiveTribes = async () => {
+export const getActiveTribes = async (currentUserId: string) => {
   try {
-    const user = await currentUser();
     const now = new Date();
     const weekStart = startOfWeek(now);
     const lastWeeekStart = subWeeks(weekStart, 1);
@@ -186,7 +188,7 @@ export const getActiveTribes = async () => {
         users: true,
         tribeVisit: {
           where: {
-            userId: user?.id,
+            userId: currentUserId,
           },
           include: {
             user: true,
@@ -201,9 +203,8 @@ export const getActiveTribes = async () => {
   }
 };
 
-export const getRecommendedTribes = async () => {
+export const getRecommendedTribes = async (currentUserId: string) => {
   try {
-    const user = await currentUser();
     const recommendedTribes = await db.tribe.findMany({
       where: {
         recommended: true,
@@ -212,7 +213,7 @@ export const getRecommendedTribes = async () => {
         users: true,
         tribeVisit: {
           where: {
-            userId: user?.id,
+            userId: currentUserId,
           },
           include: {
             user: true,

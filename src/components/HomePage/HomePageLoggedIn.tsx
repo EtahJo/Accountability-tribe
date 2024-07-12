@@ -71,7 +71,7 @@ const HomeLoggedIn = ({
           <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col w-full ">
             <h1 className="text-2xl font-bold text-white uppercase ml-5">
               {' '}
-              Recommended Tribes
+              Some Tribes to Visit
             </h1>
             <RecommendedTribesCarousel
               recommendedTribes={recommendedTribes}

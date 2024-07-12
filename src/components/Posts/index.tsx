@@ -9,6 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { usePathname } from 'next/navigation';
 
 interface PostProps {
   posts: {
@@ -26,6 +27,22 @@ interface PostProps {
 
 const Posts = ({ posts, pageUsername }: PostProps) => {
   const { user } = useCurrentUser();
+  const pathname = usePathname();
+  if (posts.length === 0 && pathname.startsWith('/tribe')) {
+    return (
+      <div className="bg-white p-2 rounded-3xl shadow-3xl">
+        <p className="font-bold text-2xl text-center">
+          Be the first to post in tribe
+        </p>
+      </div>
+    );
+  } else if (posts.length === 0 && !pathname.startsWith('/tribe')) {
+    return (
+      <div className="bg-white p-2 rounded-3xl shadow-3xl">
+        <p className="font-bold text-2xl text-center">No posts</p>
+      </div>
+    );
+  }
   return (
     <div>
       <SectionHeader

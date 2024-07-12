@@ -6,6 +6,9 @@ import { FaUser } from 'react-icons/fa';
 import TribeUsers from '@/components/Tribe/TribeUsers';
 import { tribe_visit } from '@/action/tribe/tribe-visit';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { join_tribe } from '@/action/tribe/join-tribe';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 
 interface TribeDetailHeaderProps {
   profileImage: string;
@@ -14,14 +17,16 @@ interface TribeDetailHeaderProps {
   tribeDescription: string;
   tribeId: string;
   users: { username: string; image: string; id: string }[];
+  isMember?: boolean;
 }
 const TribeDetailHeader = ({
   profileImage,
   tribeName,
   tribeUsers,
   tribeDescription,
-  users,
+  users, /// members of the tribe
   tribeId,
+  isMember,
 }: TribeDetailHeaderProps) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const { user } = useCurrentUser();
@@ -37,6 +42,16 @@ const TribeDetailHeader = ({
       updateLastVisit();
     }
   }, []);
+  const joinTribe = () => {
+    join_tribe(tribeId, user?.id as string).then((data) => {
+      if (data.error) {
+        toast.error(data.error);
+      }
+      if (data.success) {
+        toast.success(data.success);
+      }
+    });
+  };
   return (
     <div className=" grid  grid-cols-10">
       <div className="bg-white shadow-3xl rounded-3xl p-10  pt-24 flex-col relative col-start-2 col-end-10 mx-2">
@@ -112,6 +127,11 @@ const TribeDetailHeader = ({
           </div>
 
           <p className="text-lg  text-center">{tribeDescription}</p>
+          {!isMember && (
+            <Button onClick={joinTribe} className="w-48 m-auto move-button">
+              Join Us
+            </Button>
+          )}
         </div>
         <TribeUsers
           isOpen={modalIsOpen}

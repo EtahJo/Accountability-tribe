@@ -19,9 +19,9 @@ const TribeUsers = ({
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Tribe Users"
-      className={'  bg-white w-[300px] mt-72'}
+      className={'  bg-white w-[300px] mt-72 rounded-3xl shadow-3xl'}
     >
-      <div>
+      <div className="m-2">
         <h1
           className="text-xl w-full text-center font-bold
          bg-purple p-2 rounded-2xl shadow-3xl mb-3 text-white "

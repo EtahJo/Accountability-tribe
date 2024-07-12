@@ -77,3 +77,23 @@ export const getPostById = async (postId: string) => {
     throw error;
   }
 };
+
+export const getAllTribeNewPosts = async (
+  tribeId: string,
+  userlastVisit: Date
+) => {
+  try {
+    const newPosts = await db.post.findMany({
+      where: {
+        tribeId,
+        approved: true,
+        createdAt: {
+          gt: userlastVisit,
+        },
+      },
+    });
+    return newPosts;
+  } catch (error) {
+    throw error;
+  }
+};

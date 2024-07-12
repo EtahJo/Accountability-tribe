@@ -47,32 +47,28 @@ const TribeDetailBody = ({
           )}
           {!similarTribes && <div>loading...</div>}
           {/** Similar tribes */}
-          {similarTribes?.map(
-            (tribe: {
-              name: string;
-              description: string;
-              profileImage: string;
-              id: string;
-              tribeId: string;
-              users: { id: string }[];
-            }) => (
-              <div key={tribe.id}>
-                {tribe.id !== tribeInfo.id && (
-                  <TribeSnippet
-                    name={tribe.name}
-                    desc={tribe.description}
-                    image={tribe.profileImage}
-                    userId={user?.id}
-                    tribeId={tribe.id}
-                    members={tribe.users?.length}
-                    isMember={tribe.users?.some(
-                      (tribeUser) => tribeUser.userId === user?.id
-                    )}
-                  />
-                )}
-              </div>
-            )
-          )}
+          {similarTribes?.map((tribe: any) => (
+            <div key={tribe.id}>
+              {tribe.id !== tribeInfo.id && (
+                <TribeSnippet
+                  name={tribe.name}
+                  desc={tribe.description}
+                  image={tribe.profileImage}
+                  userId={user?.id}
+                  tribeId={tribe.id}
+                  members={tribe.users?.length}
+                  isMember={tribe.users?.some(
+                    (tribeUser) => tribeUser.userId === user?.id
+                  )}
+                  lastVisit={
+                    tribe.tribeVisit.length > 0 &&
+                    tribe?.tribeVisit[0]?.lastVisit
+                  }
+                  newPosts={tribe.newPosts}
+                />
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </div>

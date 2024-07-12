@@ -5,12 +5,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
-import { Tribe, TribeUser, TribeVisit } from '@prisma/client';
+import { Tribe, TribeUser, TribeVisit, Post } from '@prisma/client';
 type TribeProps = Pick<
   Tribe,
   'name' | 'description' | 'id' | 'profileImage'
-> & { users: TribeUser[]; tribeVisit: TribeVisit[] };
+> & { users: TribeUser[]; tribeVisit: TribeVisit[]; newPosts: Post[] };
 interface RecommendedTribesProps {
   recommendedTribes: TribeProps[];
   userId: string;
@@ -20,6 +21,10 @@ const RecommendedTribesCarousel = ({
   recommendedTribes,
   userId,
 }: RecommendedTribesProps) => {
+  const numberOFItemsToBeMappedThrough = recommendedTribes.filter(
+    (tribe) => !tribe.users.some((user) => user.userId === userId)
+  );
+  console.log('Recommended tribes >>', numberOFItemsToBeMappedThrough);
   return (
     <div className="mx-9">
       <Carousel
@@ -30,7 +35,15 @@ const RecommendedTribesCarousel = ({
       >
         <CarouselContent className="w-full">
           {recommendedTribes?.map(
-            ({ id, name, description, profileImage, users, tribeVisit }) => (
+            ({
+              id,
+              name,
+              description,
+              profileImage,
+              users,
+              tribeVisit,
+              newPosts,
+            }) => (
               <CarouselItem key={id} className="lg:basis-1/3 md:1/2">
                 <TribeSnippet
                   key={id}
@@ -41,7 +54,8 @@ const RecommendedTribesCarousel = ({
                   isMember={users.some((user) => user.userId === userId)}
                   members={users.length}
                   image={profileImage}
-                  // lastVisit={tribeVisit[0].lastVisit}
+                  lastVisit={tribeVisit[0]?.lastVisit}
+                  newPosts={newPosts}
                 />
               </CarouselItem>
             )
