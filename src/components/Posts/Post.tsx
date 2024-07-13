@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { CldImage } from 'next-cloudinary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Comment from '@/components/Comment';
@@ -15,6 +16,7 @@ import { Button } from '../ui/button';
 import { toast } from 'sonner';
 import { Tribe, TribeVisit, Post } from '@prisma/client';
 import { Badge } from '@/components/ui/badge';
+import PostDropDown from '@/components/Posts/PostDropdown';
 
 interface PostProps {
   postId: string;
@@ -22,12 +24,15 @@ interface PostProps {
   username: string;
   isAdmin: boolean;
   postContent: string;
+  postTitle: string;
   hasLiked: boolean;
+  postAuthorId: string;
   tribe?: Tribe & { tribeVisit: TribeVisit[] };
   likes: { user: { username: string; image: string; id: string } }[];
   comments: {
     author: { username: string; image: string };
     content: string;
+
     id: string;
     createdAt: string;
     likes: { user: { username: string; image: string; id: string } }[];
@@ -63,12 +68,15 @@ const Post = ({
   hasLiked,
   createdAt,
   tribe,
+  postTitle,
+  postAuthorId,
   newPosts,
 }: // createdAt,
 PostProps) => {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [openLikeModal, setOpenLikeModal] = useState(false);
   const [like, setLike] = useState(false);
+  const pathname = usePathname();
   const { user } = useCurrentUser();
   const firstFiveComments = comments.slice(0, 5);
   const Liked = () => {
@@ -84,6 +92,13 @@ PostProps) => {
       });
     }
   };
+  const showNewPostConditionOne =
+    tribe?.tribeVisit?.length === 1 &&
+    new Date(createdAt) > new Date(tribe?.tribeVisit[0]?.lastVisit);
+  const showNewPostConditionTwo =
+    newPosts?.some((post) => post.id == postId) &&
+    pathname.startsWith('/tribe');
+
   const NowDateTime = new Date();
   const theDuration = getDuration(createdAt, NowDateTime.toISOString());
   const duration =
@@ -126,30 +141,51 @@ PostProps) => {
           </Link>
           {isAdmin && <p className="text-sm text-lightPink mt-2">Admin</p>}
         </div>
-        {tribe && (
-          <span className="flex items-center gap-2">
-            <p>Posted In :</p>
-            <Link href={`/tribe/${tribe.id}`}>
-              <Button
-                variant={'link'}
-                className="font-bold text-lightPink mx-0 px-0"
-              >
-                {tribe.name}
-              </Button>
-            </Link>
-          </span>
-        )}
+        <div className="flex flex-col items-end justify-end">
+          <PostDropDown
+            postContent={postContent}
+            postId={postId}
+            postTitle={postTitle}
+            postAuthorId={postAuthorId}
+            isAdmin={isAdmin}
+          />
+          {!pathname.startsWith('/tribe') && tribe && (
+            <span className="flex items-center gap-2">
+              <p>Posted In :</p>
+              <Link href={`/tribe/${tribe.id}`}>
+                <Button
+                  variant={'link'}
+                  className="font-bold text-lightPink mx-0 px-0"
+                >
+                  {tribe.name}
+                </Button>
+              </Link>
+            </span>
+          )}
+        </div>
       </div>
-      {tribe?.tribeVisit?.length === 1 &&
-        new Date(createdAt) > new Date(tribe?.tribeVisit[0]?.lastVisit) && (
-          //  ||
-          // (newPosts?.some((post) => post.id == postId)
+      {showNewPostConditionOne ? (
+        <Badge className="absolute top-0 right-0 bg-purple rounded-2xl">
+          New Post
+        </Badge>
+      ) : (
+        showNewPostConditionTwo && (
           <Badge className="absolute top-0 right-0 bg-purple rounded-2xl">
-            New Post
+            New to Tribe
           </Badge>
-        )}
+        )
+      )}
 
       <div className="w-full bg-lighterPink rounded-2xl p-5 mt-6 mb-4">
+        {postTitle && (
+          <h2
+            className="font-bold text-xl
+            bg-purple p-2 w-max text-white rounded-sm"
+          >
+            {postTitle}
+          </h2>
+        )}
+
         <p>{postContent}</p>
       </div>
       <div className="flex justify-between items-center mx-2">

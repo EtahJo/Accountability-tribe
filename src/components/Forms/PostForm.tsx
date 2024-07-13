@@ -12,7 +12,7 @@ import { FormSuccess } from '@/components/Messages/Success';
 const PostForm = ({ tribeId }: { tribeId: string }) => {
   const [isPending, startTransition] = useTransition();
   const [content, setContent] = useState('');
-  const [buttonText, setButtonText] = useState('Post');
+  const [title, setTitle] = useState('');
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const onValidSubmit = (vals: z.infer<typeof CreatePostSchema>) => {
@@ -32,6 +32,14 @@ const PostForm = ({ tribeId }: { tribeId: string }) => {
   return (
     <div className="bg-white rounded-2xl shadow-3xl p-5 mb-5 w-full">
       <Formsy onValidSubmit={onValidSubmit}>
+        <CustomInput
+          lable="What's your post about?"
+          placeholder="My daily challenge.."
+          name="title"
+          required
+          disabled={isPending}
+          value={title}
+        />
         <CustomInput
           lable="What's on your mind?"
           placeholder="I am having a challenge with.."

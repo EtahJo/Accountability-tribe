@@ -1,4 +1,4 @@
-import TribeDetailHeader from '@/components/Tribe/TribeDetailHeder/index';
+import TribeDetailHeader from '@/components/Tribe/TribeDetailHeader/index';
 import TribeDetailBody, {
   TribeDetailBodyProps,
 } from '@/components/Tribe/TribeDetailBody/index';
@@ -11,6 +11,9 @@ async function getTribeInfo(tribeId: string, currentUserId: string) {
       headers: {
         accept: 'application/json',
         method: 'GET',
+      },
+      next: {
+        tags: ['tribeInfo'],
       },
     }
   );
@@ -80,6 +83,7 @@ async function TribeProfile({ params }: { params: { tribeId: string } }) {
         isMember={tribeInfo.users.some(
           (tribeUser) => tribeUser.userId === user?.id
         )}
+        tribeAdminUsername={tribeInfo.tribeAdminUsername}
       />
       <TribeDetailBody
         tribeInfo={tribeInfo}

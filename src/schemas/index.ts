@@ -130,11 +130,21 @@ export const CreateTribeSchema = z.object({
   profileImage: z.optional(z.string()),
   tags: z.array(z.string(), { message: 'Select atleast one tag' }),
 });
-
-export const CreatePostSchema = z.object({
-  content: z.string().min(2, { message: 'Post must have content' }),
+export const EditTribeSchema = z.object({
+  name: z.optional(z.string()),
+  description: z.optional(z.string()),
+  profileImage: z.optional(z.string()),
+  tags: z.optional(z.array(z.string(), { message: 'Select atleast one tag' })),
 });
 
+export const CreatePostSchema = z.object({
+  title: z.string().min(2, { message: 'Post must have a title' }),
+  content: z.string().min(2, { message: 'Post must have content' }),
+});
+export const EditPostSchema = z.object({
+  title: z.string(),
+  content: z.string(),
+});
 export const CreateCommentSchema = z.object({
   content: z.string().min(1, { message: 'Comment Content required' }),
 });

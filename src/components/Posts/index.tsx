@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import PostSnippet from '@/components/Posts/Post';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { tribe_visit } from '@/action/tribe/tribe-visit';
 import SectionHeader from '@/components/SectionHeader';
 import {
   Carousel,
@@ -17,6 +18,7 @@ interface PostProps {
   posts: {
     comments: {}[];
     content: string;
+    title: string;
     id: string;
     authorId: string;
     likes: {}[];
@@ -29,13 +31,8 @@ interface PostProps {
 }
 
 const Posts = ({ posts, pageUsername, newPosts }: PostProps) => {
-  const [currentNewPosts, setCurrentNewPosts] = useState<Post[]>([]);
   const { user } = useCurrentUser();
   const pathname = usePathname();
-  useEffect(() => {
-    setCurrentNewPosts(newPosts);
-  }, [newPosts, currentNewPosts]);
-
   if (posts?.length === 0 && pathname.startsWith('/tribe')) {
     return (
       <div className="bg-white p-2 rounded-3xl shadow-3xl">
@@ -70,6 +67,7 @@ const Posts = ({ posts, pageUsername, newPosts }: PostProps) => {
               likes,
               comments,
               createdAt,
+              title,
             }) => {
               const admin: {} | undefined = tribe?.users.find(
                 (user) => (user.userRole = 'ADMIN')
@@ -88,7 +86,9 @@ const Posts = ({ posts, pageUsername, newPosts }: PostProps) => {
                     postId={id}
                     hasLiked={likes.some((like) => like.user.id === user?.id)}
                     tribe={tribe}
+                    postTitle={title}
                     newPosts={newPosts}
+                    postAuthorId={authorId}
                   />
                 </CarouselItem>
               );

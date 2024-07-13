@@ -99,6 +99,7 @@ model Tribe{
   name         String
   description  String?
   profileImage   String?
+  tribeAdminUsername String?
   tags           String[]
   posts         Post[]
   users        TribeUser[] 
@@ -153,6 +154,7 @@ model Like {
 }
 model Post {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String?
   content   String
   approved  Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])
@@ -163,6 +165,16 @@ model Post {
   likes    Like[]
    createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  pendindEdits  PostEdit[]
+}
+model PostEdit{
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  post      Post    @relation(fields: [postId], references: [id])
+  postId    String @db.ObjectId
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  approved  Boolean  @default(false)
 }
 
 model Comment {

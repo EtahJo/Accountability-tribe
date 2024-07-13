@@ -16,7 +16,7 @@ export const create_post = async (
     return { error: 'Invalid field' };
   }
 
-  const { content } = validatedFields.data;
+  const { content, title } = validatedFields.data;
   const user = await currentUser();
   if (!user) {
     return { error: 'Sign up or login to post' };
@@ -35,6 +35,7 @@ export const create_post = async (
   await db.post.create({
     data: {
       content,
+      title,
       tribeId,
       authorId: dbUser.id,
       approved,

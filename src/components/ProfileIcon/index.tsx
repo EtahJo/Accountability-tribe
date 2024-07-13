@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from '../ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
 import { Avatar } from '@radix-ui/react-avatar';

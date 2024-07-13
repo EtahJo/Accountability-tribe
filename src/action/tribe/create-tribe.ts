@@ -29,6 +29,7 @@ export const create_tribe = async (
       description,
       profileImage,
       tags,
+      tribeAdminUsername: dbUser.username,
     },
   });
   await db.tribeUser.create({

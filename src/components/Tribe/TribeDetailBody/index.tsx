@@ -1,11 +1,12 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import PostForm from '@/components/Forms/PostForm';
 import Posts from '@/components/Posts/index';
 import SectionHeader from '@/components/SectionHeader/index';
 import { Post } from '@prisma/client';
+import { tribe_visit } from '@/action/tribe/tribe-visit';
 
 export interface TribeDetailBodyProps {
   tribeInfo: {
@@ -32,6 +33,20 @@ const TribeDetailBody = ({
   const [error, setError] = useState<{ error: { message: string } } | null>(
     null
   );
+  const [currentNewPosts, setCurrentNewPosts] = useState<Post[]>([]);
+  useEffect(() => {
+    const updateLastVisit = async () => {
+      try {
+        await tribe_visit(tribeInfo.id, user?.id as string);
+      } catch (error) {
+        console.log('Last visit update error', error);
+      }
+    };
+    setCurrentNewPosts(newPosts);
+    if (user) {
+      updateLastVisit();
+    }
+  }, []);
   return (
     <div className=" flex flex-col justify-center items-center">
       <div className=" grid grid-cols-12 pb-24">
@@ -39,7 +54,11 @@ const TribeDetailBody = ({
           <PostForm tribeId={tribeInfo.id} />
 
           {/** Posts */}
-          <Posts posts={posts} newPosts={newPosts} />
+          <Posts
+            posts={posts}
+            newPosts={currentNewPosts}
+            tribeId={tribeInfo.tribeId}
+          />
         </div>
         <div className="col-start-10 col-end-12">
           <SectionHeader name="Similar Tribes" />
