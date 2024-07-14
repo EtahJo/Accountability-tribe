@@ -1,14 +1,14 @@
 'use client';
 import { useState } from 'react';
-import { CldImage } from 'next-cloudinary';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { FaUser, FaPen } from 'react-icons/fa';
+import { FaPen } from 'react-icons/fa';
 import TribeUsers from '@/components/Tribe/TribeUsers';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { join_tribe } from '@/action/tribe/join-tribe';
 import { toast } from 'sonner';
 import ProfileImage from '@/components/Tribe/TribeDetailHeader/ProfileImage';
+import EditTribeModalForm from '@/components/Forms/EditTribeModalForm';
 import EditableComponent from '@/components/Tribe/TribeDetailHeader/EditableComponent';
+import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
 
 interface TribeDetailHeaderProps {
@@ -17,8 +17,14 @@ interface TribeDetailHeaderProps {
   tribeUsers: number;
   tribeDescription: string;
   tribeAdminUsername: string;
+  tribeTags: [];
   tribeId: string;
-  users: { username: string; image: string; id: string }[];
+  users: {
+    user: { username: string; image: string };
+    userRole: string;
+    adminUsername: string;
+    userId: string;
+  }[];
   isMember?: boolean;
 }
 const TribeDetailHeader = ({
@@ -30,9 +36,12 @@ const TribeDetailHeader = ({
   users, /// members of the tribe
   tribeId,
   isMember,
+  tribeTags,
 }: TribeDetailHeaderProps) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [editTribeModalOpen, setEditTribeModalOpen] = useState(false);
   const { user }: any = useCurrentUser();
+  const isAdmin = user?.username === tribeAdminUsername;
   const joinTribe = () => {
     join_tribe(tribeId, user?.id as string).then((data) => {
       if (data.error) {
@@ -73,27 +82,8 @@ const TribeDetailHeader = ({
             </div>
           </div>
 
-          {/* <Avatar
-            className=" w-[180px] h-[180px] z-10 items-center flex justify-center m-auto border-4
- border-white -mt-24 shadow-3xl relative"
-          >
-            {!profileImage ? (
-              <AvatarFallback className="bg-black">
-                <FaUser className="text-white" size={100} />
-              </AvatarFallback>
-            ) : (
-              <CldImage
-                width="180"
-                height="180"
-                crop={'fill'}
-                src={profileImage}
-                sizes="100vw"
-                alt="Tribe profile"
-              />
-            )}
-          </Avatar> */}
           <ProfileImage
-            isAdmin={user?.username === tribeAdminUsername}
+            isAdmin={isAdmin}
             profileImage={profileImage}
             tribeId={tribeId}
           />
@@ -136,7 +126,7 @@ const TribeDetailHeader = ({
                 <p className="text-lightPink font-bold cursor-pointer">X</p>
               }
               textClass="text-4xl font-bold text-center"
-              showEditOption={user?.username === tribeAdminUsername}
+              showEditOption={isAdmin}
             />
 
             <p
@@ -160,13 +150,28 @@ const TribeDetailHeader = ({
               <p className="text-lightPink font-bold cursor-pointer">X</p>
             }
             textClass="text-lg  text-center"
-            showEditOption={user?.username === tribeAdminUsername}
+            showEditOption={isAdmin}
           />
 
-          {user?.username === tribeAdminUsername && (
-            <Button className="w-max m-auto move-button">
+          {isAdmin && (
+            <Button
+              className="w-max m-auto move-button"
+              onClick={() => setEditTribeModalOpen(true)}
+            >
               Edit Tribe Information
             </Button>
+          )}
+          {users.length === 0 && isAdmin && (
+            <DeleteConfirmation
+              trigger={
+                <Button className="move-button" variant={'destructive'}>
+                  Delete Tribe
+                </Button>
+              }
+              confirmationMessage="Are you sure you wan to delete task?"
+              consequenceMessage="This action can not be reversed!"
+              action={<Button>Delete Anyway</Button>}
+            />
           )}
 
           {!isMember && (
@@ -180,6 +185,16 @@ const TribeDetailHeader = ({
           users={users}
           onRequestClose={() => setModalIsOpen(false)}
           tribeName={tribeName}
+          tribeId={tribeId}
+        />
+        <EditTribeModalForm
+          isOpen={editTribeModalOpen}
+          onRequestClose={() => setEditTribeModalOpen(false)}
+          tribeDescription={tribeDescription}
+          tribeName={tribeName}
+          tribeId={tribeId}
+          profileImage={profileImage}
+          tribeTags={new Set(tribeTags)}
         />
       </div>
     </div>

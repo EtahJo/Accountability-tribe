@@ -78,6 +78,7 @@ async function TribeProfile({ params }: { params: { tribeId: string } }) {
         tribeName={tribeInfo.name}
         tribeUsers={tribeInfo.users.length}
         tribeDescription={tribeInfo.description}
+        tribeTags={tribeInfo.tags}
         users={tribeInfo.users}
         tribeId={tribeId}
         isMember={tribeInfo.users.some(

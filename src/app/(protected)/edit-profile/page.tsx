@@ -1,5 +1,5 @@
 'use client';
-import { useState, useTransition, useContext } from 'react';
+import { useState, useTransition } from 'react';
 import Formsy from 'formsy-react';
 import Custominput from '@/components/CustomInput/index';
 import CustomCheckbox from '@/components/CustomCheckbox/index';
@@ -9,7 +9,6 @@ import { EditProfileSchema } from '@/schemas/index';
 import { editProfile } from '@/action/auth/edit-profile';
 import * as z from 'zod';
 import UploadImage from '@/components/UploadImage/index';
-import { ImageUploaderContext } from '@/context/ImageUploadContext';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import CountryInput from '@/components/CountryInput/index';
@@ -17,7 +16,6 @@ import PhoneNumberInput from '@/components/PhoneNumberInput/index';
 import TimeZoneInput from '@/components/TimeZoneInput';
 
 const Editprofile = () => {
-  const { url } = useContext(ImageUploaderContext);
   const [isPending, startTransition] = useTransition();
   const { user, phoneNumber } = useCurrentUser();
   const [formData, setFormData] = useState({
@@ -38,16 +36,12 @@ const Editprofile = () => {
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const onSubmit = (vals: z.infer<typeof EditProfileSchema>) => {
-    if (url) {
-      vals.image = url;
-    }
     startTransition(() => {
       editProfile(vals).then((data) => {
         if (data.error) {
           setError(data.error);
         }
         if (data.success) {
-          //   window.location.reload();
           setSuccess(data.success);
         }
       });

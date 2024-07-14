@@ -9,6 +9,7 @@ interface CustomTagsInputProps {
   addTag: (tag: any) => void;
   handleRemoveFxn: (tag: any) => void;
   availableTags: { text?: string; title?: string; id?: string | number }[];
+  presentTags?: Set<string>;
 }
 
 const CustomTagsInput = ({
@@ -18,8 +19,9 @@ const CustomTagsInput = ({
   addTag,
   handleRemoveFxn,
   availableTags,
+  presentTags,
 }: CustomTagsInputProps & InputLabelProps) => {
-  const [selectedTags, setSelectedTags] = useState(new Set());
+  const [selectedTags, setSelectedTags] = useState(presentTags || new Set());
   const handleRemove = (item: any) => {
     const newItems = new Set(selectedTags);
     newItems.delete(item);
@@ -40,7 +42,7 @@ const CustomTagsInput = ({
               selectedTags.has(tag) ? 'bg-lightPink' : 'bg-lighterPink'
             )}
             onClick={() => {
-              setSelectedTags(new Set(selectedTags).add(tag));
+              setSelectedTags(new Set(selectedTags).add(tag.text || tag.title));
               addTag(tag.text || tag.id);
             }}
           >
@@ -59,12 +61,12 @@ const CustomTagsInput = ({
               className="text-white p-2 rounded-full bg-black cursor-pointer"
               onClick={() => {
                 handleRemove(tag);
-                handleRemoveFxn(tag.text || tag.id);
+                handleRemoveFxn(tag);
               }}
             >
               X
             </p>
-            <p className="">{tag.text || tag.title}</p>
+            <p className="">{tag}</p>
           </div>
         ))}
       </div>

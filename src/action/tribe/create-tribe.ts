@@ -37,6 +37,7 @@ export const create_tribe = async (
       user: { connect: { id: dbUser.id } },
       tribe: { connect: { id: tribe.id } },
       userRole: 'ADMIN',
+      adminUsername: dbUser.username,
     },
   });
   revalidateTag('userTribes');

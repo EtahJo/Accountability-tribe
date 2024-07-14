@@ -6,20 +6,27 @@ import { Props } from 'react-modal';
 import TribeUser from './TribeUser';
 interface TribeUsersProps {
   tribeName: string;
-  users: { user: { username: string; image: string }; userRole: string }[];
+  tribeId: string;
+  users: {
+    user: { username: string; image: string };
+    userRole: string;
+    adminUsername: string;
+    userId: string;
+  }[];
 }
 const TribeUsers = ({
   isOpen,
   onRequestClose,
   users,
   tribeName,
+  tribeId,
 }: Props & TribeUsersProps) => {
   return (
     <ModalWrapper
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Tribe Users"
-      className={'  bg-white w-[300px] mt-72 rounded-3xl shadow-3xl'}
+      className={'bg-white w-max mt-72 rounded-3xl shadow-3xl'}
     >
       <div className="m-2">
         <h1
@@ -34,6 +41,9 @@ const TribeUsers = ({
               name={user.user.username}
               profileImage={user.user.image}
               isAdmin={user.userRole === 'ADMIN'}
+              adminUsername={user.adminUsername}
+              userId={user.userId}
+              tribeId={tribeId}
             />
           </Link>
         ))}

@@ -22,8 +22,7 @@ export const join_tribe = async (tribeId: string, userId: string) => {
       userRole: 'USER',
     },
   });
-  revalidateTag('tribePosts');
-  revalidateTag('userPosts');
+  revalidateTag('tribeInfo');
   return { success: 'Successfully Joined Tribe' };
 };
 

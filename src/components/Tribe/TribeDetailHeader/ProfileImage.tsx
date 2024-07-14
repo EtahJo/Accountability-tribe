@@ -1,15 +1,11 @@
 'use client';
-import { useContext } from 'react';
 import UploadImage from '@/components/UploadImage';
 import { CldImage } from 'next-cloudinary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { ImageUploaderContext } from '@/context/ImageUploadContext';
 import { FaUser } from 'react-icons/fa';
 import { edit_tribe } from '@/action/tribe/edit-tribe';
-import { EditTribeSchema } from '@/schemas/index';
 import Formsy from 'formsy-react';
-import { Button } from '@/components/ui/button';
-import z from 'zod';
+import { toast } from 'sonner';
 
 interface ProfileImageProps {
   isAdmin: boolean;
@@ -22,19 +18,29 @@ const ProfileImage = ({
   profileImage,
   tribeId,
 }: ProfileImageProps) => {
-  const { url } = useContext(ImageUploaderContext);
-  const onValidSubmit = (vals: z.infer<typeof EditTribeSchema>) => {
-    vals.profileImage = url;
-    console.log(vals);
-    // edit_tribe()
+  const onValidSubmit = (profileImage: string) => {
+    const inputInfo = { profileImage };
+    edit_tribe(inputInfo, tribeId).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+        toast.error(data.error);
+      }
+      if (data.success) {
+        console.log(data.success);
+        toast.success(data.success);
+      }
+    });
   };
 
   return (
     <div>
       {isAdmin ? (
-        <Formsy onValidSubmit={onValidSubmit}>
-          <UploadImage name="profileImage" presentImage={profileImage} />
-          <Button type="submit"></Button>
+        <Formsy>
+          <UploadImage
+            name="profileImage"
+            presentImage={profileImage}
+            submitUrl={onValidSubmit}
+          />
         </Formsy>
       ) : (
         <Avatar

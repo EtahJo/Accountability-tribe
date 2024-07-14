@@ -1,11 +1,10 @@
 'use client';
-import { useState, useTransition, useContext } from 'react';
+import { useState, useTransition } from 'react';
 import * as z from 'zod';
 import Formsy from 'formsy-react';
 import Custominput from '@/components/CustomInput/index';
 import { create_tribe } from '@/action/tribe/create-tribe';
 import UploadImage from '@/components/UploadImage/index';
-import { ImageUploaderContext } from '@/context/ImageUploadContext';
 import { Button } from '@/components/ui/button';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
@@ -13,7 +12,6 @@ import { CreateTribeSchema } from '@/schemas/index';
 import CustomTagsInput from '@/components/CustomTagsInput/index';
 
 const CreateTribe = () => {
-  const { url } = useContext(ImageUploaderContext);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
@@ -62,9 +60,6 @@ const CreateTribe = () => {
     },
   ];
   const onValidSubmit = (vals: z.infer<typeof CreateTribeSchema>) => {
-    if (url) {
-      vals.profileImage = url;
-    }
     startTransition(() => {
       create_tribe(vals).then((data) => {
         if (data?.error) {

@@ -1,19 +1,27 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { AiFillCamera } from 'react-icons/ai';
 import { CldUploadWidget, CldImage } from 'next-cloudinary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { FaUser } from 'react-icons/fa';
-import { withFormsy } from 'formsy-react';
-import { ImageUploaderContext } from '@/context/ImageUploadContext';
+import { withFormsy, FormsyInjectedProps } from 'formsy-react';
 
 interface UploadImageProps {
   presentImage?: string | null | undefined;
+  submitUrl?: (val: string) => void;
+  onSuccess?: () => void;
 }
 
-const UploadImage = ({ presentImage }: UploadImageProps) => {
-  const { addUrl } = useContext(ImageUploaderContext);
+const UploadImage = ({
+  presentImage,
+  submitUrl,
+  setValue,
+}: UploadImageProps & FormsyInjectedProps<any>) => {
   const [resource, setResource] = useState<any>();
+  const onSuccess = (imageUrl: string) => {
+    setValue(imageUrl);
+  };
+
   return (
     <div className="relative -mt-32 ">
       <Avatar className=" w-[180px] h-[180px] z-10 items-center flex justify-center m-auto border-4 border-white">
@@ -37,7 +45,10 @@ const UploadImage = ({ presentImage }: UploadImageProps) => {
         signatureEndpoint={'/api/sign-image'}
         onSuccess={(result: any, { widget }) => {
           setResource(result?.info);
-          addUrl(result?.info.path);
+          onSuccess(result?.info.path);
+          if (submitUrl) {
+            submitUrl(result?.info.path);
+          }
         }}
       >
         {({ open }) => {
