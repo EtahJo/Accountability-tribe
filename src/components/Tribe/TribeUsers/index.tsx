@@ -10,7 +10,7 @@ interface TribeUsersProps {
   users: {
     user: { username: string; image: string };
     userRole: string;
-    adminUsername: string;
+    adminsUsername: string[];
     userId: string;
   }[];
 }
@@ -36,16 +36,15 @@ const TribeUsers = ({
           {tribeName} Members
         </h1>
         {users.map((user, index) => (
-          <Link href={`/user/${user.user.username}`} key={index}>
-            <TribeUser
-              name={user.user.username}
-              profileImage={user.user.image}
-              isAdmin={user.userRole === 'ADMIN'}
-              adminUsername={user.adminUsername}
-              userId={user.userId}
-              tribeId={tribeId}
-            />
-          </Link>
+          <TribeUser
+            name={user.user.username}
+            profileImage={user.user.image}
+            isAdmin={user.adminsUsername.includes(user.user.username)}
+            adminsUsername={user.adminsUsername}
+            userId={user.userId}
+            tribeId={tribeId}
+            users={users}
+          />
         ))}
       </div>
     </ModalWrapper>

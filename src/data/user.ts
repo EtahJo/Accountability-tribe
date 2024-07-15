@@ -25,6 +25,12 @@ export const getUserById = async (id: string) => {
             },
           },
         },
+        streak: true,
+        notifications: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
       },
     });
     return user;

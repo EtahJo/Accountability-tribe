@@ -3,7 +3,12 @@ import * as z from 'zod';
 import { db } from '@/lib/db';
 import { CreatePostSchema } from '@/schemas';
 import { currentUser } from '@/lib/authentication';
-import { getTribeAdmin, getTribeUserByTribeUserId } from '@/data/tribe';
+import {
+  getTribeUserByTribeUserId,
+  getSpecificTribeAdmin,
+  getAllTribeAdmins,
+} from '@/data/tribe';
+import { totalTribePostUnApproved } from '@/data/tribe';
 import { getUserById } from '@/data/user';
 import { revalidateTag } from 'next/cache';
 
@@ -29,8 +34,8 @@ export const create_post = async (
   if (!tribeUser) {
     return { error: 'Only tribe members can add post to tribe' };
   }
-  const tribeAdmin = await getTribeAdmin(tribeId);
-  const approved = tribeAdmin?.id === dbUser.id ? true : false;
+  const tribeAdmin = await getSpecificTribeAdmin(tribeId, dbUser.id);
+  const approved = tribeAdmin ? true : false;
 
   await db.post.create({
     data: {
@@ -45,12 +50,27 @@ export const create_post = async (
   for (const tag of tags) {
     revalidateTag(tag);
   }
-  // revalidateTag('userPosts');
-  // revalidateTag('tribePosts');
-  const returnMessage =
-    tribeAdmin?.id === dbUser.id
-      ? 'Post Successfully Created'
-      : 'Post Created and Pending Approval';
+  const unApprovedTotal = await totalTribePostUnApproved(tribeId);
+  const allTribeAdmins = await getAllTribeAdmins(tribeId);
+  if (allTribeAdmins && !tribeAdmin) {
+    await db.$transaction(
+      allTribeAdmins?.map((admin) =>
+        db.notification.create({
+          data: {
+            userId: admin.userId,
+            message: `${unApprovedTotal} ${
+              (unApprovedTotal as number) > 1 ? 'posts' : 'post'
+            } pending review`,
+            type: 'ADMINTASK',
+          },
+        })
+      )
+    );
+  }
+
+  const returnMessage = tribeAdmin
+    ? 'Post Successfully Created'
+    : 'Post Created and Pending Approval';
 
   return { success: returnMessage };
 };

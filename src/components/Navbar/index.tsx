@@ -2,14 +2,17 @@
 
 import Link from 'next/link';
 import { useCurrentUser } from '@/hooks/use-current-user';
-import ProfileIcon from '../ProfileIcon/index';
+import ProfileIcon from '@/components/NavbarIcon/ProfileIcon';
+import NotificationIcon from '@/components/NavbarIcon/NotificationIcon';
+import StreakIcon from '@/components/NavbarIcon/StreakIcon';
 import { usePathname } from 'next/navigation';
+import { FaBolt, FaBell } from 'react-icons/fa';
+import NavbarItem from '../ProfileIconItem/index';
 import { cn } from '@/lib/utils';
 
 const Navbar = () => {
-  const { session } = useCurrentUser();
+  const { session, user }: any = useCurrentUser();
   const pathname = usePathname();
-
   return (
     <div className="bg-purple rounded-full m-4 p-2 z-50 fixed phone:w-[96%] flex items-center justify-between  w-[90]">
       <Link
@@ -42,7 +45,13 @@ const Navbar = () => {
       {session.status === 'authenticated' ? (
         <div className="flex justify-between items-center">
           {' '}
-          <div className="relative">
+          <div className="relative flex items-center gap-4">
+            {/* <NavbarItem
+              icon={<FaBolt size={25} className="text-white text-shadow-lg" />}
+              number={user?.streak?.count}
+            /> */}
+            <StreakIcon count={user?.streak?.count} />
+            <NotificationIcon notifications={user.notifications} />
             <ProfileIcon />
           </div>
         </div>

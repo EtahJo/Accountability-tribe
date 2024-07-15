@@ -2,7 +2,7 @@
 import { db } from '@/lib/db';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
-import { getTribeById, getTribeAdmin } from '@/data/tribe';
+import { getTribeById, getSpecificTribeAdmin } from '@/data/tribe';
 import { revalidateTag } from 'next/cache';
 
 export const delete_tribe = async (tribeId: string) => {
@@ -15,8 +15,10 @@ export const delete_tribe = async (tribeId: string) => {
   if (!tribe) {
     return { error: 'Tribe does not exist' };
   }
-  const tribeAdmin = await getTribeAdmin(tribe.id);
-  if (tribeAdmin?.id !== user.id && tribe.users.length !== 0) {
+  const isTribeAdmin = tribe.adminsUsername.includes(
+    dbUser?.username as string
+  );
+  if (!isTribeAdmin) {
     return { error: 'You are not allowed to delete tribe' };
   }
   if (tribe.users.length !== 0)

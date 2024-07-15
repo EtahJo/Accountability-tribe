@@ -4,7 +4,7 @@ import * as z from 'zod';
 import { db } from '@/lib/db';
 import { EditPostSchema } from '@/schemas';
 import { currentUser } from '@/lib/authentication';
-import { getTribeAdmin } from '@/data/tribe';
+import { getSpecificTribeAdmin, getAllTribeAdmins } from '@/data/tribe';
 import { getPostById } from '@/data/post';
 import { getUserById } from '@/data/user';
 
@@ -32,8 +32,9 @@ export const edit_post = async (
   if (post?.authorId !== dbUser.id) {
     return { error: 'You are not the creator of this post' };
   }
-  const tribeAdmin = await getTribeAdmin(post.tribeId);
-  const approved = tribeAdmin?.id === post.authorId ? true : false;
+  const tribeAdmin = await getSpecificTribeAdmin(post.tribeId, dbUser.id);
+  const approved =
+    tribeAdmin && tribeAdmin?.id === post.authorId ? true : false;
   const postEdit = await db.postEdit.create({
     data: {
       postId,
@@ -51,6 +52,20 @@ export const edit_post = async (
       },
     });
     return { success: 'Changes made' };
+  }
+  const allTribeAdmins = await getAllTribeAdmins(post.tribeId);
+  if (allTribeAdmins && !tribeAdmin) {
+    await db.$transaction(
+      allTribeAdmins?.map((admin) =>
+        db.notification.create({
+          data: {
+            userId: admin.userId,
+            message: 'An edit made to post and pending review',
+            type: 'ADMINTASK',
+          },
+        })
+      )
+    );
   }
   return { success: 'Changes pending review' };
 };

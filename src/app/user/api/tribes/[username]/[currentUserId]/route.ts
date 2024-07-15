@@ -31,6 +31,6 @@ export async function GET(req: Request, context: any) {
 
     return NextResponse.json(modifiedData);
   } catch (error) {
-    console.log('Tribes Error is>>', error);
+    console.error('Tribes Error is>>', error);
   }
 }

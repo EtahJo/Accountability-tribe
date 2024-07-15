@@ -2,7 +2,7 @@
 import * as z from 'zod';
 import { EditTribeSchema } from '@/schemas/index';
 import { db } from '@/lib/db';
-import { getTribeById, getTribeAdmin } from '@/data/tribe';
+import { getTribeById, getSpecificTribeAdmin } from '@/data/tribe';
 import { getUserById } from '@/data/user';
 import { currentUser } from '@/lib/authentication';
 import { revalidateTag } from 'next/cache';
@@ -26,8 +26,8 @@ export const edit_tribe = async (
   if (!tribe) {
     return { error: 'Tribe does not exist' };
   }
-  const tribeAdmin = await getTribeAdmin(tribe.id);
-  if (tribeAdmin?.id !== dbUser.id) {
+  const tribeAdmin = await getSpecificTribeAdmin(tribe.id, dbUser.id);
+  if (!tribeAdmin) {
     return { error: 'Only admin authorised to make changes' };
   }
   await db.tribe.update({

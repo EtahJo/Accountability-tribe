@@ -26,6 +26,8 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
         session.user.timezone = token.timezone;
         session.user.sessions = token.sessions;
         session.user.tasks = token.tasks;
+        session.user.streak = token.streak;
+        session.user.notifications = token.notifications;
       }
       return session;
     },
@@ -45,6 +47,8 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
       token.timezone = existingUser.timezone;
       token.sessions = existingUser.sessions;
       token.tasks = existingUser.tasks;
+      token.streak = existingUser.streak;
+      token.notifications = existingUser.notifications;
 
       return token;
     },

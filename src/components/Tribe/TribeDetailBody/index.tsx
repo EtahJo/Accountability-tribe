@@ -39,7 +39,7 @@ const TribeDetailBody = ({
       try {
         await tribe_visit(tribeInfo.id, user?.id as string);
       } catch (error) {
-        console.log('Last visit update error', error);
+        console.error('Last visit update error', error);
       }
     };
     setCurrentNewPosts(newPosts);

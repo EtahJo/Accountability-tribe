@@ -118,7 +118,29 @@ export const getTribeAdmin = async (tribeId: string) => {
     return null;
   }
 };
-
+export const getSpecificTribeAdmin = async (
+  tribeId: string,
+  userId: string
+) => {
+  try {
+    const specificAdmin = await db.tribeUser.findFirst({
+      where: { userId, tribeId, userRole: 'ADMIN' },
+    });
+    return specificAdmin;
+  } catch (error: any) {
+    console.error('Error while fetching specific admin', error.message);
+  }
+};
+export const getAllTribeAdmins = async (tribeId: string) => {
+  try {
+    const allTribeAdmins = await db.tribeUser.findMany({
+      where: { tribeId, userRole: 'ADMIN' },
+    });
+    return allTribeAdmins;
+  } catch (error: any) {
+    console.error('Error while getting all tribe admins', error.message);
+  }
+};
 export const getTribesWithSimilarTags = async (
   tags: string,
   currentUserId: string
@@ -224,5 +246,19 @@ export const getRecommendedTribes = async (currentUserId: string) => {
     return recommendedTribes;
   } catch {
     return null;
+  }
+};
+
+export const totalTribePostUnApproved = async (tribeId: string) => {
+  try {
+    const totalUnapprovedPosts = await db.post.count({
+      where: {
+        tribeId,
+        approved: false,
+      },
+    });
+    return totalUnapprovedPosts;
+  } catch (error: any) {
+    console.error('Issue with counting unapproved tribe posts', error.message);
   }
 };

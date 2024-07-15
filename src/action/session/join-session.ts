@@ -25,7 +25,7 @@ export const join_session = async (
       session: { connect: { id: sessionId } },
       userRole: 'USER',
       goal: values.goal,
-      adminUserName: sessionAdmin?.username,
+      adminUsername: sessionAdmin?.username,
     },
   });
   if (values.taskIds) {

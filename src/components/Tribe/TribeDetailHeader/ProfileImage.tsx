@@ -22,11 +22,9 @@ const ProfileImage = ({
     const inputInfo = { profileImage };
     edit_tribe(inputInfo, tribeId).then((data) => {
       if (data.error) {
-        console.log(data.error);
         toast.error(data.error);
       }
       if (data.success) {
-        console.log(data.success);
         toast.success(data.success);
       }
     });

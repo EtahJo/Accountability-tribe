@@ -5,27 +5,70 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Button } from '@/components/ui/button';
 import { remove_tribe_user } from '@/action/tribe/remove-tribe-member';
+import { make_tribe_admin } from '@/action/tribe/add-tribe-admin';
+import { remove_as_admin } from '@/action/tribe/remove-as-admin';
 import { toast } from 'sonner';
+import Link from 'next/link';
 import { FaUser } from 'react-icons/fa';
 
 interface TribeUserProps {
   name: string;
   profileImage: string;
   isAdmin: boolean;
-  adminUsername: string;
+  adminsUsername: string[];
   userId: string;
   tribeId: string;
+  users: {
+    user: { username: string; image: string };
+    userRole: string;
+    adminsUsername: string[];
+    userId: string;
+  }[];
 }
 const TribeUser = ({
   name,
   profileImage,
   isAdmin,
-  adminUsername,
+  adminsUsername,
   userId,
   tribeId,
+  users,
 }: TribeUserProps) => {
   const [isPending, startTransition] = useTransition();
   const { user }: any = useCurrentUser();
+  const canLeaveTribe =
+    user.username === name &&
+    (!adminsUsername.includes(name) ||
+      (adminsUsername.length > 1 && adminsUsername.includes(name)));
+  const isAdminLoggedIn = adminsUsername.includes(user.username);
+  const canAdminleaveTribe = isAdminLoggedIn && users.length === 1;
+  const canMakeAdmin = !adminsUsername.includes(name);
+
+  const canUnMakeAdmin = adminsUsername.length > 1;
+  const makeAdmin = () => {
+    startTransition(() => {
+      make_tribe_admin(tribeId, userId).then((data) => {
+        if (data?.success) {
+          toast.success(data.success);
+        }
+        if (data?.error) {
+          toast.error(data.error);
+        }
+      });
+    });
+  };
+  const removeAsAdmin = () => {
+    startTransition(() => {
+      remove_as_admin(tribeId, userId).then((data) => {
+        if (data?.success) {
+          toast.success(data.success);
+        }
+        if (data?.error) {
+          toast.error(data.error);
+        }
+      });
+    });
+  };
   const removeTribeUser = () => {
     startTransition(() => {
       remove_tribe_user(tribeId, userId).then((data) => {
@@ -38,9 +81,10 @@ const TribeUser = ({
       });
     });
   };
+
   return (
     <div className="flex items-center gap-x-3 rounded-sm hover:shadow-3xl hover:bg-lighterPink p-2 w-full justify-between">
-      <div className=" flex items-center gap-x-2">
+      <Link href={`/user/${name}`} className=" flex items-center gap-x-2">
         <Avatar className=" w-[40px] h-[40px] z-10 items-center border-2 border-lightPink  shadow-3xl">
           {!profileImage ? (
             <AvatarFallback className="bg-black">
@@ -61,11 +105,11 @@ const TribeUser = ({
           <p className="text-lg">{name}</p>
           {isAdmin && <p className="text-sm text-gray-400">Admin</p>}
         </span>
-      </div>
+      </Link>
 
       <div className="flex items-center  justify-between ">
         <div className="flex justify-end items-center gap-x-2">
-          {user?.username === name && (
+          {(canLeaveTribe || canAdminleaveTribe) && (
             <Button
               size={'sm'}
               className="bg-gray-400 hover:bg-gray-600"
@@ -75,7 +119,7 @@ const TribeUser = ({
               Leave Tribe
             </Button>
           )}
-          {adminUsername === user?.username && (
+          {isAdminLoggedIn && name !== user.username && (
             <Button
               size={'sm'}
               variant={'destructive'}
@@ -85,6 +129,22 @@ const TribeUser = ({
               Remove Member
             </Button>
           )}
+          {isAdminLoggedIn &&
+            (canMakeAdmin ? (
+              <Button size={'sm'} onClick={makeAdmin} disabled={isPending}>
+                Make Admin
+              </Button>
+            ) : (
+              canUnMakeAdmin && (
+                <Button
+                  size={'sm'}
+                  disabled={isPending}
+                  onClick={removeAsAdmin}
+                >
+                  Remove As Admin
+                </Button>
+              )
+            ))}
         </div>
       </div>
     </div>

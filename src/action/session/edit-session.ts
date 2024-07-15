@@ -85,6 +85,19 @@ export const edit_session = async (
       )
     );
   }
+
+  await db.$transaction(
+    session.users.map((user) =>
+      db.notification.create({
+        data: {
+          userId: user.userId,
+          message: 'Updates made to session',
+          type: 'SESSIONUPDATES',
+        },
+      })
+    )
+  );
+
   // TODO: send email to all participants
   revalidateTag('userSessions');
 

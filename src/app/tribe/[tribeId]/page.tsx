@@ -84,7 +84,7 @@ async function TribeProfile({ params }: { params: { tribeId: string } }) {
         isMember={tribeInfo.users.some(
           (tribeUser) => tribeUser.userId === user?.id
         )}
-        tribeAdminUsername={tribeInfo.tribeAdminUsername}
+        adminsUsername={tribeInfo.adminsUsername}
       />
       <TribeDetailBody
         tribeInfo={tribeInfo}

@@ -16,6 +16,6 @@ export async function GET(req: Request, context: any) {
     const returnValue = { posts, newPosts };
     return NextResponse.json(returnValue);
   } catch (error) {
-    console.log('Error with tribe posts >>', error);
+    console.error('Error with tribe posts >>', error);
   }
 }

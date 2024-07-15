@@ -1,11 +1,13 @@
 'use client';
-import { useState } from 'react';
+import { useState, useTransition, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { FaPen } from 'react-icons/fa';
 import TribeUsers from '@/components/Tribe/TribeUsers';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { join_tribe } from '@/action/tribe/join-tribe';
 import { toast } from 'sonner';
 import ProfileImage from '@/components/Tribe/TribeDetailHeader/ProfileImage';
+import { delete_tribe } from '@/action/tribe/delete-tribe';
 import EditTribeModalForm from '@/components/Forms/EditTribeModalForm';
 import EditableComponent from '@/components/Tribe/TribeDetailHeader/EditableComponent';
 import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
@@ -16,13 +18,13 @@ interface TribeDetailHeaderProps {
   tribeName: string;
   tribeUsers: number;
   tribeDescription: string;
-  tribeAdminUsername: string;
+  adminsUsername: string[];
   tribeTags: [];
   tribeId: string;
   users: {
     user: { username: string; image: string };
     userRole: string;
-    adminUsername: string;
+    adminsUsername: string[];
     userId: string;
   }[];
   isMember?: boolean;
@@ -32,24 +34,44 @@ const TribeDetailHeader = ({
   tribeName,
   tribeUsers,
   tribeDescription,
-  tribeAdminUsername,
+  adminsUsername,
   users, /// members of the tribe
   tribeId,
   isMember,
   tribeTags,
 }: TribeDetailHeaderProps) => {
+  const [isPending, startTransition] = useTransition();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editTribeModalOpen, setEditTribeModalOpen] = useState(false);
+  const router = useRouter();
   const { user }: any = useCurrentUser();
-  const isAdmin = user?.username === tribeAdminUsername;
+  const isAdmin = adminsUsername.includes(user?.username);
+  useEffect(() => {
+    router.prefetch(`/user/${user.username}`);
+  }, []);
   const joinTribe = () => {
-    join_tribe(tribeId, user?.id as string).then((data) => {
-      if (data.error) {
-        toast.error(data.error);
-      }
-      if (data.success) {
-        toast.success(data.success);
-      }
+    startTransition(() => {
+      join_tribe(tribeId, user?.id as string).then((data) => {
+        if (data.error) {
+          toast.error(data.error);
+        }
+        if (data.success) {
+          toast.success(data.success);
+        }
+      });
+    });
+  };
+  const deleteTribe = () => {
+    startTransition(() => {
+      delete_tribe(tribeId).then((data) => {
+        if (data.error) {
+          toast.error(data.error);
+        }
+        if (data.success) {
+          toast.success(data.success);
+          router.push(`/user/${user.username}`);
+        }
+      });
     });
   };
   return (
@@ -164,18 +186,30 @@ const TribeDetailHeader = ({
           {users.length === 0 && isAdmin && (
             <DeleteConfirmation
               trigger={
-                <Button className="move-button" variant={'destructive'}>
+                <Button
+                  className="move-button w-max m-auto"
+                  variant={'destructive'}
+                  disabled={isPending}
+                >
                   Delete Tribe
                 </Button>
               }
               confirmationMessage="Are you sure you wan to delete task?"
               consequenceMessage="This action can not be reversed!"
-              action={<Button>Delete Anyway</Button>}
+              action={
+                <Button onClick={deleteTribe} disabled={isPending}>
+                  Delete Anyway
+                </Button>
+              }
             />
           )}
 
           {!isMember && (
-            <Button onClick={joinTribe} className="w-48 m-auto move-button">
+            <Button
+              onClick={joinTribe}
+              className="w-48 m-auto move-button"
+              disabled={isPending}
+            >
               Join Us
             </Button>
           )}

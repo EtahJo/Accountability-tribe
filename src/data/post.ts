@@ -98,8 +98,21 @@ export const getPostById = async (postId: string) => {
       include: { author: true },
     });
     return post;
-  } catch (error) {
-    throw error;
+  } catch (error: any) {
+    console.error('Getting post by ID error>>', error.message);
+  }
+};
+export const getPostEditById = async (postEditId: string) => {
+  try {
+    const postEdit = db.postEdit.findUnique({
+      where: { id: postEditId },
+      include: {
+        post: true,
+      },
+    });
+    return postEdit;
+  } catch (error: any) {
+    console.error('Post Edit getting Error>>', error.message);
   }
 };
 
