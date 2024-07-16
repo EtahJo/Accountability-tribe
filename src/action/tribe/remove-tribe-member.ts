@@ -45,6 +45,13 @@ export const remove_tribe_user = async (tribeId: string, userId: string) => {
   await db.tribeUser.delete({
     where: { id: tribeUser.id },
   });
+  await db.notification.create({
+    data: {
+      userId: tribeUser.userId,
+      type: 'WARNING',
+      message: `You have been deleted from the ${tribe.name} tribe`,
+    },
+  });
   revalidateTag('tribeInfo');
   return { success: 'Tribe member deleted' };
 };

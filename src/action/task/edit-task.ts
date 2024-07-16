@@ -99,7 +99,7 @@ export const edit_task = async (
       });
     }
 
-    if (streak.count === 1) {
+    if (streak?.count === 1) {
       await db.user.update({
         where: {
           id: dbUser.id,

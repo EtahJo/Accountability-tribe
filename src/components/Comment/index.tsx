@@ -10,6 +10,7 @@ import { create_comment_like } from '@/action/like/create-like';
 import LikeModal from '@/components/Posts/LikeModal';
 import CommentResponseForm from '../Forms/CommentResponseForm';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
 interface CommentProps {
@@ -51,6 +52,9 @@ const Comment = ({
   const [openLikeModal, setOpenLikeModal] = useState(false);
   const [responding, setResponding] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
+  const activeHash = window.location.hash;
+  const activeId = activeHash.split('#')[1];
+
   const { user } = useCurrentUser();
   const Liked = () => {
     if (!commentLiked) {
@@ -73,7 +77,15 @@ const Comment = ({
       ? Math.floor(theDuration.days) + ' days'
       : theDuration.weeks.weeks + 'w';
   return (
-    <div className="flex flex-col gap-y-1 border-b-2 border-b-gray-200 m-2 pb-2">
+    <div
+      className={cn(
+        'flex flex-col gap-y-1 border-b-2 border-b-gray-200 m-2 pb-2',
+        activeId === commentId
+          ? 'bg-lighterPink p-2 rounded-md mb-4'
+          : 'bg-transparent'
+      )}
+      id={commentId}
+    >
       <Link
         href={`/user/${username}`}
         className="flex items-center gap-x-2 cursor-pointer"

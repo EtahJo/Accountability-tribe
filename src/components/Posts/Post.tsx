@@ -110,7 +110,7 @@ PostProps) => {
       ? Math.floor(theDuration.days) + ' days'
       : theDuration.weeks.weeks + 'w';
   return (
-    <div className="bg-white rounded-2xl p-5  my-5 relative">
+    <div className="bg-white rounded-2xl p-5  my-5 relative" id={postId}>
       <div className="flex justify-between">
         <div className="flex items-start gap-x-2">
           <Link

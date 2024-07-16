@@ -632,3 +632,14 @@ export const getUserClosestSession = async (userId: string) => {
     return null;
   }
 };
+
+export const getSessionUsers = async (sessionId: string) => {
+  try {
+    const sessionUsers = await db.sessionParticipant.findMany({
+      where: { sessionId },
+    });
+    return sessionUsers;
+  } catch (error: any) {
+    console.error('Error getting session users', error.message);
+  }
+};

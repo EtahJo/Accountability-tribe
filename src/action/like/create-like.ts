@@ -3,6 +3,8 @@ import { db } from '@/lib/db';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
 import { revalidateTag } from 'next/cache';
+import { getPostById } from '@/data/post';
+import { getCommentById } from '@/data/comment';
 
 export const create_post_like = async (postId: string) => {
   const user = await currentUser();
@@ -13,7 +15,10 @@ export const create_post_like = async (postId: string) => {
   if (!dbUser) {
     return { error: 'Unauthorised User' };
   }
-
+  const post = await getPostById(postId);
+  if (!post) {
+    return { error: 'No such post exist' };
+  }
   await db.like.create({
     data: {
       post: {
@@ -26,6 +31,18 @@ export const create_post_like = async (postId: string) => {
       // userId: dbUser.id,
     },
   });
+  if (post.authorId !== dbUser.id) {
+    await db.notification.create({
+      data: {
+        userId: post.authorId,
+        message: `${dbUser.username} liked your post`,
+        type: 'LIKE',
+        locationId: postId,
+        pageId: post.tribeId,
+      },
+    });
+  }
+
   revalidateTag('userPosts');
   revalidateTag('tribePosts');
   return { success: 'Like Added' };
@@ -39,6 +56,10 @@ export const create_comment_like = async (commentId: string) => {
   if (!dbUser) {
     return { error: 'Unauthorised User' };
   }
+  const comment = await getCommentById(commentId);
+  if (!comment) {
+    return { error: 'No such comment exists' };
+  }
   await db.like.create({
     data: {
       comment: {
@@ -49,6 +70,18 @@ export const create_comment_like = async (commentId: string) => {
       },
     },
   });
+  if (comment.authorId !== dbUser.id) {
+    await db.notification.create({
+      data: {
+        userId: comment.authorId,
+        message: `${dbUser.username} liked your comment`,
+        type: 'LIKE',
+        locationId: commentId,
+        pageId: comment.post.tribeId,
+      },
+    });
+  }
+
   revalidateTag('userPosts');
   revalidateTag('tribePosts');
 };

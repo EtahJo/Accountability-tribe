@@ -53,8 +53,8 @@ export const link_task_session = async (
     },
   });
   revalidateTag('userTasks');
-  revalidateTag('userSessions');
-  revalidateTag('userUnCompletedTasks');
+  // revalidateTag('userSessions');
+  // revalidateTag('userUnCompletedTasks');
   return { success: 'Task added to session' };
 };
 

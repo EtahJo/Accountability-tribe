@@ -1,5 +1,3 @@
-// 'use client';
-
 import HomePageLoggedIn from '@/components/HomePage/HomePageLoggedIn';
 import HomePageLoggedOut from '@/components/HomePage/HomePageLoggedOut';
 import { currentUser } from '@/lib/authentication';

@@ -44,15 +44,18 @@ const Todo = ({
   TodoProps) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const { user }: any = useCurrentUser();
   const deleteTask = () => {
-    delete_task(taskId).then((data) => {
-      if (data?.error) {
-        toast.error(data.error);
-      }
-      if (data.success) {
-        toast.success(data.success);
-      }
+    startTransition(() => {
+      delete_task(taskId).then((data) => {
+        if (data?.error) {
+          toast.error(data.error);
+        }
+        if (data.success) {
+          toast.success(data.success);
+        }
+      });
     });
   };
   return (
@@ -121,16 +124,18 @@ const Todo = ({
                 </p>
               </span>
             </div>
-            <Badge
-              className="whitespace-nowrap w-28 cursor-pointer pr-2"
-              onClick={() => {
-                if (sessionParticipants.length > 0) {
-                  setIsOpenModal(true);
-                }
-              }}
-            >
-              In {sessionParticipants?.length} Sessions
-            </Badge>
+            {sessionParticipants?.length > 0 && (
+              <Badge
+                className="whitespace-nowrap w-28 cursor-pointer pr-2"
+                onClick={() => {
+                  if (sessionParticipants.length > 0) {
+                    setIsOpenModal(true);
+                  }
+                }}
+              >
+                In {sessionParticipants?.length} Sessions
+              </Badge>
+            )}
           </div>
           {user?.id === userId && (
             <div>
@@ -148,6 +153,7 @@ const Todo = ({
                     className="py-2 mt-2"
                     size={'slg'}
                     variant="destructive"
+                    disabled={isPending}
                   >
                     Delete Task
                   </Button>
@@ -164,6 +170,7 @@ const Todo = ({
         sessionParticipants={sessionParticipants}
         isOpen={isOpenModal}
         onRequestClose={() => setIsOpenModal(false)}
+        taskId={taskId}
       />
     </Accordion>
   );

@@ -32,7 +32,7 @@ export const create_comment = async (
   if (!isMember.result) {
     return { error: 'Join tribe to be able to comment' };
   }
-  await db.comment.create({
+  const comment = await db.comment.create({
     data: {
       content,
       post: {
@@ -43,6 +43,17 @@ export const create_comment = async (
       },
     },
   });
+  if (post?.authorId !== dbUser.id) {
+    await db.notification.create({
+      data: {
+        userId: post?.authorId as string,
+        message: `${dbUser.username} commented on your post`,
+        type: 'COMMENT',
+        locationId: comment.id,
+        pageId: post?.tribeId,
+      },
+    });
+  }
 
   revalidateTag('tribePosts');
   revalidateTag('userPosts');

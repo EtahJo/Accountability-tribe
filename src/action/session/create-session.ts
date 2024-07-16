@@ -6,7 +6,6 @@ import { db } from '@/lib/db';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
 import { getDuration } from '@/util/DateTime';
-import { UserRole } from '@prisma/client';
 import { revalidateTag } from 'next/cache';
 
 export const create_session = async (
@@ -45,7 +44,7 @@ export const create_session = async (
       session: { connect: { id: session.id } },
       userRole: 'ADMIN',
       goal,
-      adminUserName: dbUser.username,
+      adminUsername: dbUser.username,
     },
   });
   await db.session.update({

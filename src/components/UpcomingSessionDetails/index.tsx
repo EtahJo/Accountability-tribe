@@ -17,11 +17,13 @@ import { join_session } from '@/action/session/join-session';
 import { duplicate_session } from '@/action/session/duplicate-session';
 import { edit_session_goal } from '@/action/session/edit-session-goal';
 import { link_task_session } from '@/action/task/link-task-to-session';
+import { remove_task_from_session } from '@/action/task/remove-task-from-session';
 import { delete_session } from '@/action/session/delete-session';
 import { leave_session } from '@/action/session/leave-session';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
+import ToolTip from '@/components/ToolTip/index';
 import {
   Popover,
   PopoverContent,
@@ -29,6 +31,7 @@ import {
 } from '@/components/ui/popover';
 import Todo from '@/components/TodoList/Todo';
 import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
+import { cn } from '@/lib/utils';
 
 interface UpcomingSessionDetailProps {
   period: string;
@@ -154,13 +157,15 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
     });
   };
   const deleteSession = () => {
-    delete_session(sessionId).then((data) => {
-      if (data.error) {
-        toast.error(data.error);
-      }
-      if (data.success) {
-        toast.success(data.success);
-      }
+    startTransition(() => {
+      delete_session(sessionId).then((data) => {
+        if (data.error) {
+          toast.error(data.error);
+        }
+        if (data.success) {
+          toast.success(data.success);
+        }
+      });
     });
   };
   const leaveSession = () => {
@@ -171,6 +176,18 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
       if (data.success) {
         toast.success(data.success);
       }
+    });
+  };
+  const removeTaskFromSession = (taskId: string) => {
+    startTransition(() => {
+      remove_task_from_session(taskId, sessionParticipantId).then((data) => {
+        if (data.error) {
+          toast.error(data.error);
+        }
+        if (data.success) {
+          toast.success(data.success);
+        }
+      });
     });
   };
   return (
@@ -282,18 +299,19 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
             </div>
 
             <div className="flex gap-x-2 flex-wrap -mt-5 ml-2 ">
-              <p className="whitespace-nowrap">This Session created by</p>
+              <p className="whitespace-nowrap">This Session with </p>
               {/* TODO:Add link to user profile */}
               <Link href={`/user/${admin}`} className="text-lightPink">
                 {isAdmin ? 'you' : admin}
               </Link>
 
               <p className="whitespace-nowrap">
-                has {members} {members > 1 ? ' participants,' : ' participant'}
+                as admin has {members}{' '}
+                {members > 1 ? ' participants' : ' participant'}
               </p>
               <p className="font-bold">
                 {' '}
-                {isMember && !isAdmin && 'including you'}
+                {isMember && !isAdmin && ',including you'}
               </p>
             </div>
 
@@ -413,7 +431,9 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
             {(isAfter || members === 1) && showDeleteOrLeave && isAdmin ? (
               <DeleteConfirmation
                 trigger={
-                  <Button variant={'destructive'}>Delete Session</Button>
+                  <Button variant={'destructive'} disabled={isPending}>
+                    Delete Session
+                  </Button>
                 }
                 confirmationMessage="Are you sure you want to delete Session"
                 consequenceMessage="This action will prevent any notifications about session detail changes or updates"
@@ -443,18 +463,37 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
 
         <div className="flex flex-col justify-center items-center">
           {tasks?.map(({ task }: any) => (
-            <Todo
-              key={task.id}
-              title={task.title}
-              priority={task.priority}
-              description={task.description}
-              status={task.status}
-              id={task.id}
-              dueDate={task.dueDate}
-              sessionParticipants={task.sessionParticipants}
-              taskId={task.id}
-              userId={task.userId}
-            />
+            <div className="flex items-center gap-1">
+              <Todo
+                key={task.id}
+                title={task.title}
+                priority={task.priority}
+                description={task.description}
+                status={task.status}
+                id={task.id}
+                dueDate={task.dueDate}
+                sessionParticipants={task.sessionParticipants}
+                taskId={task.id}
+                userId={task.userId}
+              />
+              <ToolTip
+                trigger={
+                  <p
+                    onClick={() => {
+                      removeTaskFromSession(task.id);
+                    }}
+                    className={cn(
+                      'font-bold hover:text-purple cursor-pointer',
+                      isPending ? 'opacity-50' : 'opacity-100'
+                    )}
+                  >
+                    X
+                  </p>
+                }
+              >
+                <p>Remove task from session</p>
+              </ToolTip>
+            </div>
           ))}
           {isMember && !isAfter && pageUser.username === user.username && (
             <Formsy onValidSubmit={addTaskToSession}>

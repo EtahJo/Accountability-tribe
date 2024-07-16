@@ -81,6 +81,19 @@ export const getUserUnCompletedTask = async (userId: string) => {
           not: Status.COMPLETE,
         },
       },
+      include: {
+        user: true,
+        sessionParticipants: {
+          include: {
+            sessionParticipant: {
+              include: { session: true },
+            },
+          },
+        },
+      },
+      orderBy: {
+        priority: 'asc',
+      },
     });
     return tasks;
   } catch {}

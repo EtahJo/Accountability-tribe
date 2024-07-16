@@ -5,7 +5,7 @@ import { currentUser } from '@/lib/authentication';
 
 async function getTasksData(username: string) {
   const tasksRes = await fetch(
-    `http://localhost:3000/user/api/tasks/${username}/unCompleted`,
+    `http://localhost:3000/user/api/tasks/${username}/uncompleted`,
     {
       next: {
         tags: ['userUnCompletedTasks'],

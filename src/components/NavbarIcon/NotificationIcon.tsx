@@ -6,11 +6,14 @@ import {
   FaSync,
   FaHourglassEnd,
   FaStopwatch,
+  FaThumbsUp,
+  FaComment,
 } from 'react-icons/fa';
 import NavbarIcon from '@/components/NavbarIcon';
 import NavbarItem from '@/components/ProfileIconItem/index';
 import { update_notification } from '@/action/notification/update';
 import { Notification } from '@prisma/client';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
@@ -41,7 +44,8 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
       >
         {notifications?.map((notification) => (
           <DropdownMenuItem
-            className="w-max whitespace-nowrap cursor-pointer"
+            key={notification.id}
+            className="w-full whitespace-nowrap cursor-pointer border-b"
             onClick={() => onNotificationClick(notification.id)}
           >
             <div className="flex items-center gap-2 text-lightPink group">
@@ -51,6 +55,8 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
               {notification.type === 'SESSIONUPDATES' && <FaSync />}
               {notification.type === 'DEADLINES' && <FaHourglassEnd />}
               {notification.type === 'SESSIONSTART' && <FaStopwatch />}
+              {notification.type === 'LIKE' && <FaThumbsUp />}
+              {notification.type === 'COMMENT' && <FaComment />}
               <p
                 className={cn(
                   'text-black group-hover:text-purple',
@@ -58,7 +64,15 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
                 )}
               >
                 {' '}
-                {notification.message}
+                {notification.locationId ? (
+                  <Link
+                    href={`/tribe/${notification.pageId}#${notification.locationId}`}
+                  >
+                    {notification.message}
+                  </Link>
+                ) : (
+                  <>{notification.message}</>
+                )}
               </p>
             </div>
           </DropdownMenuItem>

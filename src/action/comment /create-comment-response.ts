@@ -41,6 +41,18 @@ export const create_comment_response = async (
       post: { connect: { id: post?.id } },
     },
   });
+  if (comment?.authorId !== dbUser.id) {
+    await db.notification.create({
+      data: {
+        userId: comment?.authorId as string,
+        message: `${dbUser.username} responded to your comment`,
+        type: 'COMMENT',
+        locationId: commentId,
+        pageId: comment?.post.tribeId,
+      },
+    });
+  }
+
   revalidateTag('tribePosts');
   revalidateTag('userPosts');
   return { success: 'Comment created' };

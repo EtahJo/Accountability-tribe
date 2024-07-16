@@ -35,12 +35,6 @@ export const delete_session = async (sessionId: string) => {
   if (sessionParticipant.userRole !== 'ADMIN') {
     return { error: 'You are not authorised to delete session' };
   }
-
-  // await db.sessionParticipant.delete({
-  //   where: {
-  //     id: sessionParticipant.id,
-  //   },
-  // });
   await db.session.delete({
     where: {
       id: sessionId,

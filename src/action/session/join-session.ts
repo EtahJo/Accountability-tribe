@@ -48,6 +48,13 @@ export const join_session = async (
       },
     },
   });
+  await db.notification.create({
+    data: {
+      userId: sessionAdmin?.id as string,
+      message: 'Someone joined your session',
+      type: 'SESSIONUPDATES',
+    },
+  });
   revalidateTag('userSessions');
   return { success: 'Session Successfully Added' };
 };

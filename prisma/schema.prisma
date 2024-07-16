@@ -35,6 +35,8 @@ enum NotificationType{
   SESSIONUPDATES
   SESSIONSTART
   DEADLINES
+  LIKE
+  COMMENT
 }
 
 model User {
@@ -71,6 +73,8 @@ model Streak {
   userId      String   @unique @db.ObjectId
   count       Int      @default(0)
   lastUpdated DateTime @default(now())
+  longestStreak Int    @default(0)
+  activeDays  Int     @default(0)
   user        User     @relation(fields: [userId], references: [id])
 
   @@map("streaks")
@@ -95,7 +99,7 @@ model Streak {
   sessionParticipantId String   @db.ObjectId
   taskId    String   @db.ObjectId
 
-  sessionParticipant   SessionParticipant  @relation(fields: [sessionParticipantId], references: [id])
+  sessionParticipant   SessionParticipant  @relation(fields: [sessionParticipantId], references: [id],onDelete:Cascade)
   task      Task     @relation(fields: [taskId], references: [id])
 
   @@unique([sessionParticipantId, taskId])
@@ -148,7 +152,6 @@ model Session{
    duration    String?
    participants Int? @default(0)
    users SessionParticipant[]
-  //  tasks   SessionTask[]
 }
 model Like {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
@@ -218,6 +221,8 @@ model Notification {
   user      User     @relation(fields: [userId], references: [id])
   message   String
   type      NotificationType
+  locationId String?
+  pageId     String?
   createdAt DateTime @default(now())
   read      Boolean  @default(false)
 }
