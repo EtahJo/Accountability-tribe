@@ -20,7 +20,6 @@ const CommentForm = ({ postId }: { postId: string }) => {
         }
         if (data.success) {
           setComment('');
-          toast.success(data.success);
         }
       });
     });

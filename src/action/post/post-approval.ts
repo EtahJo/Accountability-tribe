@@ -73,6 +73,7 @@ export const post_edit_approval = async (postEditId: string) => {
     data: {
       title: postEdit.title,
       content: postEdit.content,
+      edited: true,
     },
   });
   await db.notification.create({

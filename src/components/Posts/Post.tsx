@@ -26,13 +26,14 @@ interface PostProps {
   postContent: string;
   postTitle: string;
   hasLiked: boolean;
+  edited: boolean;
   postAuthorId: string;
   tribe?: Tribe & { tribeVisit: TribeVisit[] };
   likes: { user: { username: string; image: string; id: string } }[];
   comments: {
     author: { username: string; image: string };
     content: string;
-
+    edited: boolean;
     id: string;
     createdAt: string;
     likes: { user: { username: string; image: string; id: string } }[];
@@ -41,6 +42,7 @@ interface PostProps {
       author: { username: string; image: string };
       content: string;
       id: string;
+      edited: boolean;
       createdAt: string;
       likes: { user: { username: string; image: string; id: string } }[];
       parentId: string;
@@ -71,6 +73,7 @@ const Post = ({
   postTitle,
   postAuthorId,
   newPosts,
+  edited,
 }: // createdAt,
 PostProps) => {
   const [openCommentModal, setOpenCommentModal] = useState(false);
@@ -113,32 +116,36 @@ PostProps) => {
     <div className="bg-white rounded-2xl p-5  my-5 relative" id={postId}>
       <div className="flex justify-between">
         <div className="flex items-start gap-x-2">
-          <Link
-            className="flex items-center gap-2 cursor-pointer"
-            href={`/user/${username}`}
-          >
-            <Avatar className=" w-[40px] h-[40px] items-center border-2 border-lightPink  shadow-3xl">
-              {!profileImage ? (
-                <AvatarFallback className="bg-black">
-                  <FaUser className="text-white" size={100} />
-                </AvatarFallback>
-              ) : (
-                <CldImage
-                  width="180"
-                  height="180"
-                  crop={'fill'}
-                  src={profileImage}
-                  sizes="100vw"
-                  alt="Tribe profile"
-                />
-              )}
-            </Avatar>
-            <div>
-              <p className="font-bold text-xl">{username}</p>
+          <div className="flex flex-col gap-y-2">
+            <Link
+              className="flex items-center gap-2 cursor-pointer"
+              href={`/user/${username}`}
+            >
+              <Avatar className=" w-[40px] h-[40px] items-center border-2 border-lightPink  shadow-3xl">
+                {!profileImage ? (
+                  <AvatarFallback className="bg-black">
+                    <FaUser className="text-white" size={100} />
+                  </AvatarFallback>
+                ) : (
+                  <CldImage
+                    width="180"
+                    height="180"
+                    crop={'fill'}
+                    src={profileImage}
+                    sizes="100vw"
+                    alt="Tribe profile"
+                  />
+                )}
+              </Avatar>
+              <div>
+                <p className="font-bold text-xl">{username}</p>
 
-              <p>{duration}</p>
-            </div>
-          </Link>
+                <p>{duration}</p>
+              </div>
+            </Link>
+            {edited && <p className=" text-sm  opacity-30 ml-12">Edited</p>}
+          </div>
+
           {isAdmin && <p className="text-sm text-lightPink mt-2">Admin</p>}
         </div>
         <div className="flex flex-col items-end justify-end">
@@ -252,7 +259,7 @@ PostProps) => {
                 <Comment
                   key={comment.id}
                   profileImage={comment.author.image}
-                  username={comment.author.username}
+                  authorUsername={comment.author.username}
                   comment={comment.content}
                   createdAt={comment.createdAt}
                   commentLiked={comment.likes?.some(
@@ -261,6 +268,7 @@ PostProps) => {
                   commentLikes={comment.likes}
                   commentId={comment.id}
                   replies={comment.replies}
+                  edited={comment.edited}
                 />
               )
           )}

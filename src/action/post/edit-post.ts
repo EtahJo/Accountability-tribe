@@ -7,6 +7,7 @@ import { currentUser } from '@/lib/authentication';
 import { getSpecificTribeAdmin, getAllTribeAdmins } from '@/data/tribe';
 import { getPostById } from '@/data/post';
 import { getUserById } from '@/data/user';
+import { revalidateTag } from 'next/cache';
 
 export const edit_post = async (
   values: z.infer<typeof EditPostSchema>,
@@ -43,12 +44,13 @@ export const edit_post = async (
       approved,
     },
   });
-  if (tribeAdmin?.id === post.authorId) {
+  if (tribeAdmin?.userId === post.authorId) {
     await db.post.update({
       where: { id: postId },
       data: {
         title: postEdit.title,
         content: postEdit.content,
+        edited: true,
       },
     });
     return { success: 'Changes made' };
@@ -67,5 +69,6 @@ export const edit_post = async (
       )
     );
   }
+  revalidateTag('tribePosts');
   return { success: 'Changes pending review' };
 };

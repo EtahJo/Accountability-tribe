@@ -54,16 +54,20 @@ const PostDropdown = ({
         <DropdownMenuTrigger className="group">
           <FaEllipsisH className="text-purple group-hover:shadow-3xl group-hover:text-black rounded-3xl" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className=" flex flex-col items-center">
+        <DropdownMenuContent className=" flex flex-col items-center justify-center">
           {isAuthor && (
-            <DropdownMenuItem onClick={() => setOpenModal(true)}>
+            <DropdownMenuItem
+              onClick={() => setOpenModal(true)}
+              className="w-full flex justify-center"
+            >
               Edit
             </DropdownMenuItem>
           )}
           {(showMakeFirstConditionOne || showMakeFirstConditionTwo) && (
-            <DropdownMenuItem>Make First</DropdownMenuItem>
+            <DropdownMenuItem className="w-full flex justify-center">
+              Make First
+            </DropdownMenuItem>
           )}
-          <DropdownMenuItem></DropdownMenuItem>
           {isAuthor && (
             <DeleteConfirmation
               trigger={

@@ -1,8 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
 import PostSnippet from '@/components/Posts/Post';
 import { useCurrentUser } from '@/hooks/use-current-user';
-import { tribe_visit } from '@/action/tribe/tribe-visit';
 import SectionHeader from '@/components/SectionHeader';
 import {
   Carousel,
@@ -21,6 +19,7 @@ interface PostProps {
     title: string;
     id: string;
     authorId: string;
+    edited: boolean;
     likes: {}[];
     author: { username: string; image: string };
     tribe: Tribe & { users: TribeUser[] };
@@ -68,6 +67,7 @@ const Posts = ({ posts, pageUsername, newPosts }: PostProps) => {
               comments,
               createdAt,
               title,
+              edited,
             }) => {
               const admin: {} | undefined = tribe?.users.find(
                 (user) => (user.userRole = 'ADMIN')
@@ -89,6 +89,7 @@ const Posts = ({ posts, pageUsername, newPosts }: PostProps) => {
                     postTitle={title}
                     newPosts={newPosts}
                     postAuthorId={authorId}
+                    edited={edited}
                   />
                 </CarouselItem>
               );

@@ -175,6 +175,7 @@ model Post {
   tribeId   String   @db.ObjectId
   comments  Comment[]
   likes    Like[]
+  edited Boolean @default(false)
    createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   pendindEdits  PostEdit[]
@@ -196,6 +197,7 @@ model Comment {
   authorId String  @db.ObjectId
   post    Post     @relation(fields: [postId], references: [id])
   postId  String   @db.ObjectId
+  edited Boolean @default(false)
    createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
    parent      Comment?    @relation("CommentReplies", fields: [parentId], references: [id],onDelete:NoAction,onUpdate:NoAction)

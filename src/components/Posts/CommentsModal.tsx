@@ -9,6 +9,7 @@ interface CommentsModalProps {
     author: { username: string; image: string };
     content: string;
     id: string;
+    edited: boolean;
     createdAt: string;
     commentId: string;
     commentLiked: boolean;
@@ -19,6 +20,7 @@ interface CommentsModalProps {
       author: { username: string; image: string };
       content: string;
       id: string;
+      edited: boolean;
       createdAt: string;
       likes: { user: { username: string; image: string; id: string } }[];
       parentId: string;
@@ -50,7 +52,7 @@ const CommentsModal = ({
           !comment.parentId && (
             <Comment
               key={comment?.id}
-              username={comment?.author?.username}
+              authorUsername={comment?.author?.username}
               profileImage={comment?.author?.image}
               comment={comment?.content}
               createdAt={comment.createdAt}
@@ -60,6 +62,7 @@ const CommentsModal = ({
               commentLikes={comment.likes}
               commentId={comment.id}
               replies={comment.replies}
+              edited={comment.edited}
             />
           )
       )}

@@ -1,23 +1,35 @@
 'use client';
-import { useState } from 'react';
+import { useState, useTransition, useEffect } from 'react';
+import * as z from 'zod';
 import Link from 'next/link';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { FaUser, FaThumbsUp, FaRegThumbsUp, FaComment } from 'react-icons/fa';
+import {
+  FaUser,
+  FaThumbsUp,
+  FaRegThumbsUp,
+  FaComment,
+  FaPaperPlane,
+} from 'react-icons/fa';
 import { CldImage } from 'next-cloudinary';
-import { formatDateTime, getDuration } from '@/util/DateTime';
+import { getDuration } from '@/util/DateTime';
+import { CreateCommentSchema } from '@/schemas/index';
 import { Button } from '@/components/ui/button';
 import { create_comment_like } from '@/action/like/create-like';
+import { edit_comment } from '@/action/comment /edit-comment';
 import LikeModal from '@/components/Posts/LikeModal';
 import CommentResponseForm from '../Forms/CommentResponseForm';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import Formsy from 'formsy-react';
+import CustomInput from '@/components/CustomInput';
 
 interface CommentProps {
   profileImage: string;
-  username: string;
+  authorUsername: string;
   comment: string;
   commentLiked: boolean;
+  edited: boolean;
   commentLikes: { user: { username: string; image: string } }[];
   createdAt: string;
   commentId: string;
@@ -25,6 +37,7 @@ interface CommentProps {
     author: { username: string; image: string };
     content: string;
     id: string;
+    edited: boolean;
     createdAt: string;
     likes: { user: { username: string; image: string; id: string } }[];
     parentId: string;
@@ -40,22 +53,30 @@ interface CommentProps {
 }
 const Comment = ({
   profileImage,
-  username,
+  authorUsername,
   comment,
   commentLiked,
   createdAt,
   commentId,
   commentLikes,
   replies,
+  edited,
 }: CommentProps) => {
   const [like, setLike] = useState(false);
   const [openLikeModal, setOpenLikeModal] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [responding, setResponding] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
-  const activeHash = window.location.hash;
-  const activeId = activeHash.split('#')[1];
+  const [editComment, setEditComment] = useState(false);
+  const [activeId, setActiveId] = useState('');
 
-  const { user } = useCurrentUser();
+  useEffect(() => {
+    const activeHash = window?.location.hash;
+    const activeId = activeHash.split('#')[1];
+    setActiveId(activeId);
+  }, []);
+
+  const { user }: any = useCurrentUser();
   const Liked = () => {
     if (!commentLiked) {
       setLike(true);
@@ -65,6 +86,18 @@ const Comment = ({
         }
       });
     }
+  };
+  const onValidSubmit = (vals: z.infer<typeof CreateCommentSchema>) => {
+    startTransition(() => {
+      edit_comment(vals, commentId).then((data) => {
+        if (data?.error) {
+          toast.error(data.error);
+        }
+        if (data.success) {
+          setEditComment(false);
+        }
+      });
+    });
   };
   const NowDateTime = new Date();
   const theDuration = getDuration(createdAt, NowDateTime.toISOString());
@@ -79,40 +112,80 @@ const Comment = ({
   return (
     <div
       className={cn(
-        'flex flex-col gap-y-1 border-b-2 border-b-gray-200 m-2 pb-2',
+        'flex flex-col gap-y-1 border-b-2 border-b-gray-200 m-2 pb-2 relative',
         activeId === commentId
           ? 'bg-lighterPink p-2 rounded-md mb-4'
           : 'bg-transparent'
       )}
       id={commentId}
     >
-      <Link
-        href={`/user/${username}`}
-        className="flex items-center gap-x-2 cursor-pointer"
-      >
-        <Avatar className=" w-[30px] h-[30px] items-center border-2 border-lightPink  shadow-3xl">
-          {!profileImage ? (
-            <AvatarFallback className="bg-black">
-              <FaUser className="text-white" size={50} />
-            </AvatarFallback>
-          ) : (
-            <CldImage
-              width="50"
-              height="50"
-              crop={'fill'}
-              src={profileImage}
-              sizes="100vw"
-              alt="Tribe profile"
-            />
-          )}
-        </Avatar>
-        <div className="">
-          <p className="font-semibold">{username}</p>
-        </div>
-      </Link>
+      <div className="flex justify-between items-center">
+        <Link
+          href={`/user/${authorUsername}`}
+          className="flex items-center gap-x-2 cursor-pointer"
+        >
+          <Avatar className=" w-[30px] h-[30px] items-center border-2 border-lightPink  shadow-3xl">
+            {!profileImage ? (
+              <AvatarFallback className="bg-black">
+                <FaUser className="text-white" size={50} />
+              </AvatarFallback>
+            ) : (
+              <CldImage
+                width="50"
+                height="50"
+                crop={'fill'}
+                src={profileImage}
+                sizes="100vw"
+                alt="Tribe profile"
+              />
+            )}
+          </Avatar>
+          <div className="">
+            <p className="font-semibold">{authorUsername}</p>
+          </div>
+        </Link>
+        {user.username === authorUsername && (
+          <p
+            className="text-sm text-purple cursor-pointer hover:underline"
+            onClick={() => setEditComment(true)}
+          >
+            Edit
+          </p>
+        )}
+      </div>
+
       <div className="ml-10 flex justify-between items-center">
-        <div>
-          <p>{comment}</p>
+        <div className="basis-3/4">
+          {editComment ? (
+            <Formsy
+              className="flex items-center gap-x-2 w-full"
+              onValidSubmit={onValidSubmit}
+            >
+              <CustomInput
+                name="content"
+                value={comment}
+                disabled={isPending}
+                placeholder="React to post (Be Positive)"
+                Icon={
+                  <Button type="submit" disabled={isPending}>
+                    <FaPaperPlane />
+                  </Button>
+                }
+                inputClassNames={'p-2 w-[300px]'}
+              />
+              <p
+                className="cursor-pointer text-sm font-bold"
+                onClick={() => setEditComment(false)}
+              >
+                X
+              </p>
+            </Formsy>
+          ) : (
+            <div>
+              <p>{comment}</p>
+              {edited && <p className=" text-sm  opacity-30">Edited</p>}
+            </div>
+          )}
         </div>
 
         <div className="flex gap-2 items-center">
@@ -190,7 +263,7 @@ const Comment = ({
             <div key={reply.id}>
               <Comment
                 profileImage={reply.author.image}
-                username={reply.author.username}
+                authorUsername={reply.author.username}
                 comment={reply.content}
                 createdAt={reply.createdAt}
                 commentLiked={reply.likes?.some(
@@ -199,6 +272,7 @@ const Comment = ({
                 commentLikes={reply.likes}
                 commentId={reply.id}
                 replies={reply.replies}
+                edited={reply.edited}
               />
             </div>
           ))}
