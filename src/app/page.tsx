@@ -2,9 +2,11 @@ import HomePageLoggedIn from '@/components/HomePage/HomePageLoggedIn';
 import HomePageLoggedOut from '@/components/HomePage/HomePageLoggedOut';
 import { currentUser } from '@/lib/authentication';
 
+const base_url = process.env.BASE_URL;
+
 async function getHighlightedUsers() {
   const highlightedUsers = await fetch(
-    'http://localhost:3000/user/api/highlighted-users',
+    `${base_url}/user/api/highlighted-users`,
     {
       next: {
         tags: ['highlightedUsers'],
@@ -19,7 +21,7 @@ async function getHighlightedUsers() {
 
 async function getHighPriorityTasks(username: string) {
   const highPriorityTasks = await fetch(
-    `http://localhost:3000/user/api/tasks/${username}/high-priority`,
+    `${base_url}/user/api/tasks/${username}/high-priority`,
     {
       next: {
         tags: ['highPriority'],
@@ -34,7 +36,7 @@ async function getHighPriorityTasks(username: string) {
 
 async function getRecommendedTribes(currentUserId: string) {
   const recommendedTribes = await fetch(
-    `http://localhost:3000/tribe/api/recommended-tribes/${currentUserId}`,
+    `${base_url}/tribe/api/recommended-tribes/${currentUserId}`,
     {
       next: {
         tags: ['recommendedTribes'],
@@ -48,7 +50,7 @@ async function getRecommendedTribes(currentUserId: string) {
 }
 async function getClosestSession(username: string) {
   const closestSession = await fetch(
-    `http://localhost:3000/user/api/sessions/${username}/closest-session`,
+    `${base_url}/user/api/sessions/${username}/closest-session`,
     {
       next: {
         tags: ['closestSession'],

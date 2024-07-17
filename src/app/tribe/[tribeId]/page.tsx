@@ -5,9 +5,11 @@ import TribeDetailBody, {
 import { currentUser } from '@/lib/authentication';
 import { TribeUser } from '@prisma/client';
 
+const base_url = process.env.BASE_URL;
+
 async function getTribeInfo(tribeId: string, currentUserId: string) {
   const response = await fetch(
-    `http://localhost:3000/tribe/api/${currentUserId}/${tribeId}`,
+    `${base_url}/tribe/api/${currentUserId}/${tribeId}`,
     {
       headers: {
         accept: 'application/json',
@@ -26,7 +28,7 @@ async function getTribeInfo(tribeId: string, currentUserId: string) {
 async function getSimilarTribes(tribeInfo: any, currentUserId: String) {
   try {
     const response = await fetch(
-      `http://localhost:3000/tribe/api/?userId=${currentUserId}&tags=${tribeInfo?.tags.join(
+      `${base_url}/tribe/api/?userId=${currentUserId}&tags=${tribeInfo?.tags.join(
         ','
       )}`,
       {
@@ -46,7 +48,7 @@ async function getSimilarTribes(tribeInfo: any, currentUserId: String) {
 async function getPostsData(tribeId: string, currentUserId: string) {
   try {
     const response = await fetch(
-      `http://localhost:3000/tribe/api/posts/${tribeId}/${currentUserId}`,
+      `${base_url}/tribe/api/posts/${tribeId}/${currentUserId}`,
       {
         headers: {
           accept: 'application/json',

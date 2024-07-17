@@ -7,9 +7,11 @@ import { get_tribe_members } from '@/action/tribe/get-tribe-members';
 import Tribes from '@/components/Tribes/index';
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 
+const base_url = process.env.BASE_URL;
+
 async function getPostData(username: string, currentUserId: string) {
   const postsRes = await fetch(
-    `http://localhost:3000/user/api/posts/${username}/${currentUserId}`,
+    `${base_url}/user/api/posts/${username}/${currentUserId}`,
     {
       next: {
         tags: ['userPosts'],
@@ -23,7 +25,7 @@ async function getPostData(username: string, currentUserId: string) {
 }
 async function getSessionData(username: string, currentUserId: string) {
   const sessionRes = await fetch(
-    `http://localhost:3000/user/api/sessions/${username}/${currentUserId}?page=${1}&filter=${'all'}`,
+    `${base_url}/user/api/sessions/${username}/${currentUserId}?page=${1}&filter=${'all'}`,
     {
       next: {
         tags: ['userSessions'],
@@ -38,7 +40,7 @@ async function getSessionData(username: string, currentUserId: string) {
 }
 async function getTribesData(username: string, currentUserId: string) {
   const tribesRes = await fetch(
-    `http://localhost:3000/user/api/tribes/${username}/${currentUserId}`,
+    `${base_url}/user/api/tribes/${username}/${currentUserId}`,
     {
       next: {
         tags: ['userTribes'],
@@ -53,7 +55,7 @@ async function getTribesData(username: string, currentUserId: string) {
 }
 async function getTasksData(username: string) {
   const tasksRes = await fetch(
-    `http://localhost:3000/user/api/tasks/${username}/uncompleted`,
+    `${base_url}/user/api/tasks/${username}/uncompleted`,
     {
       next: {
         tags: ['userTasks'],
@@ -68,7 +70,7 @@ async function getTasksData(username: string) {
 }
 async function getCompletedTasksData(username: string) {
   const completedTasksRes = await fetch(
-    `http://localhost:3000/user/api/tasks/${username}/completed-task`,
+    `${base_url}/user/api/tasks/${username}/completed-task`,
     {
       next: {
         tags: ['userCompletedTasks'],
@@ -82,7 +84,7 @@ async function getCompletedTasksData(username: string) {
   return completedTasksRes.json();
 }
 async function getUserData(username: string) {
-  const userRes = await fetch(`http://localhost:3000/user/api/${username}`, {
+  const userRes = await fetch(`${base_url}/user/api/${username}`, {
     next: {
       tags: ['userInfo'],
     },

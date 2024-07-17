@@ -2,6 +2,8 @@ import { currentUser } from '@/lib/authentication';
 
 import GetAllSessions from '@/components/GetAllSessions/index';
 
+const base_url = process.env.BASE_URL;
+
 async function getSessionData(
   username: string,
   currentUserId: string,
@@ -9,7 +11,7 @@ async function getSessionData(
   filter: string
 ) {
   const sessionRes = await fetch(
-    `http://localhost:3000/user/api/sessions/${username}/${currentUserId}?page=${page}&filter=${filter}`,
+    `${base_url}/user/api/sessions/${username}/${currentUserId}?page=${page}&filter=${filter}`,
     {
       next: {
         tags: ['userSessions'],

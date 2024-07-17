@@ -1,10 +1,10 @@
 import SectionHeader from '@/components/SectionHeader/index';
 import CreateSessionForm from '@/components/Forms/CreateSessionForm';
 import { currentUser } from '@/lib/authentication';
-
+const base_url = process.env.BASE_URL;
 async function getTasksData(username: string) {
   const tasksRes = await fetch(
-    `http://localhost:3000/user/api/tasks/${username}/uncompleted`,
+    `${base_url}/user/api/tasks/${username}/uncompleted`,
     {
       next: {
         tags: ['userUnCompletedTasks'],
