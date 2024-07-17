@@ -21,7 +21,7 @@ async function getHighlightedUsers() {
 
 async function getHighPriorityTasks(username: string) {
   const highPriorityTasks = await fetch(
-    `$https://accountability-tribe.vercel.app/user/api/tasks/${username}/high-priority`,
+    `https://accountability-tribe.vercel.app/user/api/tasks/${username}/high-priority`,
     {
       next: {
         tags: ['highPriority'],
