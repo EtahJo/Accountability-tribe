@@ -1,7 +1,7 @@
 'use server';
 import * as z from 'zod';
 import { db } from '@/lib/db';
-import { CreatePostSchema } from '@/schemas';
+import { CreatePostSchema } from '@/schemas/index';
 import { currentUser } from '@/lib/authentication';
 import {
   getTribeUserByTribeUserId,

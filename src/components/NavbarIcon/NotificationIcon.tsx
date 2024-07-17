@@ -9,7 +9,7 @@ import {
   FaThumbsUp,
   FaComment,
 } from 'react-icons/fa';
-import NavbarIcon from '@/components/NavbarIcon';
+import NavbarIcon from '@/components/NavbarIcon/index';
 import NavbarItem from '@/components/ProfileIconItem/index';
 import { update_notification } from '@/action/notification/update';
 import { Notification } from '@prisma/client';

@@ -4,8 +4,8 @@ import { useEffect, useState, useTransition } from 'react';
 import Formsy from 'formsy-react';
 
 import CustomInput from '@/components/CustomInput/index';
-import DurationInput from '@/components/DurationInput';
-import CustomDateInput from '@/components/CustomDateInput';
+import DurationInput from '@/components/DurationInput/index';
+import CustomDateInput from '@/components/CustomDateInput/index';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import { Button } from '@/components/ui/button';

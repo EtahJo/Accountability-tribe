@@ -1,5 +1,5 @@
 'use client';
-import ModalWrapper from '@/components/ModalWrap';
+import ModalWrapper from '@/components/ModalWrap/index';
 import { Props } from 'react-modal';
 import TribeUser from '@/components/Tribe/TribeUsers/TribeUser';
 interface LikeModalProps {

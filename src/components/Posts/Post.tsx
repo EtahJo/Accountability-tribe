@@ -3,7 +3,7 @@ import { useState, useTransition } from 'react';
 import { usePathname } from 'next/navigation';
 import { CldImage } from 'next-cloudinary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import Comment from '@/components/Comment';
+import Comment from '@/components/Comment/index';
 import CommentsModal from '@/components/Posts/CommentsModal';
 import { FaUser, FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
 import { create_post_like } from '@/action/like/create-like';

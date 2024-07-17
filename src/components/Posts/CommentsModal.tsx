@@ -1,7 +1,7 @@
 'use client';
-import ModalWrapper from '@/components/ModalWrap';
+import ModalWrapper from '@/components/ModalWrap/index';
 import { Props } from 'react-modal';
-import Comment from '@/components/Comment';
+import Comment from '@/components/Comment/index';
 import { useCurrentUser } from '@/hooks/use-current-user';
 
 interface CommentsModalProps {

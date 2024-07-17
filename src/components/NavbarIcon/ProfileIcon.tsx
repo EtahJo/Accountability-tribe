@@ -1,7 +1,7 @@
 'use client';
 import React, { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import NavbarIcon from '@/components/NavbarIcon';
+import NavbarIcon from '@/components/NavbarIcon/index';
 import { CldImage } from 'next-cloudinary';
 import { Avatar } from '@radix-ui/react-avatar';
 import { logout } from '@/action/auth/logout';

@@ -1,7 +1,7 @@
 'use client';
 import { useTransition } from 'react';
 import ModalWrapper from '../ModalWrap/index';
-import UpcomingSession from '@/components/UpcomingSession';
+import UpcomingSession from '@/components/UpcomingSession/index';
 import {
   formatDateTime,
   getTimeDifference,

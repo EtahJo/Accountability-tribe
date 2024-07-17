@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { cn } from '@/lib/utils';
 import '@/styles/custom-datepicker.css';
 
-import InputLabel, { InputLabelProps } from '@/components/InputLabel';
+import InputLabel, { InputLabelProps } from '@/components/InputLabel/index';
 
 interface CustomDateTimeInputProps {
   startDateTime: any;

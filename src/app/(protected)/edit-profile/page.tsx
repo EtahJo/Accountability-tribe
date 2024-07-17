@@ -13,7 +13,7 @@ import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import CountryInput from '@/components/CountryInput/index';
 import PhoneNumberInput from '@/components/PhoneNumberInput/index';
-import TimeZoneInput from '@/components/TimeZoneInput';
+import TimeZoneInput from '@/components/TimeZoneInput/index';
 
 const Editprofile = () => {
   const [isPending, startTransition] = useTransition();

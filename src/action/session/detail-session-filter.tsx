@@ -1,6 +1,6 @@
 'use server';
 import * as z from 'zod';
-import { FilterSchema } from '@/schemas';
+import { FilterSchema } from '@/schemas/index';
 import { parseISO, format } from 'date-fns';
 
 export const detail_session_filter = async (

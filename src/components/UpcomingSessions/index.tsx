@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
-import SectionHeader from '@/components/SectionHeader';
-import UpcomingSession from '@/components/UpcomingSession';
+import SectionHeader from '@/components/SectionHeader/index';
+import UpcomingSession from '@/components/UpcomingSession/index';
 import { FaPlusCircle, FaArrowRight } from 'react-icons/fa';
 import {
   Carousel,

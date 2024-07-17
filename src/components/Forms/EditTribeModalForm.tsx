@@ -3,7 +3,7 @@ import { useState, useTransition } from 'react';
 import * as z from 'zod';
 import { EditTribeSchema } from '@/schemas/index';
 import { edit_tribe } from '@/action/tribe/edit-tribe';
-import ModalWrapper from '@/components/ModalWrap';
+import ModalWrapper from '@/components/ModalWrap/index';
 import Formsy from 'formsy-react';
 import UploadImage from '@/components/UploadImage/index';
 import CustomInput from '@/components/CustomInput/index';

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { edit_tribe } from '@/action/tribe/edit-tribe';
 import { toast } from 'sonner';
 import Formsy from 'formsy-react';
-import { EditTribeSchema } from '@/schemas';
+import { EditTribeSchema } from '@/schemas/index';
 import * as z from 'zod';
 
 interface EditableComponentProps {

@@ -2,7 +2,7 @@
 import * as z from 'zod';
 import { useState, useTransition, useEffect } from 'react';
 import { EditSessionSchema } from '@/schemas/index';
-import { UpcomingSessionProps } from '@/components/UpcomingSession';
+import { UpcomingSessionProps } from '@/components/UpcomingSession/index';
 import { Button } from '@/components/ui/button';
 import { FaPen, FaClock } from 'react-icons/fa';
 import Link from 'next/link';

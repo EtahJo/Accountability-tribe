@@ -25,7 +25,7 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import EllipsisDropdown from '@/components/EllipsisDropdown/index';
 import Formsy from 'formsy-react';
-import CustomInput from '@/components/CustomInput';
+import CustomInput from '@/components/CustomInput/index';
 
 interface CommentProps {
   profileImage: string;

@@ -1,5 +1,5 @@
 'use client';
-import CustomMultipleSelectInput from '@/components/CustomMultipleSelectInput';
+import CustomMultipleSelectInput from '@/components/CustomMultipleSelectInput/index';
 import { withFormsy, FormsyInjectedProps } from 'formsy-react';
 import InputLabel, { InputLabelProps } from '@/components/InputLabel/index';
 interface OptionType {

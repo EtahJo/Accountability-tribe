@@ -1,7 +1,7 @@
 'use client';
 import PostSnippet from '@/components/Posts/Post';
 import { useCurrentUser } from '@/hooks/use-current-user';
-import SectionHeader from '@/components/SectionHeader';
+import SectionHeader from '@/components/SectionHeader/index';
 import {
   Carousel,
   CarouselContent,

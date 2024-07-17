@@ -1,5 +1,5 @@
 'use client';
-import UploadImage from '@/components/UploadImage';
+import UploadImage from '@/components/UploadImage/index';
 import { CldImage } from 'next-cloudinary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { FaUser } from 'react-icons/fa';

@@ -1,4 +1,4 @@
-import SectionHeader from '@/components/SectionHeader';
+import SectionHeader from '@/components/SectionHeader/index';
 import Achievement from '@/components/Achievements/Achievement';
 import { Task } from '@prisma/client';
 interface AchievementsProps {

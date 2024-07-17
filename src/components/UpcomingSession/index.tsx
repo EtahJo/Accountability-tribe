@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 // import { PeriodContext } from '@/context/PeriodContext';
 import { FaClock, FaCalendar } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
-import FullTextOnHover from '@/components/FullTextOnHover';
+import FullTextOnHover from '@/components/FullTextOnHover/index';
 import UpcomingSessionDetailModal from '../UpcomingSessionDetails/Modal';
 import { isToday, isThisWeek } from 'date-fns';
 import Link from 'next/link';

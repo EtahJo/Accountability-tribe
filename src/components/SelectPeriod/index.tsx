@@ -7,10 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-// import { PeriodContext } from '@/context/PeriodContext';
 
 const SelectPeriod = () => {
-  // const { period, changePeriod } = useContext(PeriodContext);
   const period = 'day';
 
   return (
@@ -21,7 +19,7 @@ const SelectPeriod = () => {
       <Select
         name="Period"
         defaultValue={period}
-        onValueChange={(val) => {
+        onValueChange={(val: any) => {
           // changePeriod(val);
         }}
       >

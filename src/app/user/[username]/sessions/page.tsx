@@ -1,6 +1,6 @@
 import { currentUser } from '@/lib/authentication';
 
-import GetAllSessions from '@/components/GetAllSessions';
+import GetAllSessions from '@/components/GetAllSessions/index';
 
 async function getSessionData(
   username: string,

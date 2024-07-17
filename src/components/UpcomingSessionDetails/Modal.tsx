@@ -1,8 +1,8 @@
 'use client';
 import ModalWrapper from '../ModalWrap/index';
 import { Props } from 'react-modal';
-import UpcomingSessionDetail from '@/components/UpcomingSessionDetails';
-import { UpcomingSessionProps } from '@/components/UpcomingSession';
+import UpcomingSessionDetail from '@/components/UpcomingSessionDetails/index';
+import { UpcomingSessionProps } from '@/components/UpcomingSession/index';
 interface UpcomingSessionDetailModalProps {
   period: string;
   upcomingSessionChildren?: React.ReactNode;

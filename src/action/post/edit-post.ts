@@ -2,7 +2,7 @@
 
 import * as z from 'zod';
 import { db } from '@/lib/db';
-import { EditPostSchema } from '@/schemas';
+import { EditPostSchema } from '@/schemas/index';
 import { currentUser } from '@/lib/authentication';
 import { getSpecificTribeAdmin, getAllTribeAdmins } from '@/data/tribe';
 import { getPostById } from '@/data/post';

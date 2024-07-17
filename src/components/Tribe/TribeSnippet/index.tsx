@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { CldImage } from 'next-cloudinary';
 import { FaUsers } from 'react-icons/fa';
-import FullTextOnHover from '@/components/FullTextOnHover';
+import FullTextOnHover from '@/components/FullTextOnHover/index';
 import { join_tribe } from '@/action/tribe/join-tribe';
 import Link from 'next/link';
 import { toast } from 'sonner';

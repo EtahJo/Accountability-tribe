@@ -1,7 +1,7 @@
 'use client';
 import BackgroundSlideShow from '@/components/BackgroundSlidShow/index';
 import { FaEllipsisH } from 'react-icons/fa';
-import ToolTip from '@/components/ToolTip';
+import ToolTip from '@/components/ToolTip/index';
 import UserSnippet from '@/components/UserSnippet/index';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Link from 'next/link';

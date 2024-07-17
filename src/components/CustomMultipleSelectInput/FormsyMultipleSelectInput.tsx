@@ -2,7 +2,7 @@ import React from 'react';
 import { withFormsy, FormsyInjectedProps } from 'formsy-react';
 import CustomMultipleSelectInput, {
   OptionType,
-} from '@/components/CustomMultipleSelectInput';
+} from '@/components/CustomMultipleSelectInput/index';
 
 const FormsyMultipleSelectInput = ({
   setValue,

@@ -1,4 +1,4 @@
-import SectionHeader from '@/components/SectionHeader';
+import SectionHeader from '@/components/SectionHeader/index';
 import CreateSessionForm from '@/components/Forms/CreateSessionForm';
 import { currentUser } from '@/lib/authentication';
 

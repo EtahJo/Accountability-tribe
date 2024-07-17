@@ -2,8 +2,8 @@
 import { withFormsy, FormsyInjectedProps } from 'formsy-react';
 import CustomSelectInput, {
   CustomSelectInputProps,
-} from '@/components/CustomSelectInput';
-import { InputLabelProps } from '@/components/InputLabel';
+} from '@/components/CustomSelectInput/index';
+import { InputLabelProps } from '@/components/InputLabel/index';
 
 const FormsySelectInput = ({
   setValue,

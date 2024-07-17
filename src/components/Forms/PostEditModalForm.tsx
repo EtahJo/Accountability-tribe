@@ -3,11 +3,11 @@ import { useState, useTransition, useEffect } from 'react';
 import ModalWrapper from '@/components/ModalWrap/index';
 import { Props } from 'react-modal';
 import Formsy from 'formsy-react';
-import CustomInput from '@/components/CustomInput';
+import CustomInput from '@/components/CustomInput/index';
 import { Button } from '@/components/ui/button';
 import { edit_post } from '@/action/post/edit-post';
 import * as z from 'zod';
-import { EditPostSchema } from '@/schemas';
+import { EditPostSchema } from '@/schemas/index';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 

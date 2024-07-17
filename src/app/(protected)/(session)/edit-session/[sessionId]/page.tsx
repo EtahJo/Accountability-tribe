@@ -1,4 +1,4 @@
-import SectionHeader from '@/components/SectionHeader';
+import SectionHeader from '@/components/SectionHeader/index';
 import { getSessionById, getSessionUserBySessionUserId } from '@/data/session';
 import EditSessionForm from '@/components/Forms/EditSessionForm';
 import { currentUser } from '@/lib/authentication';

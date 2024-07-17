@@ -1,5 +1,5 @@
 'use client';
-import SectionHeader from '@/components/SectionHeader';
+import SectionHeader from '@/components/SectionHeader/index';
 import {
   Carousel,
   CarouselContent,

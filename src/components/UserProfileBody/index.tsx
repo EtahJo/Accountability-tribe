@@ -1,8 +1,8 @@
 'use client';
-import UpcomingSessions from '@/components/UpcomingSessions';
-import TodoList from '@/components/TodoList';
-import Posts from '@/components/Posts';
-import Achievements from '@/components/Achievements';
+import UpcomingSessions from '@/components/UpcomingSessions/index';
+import TodoList from '@/components/TodoList/index';
+import Posts from '@/components/Posts/index';
+import Achievements from '@/components/Achievements/index';
 
 interface UserProfileBodyProps {
   user: { username: string; timezone: string; id: string };

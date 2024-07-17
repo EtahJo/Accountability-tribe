@@ -10,7 +10,7 @@ import { CldImage } from 'next-cloudinary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import CountryFlag from '@/components/CountryFlag/index';
 import { Button } from '@/components/ui/button';
-import ToolTip from '@/components/ToolTip';
+import ToolTip from '@/components/ToolTip/index';
 
 interface UserSnippetProps {
   username: string | null;

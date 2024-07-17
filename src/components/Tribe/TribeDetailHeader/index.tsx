@@ -2,7 +2,7 @@
 import { useState, useTransition, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaPen } from 'react-icons/fa';
-import TribeUsers from '@/components/Tribe/TribeUsers';
+import TribeUsers from '@/components/Tribe/TribeUsers/index';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { join_tribe } from '@/action/tribe/join-tribe';
 import { toast } from 'sonner';

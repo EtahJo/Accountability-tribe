@@ -1,4 +1,4 @@
-import NavbarIcon from '@/components/NavbarIcon';
+import NavbarIcon from '@/components/NavbarIcon/index';
 import { FaBolt } from 'react-icons/fa';
 import NavbarItem from '@/components/ProfileIconItem/index';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';

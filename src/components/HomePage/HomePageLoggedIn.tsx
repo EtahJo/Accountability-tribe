@@ -1,8 +1,8 @@
 import React from 'react';
-import SectionHeader from '@/components/SectionHeader';
+import SectionHeader from '@/components/SectionHeader/index';
 import HeroLoggedIn from '@/components/HomePage/HeroSection/HeroLoggedIn';
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
-import UpcomingSessionDetail from '@/components/UpcomingSessionDetails';
+import UpcomingSessionDetail from '@/components/UpcomingSessionDetails/index';
 import Todo from '@/components/TodoList/Todo';
 import { parseISO } from 'date-fns';
 import ContactSection from '@/components/ContactSection/ContactSection';
