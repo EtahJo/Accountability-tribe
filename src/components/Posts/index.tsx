@@ -25,8 +25,8 @@ interface PostProps {
     tribe: Tribe & { users: TribeUser[] };
     createdAt: string;
   }[];
-  pageUsername: string;
-  newPosts: Post[];
+  pageUsername?: string;
+  newPosts?: Post[];
 }
 
 const Posts = ({ posts, pageUsername, newPosts }: PostProps) => {
@@ -69,25 +69,26 @@ const Posts = ({ posts, pageUsername, newPosts }: PostProps) => {
               title,
               edited,
             }) => {
-              const admin: {} | undefined = tribe?.users.find(
+              const admin: { userId: string } | undefined = tribe?.users.find(
                 (user) => (user.userRole = 'ADMIN')
               );
               return (
-                <CarouselItem className="">
+                <CarouselItem key={id}>
                   <PostSnippet
-                    key={id}
                     username={author.username}
                     profileImage={author.image}
                     postContent={content}
-                    comments={comments}
-                    likes={likes}
+                    comments={comments as any}
+                    likes={likes as any}
                     createdAt={createdAt}
                     isAdmin={authorId === admin?.userId}
                     postId={id}
-                    hasLiked={likes.some((like) => like.user.id === user?.id)}
-                    tribe={tribe}
+                    hasLiked={likes.some(
+                      (like: any) => like.user.id === user?.id
+                    )}
+                    tribe={tribe as any}
                     postTitle={title}
-                    newPosts={newPosts}
+                    newPosts={newPosts as any}
                     postAuthorId={authorId}
                     edited={edited}
                   />

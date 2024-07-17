@@ -27,8 +27,6 @@ export const create_post_like = async (postId: string) => {
       user: {
         connect: { id: dbUser.id },
       },
-      // postId,
-      // userId: dbUser.id,
     },
   });
   if (post.authorId !== dbUser.id) {

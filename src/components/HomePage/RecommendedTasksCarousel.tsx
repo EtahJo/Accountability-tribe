@@ -7,6 +7,8 @@ import {
 } from '@/components/ui/carousel';
 import { Task, SessionParticipant } from '@prisma/client';
 import Todo from '@/components/TodoList/Todo';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 type SelectedTaskProps = Pick<
   Task,
@@ -16,6 +18,19 @@ interface TaskCarouselProps {
   highPriorityTasks: SelectedTaskProps[];
 }
 const RecommendedTasksCarousel = ({ highPriorityTasks }: TaskCarouselProps) => {
+  if (highPriorityTasks.length === 0) {
+    return (
+      <div
+        className="bg-white w-full flex justify-center 
+      rounded-3xl flex-col items-center p-5 gap-y-2"
+      >
+        <p className="text-xl ">No High priority task</p>
+        <Button className="move-button">
+          <Link href="/create-task">Create Task</Link>
+        </Button>
+      </div>
+    );
+  }
   return (
     <div className="mx-4">
       <Carousel

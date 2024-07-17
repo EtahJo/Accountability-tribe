@@ -62,6 +62,8 @@ async function getClosestSession(username: string) {
 }
 const Home = async () => {
   const user: any = await currentUser();
+  console.log(user);
+  if (!user) return <HomePageLoggedOut />;
 
   const highlightedUsers = await getHighlightedUsers();
   const highPriorityTasks = await getHighPriorityTasks(
@@ -71,17 +73,13 @@ const Home = async () => {
   const closestSession = await getClosestSession(user.username);
   return (
     <main className="">
-      {user ? (
-        <HomePageLoggedIn
-          highlightedUsers={highlightedUsers}
-          highPriorityTasks={highPriorityTasks}
-          user={user}
-          recommendedTribes={recommendedTribes}
-          session={closestSession}
-        />
-      ) : (
-        <HomePageLoggedOut />
-      )}
+      <HomePageLoggedIn
+        highlightedUsers={highlightedUsers}
+        highPriorityTasks={highPriorityTasks}
+        user={user}
+        recommendedTribes={recommendedTribes}
+        session={closestSession}
+      />
     </main>
   );
 };

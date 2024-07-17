@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import React from 'react';
 import { usePathname } from 'next/navigation';
 import {
   DropdownMenu,
@@ -8,42 +8,29 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { FaEllipsisH } from 'react-icons/fa';
-import PostEditModal from '@/components/Forms/PostEditModalForm';
 import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
-import { delete_post } from '@/action/post/delete-post';
 import { useCurrentUser } from '@/hooks/use-current-user';
-import { toast } from 'sonner';
 
-interface PostDropdownProps {
-  postTitle: string;
-  postContent: string;
-  postId: string;
-  postAuthorId: string;
+interface EllipsisDropdownProps {
+  authorId: string;
   isAdmin?: boolean;
+  isPending: boolean;
+  showEditFunction: () => void;
+  deleteAction: () => void;
 }
 
-const PostDropdown = ({
-  postContent,
-  postTitle,
-  postId,
-  postAuthorId,
+const EllipsisDropdown = ({
+  authorId,
   isAdmin,
-}: PostDropdownProps) => {
-  const [openModal, setOpenModal] = useState(false);
+  isPending,
+  deleteAction,
+  showEditFunction,
+}: EllipsisDropdownProps) => {
   const { user }: any = useCurrentUser();
   const pathname = usePathname();
-  const deletePost = () => {
-    delete_post(postId).then((data) => {
-      if (data.success) {
-        toast.success(data.success);
-      }
-      if (data.error) {
-        toast.error(data.error);
-      }
-    });
-  };
-  const isAuthor = user?.id === postAuthorId;
+
+  const isAuthor = user?.id === authorId;
   const showMakeFirstConditionOne = isAdmin && pathname.startsWith('/tribe');
   const showMakeFirstConditionTwo = pathname.includes(user?.username);
   if (!isAuthor && !showMakeFirstConditionOne && !showMakeFirstConditionTwo)
@@ -57,7 +44,7 @@ const PostDropdown = ({
         <DropdownMenuContent className=" flex flex-col items-center justify-center">
           {isAuthor && (
             <DropdownMenuItem
-              onClick={() => setOpenModal(true)}
+              onClick={showEditFunction}
               className="w-full flex justify-center"
             >
               Edit
@@ -71,26 +58,23 @@ const PostDropdown = ({
           {isAuthor && (
             <DeleteConfirmation
               trigger={
-                <Button variant={'destructive'} className="move-button">
+                <Button
+                  variant={'destructive'}
+                  className="move-button"
+                  disabled={isPending}
+                >
                   Delete
                 </Button>
               }
-              confirmationMessage={'Are you sure you want to delete post?'}
+              confirmationMessage={'Are you sure you want to delete?'}
               consequenceMessage="This action can not be undone"
-              action={<Button onClick={deletePost}>Delete Anyway</Button>}
+              action={<Button onClick={deleteAction}>Delete Anyway</Button>}
             />
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-      <PostEditModal
-        isOpen={openModal}
-        onRequestClose={() => setOpenModal(false)}
-        postContent={postContent}
-        postTitle={postTitle}
-        postId={postId}
-      />
     </div>
   );
 };
 
-export default PostDropdown;
+export default EllipsisDropdown;

@@ -1,7 +1,8 @@
 import SectionHeader from '@/components/SectionHeader';
 import Achievement from '@/components/Achievements/Achievement';
+import { Task } from '@prisma/client';
 interface AchievementsProps {
-  completedTasks: {}[];
+  completedTasks: Task[];
 }
 
 const Achievements = ({ completedTasks }: AchievementsProps) => {
@@ -13,7 +14,7 @@ const Achievements = ({ completedTasks }: AchievementsProps) => {
           <Achievement
             key={task.id}
             taskTitle={task.title}
-            dateCompleted={task.dateCompleted}
+            dateCompleted={task.dateCompleted as any}
           />
         ))}
       </div>

@@ -17,16 +17,10 @@ import { EditSessionSchema } from '@/schemas/index';
 import { addHours, subHours, addMinutes, subMinutes } from 'date-fns';
 import SelectTasks from '@/components/CustomMultipleSelectInput/SelectTasks';
 import Todo from '@/components/TodoList/Todo';
+import { Session } from '@prisma/client';
 
 interface EditSessionProps {
-  session: {
-    id: string;
-    goal: string;
-    startDateTime: Date;
-    endDateTime: Date | null;
-    meetingLink: string;
-    duration: string | null;
-  } | null;
+  session: Session;
   sessionTasks: {}[];
   unCompletedTasks: {}[];
 }
@@ -98,7 +92,7 @@ const EditSessionForm = ({
         <div>
           <h1 className="font-bold text-center">Session Tasks</h1>
           <div className="flex flex-col justify-center items-center">
-            {sessionTasks?.map(({ task }) => (
+            {sessionTasks?.map(({ task }: any) => (
               <Todo
                 key={task.id}
                 title={task.title}
@@ -109,7 +103,7 @@ const EditSessionForm = ({
                 dueDate={task.dueDate}
                 sessionParticipants={task.sessionParticipants}
                 taskId={task.id}
-                dateCompleted={task.dateCompleted}
+                // dateCompleted={task.dateCompleted}
                 userId={task.userId}
               />
             ))}
@@ -154,7 +148,7 @@ const EditSessionForm = ({
                     ? parseInt(duration.hours, 10)
                     : duration.hours;
 
-                if (newHour >= duration.hours) {
+                if (newHour >= (duration.hours as number)) {
                   const hourDifference = newHour - hours;
                   setEndDateTime(addHours(endDateTime, hourDifference));
                 } else {
@@ -184,7 +178,7 @@ const EditSessionForm = ({
                     ? parseInt(duration.minutes, 10)
                     : duration.minutes;
 
-                if (newMinutes >= duration.minutes) {
+                if (newMinutes >= (duration.minutes as number)) {
                   const minutesDifference = newMinutes - minutes;
                   setEndDateTime(addMinutes(endDateTime, minutesDifference));
                 } else {

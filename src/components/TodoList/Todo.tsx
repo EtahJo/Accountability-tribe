@@ -120,7 +120,7 @@ const Todo = ({
               <span className="flex">
                 <p>Due: </p>
                 <p className="text-purple font-bold">
-                  {formatDateTime(dueDate, user?.timezone).date}
+                  {formatDateTime(dueDate as any, user?.timezone).date}
                 </p>
               </span>
             </div>

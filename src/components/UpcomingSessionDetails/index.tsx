@@ -78,8 +78,8 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
   const isEndToday = isToday(endDateTime);
 
   const taskGoodToAdd = user?.tasks.filter(
-    (task: {}) =>
-      !tasks?.some((task1) => {
+    (task: { id: string }) =>
+      !tasks?.some((task1: any) => {
         return task.id === task1.taskId;
       })
   );
@@ -463,9 +463,8 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
 
         <div className="flex flex-col justify-center items-center">
           {tasks?.map(({ task }: any) => (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1" key={task.id}>
               <Todo
-                key={task.id}
                 title={task.title}
                 priority={task.priority}
                 description={task.description}

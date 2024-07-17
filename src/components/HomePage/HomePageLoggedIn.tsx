@@ -19,8 +19,9 @@ import {
   SessionParticipant,
   Tribe,
   TribeUser,
-  Session,
   User,
+  TribeVisit,
+  Post,
 } from '@prisma/client';
 import TasksCarousel from './RecommendedTasksCarousel';
 import RecommendedTribesCarousel from '@/components/HomePage/RecommendedTribesCarousel';
@@ -35,7 +36,7 @@ type SelectedTaskProps = Pick<
 type TribeProps = Pick<
   Tribe,
   'name' | 'description' | 'id' | 'profileImage'
-> & { users: TribeUser[] };
+> & { users: TribeUser[]; tribeVisit: TribeVisit[]; newPosts: Post[] };
 interface HomeLoggedInProps {
   highlightedUsers: highlightedUsersType[];
   highPriorityTasks: SelectedTaskProps[];
@@ -88,12 +89,16 @@ const HomeLoggedIn = ({
           {session ? (
             <UpcomingSessionDetail
               startDate={
-                formatDateTime(session.session.startDateTime, user.timezone)
-                  .date
+                formatDateTime(
+                  session.session.startDateTime,
+                  user?.timezone as string
+                ).date
               }
               startTime={
-                formatDateTime(session.session.startDateTime, user.timezone)
-                  .time
+                formatDateTime(
+                  session.session.startDateTime,
+                  user?.timezone as string
+                ).time
               }
               goal={session?.goal}
               duration={JSON.parse(session.session.duration)}
@@ -105,13 +110,19 @@ const HomeLoggedIn = ({
               sessionId={session.session.id}
               period={'day'}
               endDate={
-                formatDateTime(session.session.endDateTime, user.timezone).date
+                formatDateTime(
+                  session.session.endDateTime,
+                  user.timezone as string
+                ).date
               }
               endTime={
-                formatDateTime(session.session.endDateTime, user.timezone).time
+                formatDateTime(
+                  session.session.endDateTime,
+                  user.timezone as string
+                ).time
               }
               isMember={session.session.users.some(
-                (participant) => participant.userId === user.id
+                (participant: any) => participant.userId === user.id
               )}
               members={session.session.participants as number}
               admin={session.adminUserName}

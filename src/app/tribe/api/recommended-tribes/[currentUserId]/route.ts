@@ -18,7 +18,7 @@ export async function GET(req: Request, context: any) {
     const newPosts =
       tribe.tribeVisit.length === 1
         ? await getAllTribeNewPosts(tribe.id, tribe.tribeVisit[0]?.lastVisit)
-        : await getAllTribePosts(tribe.id);
+        : await getAllTribePosts(tribe.id, params.currentUserId);
     modifiedData.push({
       ...tribe,
       newPosts,

@@ -20,7 +20,7 @@ import {
   checkIsAfter,
 } from '@/util/DateTime';
 interface UpcomingSessionsProps {
-  currentUser: { timezone: string; id: string };
+  currentUser: { username: string; timezone: string; id: string };
   username: string;
   sessions: {
     session: {

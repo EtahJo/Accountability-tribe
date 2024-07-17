@@ -5,7 +5,7 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 import PostForm from '@/components/Forms/PostForm';
 import Posts from '@/components/Posts/index';
 import SectionHeader from '@/components/SectionHeader/index';
-import { Post } from '@prisma/client';
+import { Post, TribeUser } from '@prisma/client';
 import { tribe_visit } from '@/action/tribe/tribe-visit';
 
 export interface TribeDetailBodyProps {
@@ -55,9 +55,10 @@ const TribeDetailBody = ({
 
           {/** Posts */}
           <Posts
-            posts={posts}
+            posts={posts as any}
             newPosts={currentNewPosts}
-            tribeId={tribeInfo.tribeId}
+            // pageUsername={pageUsername}
+            // tribeId={tribeInfo.tribeId as any}
           />
         </div>
         <div className="col-start-10 col-end-12">
@@ -80,7 +81,7 @@ const TribeDetailBody = ({
                   tribeId={tribe.id}
                   members={tribe.users?.length}
                   isMember={tribe.users?.some(
-                    (tribeUser) => tribeUser.userId === user?.id
+                    (tribeUser: TribeUser) => tribeUser.userId === user?.id
                   )}
                   lastVisit={
                     tribe.tribeVisit.length > 0 &&

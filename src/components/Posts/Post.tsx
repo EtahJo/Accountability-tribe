@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { usePathname } from 'next/navigation';
 import { CldImage } from 'next-cloudinary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -7,6 +7,7 @@ import Comment from '@/components/Comment';
 import CommentsModal from '@/components/Posts/CommentsModal';
 import { FaUser, FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
 import { create_post_like } from '@/action/like/create-like';
+import { delete_post } from '@/action/post/delete-post';
 import Link from 'next/link';
 import LikeModal from '@/components/Posts/LikeModal';
 import CommentForm from '../Forms/CommentForm';
@@ -15,8 +16,10 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
 import { Tribe, TribeVisit, Post } from '@prisma/client';
+import { delete_post_like } from '@/action/like/delete-like';
 import { Badge } from '@/components/ui/badge';
-import PostDropDown from '@/components/Posts/PostDropdown';
+import PostEditModal from '@/components/Forms/PostEditModalForm';
+import EllipsisDropdown from '@/components/EllipsisDropdown/index';
 
 interface PostProps {
   postId: string;
@@ -34,6 +37,7 @@ interface PostProps {
     author: { username: string; image: string };
     content: string;
     edited: boolean;
+    authorId: string;
     id: string;
     createdAt: string;
     likes: { user: { username: string; image: string; id: string } }[];
@@ -59,7 +63,7 @@ interface PostProps {
   createdAt: string;
   newPosts: Post[];
 }
-const Post = ({
+const PostSnippet = ({
   postId,
   profileImage,
   username,
@@ -78,7 +82,9 @@ const Post = ({
 PostProps) => {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [openLikeModal, setOpenLikeModal] = useState(false);
-  const [like, setLike] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [like, setLike] = useState(hasLiked);
+  const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
   const { user } = useCurrentUser();
   const firstFiveComments = comments.slice(0, 5);
@@ -89,11 +95,28 @@ PostProps) => {
         if (data.error) {
           toast.error(data.error);
         }
+      });
+    }
+  };
+  const deletePostLike = () => {
+    setLike(false);
+    delete_post_like(postId).then((data) => {
+      if (data.error) {
+        toast.error(data.error);
+      }
+    });
+  };
+  const deletePost = () => {
+    startTransition(() => {
+      delete_post(postId).then((data) => {
         if (data.success) {
           toast.success(data.success);
         }
+        if (data.error) {
+          toast.error(data.error);
+        }
       });
-    }
+    });
   };
   const showNewPostConditionOne =
     tribe?.tribeVisit?.length === 1 &&
@@ -149,12 +172,12 @@ PostProps) => {
           {isAdmin && <p className="text-sm text-lightPink mt-2">Admin</p>}
         </div>
         <div className="flex flex-col items-end justify-end">
-          <PostDropDown
-            postContent={postContent}
-            postId={postId}
-            postTitle={postTitle}
-            postAuthorId={postAuthorId}
+          <EllipsisDropdown
+            authorId={postAuthorId}
             isAdmin={isAdmin}
+            deleteAction={deletePost}
+            isPending={isPending}
+            showEditFunction={() => setShowEdit(true)}
           />
           {!pathname.startsWith('/tribe') && tribe && (
             <span className="flex items-center gap-2">
@@ -197,8 +220,12 @@ PostProps) => {
       </div>
       <div className="flex justify-between items-center mx-2">
         <div className="ml-5 flex items-center gap-x-2">
-          <Button className="move-button" size={'icon'} onClick={Liked}>
-            {hasLiked || like ? (
+          <Button
+            className="move-button"
+            size={'icon'}
+            onClick={hasLiked ? deletePostLike : Liked}
+          >
+            {like ? (
               <div>
                 <FaThumbsUp className="text-purple cursor-pointer peer" />
                 <p
@@ -244,7 +271,8 @@ PostProps) => {
       <CommentsModal
         isOpen={openCommentModal}
         onRequestClose={() => setOpenCommentModal(false)}
-        comments={comments}
+        comments={comments as any}
+        isAdmin={isAdmin}
       />
       <LikeModal
         isOpen={openLikeModal}
@@ -267,15 +295,24 @@ PostProps) => {
                   )}
                   commentLikes={comment.likes}
                   commentId={comment.id}
-                  replies={comment.replies}
+                  replies={comment.replies as any}
                   edited={comment.edited}
+                  authorId={comment.authorId}
+                  isAdmin={isAdmin}
                 />
               )
           )}
         </div>
       )}
+      <PostEditModal
+        isOpen={showEdit}
+        onRequestClose={() => setShowEdit(false)}
+        postContent={postContent}
+        postTitle={postTitle}
+        postId={postId}
+      />
     </div>
   );
 };
 
-export default Post;
+export default PostSnippet;

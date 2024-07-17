@@ -37,6 +37,7 @@ const TribeUsers = ({
         </h1>
         {users.map((user, index) => (
           <TribeUser
+            key={user.userId}
             name={user.user.username}
             profileImage={user.user.image}
             isAdmin={user.adminsUsername.includes(user.user.username)}

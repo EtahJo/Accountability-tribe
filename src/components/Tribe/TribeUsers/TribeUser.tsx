@@ -15,10 +15,10 @@ interface TribeUserProps {
   name: string;
   profileImage: string;
   isAdmin: boolean;
-  adminsUsername: string[];
-  userId: string;
-  tribeId: string;
-  users: {
+  adminsUsername?: string[];
+  userId?: string;
+  tribeId?: string;
+  users?: {
     user: { username: string; image: string };
     userRole: string;
     adminsUsername: string[];
@@ -38,47 +38,50 @@ const TribeUser = ({
   const { user }: any = useCurrentUser();
   const canLeaveTribe =
     user.username === name &&
-    (!adminsUsername.includes(name) ||
+    (!adminsUsername?.includes(name) ||
       (adminsUsername.length > 1 && adminsUsername.includes(name)));
-  const isAdminLoggedIn = adminsUsername.includes(user.username);
-  const canAdminleaveTribe = isAdminLoggedIn && users.length === 1;
-  const canMakeAdmin = !adminsUsername.includes(name);
+  const isAdminLoggedIn = adminsUsername?.includes(user.username);
+  const canAdminleaveTribe = isAdminLoggedIn && users?.length === 1;
+  const canMakeAdmin = !adminsUsername?.includes(name);
 
-  const canUnMakeAdmin = adminsUsername.length > 1;
+  const canUnMakeAdmin = adminsUsername ? adminsUsername.length > 1 : null;
   const makeAdmin = () => {
     startTransition(() => {
-      make_tribe_admin(tribeId, userId).then((data) => {
-        if (data?.success) {
-          toast.success(data.success);
-        }
-        if (data?.error) {
-          toast.error(data.error);
-        }
-      });
+      if (tribeId && userId)
+        make_tribe_admin(tribeId, userId).then((data) => {
+          if (data?.success) {
+            toast.success(data.success);
+          }
+          if (data?.error) {
+            toast.error(data.error);
+          }
+        });
     });
   };
   const removeAsAdmin = () => {
     startTransition(() => {
-      remove_as_admin(tribeId, userId).then((data) => {
-        if (data?.success) {
-          toast.success(data.success);
-        }
-        if (data?.error) {
-          toast.error(data.error);
-        }
-      });
+      if (tribeId && userId)
+        remove_as_admin(tribeId, userId).then((data) => {
+          if (data?.success) {
+            toast.success(data.success);
+          }
+          if (data?.error) {
+            toast.error(data.error);
+          }
+        });
     });
   };
   const removeTribeUser = () => {
     startTransition(() => {
-      remove_tribe_user(tribeId, userId).then((data) => {
-        if (data.success) {
-          toast.success(data.success);
-        }
-        if (data.error) {
-          toast.error(data.error);
-        }
-      });
+      if (tribeId && userId)
+        remove_tribe_user(tribeId, userId).then((data) => {
+          if (data.success) {
+            toast.success(data.success);
+          }
+          if (data.error) {
+            toast.error(data.error);
+          }
+        });
     });
   };
 

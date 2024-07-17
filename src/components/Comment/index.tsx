@@ -16,18 +16,23 @@ import { CreateCommentSchema } from '@/schemas/index';
 import { Button } from '@/components/ui/button';
 import { create_comment_like } from '@/action/like/create-like';
 import { edit_comment } from '@/action/comment /edit-comment';
+import { delete_comment } from '@/action/comment /delete-comment';
+import { delete_comment_like } from '@/action/like/delete-like';
 import LikeModal from '@/components/Posts/LikeModal';
 import CommentResponseForm from '../Forms/CommentResponseForm';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import EllipsisDropdown from '@/components/EllipsisDropdown/index';
 import Formsy from 'formsy-react';
 import CustomInput from '@/components/CustomInput';
 
 interface CommentProps {
   profileImage: string;
   authorUsername: string;
+  authorId: string;
   comment: string;
+  isAdmin: boolean;
   commentLiked: boolean;
   edited: boolean;
   commentLikes: { user: { username: string; image: string } }[];
@@ -38,6 +43,7 @@ interface CommentProps {
     content: string;
     id: string;
     edited: boolean;
+    authorId: string;
     createdAt: string;
     likes: { user: { username: string; image: string; id: string } }[];
     parentId: string;
@@ -45,6 +51,7 @@ interface CommentProps {
       author: { username: string; image: string };
       content: string;
       id: string;
+      authorId: string;
       createdAt: string;
       likes: { user: { username: string; image: string; id: string } }[];
       parentId: string;
@@ -54,15 +61,17 @@ interface CommentProps {
 const Comment = ({
   profileImage,
   authorUsername,
+  authorId,
   comment,
   commentLiked,
   createdAt,
   commentId,
   commentLikes,
   replies,
+  isAdmin,
   edited,
 }: CommentProps) => {
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(commentLiked);
   const [openLikeModal, setOpenLikeModal] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [responding, setResponding] = useState(false);
@@ -86,6 +95,23 @@ const Comment = ({
         }
       });
     }
+  };
+  const deleteCommentLike = () => {
+    setLike(false);
+    delete_comment_like(commentId).then((data) => {
+      if (data.error) {
+        toast.error(data.error);
+      }
+    });
+  };
+  const deleteComment = () => {
+    startTransition(() => {
+      delete_comment(commentId).then((data) => {
+        if (data.error) {
+          toast.error(data.error);
+        }
+      });
+    });
   };
   const onValidSubmit = (vals: z.infer<typeof CreateCommentSchema>) => {
     startTransition(() => {
@@ -144,14 +170,13 @@ const Comment = ({
             <p className="font-semibold">{authorUsername}</p>
           </div>
         </Link>
-        {user.username === authorUsername && (
-          <p
-            className="text-sm text-purple cursor-pointer hover:underline"
-            onClick={() => setEditComment(true)}
-          >
-            Edit
-          </p>
-        )}
+        <EllipsisDropdown
+          authorId={authorId}
+          isAdmin={isAdmin}
+          deleteAction={deleteComment}
+          showEditFunction={() => setEditComment(true)}
+          isPending={isPending}
+        />
       </div>
 
       <div className="ml-10 flex justify-between items-center">
@@ -191,8 +216,11 @@ const Comment = ({
         <div className="flex gap-2 items-center">
           <p className="text-sm font-bold whitespace-nowrap">{duration}</p>
           <div className="flex items-center gap-2">
-            <Button onClick={Liked} className="move-button">
-              {commentLiked || like ? (
+            <Button
+              onClick={commentLiked ? deleteCommentLike : Liked}
+              className="move-button"
+            >
+              {like ? (
                 <div>
                   <FaThumbsUp className="text-purple cursor-pointer peer" />
                   <p
@@ -256,13 +284,18 @@ const Comment = ({
           likes={commentLikes}
         />
       </div>
-      {responding && <CommentResponseForm commentId={commentId} />}
+      <CommentResponseForm
+        commentId={commentId}
+        responding={responding}
+        setResponding={setResponding}
+      />
       {showReplies && (
         <div>
           {replies.map((reply) => (
             <div key={reply.id}>
               <Comment
                 profileImage={reply.author.image}
+                authorId={reply.authorId}
                 authorUsername={reply.author.username}
                 comment={reply.content}
                 createdAt={reply.createdAt}
@@ -271,8 +304,9 @@ const Comment = ({
                 )}
                 commentLikes={reply.likes}
                 commentId={reply.id}
-                replies={reply.replies}
+                replies={reply.replies as any}
                 edited={reply.edited}
+                isAdmin={isAdmin}
               />
             </div>
           ))}

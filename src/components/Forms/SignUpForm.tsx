@@ -11,6 +11,7 @@ import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 
 import TimeZoneInput from '@/components/TimeZoneInput/index';
+import { useRouter } from 'next/navigation';
 
 const SignUpForm = () => {
   const [email, setEmail] = useState<string>('');
@@ -22,6 +23,7 @@ const SignUpForm = () => {
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const router = useRouter();
   const onSubmit = (vals: z.infer<typeof RegisterSchema>) => {
     startTransition(() => {
       signup(vals)
@@ -33,6 +35,7 @@ const SignUpForm = () => {
           if (data.success) {
             setError('');
             setSuccess(data.success);
+            router.push('/auth/login');
           }
         })
         .catch((error) => {

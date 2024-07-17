@@ -123,7 +123,7 @@ const CreateSessionForm = ({ tasks }: CreateSessionFormprops) => {
                     ? parseInt(duration.hours, 10)
                     : duration.hours;
 
-                if (newHour >= duration.hours) {
+                if (newHour >= (duration.hours as number)) {
                   const hourDifference = newHour - hours;
                   setEndDateTime(addHours(endDateTime, hourDifference));
                 } else {
@@ -153,7 +153,7 @@ const CreateSessionForm = ({ tasks }: CreateSessionFormprops) => {
                     ? parseInt(duration.minutes, 10)
                     : duration.minutes;
 
-                if (newMinutes >= duration.minutes) {
+                if (newMinutes >= (duration.minutes as number)) {
                   const minutesDifference = newMinutes - minutes;
                   setEndDateTime(addMinutes(endDateTime, minutesDifference));
                 } else {

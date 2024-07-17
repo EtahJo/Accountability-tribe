@@ -2,6 +2,7 @@ import SectionHeader from '@/components/SectionHeader';
 import { getSessionById, getSessionUserBySessionUserId } from '@/data/session';
 import EditSessionForm from '@/components/Forms/EditSessionForm';
 import { currentUser } from '@/lib/authentication';
+import { Session } from '@prisma/client';
 
 async function getTasksData(username: string) {
   const tasksRes = await fetch(
@@ -25,7 +26,7 @@ const EditSession = async ({ params }: { params: { sessionId: string } }) => {
   const session = await getSessionUserBySessionUserId(sessionId, user.id);
   const tasks = await getTasksData(user?.username);
   const goodToAddTasks = tasks.filter(
-    (task: {}) => !session?.tasks.some((task1) => task.id === task1.taskId)
+    (task: any) => !session?.tasks.some((task1) => task.id === task1.taskId)
   );
 
   return (
@@ -35,11 +36,11 @@ const EditSession = async ({ params }: { params: { sessionId: string } }) => {
           <SectionHeader name="Edit Session" />
         </div>
         <EditSessionForm
-          session={session?.session}
+          session={session?.session as Session}
           unCompletedTasks={
             session?.tasks.length === 0 ? tasks : goodToAddTasks
           }
-          sessionTasks={session?.tasks}
+          sessionTasks={session?.tasks as {}[]}
         />
       </div>
     </div>

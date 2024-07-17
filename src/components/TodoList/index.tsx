@@ -9,14 +9,15 @@ import {
 } from '@/components/ui/carousel';
 import { FaPlusCircle, FaArrowRight } from 'react-icons/fa';
 import Todo from '@/components/TodoList/Todo';
-import { Task } from '@prisma/client';
+import { Task, SessionParticipant } from '@prisma/client';
 import Link from 'next/link';
 
 const TodoList = ({
   tasks,
   pageUsername,
 }: {
-  tasks: Array<Task>;
+  tasks: any;
+  //  Task[] & { sessionParticipants: SessionParticipant }[];
   pageUsername: string;
 }) => {
   return (
@@ -35,18 +36,18 @@ const TodoList = ({
         className="w-full my-5"
       >
         <CarouselContent className="w-full">
-          {tasks?.map((task) => (
+          {tasks?.map((task: any) => (
             <CarouselItem key={task.id} className="lg:basis-1/3 md:basis-1/2">
               <Todo
                 title={task.title}
                 priority={task.priority}
                 description={task.description}
                 status={task.status}
-                // id={task.id}
+                id={task.id}
                 dueDate={task.dueDate}
                 sessionParticipants={task.sessionParticipants}
                 taskId={task.id}
-                dateCompleted={task.dateCompleted}
+                // dateCompleted={task.dateCompleted}
                 userId={task.userId}
               />
             </CarouselItem>

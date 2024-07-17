@@ -17,7 +17,7 @@ import TimeZoneInput from '@/components/TimeZoneInput';
 
 const Editprofile = () => {
   const [isPending, startTransition] = useTransition();
-  const { user, phoneNumber } = useCurrentUser();
+  const { user, phoneNumber }: any = useCurrentUser();
   const [formData, setFormData] = useState({
     username: user?.username || undefined,
     email: user?.email || undefined,
@@ -112,7 +112,7 @@ const Editprofile = () => {
               placeholder="Password"
               value={formData.password}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setFormData((prev) => ({
+                setFormData((prev: any) => ({
                   ...prev,
                   password: (e.target as HTMLInputElement).value,
                 }));
@@ -126,7 +126,7 @@ const Editprofile = () => {
               placeholder="New Password"
               value={formData.newPassword}
               changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setFormData((prev) => ({
+                setFormData((prev: any) => ({
                   ...prev,
                   newPassword: (e.target as HTMLInputElement).value,
                 }));

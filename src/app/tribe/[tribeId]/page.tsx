@@ -3,6 +3,7 @@ import TribeDetailBody, {
   TribeDetailBodyProps,
 } from '@/components/Tribe/TribeDetailBody/index';
 import { currentUser } from '@/lib/authentication';
+import { TribeUser } from '@prisma/client';
 
 async function getTribeInfo(tribeId: string, currentUserId: string) {
   const response = await fetch(
@@ -82,7 +83,7 @@ async function TribeProfile({ params }: { params: { tribeId: string } }) {
         users={tribeInfo.users}
         tribeId={tribeId}
         isMember={tribeInfo.users.some(
-          (tribeUser) => tribeUser.userId === user?.id
+          (tribeUser: TribeUser) => tribeUser.userId === user?.id
         )}
         adminsUsername={tribeInfo.adminsUsername}
       />

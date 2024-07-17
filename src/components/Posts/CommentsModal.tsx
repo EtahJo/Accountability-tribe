@@ -8,6 +8,7 @@ interface CommentsModalProps {
   comments: {
     author: { username: string; image: string };
     content: string;
+    authorId: string;
     id: string;
     edited: boolean;
     createdAt: string;
@@ -22,6 +23,7 @@ interface CommentsModalProps {
       id: string;
       edited: boolean;
       createdAt: string;
+      authorId: string;
       likes: { user: { username: string; image: string; id: string } }[];
       parentId: string;
       replies: {
@@ -34,11 +36,13 @@ interface CommentsModalProps {
       }[];
     }[];
   }[];
+  isAdmin: boolean;
 }
 const CommentsModal = ({
   isOpen,
   onRequestClose,
   comments,
+  isAdmin,
 }: Props & CommentsModalProps) => {
   const { user } = useCurrentUser();
   return (
@@ -61,8 +65,10 @@ const CommentsModal = ({
               )}
               commentLikes={comment.likes}
               commentId={comment.id}
-              replies={comment.replies}
+              replies={comment.replies as any}
               edited={comment.edited}
+              authorId={comment?.authorId}
+              isAdmin={isAdmin}
             />
           )
       )}

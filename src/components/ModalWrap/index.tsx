@@ -1,8 +1,13 @@
 'use client';
 import Modal from 'react-modal';
 import { cn } from '@/lib/utils';
-Modal.defaultStyles.overlay.backgroundColor = 'rgba(242,173,239,0.3)';
-Modal.defaultStyles.overlay.zIndex = '100';
+
+if (Modal.defaultStyles.overlay) {
+  // eslint-disable-next-line
+  Modal.defaultStyles.overlay.backgroundColor = 'rgba(242,173,239,0.3)';
+  // eslint-disable-next-line
+  Modal.defaultStyles.overlay.zIndex = '100';
+}
 
 const ModalWrapper = ({
   isOpen,

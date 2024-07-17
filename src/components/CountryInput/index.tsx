@@ -12,7 +12,7 @@ const CountryInput = ({ selected, onSelect, disabled }: CountryInputProps) => {
   return (
     <div>
       <ReactFlagsSelect
-        selected={selected}
+        selected={selected as string}
         onSelect={onSelect}
         disabled={disabled}
         selectButtonClassName="!border-none !text-black !text-sm !-py-2"

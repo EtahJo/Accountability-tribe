@@ -28,9 +28,9 @@ export const link_task_session = async (
     return { error: 'Add session to link to task' };
   }
   const dateNow = new Date();
-  const isAfter = checkIsAfter(session?.endDateTime);
+  const checkIssAfter = isAfter(dateNow, session.endDateTime as Date);
 
-  if (isAfter) {
+  if (checkIssAfter) {
     return { error: 'Session has already ended' };
   }
 

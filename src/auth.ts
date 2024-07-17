@@ -1,8 +1,32 @@
-import NextAuth from 'next-auth';
+import NextAuth, { type DefaultSession } from 'next-auth';
 import authConfig from './auth.config';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { db } from './lib/db';
 import { getUserById } from './data/user';
+import { Streak, Session, Task, Notification } from '@prisma/client';
+
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      // role: 'ADMIN' | 'USER';
+      username: string;
+      number: string;
+      linkedIn: string;
+      facebook: string;
+      x: string;
+      image: string;
+      country: string;
+      remember: boolean;
+      timezone: string;
+      sessions: Session[];
+      tasks: Task[];
+      streak: Streak;
+      notifications: Notification[];
+
+      // isOAuth: boolean;
+    } & DefaultSession['user'];
+  }
+}
 
 export const { signIn, signOut, auth, handlers } = NextAuth({
   pages: {
@@ -15,19 +39,19 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
         session.user.id = token.sub;
       }
       if (session.user) {
-        session.user.username = token.username;
-        session.user.number = token.number;
-        session.user.linkedIn = token.linkedIn;
-        session.user.facebook = token.facebook;
-        session.user.x = token.x;
-        session.user.image = token.image;
-        session.user.country = token.country;
-        session.user.remember = token.remember;
-        session.user.timezone = token.timezone;
-        session.user.sessions = token.sessions;
-        session.user.tasks = token.tasks;
-        session.user.streak = token.streak;
-        session.user.notifications = token.notifications;
+        session.user.username = token.username as string;
+        session.user.number = token.number as string;
+        session.user.linkedIn = token.linkedIn as string;
+        session.user.facebook = token.facebook as string;
+        session.user.x = token.x as string;
+        session.user.image = token.image as string;
+        session.user.country = token.country as string;
+        session.user.remember = token.remember as boolean;
+        session.user.timezone = token.timezone as string;
+        session.user.sessions = token.sessions as [];
+        session.user.tasks = token.tasks as [];
+        session.user.streak = token.streak as Streak;
+        session.user.notifications = token.notifications as [];
       }
       return session;
     },

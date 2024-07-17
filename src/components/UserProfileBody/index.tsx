@@ -3,10 +3,9 @@ import UpcomingSessions from '@/components/UpcomingSessions';
 import TodoList from '@/components/TodoList';
 import Posts from '@/components/Posts';
 import Achievements from '@/components/Achievements';
-import SelectPeriod from '@/components/SelectPeriod';
 
 interface UserProfileBodyProps {
-  user: { username: string } | undefined;
+  user: { username: string; timezone: string; id: string };
   sessions: {}[] | undefined;
   tribes:
     | ({
@@ -40,18 +39,18 @@ const UserProfileBody = ({
       <div className="col-start-2 col-end-9">
         {/* <SelectPeriod /> */}
         <UpcomingSessions
-          currentUser={user}
-          sessions={sessions}
+          currentUser={user as any}
+          sessions={sessions as any}
           username={pageUserName}
         />
         {pageUserName === user?.username && (
           <TodoList tasks={tasks} pageUsername={pageUserName} />
         )}
 
-        <Posts posts={posts} pageUsername={pageUserName} />
+        <Posts posts={posts as any} pageUsername={pageUserName} />
       </div>
       <div className="col-start-10 col-end-12">
-        <Achievements completedTasks={completedTasks} />
+        <Achievements completedTasks={completedTasks as any} />
         {children}
       </div>
     </div>

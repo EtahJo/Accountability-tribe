@@ -5,6 +5,7 @@ import { FaClock, FaCalendar } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import FullTextOnHover from '@/components/FullTextOnHover';
 import UpcomingSessionDetailModal from '../UpcomingSessionDetails/Modal';
+import { isToday, isThisWeek } from 'date-fns';
 import Link from 'next/link';
 
 export interface UpcomingSessionProps {
@@ -53,7 +54,12 @@ const UpcomingSession = ({
   sessionParticipantId,
 }: UpcomingSessionProps) => {
   // const { period } = useContext(PeriodContext);
-  const period = 'day';
+  const period = isToday(startDate)
+    ? 'day'
+    : isThisWeek(startDate)
+    ? 'week'
+    : '';
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   useEffect(() => {}, [isMember]);
 

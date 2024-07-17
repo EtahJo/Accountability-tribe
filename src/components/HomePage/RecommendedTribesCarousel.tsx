@@ -8,12 +8,12 @@ import {
 
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 import { Tribe, TribeUser, TribeVisit, Post } from '@prisma/client';
-type TribeProps = Pick<
+type RecommendedTribeProps = Pick<
   Tribe,
   'name' | 'description' | 'id' | 'profileImage'
 > & { users: TribeUser[]; tribeVisit: TribeVisit[]; newPosts: Post[] };
 interface RecommendedTribesProps {
-  recommendedTribes: TribeProps[];
+  recommendedTribes: RecommendedTribeProps[];
   userId: string;
 }
 
@@ -53,7 +53,7 @@ const RecommendedTribesCarousel = ({
                   isMember={users.some((user) => user.userId === userId)}
                   members={users.length}
                   image={profileImage}
-                  lastVisit={tribeVisit[0]?.lastVisit}
+                  lastVisit={tribeVisit[0]?.lastVisit as any}
                   newPosts={newPosts}
                 />
               </CarouselItem>

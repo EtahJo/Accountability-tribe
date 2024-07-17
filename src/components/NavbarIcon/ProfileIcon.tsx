@@ -1,22 +1,46 @@
 'use client';
+import React, { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import NavbarIcon from '@/components/NavbarIcon';
 import { CldImage } from 'next-cloudinary';
 import { Avatar } from '@radix-ui/react-avatar';
 import { logout } from '@/action/auth/logout';
-import { FaUser } from 'react-icons/fa';
+import { delete_user } from '@/action/auth/delete-user';
+import { FaCog, FaUser } from 'react-icons/fa';
 import Link from 'next/link';
 import { ExitIcon } from '@radix-ui/react-icons';
 import NavbarItem from '@/components/ProfileIconItem/index';
 import { useCurrentUser } from '@/hooks/use-current-user';
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import {
+  DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuPortal,
+} from '@/components/ui/dropdown-menu';
+import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
-const ProfileIcon = () => {
+const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
   const { user }: any = useCurrentUser();
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const onLogoutClick = () => {
     logout().then(() => {
       router.push('/auth/login');
+    });
+  };
+  const deleteAccount = () => {
+    startTransition(() => {
+      delete_user(user.id).then((data) => {
+        if (data?.error) {
+          toast.error(data.error);
+        }
+        if (data.success) {
+          toast.success(data.success);
+        }
+      });
     });
   };
   return (
@@ -57,6 +81,18 @@ const ProfileIcon = () => {
             />
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <NavbarItem title="Settings" icon={<FaCog size={25} />} />
+          </DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem>Change Theme</DropdownMenuItem>
+
+              <DropdownMenuItem>{deleteUser}</DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
         <DropdownMenuItem onClick={onLogoutClick} className="ml-1.5">
           <NavbarItem title="Logout" icon={<ExitIcon />} />
         </DropdownMenuItem>
