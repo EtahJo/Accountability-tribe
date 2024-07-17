@@ -6,7 +6,7 @@ const base_url = process.env.BASE_URL;
 
 async function getHighlightedUsers() {
   const highlightedUsers = await fetch(
-    `${base_url}/user/api/highlighted-users`,
+    `https://accountability-tribe.vercel.app/user/api/highlighted-users`,
     {
       next: {
         tags: ['highlightedUsers'],
@@ -21,7 +21,7 @@ async function getHighlightedUsers() {
 
 async function getHighPriorityTasks(username: string) {
   const highPriorityTasks = await fetch(
-    `${base_url}/user/api/tasks/${username}/high-priority`,
+    `$https://accountability-tribe.vercel.app/user/api/tasks/${username}/high-priority`,
     {
       next: {
         tags: ['highPriority'],
@@ -36,7 +36,7 @@ async function getHighPriorityTasks(username: string) {
 
 async function getRecommendedTribes(currentUserId: string) {
   const recommendedTribes = await fetch(
-    `${base_url}/tribe/api/recommended-tribes/${currentUserId}`,
+    `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${currentUserId}`,
     {
       next: {
         tags: ['recommendedTribes'],
@@ -50,7 +50,7 @@ async function getRecommendedTribes(currentUserId: string) {
 }
 async function getClosestSession(username: string) {
   const closestSession = await fetch(
-    `${base_url}/user/api/sessions/${username}/closest-session`,
+    `https://accountability-tribe.vercel.app//user/api/sessions/${username}/closest-session`,
     {
       next: {
         tags: ['closestSession'],
