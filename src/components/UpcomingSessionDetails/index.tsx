@@ -10,7 +10,7 @@ import { isToday } from 'date-fns';
 import { toast } from 'sonner';
 
 import Formsy from 'formsy-react';
-import Custominput from '@/components/CustomInput/index';
+import Custominput from '@/components/CustomInput/customInput';
 import SelectTasks from '@/components/CustomMultipleSelectInput/SelectTasks';
 
 import { join_session } from '@/action/session/join-session';

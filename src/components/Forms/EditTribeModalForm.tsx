@@ -6,7 +6,7 @@ import { edit_tribe } from '@/action/tribe/edit-tribe';
 import ModalWrapper from '@/components/ModalWrap/index';
 import Formsy from 'formsy-react';
 import UploadImage from '@/components/UploadImage/index';
-import CustomInput from '@/components/CustomInput/index';
+import CustomInput from '@/components/CustomInput/customInput';
 import { Button } from '@/components/ui/button';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';

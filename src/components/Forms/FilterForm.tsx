@@ -1,6 +1,6 @@
 'use client';
 import Formsy from 'formsy-react';
-import CustomInput from '../CustomInput/index';
+import CustomInput from '../CustomInput/customInput';
 import { Button } from '@/components/ui/button';
 import { detail_session_filter } from '@/action/session/detail-session-filter';
 import { toast } from 'sonner';

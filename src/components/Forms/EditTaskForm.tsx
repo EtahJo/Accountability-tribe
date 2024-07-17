@@ -2,7 +2,7 @@
 import { useState, useTransition } from 'react';
 import Formsy from 'formsy-react';
 import * as z from 'zod';
-import CustomInput from '@/components/CustomInput/index';
+import CustomInput from '@/components/CustomInput/customInput';
 import { EditTaskSchema } from '@/schemas/index';
 import { edit_task } from '@/action/task/edit-task';
 import DateOnlyInput from '@/components/CustomDateInput/DateOnlyInput';

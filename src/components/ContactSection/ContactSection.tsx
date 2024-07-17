@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import CustomInput from '../CustomInput/index';
+import CustomInput from '../CustomInput/customInput';
 import Formsy from 'formsy-react';
 import MainButton from '../Button/MainButton';
 const ContactSection = () => {

@@ -3,7 +3,7 @@ import * as z from 'zod';
 import { useState, useTransition } from 'react';
 import { CreateCommentSchema } from '@/schemas/index';
 import Formsy from 'formsy-react';
-import CustomInput from '@/components/CustomInput/index';
+import CustomInput from '@/components/CustomInput/customInput';
 import { Button } from '@/components/ui/button';
 import { FaPaperPlane } from 'react-icons/fa';
 import { create_comment } from '@/action/comment /create-comment';

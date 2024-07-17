@@ -3,7 +3,7 @@ import { useState, useTransition, useEffect } from 'react';
 import ModalWrapper from '@/components/ModalWrap/index';
 import { Props } from 'react-modal';
 import Formsy from 'formsy-react';
-import CustomInput from '@/components/CustomInput/index';
+import CustomInput from '@/components/CustomInput/customInput';
 import { Button } from '@/components/ui/button';
 import { edit_post } from '@/action/post/edit-post';
 import * as z from 'zod';

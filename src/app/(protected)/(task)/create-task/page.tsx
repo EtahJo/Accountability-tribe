@@ -1,7 +1,7 @@
 'use client';
 import { useState, useTransition } from 'react';
 import Formsy from 'formsy-react';
-import CustomInput from '@/components/CustomInput/index';
+import CustomInput from '@/components/CustomInput/customInput';
 import FormsySelectInput from '@/components/CustomSelectInput/FormsySelectInput';
 import SectionHeader from '@/components/SectionHeader/index';
 import DateOnlyInput from '@/components/CustomDateInput/DateOnlyInput';

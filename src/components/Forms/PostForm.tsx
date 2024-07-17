@@ -1,7 +1,7 @@
 'use client';
 import { useState, useTransition } from 'react';
 import Formsy from 'formsy-react';
-import CustomInput from '@/components/CustomInput/index';
+import CustomInput from '@/components/CustomInput/customInput';
 import { Button } from '@/components/ui/button';
 import * as z from 'zod';
 import { CreatePostSchema } from '@/schemas/index';

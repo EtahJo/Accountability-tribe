@@ -1,6 +1,6 @@
 'use client';
 import { useState, useTransition } from 'react';
-import CustomInput from '@/components/CustomInput/index';
+import CustomInput from '@/components/CustomInput/customInput';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { edit_tribe } from '@/action/tribe/edit-tribe';

@@ -1,7 +1,7 @@
 'use client';
 import { useState, useTransition } from 'react';
 import Formsy from 'formsy-react';
-import Custominput from '@/components/CustomInput/index';
+import Custominput from '@/components/CustomInput/customInput';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import * as z from 'zod';
 import { RegisterSchema } from '@/schemas/index';

@@ -1,7 +1,7 @@
 'use client';
 import { useState, useTransition } from 'react';
 import Formsy from 'formsy-react';
-import Custominput from '@/components/CustomInput/index';
+import Custominput from '@/components/CustomInput/customInput';
 import CustomCheckbox from '@/components/CustomCheckbox/index';
 import { Button } from '@/components/ui/button';
 import { useCurrentUser } from '@/hooks/use-current-user';
