@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 const base_url = process.env.BASE_URL;
 
-export async function getTribesUserISAdmin(username: string) {
+async function getTribesUserISAdmin(username: string) {
   const tribes = await fetch(
     `${base_url}/user/api/tribes/${username}/user-is-tribe-admin`,
     {

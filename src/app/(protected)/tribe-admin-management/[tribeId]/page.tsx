@@ -6,7 +6,6 @@ import ApproveDecline from './_components/ApproveDecline';
 import PostForm from '@/components/Forms/PostForm';
 import PostSnippet from '@/components/Posts/Post';
 import { Tribe, Post, User, Comment, Like } from '@prisma/client';
-import { getTribesUserISAdmin } from '../page';
 import SectionHeader from '@/components/SectionHeader';
 
 const base_url = process.env.BASE_URL;
@@ -37,6 +36,20 @@ async function getTribePostEdits(tribeId: string) {
     throw new Error('Failed to fetch data');
   }
   return postEdits.json();
+}
+async function getTribesUserISAdmin(username: string) {
+  const tribes = await fetch(
+    `${base_url}/user/api/tribes/${username}/user-is-tribe-admin`,
+    {
+      next: {
+        tags: ['userIsTribeAdmin'],
+      },
+    }
+  );
+  if (!tribes.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return tribes.json();
 }
 const TribeManageMentPage = async ({
   params,
@@ -81,7 +94,12 @@ const TribeManageMentPage = async ({
             <Totals total={users.length} propertyName="Member" />
             <Totals total={tribeTotalPosts} propertyName="Post" />
             <Totals total={adminsUsername.length} propertyName="Admin" />
-            <Totals total={posts.length} propertyName="Unapproved Post" />
+            <Totals
+              total={posts.length}
+              propertyName="Unapproved Post"
+              button
+              id="UnapprovedPosts"
+            />
             <Totals
               total={postEdits.length}
               propertyName="Unapproved Post Edit"
@@ -90,7 +108,7 @@ const TribeManageMentPage = async ({
         </div>
         <div className="col-start-3 col-span-6">
           <PostForm tribeId={id} />
-          <div className="flex flex-col gap-y-4">
+          <div className="flex flex-col gap-y-4" id="UnapprovedPosts">
             <SectionHeader name="Posts to be Approved" />
             {posts.length === 0 ? (
               <div className="bg-white rounded-3xl p-10 shadow-3xl">

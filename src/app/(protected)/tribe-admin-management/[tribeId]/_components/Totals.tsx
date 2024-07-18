@@ -5,15 +5,21 @@ import Link from 'next/link';
 interface TotalsProps {
   total: number;
   propertyName: string;
-  button?: string;
+  button?: boolean;
+  id?: string;
 }
 
-const Totals = ({ total, propertyName, button }: TotalsProps) => {
+const Totals = ({ total, propertyName, button, id }: TotalsProps) => {
   return (
     <div>
       {button ? (
-        <Link href={``}>
-          <Button></Button>
+        <Link href={`#${id}`}>
+          <Button className="flex gap-x-2 py-6 move-button">
+            <p className="bg-white rounded-full p-1 text-black my-2 text-lg">
+              {total}
+            </p>
+            <p>{propertyName + (total > 1 ? 's' : '')}</p>
+          </Button>
         </Link>
       ) : (
         <div
