@@ -64,7 +64,6 @@ async function getClosestSession(username: string) {
 }
 const Home = async () => {
   const user: any = await currentUser();
-  console.log(user);
   if (!user) return <HomePageLoggedOut />;
 
   const highlightedUsers = await getHighlightedUsers();

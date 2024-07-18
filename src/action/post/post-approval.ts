@@ -33,8 +33,10 @@ export const approve_post = async (postId: string) => {
   await db.notification.create({
     data: {
       userId: post.authorId,
-      message: `Your post, ${post?.title} has been approved`,
+      message: `Your post, "${post?.title}" has been approved`,
       type: 'APPROVAL',
+      pageId: post.tribeId,
+      locationId: postId,
     },
   });
 
@@ -81,7 +83,11 @@ export const post_edit_approval = async (postEditId: string) => {
       userId: postEdit.post.authorId,
       message: `Your post Edit has been approved`,
       type: 'APPROVAL',
+      pageId: postEdit.post.tribeId,
+      locationId: postEdit.post.id,
     },
   });
+  revalidateTag('tribePosts');
+  revalidateTag('tribePostEdits');
   return { success: 'Edit approved' };
 };

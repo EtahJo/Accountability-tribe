@@ -59,6 +59,7 @@ export const remove_as_admin = async (tribeId: string, userId: string) => {
       userId,
       message: `You have been removed as admin of the ${tribe?.name} tribe`,
       type: 'APPROVAL',
+      pageId: tribe?.id,
     },
   });
   revalidateTag('userTribe');

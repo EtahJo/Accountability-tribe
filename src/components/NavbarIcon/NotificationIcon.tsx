@@ -57,23 +57,29 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
               {notification.type === 'SESSIONSTART' && <FaStopwatch />}
               {notification.type === 'LIKE' && <FaThumbsUp />}
               {notification.type === 'COMMENT' && <FaComment />}
-              <p
+              <span
                 className={cn(
                   'text-black group-hover:text-purple',
                   notification.read ? 'font-normal' : 'font-bold'
                 )}
               >
                 {' '}
-                {notification.locationId ? (
+                {notification.pageId && notification.locationId && (
                   <Link
                     href={`/tribe/${notification.pageId}#${notification.locationId}`}
                   >
                     {notification.message}
                   </Link>
-                ) : (
-                  <>{notification.message}</>
                 )}
-              </p>
+                {notification.pageId && notification.type === 'ADMINTASK' && (
+                  <Link href={`/tribe-admin-management/${notification.pageId}`}>
+                    {notification.message}
+                  </Link>
+                )}
+                {!notification.pageId && !notification.locationId && (
+                  <p>{notification.message}</p>
+                )}
+              </span>
             </div>
           </DropdownMenuItem>
         ))}

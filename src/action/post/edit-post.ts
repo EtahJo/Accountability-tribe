@@ -64,11 +64,13 @@ export const edit_post = async (
             userId: admin.userId,
             message: 'An edit made to post and pending review',
             type: 'ADMINTASK',
+            pageId: post.tribeId,
           },
         })
       )
     );
   }
   revalidateTag('tribePosts');
+  revalidateTag('tribePostEdits');
   return { success: 'Changes pending review' };
 };

@@ -15,6 +15,7 @@ async function getTasksData(username: string) {
       },
     }
   );
+
   if (!tasksRes.ok) {
     throw new Error('Failed to fetch data');
   }

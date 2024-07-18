@@ -63,6 +63,7 @@ export const make_tribe_admin = async (tribeId: string, userId: string) => {
       userId,
       message: `You have been made an admin of the ${tribe?.name} tribe`,
       type: 'APPROVAL',
+      pageId: tribe?.id,
     },
   });
   revalidateTag('tribeInfo');

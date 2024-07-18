@@ -22,6 +22,7 @@ export interface TribeSnippetProps {
   members: number | undefined;
   lastVisit?: string;
   newPosts?: {}[];
+  manage?: boolean;
 }
 
 const TribeSnippet = ({
@@ -34,18 +35,31 @@ const TribeSnippet = ({
   userId,
   lastVisit,
   newPosts,
+  manage,
 }: TribeSnippetProps) => {
   const { user }: any = useCurrentUser();
   useEffect(() => {}, [isMember, members]);
   return (
     <div
       className="bg-white flex flex-col items-center 
-    justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl m-auto w-[300px] relative"
+    justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl
+     m-auto w-[300px] relative group/item"
     >
       {newPosts && newPosts.length > 0 && (
         <Badge className="bg-purple absolute left-1 top-1 rounded-3xl">
           {newPosts.length} new posts
         </Badge>
+      )}
+      {manage && (
+        <div className="bg-lighterPink absolute w-full h-full z-50 hidden group-hover/item:block">
+          <div className="flex justify-center items-center m-auto h-full">
+            <Link href={`/tribe-admin-management/${tribeId}`}>
+              <Button className="text-2xl font-bold  p-3  move-button shadow-3xl">
+                Manage
+              </Button>
+            </Link>
+          </div>
+        </div>
       )}
       <div className="flex justify-end   w-full absolute right-1 top-1">
         <div className="text-gray-500 text-[10px] bg-lighterPink rounded-3xl px-2  flex flex-col items-center justify-center">
@@ -66,7 +80,7 @@ const TribeSnippet = ({
 
       <Link
         className="move-button m-auto flex flex-col items-center"
-        href={`/tribe/${tribeId}`}
+        href={!manage ? `/tribe/${tribeId}` : ''}
       >
         <Avatar className="w-[80px]  h-[80px] shadow-lg">
           {image ? (

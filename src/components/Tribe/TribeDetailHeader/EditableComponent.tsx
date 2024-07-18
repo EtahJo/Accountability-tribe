@@ -13,11 +13,12 @@ interface EditableComponentProps {
   text: string;
   editTrigger: React.ReactNode;
   name: string;
-  textClass: string;
+  textClass?: string;
   cancelTrigger: React.ReactNode;
   showEditOption?: boolean;
   tribeId: string;
   textArea?: boolean;
+  divClasses?: string;
 }
 
 const EditableComponent = ({
@@ -29,6 +30,7 @@ const EditableComponent = ({
   textClass,
   tribeId,
   textArea,
+  divClasses,
 }: EditableComponentProps) => {
   const [edit, setEdit] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -45,7 +47,13 @@ const EditableComponent = ({
     });
   };
   return (
-    <div className="flex items-center m-auto gap-x-2 justify-center">
+    <div
+      className={cn(
+        divClasses
+          ? divClasses
+          : 'flex items-center m-auto gap-x-2 justify-center'
+      )}
+    >
       {showEditOption && edit ? (
         <Formsy
           className="bg-white flex items-center px-2 rounded-2xl gap-x-2"

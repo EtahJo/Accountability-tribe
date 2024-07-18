@@ -1,7 +1,6 @@
 import { db } from '@/lib/db';
 import { startOfWeek, endOfWeek, subWeeks } from 'date-fns';
 import { currentUser } from '@/lib/authentication';
-import { Tribe } from '@prisma/client';
 
 export const getTribeUserByTribeUserId = async (
   tribeId: string,
@@ -84,7 +83,6 @@ export const getAllUsersInTribe = async (tribeId: string) => {
 
 export const getTribeById = async (tribeId: string, currentUserId: string) => {
   try {
-    const user = await currentUser();
     const tribes = await db.tribe.findUnique({
       where: { id: tribeId },
       include: {
@@ -260,5 +258,24 @@ export const totalTribePostUnApproved = async (tribeId: string) => {
     return totalUnapprovedPosts;
   } catch (error: any) {
     console.error('Issue with counting unapproved tribe posts', error.message);
+  }
+};
+
+export const getAllTribesUserIsAdmin = async (username: string) => {
+  try {
+    const tribes = await db.tribe.findMany({
+      where: {
+        adminsUsername: {
+          has: username,
+        },
+      },
+      include: {
+        users: true,
+        tribeVisit: true,
+      },
+    });
+    return tribes;
+  } catch (error: any) {
+    console.error('Error getting all tribes user is admin ', error.message);
   }
 };

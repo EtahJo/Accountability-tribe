@@ -20,6 +20,7 @@ import { delete_post_like } from '@/action/like/delete-like';
 import { Badge } from '@/components/ui/badge';
 import PostEditModal from '@/components/Forms/PostEditModalForm';
 import EllipsisDropdown from '@/components/EllipsisDropdown/index';
+import { cn } from '@/lib/utils';
 
 interface PostProps {
   postId: string;
@@ -61,7 +62,9 @@ interface PostProps {
     }[];
   }[];
   createdAt: string;
-  newPosts: Post[];
+  newPosts?: Post[];
+  postEditTitle?: string;
+  postEditContent?: string;
 }
 const PostSnippet = ({
   postId,
@@ -78,6 +81,8 @@ const PostSnippet = ({
   postAuthorId,
   newPosts,
   edited,
+  postEditTitle,
+  postEditContent,
 }: // createdAt,
 PostProps) => {
   const [openCommentModal, setOpenCommentModal] = useState(false);
@@ -208,15 +213,71 @@ PostProps) => {
 
       <div className="w-full bg-lighterPink rounded-2xl p-5 mt-6 mb-4">
         {postTitle && (
-          <h2
-            className="font-bold text-xl
+          <span>
+            {postEditTitle ? (
+              postEditTitle === postTitle ? (
+                <span className="flex items-center">
+                  <h2
+                    className="font-bold text-xl
             bg-purple p-2 w-max text-white rounded-sm"
-          >
-            {postTitle}
-          </h2>
+                  >
+                    {postTitle}
+                  </h2>
+                  <p className="italic ">{'(No Changes made)'}</p>
+                </span>
+              ) : (
+                <div>
+                  <span className="flex items-center gap-2">
+                    <h2
+                      className="font-bold text-xl
+            bg-purple p-2 w-max text-white rounded-sm"
+                    >
+                      {postTitle}
+                    </h2>
+                    <Badge className="">Original content</Badge>
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <h2
+                      className="font-bold text-xl
+            bg-purple p-2 w-max text-white rounded-sm"
+                    >
+                      {postEditTitle}
+                    </h2>
+                    <Badge className="">Edited Content</Badge>
+                  </span>
+                </div>
+              )
+            ) : (
+              <h2
+                className="font-bold text-xl
+            bg-purple p-2 w-max text-white rounded-sm"
+              >
+                {postTitle}
+              </h2>
+            )}
+          </span>
         )}
-
-        <p>{postContent}</p>
+        {postEditContent ? (
+          postEditContent === postContent ? (
+            <span className="flex items-center">
+              <p>{postContent}</p>
+              <p className="italic">{'(No Changes made)'}</p>
+            </span>
+          ) : (
+            <div>
+              <span className="flex items-center gap-2">
+                <p>{postContent}</p>
+                <Badge className="">Original content</Badge>
+              </span>
+              <span className="flex items-center gap-2">
+                <p className="">{postEditContent}</p>
+                <Badge className="">Edited Content</Badge>
+              </span>
+            </div>
+          )
+        ) : (
+          <p>{postContent}</p>
+        )}
       </div>
       <div className="flex justify-between items-center mx-2">
         <div className="ml-5 flex items-center gap-x-2">

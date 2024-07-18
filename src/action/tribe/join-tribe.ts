@@ -42,6 +42,7 @@ export const join_tribe = async (tribeId: string, userId: string) => {
             userId: admin.userId,
             message: 'You have a new tribe member',
             type: 'ADMINTASK',
+            pageId: tribeId,
           },
         })
       )
@@ -52,6 +53,7 @@ export const join_tribe = async (tribeId: string, userId: string) => {
       userId: dbUser.id,
       message: `You are now a member of ${tribe?.name} tribe`,
       type: 'APPROVAL',
+      pageId: tribe?.id,
     },
   });
   revalidateTag('tribeInfo');

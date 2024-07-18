@@ -62,6 +62,7 @@ export const create_post = async (
               (unApprovedTotal as number) > 1 ? 'posts' : 'post'
             } pending review`,
             type: 'ADMINTASK',
+            pageId: tribeId,
           },
         })
       )

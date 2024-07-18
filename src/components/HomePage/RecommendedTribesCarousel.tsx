@@ -49,7 +49,7 @@ const RecommendedTribesCarousel = ({
                   name={name}
                   desc={description}
                   tribeId={id}
-                  userId={'9999'}
+                  userId={userId}
                   isMember={users.some((user) => user.userId === userId)}
                   members={users.length}
                   image={profileImage}
