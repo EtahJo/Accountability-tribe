@@ -26,7 +26,11 @@ export const getAllUserSessions = async (
     const sessions = await db.sessionParticipant.findMany({
       where: { userId },
       include: {
-        session: true,
+        session: {
+          include: {
+            users: true,
+          },
+        },
         user: {
           include: {
             tasks: { where: { status: { not: Status.COMPLETE } } },

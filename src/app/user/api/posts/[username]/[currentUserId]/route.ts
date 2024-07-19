@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req: Request, context: any) {
   const { params } = context;
+
   try {
     const user = await getUserByUsername(params.username);
     const userPosts = await getAllUserPosts(
@@ -11,5 +12,8 @@ export async function GET(req: Request, context: any) {
       params.currentUserId
     );
     return NextResponse.json(userPosts);
-  } catch {}
+  } catch (error) {
+    console.error('Error with user posts api', error);
+    return NextResponse.error();
+  }
 }

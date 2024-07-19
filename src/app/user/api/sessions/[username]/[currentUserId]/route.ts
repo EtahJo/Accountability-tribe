@@ -24,8 +24,8 @@ export async function GET(req: NextRequest, context: any) {
   try {
     const dbUser = await getUserByUsername(params.username);
     const perPage = 12;
-    let userSessions;
-    userSessions =
+    let sessions;
+    sessions =
       filter === 'ended'
         ? await getAllEndedUserSessions(dbUser?.id as string, perPage, page)
         : filter === 'ongoing'
@@ -38,42 +38,42 @@ export async function GET(req: NextRequest, context: any) {
         ? await getAllUserSessionsTomorrow(dbUser?.id as string, perPage, page)
         : await getAllUserSessions(dbUser?.id as string, perPage, page);
 
-    if (!userSessions?.sessions) {
+    if (!sessions?.sessions) {
       return NextResponse.json([]);
     }
 
-    const sessions: {}[] = [];
+    // const sessions: {}[] = [];
 
-    for (const session of userSessions?.sessions) {
-      const sessionUser = await getSessionUserBySessionUserId(
-        session.sessionId,
-        params.currentUserId
-      );
-      const isMember = sessionUser ? true : false;
-      const sessionAdmin = await getSessionAdmin(session.sessionId);
-      const participants = await get_session_participants(session.sessionId);
+    // for (const session of userSessions?.sessions) {
+    //   const sessionUser = await getSessionUserBySessionUserId(
+    //     session.sessionId,
+    //     params.currentUserId
+    //   );
+    //   const isMember = sessionUser ? true : false;
+    //   const sessionAdmin = await getSessionAdmin(session.sessionId);
+    //   const participants = await get_session_participants(session.sessionId);
 
-      const sessionAndCheck = {
-        sessionId: session.sessionId,
-        sessionParticipantId: session.id,
-        session: session.session,
-        userRole: session.userRole,
-        goal: session.goal,
-        userId: session.userId,
-        isMember,
-        isUserAdmin: sessionAdmin?.id === params.currentUserId,
-        participants,
-        admin: sessionAdmin,
-        user: session.user,
-        tasks: session.tasks,
-      };
-      sessions.push(sessionAndCheck);
-    }
+    //   const sessionAndCheck = {
+    //     sessionId: session.sessionId,
+    //     sessionParticipantId: session.id,
+    //     session: session.session,
+    //     userRole: session.userRole,
+    //     goal: session.goal,
+    //     userId: session.userId,
+    //     isMember,
+    //     isUserAdmin: sessionAdmin?.id === params.currentUserId,
+    //     participants,
+    //     admin: sessionAdmin,
+    //     user: session.user,
+    //     tasks: session.tasks,
+    //   };
+    //   sessions.push(sessionAndCheck);
+    // }
     const returnValue = pageString
       ? {
           sessions,
-          hasMore: userSessions.hasMore,
-          totalPages: userSessions.totalPages,
+          hasMore: sessions.hasMore,
+          totalPages: sessions.totalPages,
         }
       : sessions;
     return NextResponse.json(returnValue);

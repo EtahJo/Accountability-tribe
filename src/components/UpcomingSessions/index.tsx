@@ -1,9 +1,9 @@
 'use client';
 import useSWR from 'swr';
-import { useEffect } from 'react';
 import SectionHeader from '@/components/SectionHeader/index';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import UpcomingSession from '@/components/UpcomingSession/index';
+import { SessionParticipant } from '@prisma/client';
 import { FaPlusCircle, FaArrowRight } from 'react-icons/fa';
 import {
   Carousel,
@@ -30,7 +30,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
   const { user: currentUser }: any = useCurrentUser();
   const { data: sessions } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/sessions/${pageUsername}/${currentUser.id}`,
+    `https://accountability-tribe.vercel.app/user/api/sessions/${pageUsername}/${currentUser.id}?page=1`,
     fetcher
   );
   return (
@@ -43,7 +43,7 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
         buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
       />
 
-      {sessions?.sessions?.length === 0 ? (
+      {sessions?.sessions?.sessions.length === 0 ? (
         <div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
           <div>
             <p>You have no upcoming sessions</p>
@@ -59,20 +59,8 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
             className="w-full"
           >
             <CarouselContent>
-              {sessions?.map(
-                ({
-                  session,
-                  userRole,
-                  isMember,
-                  goal,
-                  isUserAdmin,
-                  participants,
-                  admin,
-                  userId,
-                  sessionParticipantId,
-                  user,
-                  tasks,
-                }: any) => {
+              {sessions?.sessions?.sessions.map(
+                ({ session, goal, tasks, adminUsername, id, userId }: any) => {
                   return (
                     <CarouselItem
                       key={session.id}
@@ -80,7 +68,7 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
                     >
                       <UpcomingSession
                         tasks={tasks}
-                        pageUser={user}
+                        pageUser={pageUsername}
                         startDate={
                           formatDateTime(
                             session.startDateTime,
@@ -114,13 +102,16 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
                         isAfter={checkIsAfter(session.endDateTime)}
                         meetingLink={session.meetingLink}
                         sessionId={session.id}
-                        isAdmin={isUserAdmin}
-                        isMember={isMember}
-                        members={participants.participants.length}
-                        admin={admin.username}
+                        isAdmin={adminUsername === currentUser.username}
+                        isMember={session.users.some(
+                          (sessionUser: SessionParticipant) =>
+                            sessionUser.userId === currentUser.id
+                        )}
+                        members={session.participants}
+                        admin={adminUsername}
                         userId={userId}
                         endDateTime={session.endDateTime}
-                        sessionParticipantId={sessionParticipantId}
+                        sessionParticipantId={id}
                       />
                     </CarouselItem>
                   );
