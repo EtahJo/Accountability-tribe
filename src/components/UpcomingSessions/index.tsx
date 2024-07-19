@@ -1,6 +1,8 @@
 'use client';
+import useSWR from 'swr';
 import { useEffect } from 'react';
 import SectionHeader from '@/components/SectionHeader/index';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import UpcomingSession from '@/components/UpcomingSession/index';
 import { FaPlusCircle, FaArrowRight } from 'react-icons/fa';
 import {
@@ -10,6 +12,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+
 import Link from 'next/link';
 
 import {
@@ -20,51 +23,29 @@ import {
   checkIsAfter,
 } from '@/util/DateTime';
 interface UpcomingSessionsProps {
-  currentUser: { username: string; timezone: string; id: string };
-  username: string;
-  sessions: {
-    session: {
-      id: string;
-      startDateTime: string;
-      endDateTime: string;
-      duration: string;
-      meetingLink: string;
-      goal: string;
-    };
-    userRole: string;
-    isMember: boolean;
-    tasks: {}[];
-    user: {};
-    goal: string;
-    isUserAdmin: boolean;
-    userId: string;
-    sessionParticipantId: string;
-    participants: {
-      number_of_countries: number;
-      participants: [];
-    };
-    admin: {
-      username: string;
-    };
-  }[];
+  pageUsername: string;
 }
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const UpcomingSessions = ({
-  currentUser,
-  sessions,
-  username,
-}: UpcomingSessionsProps) => {
+const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
+  const { user: currentUser }: any = useCurrentUser();
+  const { data: sessions } = useSWR(
+    `https://accountability-tribe.vercel.app/user/api/sessions/${pageUsername}/${
+      currentUser.id
+    }?page=${1}&filter=${'all'}`,
+    fetcher
+  );
   return (
     <div>
       <SectionHeader
         name="Upcoming Work or Study Sessions"
         buttonLink="/create-session"
         buttonTitle="Create Session"
-        pageUsername={username}
+        pageUsername={pageUsername as string}
         buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
       />
 
-      {sessions?.length === 0 ? (
+      {sessions?.sessions?.length === 0 ? (
         <div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
           <div>
             <p>You have no upcoming sessions</p>
@@ -93,7 +74,7 @@ const UpcomingSessions = ({
                   sessionParticipantId,
                   user,
                   tasks,
-                }) => {
+                }: any) => {
                   return (
                     <CarouselItem
                       key={session.id}
@@ -154,7 +135,7 @@ const UpcomingSessions = ({
         </div>
       )}
       <div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto ">
-        <Link href={`/user/${username}/sessions?page=1&filter=all`}>
+        <Link href={`/user/${pageUsername}/sessions?page=1&filter=all`}>
           View All Sessions
         </Link>
         <FaArrowRight />

@@ -13,22 +13,12 @@ interface UserProfileBodyProps {
 
 const UserProfileBody = ({ pageUserName }: UserProfileBodyProps) => {
   const { user }: any = useCurrentUser();
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data: sessions } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/sessions/${pageUserName}/${
-      user.id
-    }?page=${1}&filter=${'all'}`,
-    fetcher
-  );
+
   return (
     <div className="grid grid-cols-12 pb-24">
       <div className="col-start-2 col-end-9">
         {/* <SelectPeriod /> */}
-        <UpcomingSessions
-          currentUser={user as any}
-          sessions={sessions?.sessions as any}
-          username={pageUserName}
-        />
+        <UpcomingSessions pageUsername={pageUserName} />
         {pageUserName === user?.username && (
           <TodoList pageUsername={pageUserName} />
         )}
