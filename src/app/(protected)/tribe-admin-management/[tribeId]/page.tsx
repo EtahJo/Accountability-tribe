@@ -98,11 +98,13 @@ const TribeManageMentPage = async ({
               total={posts.length}
               propertyName="Unapproved Post"
               button
-              id="UnapprovedPosts"
+              id="unapprovedPosts"
             />
             <Totals
               total={postEdits.length}
               propertyName="Unapproved Post Edit"
+              button
+              id="unapprovedPostEdits"
             />
           </div>
         </div>

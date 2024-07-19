@@ -1,3 +1,4 @@
+'use client';
 import {
   Carousel,
   CarouselContent,
@@ -9,16 +10,26 @@ import { Task, SessionParticipant } from '@prisma/client';
 import Todo from '@/components/TodoList/Todo';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { useCurrentUser } from '@/hooks/use-current-user';
+import useSWR from 'swr';
 
 type SelectedTaskProps = Pick<
   Task,
   'dueDate' | 'title' | 'description' | 'status' | 'id' | 'userId' | 'priority'
 > & { sessionParticipants: SessionParticipant[] };
 interface TaskCarouselProps {
-  highPriorityTasks: SelectedTaskProps[];
+  // highPriorityTasks: SelectedTaskProps[];
 }
-const RecommendedTasksCarousel = ({ highPriorityTasks }: TaskCarouselProps) => {
-  if (highPriorityTasks.length === 0) {
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const RecommendedTasksCarousel = () => {
+  const { user }: any = useCurrentUser();
+  const { data: highPriorityTasks } = useSWR(
+    `https://accountability-tribe.vercel.app/user/api/tasks/${user.username}/high-priority`,
+    fetcher
+  );
+  console.log('Task is >>', highPriorityTasks);
+  if (highPriorityTasks?.length === 0) {
     return (
       <div
         className="bg-white w-full flex justify-center 
@@ -40,7 +51,7 @@ const RecommendedTasksCarousel = ({ highPriorityTasks }: TaskCarouselProps) => {
         className="w-full "
       >
         <CarouselContent className="w-full">
-          {highPriorityTasks.map(
+          {highPriorityTasks?.map(
             ({
               dueDate,
               id,
@@ -50,7 +61,7 @@ const RecommendedTasksCarousel = ({ highPriorityTasks }: TaskCarouselProps) => {
               priority,
               description,
               sessionParticipants,
-            }) => (
+            }: any) => (
               <CarouselItem key={id} className="lg:basis-1/3 md:basis-1/2">
                 <Todo
                   title={title}

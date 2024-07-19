@@ -1,3 +1,5 @@
+'use client';
+import useSWR from 'swr';
 import {
   Carousel,
   CarouselContent,
@@ -5,6 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+// import { useCurrentUser } from '@/hooks/use-current-user';
 
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 import { Tribe, TribeUser, TribeVisit, Post } from '@prisma/client';
@@ -13,16 +16,22 @@ type RecommendedTribeProps = Pick<
   'name' | 'description' | 'id' | 'profileImage'
 > & { users: TribeUser[]; tribeVisit: TribeVisit[]; newPosts: Post[] };
 interface RecommendedTribesProps {
-  recommendedTribes: RecommendedTribeProps[];
+  // recommendedTribes: RecommendedTribeProps[];
   userId: string;
 }
-
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const RecommendedTribesCarousel = ({
-  recommendedTribes,
+  // recommendedTribes,
   userId,
 }: RecommendedTribesProps) => {
-  const numberOFItemsToBeMappedThrough = recommendedTribes.filter(
-    (tribe) => !tribe.users.some((user) => user.userId === userId)
+  // const { user }: any = useCurrentUser();
+  const { data: recommendedTribes } = useSWR(
+    `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${userId}`,
+    fetcher
+  );
+  const numberOFItemsToBeMappedThrough = recommendedTribes?.filter(
+    (tribe: any) =>
+      !tribe.users.some((tribeUser: TribeUser) => tribeUser.userId === userId)
   );
   return (
     <div className="mx-9">
@@ -42,7 +51,7 @@ const RecommendedTribesCarousel = ({
               users,
               tribeVisit,
               newPosts,
-            }) => (
+            }: any) => (
               <CarouselItem key={id} className="lg:basis-1/3 md:1/2">
                 <TribeSnippet
                   key={id}
@@ -50,7 +59,7 @@ const RecommendedTribesCarousel = ({
                   desc={description}
                   tribeId={id}
                   userId={userId}
-                  isMember={users.some((user) => user.userId === userId)}
+                  isMember={users.some((user: any) => user.userId === userId)}
                   members={users.length}
                   image={profileImage}
                   lastVisit={tribeVisit[0]?.lastVisit as any}

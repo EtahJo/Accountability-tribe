@@ -18,7 +18,7 @@ const Totals = ({ total, propertyName, button, id }: TotalsProps) => {
             <p className="bg-white rounded-full p-1 text-black my-2 text-lg">
               {total}
             </p>
-            <p>{propertyName + (total > 1 ? 's' : '')}</p>
+            <p className="text-2xl">{propertyName + (total > 1 ? 's' : '')}</p>
           </Button>
         </Link>
       ) : (

@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import useSWR from 'swr';
 import SectionHeader from '@/components/SectionHeader/index';
 import HeroLoggedIn from '@/components/HomePage/HeroSection/HeroLoggedIn';
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
@@ -39,19 +40,15 @@ type TribeProps = Pick<
 > & { users: TribeUser[]; tribeVisit: TribeVisit[]; newPosts: Post[] };
 interface HomeLoggedInProps {
   highlightedUsers: highlightedUsersType[];
-  highPriorityTasks: SelectedTaskProps[];
-  recommendedTribes: TribeProps[];
   user: User;
-  session?: any;
 }
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const HomeLoggedIn = ({
-  highlightedUsers,
-  highPriorityTasks,
-  recommendedTribes,
-  user,
-  session,
-}: HomeLoggedInProps) => {
+const HomeLoggedIn = ({ highlightedUsers, user }: HomeLoggedInProps) => {
+  const { data: session } = useSWR(
+    `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`,
+    fetcher
+  );
   return (
     <div className="pb-48 px-20">
       <HeroLoggedIn highlightedUsers={highlightedUsers} />
@@ -66,7 +63,7 @@ const HomeLoggedIn = ({
               Some High Priority Task
             </h1>
 
-            <TasksCarousel highPriorityTasks={highPriorityTasks} />
+            <TasksCarousel />
           </div>
 
           <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col w-full ">
@@ -74,10 +71,7 @@ const HomeLoggedIn = ({
               {' '}
               Some Tribes to Visit
             </h1>
-            <RecommendedTribesCarousel
-              recommendedTribes={recommendedTribes}
-              userId={user.id}
-            />
+            <RecommendedTribesCarousel userId={user.id} />
           </div>
         </div>
 
