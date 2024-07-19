@@ -18,6 +18,7 @@ const RecommendedTribesCarousel = ({ userId }: RecommendedTribesProps) => {
     `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${userId}`,
     fetcher
   );
+
   return (
     <div className="mx-9">
       <Carousel

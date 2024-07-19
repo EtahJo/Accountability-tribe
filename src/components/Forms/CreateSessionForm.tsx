@@ -1,19 +1,14 @@
 'use client';
 
-import React, { useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
+import useSWR from 'swr';
 import * as z from 'zod';
 
 import CustomInput from '@/components/CustomInput/customInput';
 import CustomDateInput from '@/components/CustomDateInput/index';
 import { create_session } from '@/action/session/create-session';
 import { CreateSessionSchema } from '@/schemas/index';
-import {
-  FaLink,
-  FaCalendar,
-  FaBaseballBall,
-  FaCheckDouble,
-  FaTasks,
-} from 'react-icons/fa';
+import { FaLink, FaCalendar, FaBaseballBall, FaTasks } from 'react-icons/fa';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import Duration from '@/components/DurationInput/index';
@@ -24,12 +19,14 @@ import Formsy from 'formsy-react';
 import { Button } from '@/components/ui/button';
 import SelectTasks from '@/components/CustomMultipleSelectInput/SelectTasks';
 
-interface CreateSessionFormprops {
-  tasks: {}[];
-}
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const CreateSessionForm = () => {
+  const { user }: any = useCurrentUser();
+  const { data: tasks } = useSWR(
+    `https://accountability-tribe.vercel.app/user/api/tasks/${user.username}/uncompleted`,
+    fetcher
+  );
 
-const CreateSessionForm = ({ tasks }: CreateSessionFormprops) => {
-  const { user } = useCurrentUser();
   const [isPending, startTransition] = useTransition();
   const [goal, setGoal] = useState('');
   const [startDateTime, setStartDateTime] = useState<Date>();

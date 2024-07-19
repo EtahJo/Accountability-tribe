@@ -28,7 +28,6 @@ const RecommendedTasksCarousel = () => {
     `https://accountability-tribe.vercel.app/user/api/tasks/${user.username}/high-priority`,
     fetcher
   );
-  console.log('Task is >>', highPriorityTasks);
   if (highPriorityTasks?.length === 0) {
     return (
       <div

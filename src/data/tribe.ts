@@ -57,6 +57,7 @@ export const getAllUserTribesByUsername = async (
                 tribeVisit: {
                   where: { userId: currentUserId },
                 },
+                users: true,
               },
             },
           },

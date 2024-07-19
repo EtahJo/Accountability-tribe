@@ -9,36 +9,19 @@ import { CldImage } from 'next-cloudinary';
 import { FaFacebook, FaLinkedin, FaTwitter, FaEdit } from 'react-icons/fa';
 import countries from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
-import { format, isValidNumber } from 'libphonenumber-js';
+import { format } from 'libphonenumber-js';
+import { User } from '@prisma/client';
 import { useCurrentUser } from '@/hooks/use-current-user';
 
 countries.registerLocale(enLocale);
 interface ProfileHeaderProps {
-  user:
-    | {
-        country: string;
-        id: string;
-        username: string;
-        number: string;
-        email: string;
-        facebook: string;
-        x: string;
-        image: string;
-        linkedIn: string;
-      }
-    | undefined;
-  phoneNumber: any;
-  countryCode: any;
+  user: User;
 }
-
-const ProfileHeader = ({
-  user,
-  phoneNumber,
-  countryCode,
-}: ProfileHeaderProps) => {
+const ProfileHeader = ({ user }: ProfileHeaderProps) => {
   const { session }: any = useCurrentUser();
+  const phoneNumber = user?.number;
+  const countryCode = user?.number?.split(',')[0].toUpperCase() as any;
   const countryName = countries.getName(user?.country as string, 'en');
-  const isValid = phoneNumber ? isValidNumber(phoneNumber, countryCode) : false;
   const formatedNumber = phoneNumber
     ? format(phoneNumber, countryCode, 'INTERNATIONAL')
     : '';
@@ -97,9 +80,9 @@ const ProfileHeader = ({
                   <FaFacebook size={40} />
                 </Link>
               )}
-              {user?.x && (
+              {user?.X && (
                 <Link
-                  href={user?.x}
+                  href={user?.X}
                   passHref
                   target={'_blank'}
                   rel="noopener noreferrer"

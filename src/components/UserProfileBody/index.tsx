@@ -1,57 +1,43 @@
 'use client';
+import useSWR from 'swr';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import UpcomingSessions from '@/components/UpcomingSessions/index';
 import TodoList from '@/components/TodoList/index';
 import Posts from '@/components/Posts/index';
 import Achievements from '@/components/Achievements/index';
+import Tribes from '@/components/Tribes/index';
 
 interface UserProfileBodyProps {
-  user: { username: string; timezone: string; id: string };
-  sessions: {}[] | undefined;
-  tribes:
-    | ({
-        tribe: {
-          id: string;
-          name: string;
-          description: string | null;
-          profileImage: string | null;
-        };
-      } & { id: string; userId: string; tribeId: string; userRole: string })[]
-    | null
-    | undefined;
-  children?: React.ReactNode;
   pageUserName: string;
-  posts?: {}[];
-  tasks: {}[];
-  completedTasks: {}[];
 }
 
-const UserProfileBody = ({
-  user, // current user
-  sessions,
-  pageUserName,
-  children,
-  posts,
-  tasks,
-  completedTasks,
-}: UserProfileBodyProps) => {
+const UserProfileBody = ({ pageUserName }: UserProfileBodyProps) => {
+  const { user }: any = useCurrentUser();
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const { data: sessions } = useSWR(
+    `https://accountability-tribe.vercel.app/user/api/sessions/${pageUserName}/${
+      user.id
+    }?page=${1}&filter=${'all'}`,
+    fetcher
+  );
   return (
     <div className="grid grid-cols-12 pb-24">
       <div className="col-start-2 col-end-9">
         {/* <SelectPeriod /> */}
         <UpcomingSessions
           currentUser={user as any}
-          sessions={sessions as any}
+          sessions={sessions?.sessions as any}
           username={pageUserName}
         />
         {pageUserName === user?.username && (
-          <TodoList tasks={tasks} pageUsername={pageUserName} />
+          <TodoList pageUsername={pageUserName} />
         )}
 
-        <Posts posts={posts as any} pageUsername={pageUserName} />
+        <Posts pageUsername={pageUserName} />
       </div>
       <div className="col-start-10 col-end-12">
-        <Achievements completedTasks={completedTasks as any} />
-        {children}
+        <Achievements pageUsername={pageUserName} />
+        <Tribes pageUsername={pageUserName} />
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { approve_post, post_edit_approval } from '@/action/post/post-approval';
 import { delete_post } from '@/action/post/delete-post';
 import { toast } from 'sonner';
+
 const ApproveDecline = ({
   postId,
   postEditId,
@@ -14,7 +15,6 @@ const ApproveDecline = ({
   const [isPending, startTransition] = useTransition();
 
   const approvePostEdit = () => {
-    console.log('this ran');
     startTransition(() => {
       post_edit_approval(postEditId as string).then((data) => {
         if (data.error) {

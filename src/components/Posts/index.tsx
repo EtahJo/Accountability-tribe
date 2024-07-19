@@ -1,4 +1,5 @@
 'use client';
+import useSWR from 'swr';
 import PostSnippet from '@/components/Posts/Post';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import SectionHeader from '@/components/SectionHeader/index';
@@ -10,27 +11,19 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { usePathname } from 'next/navigation';
-import { Tribe, TribeUser, Post } from '@prisma/client';
+import { Tribe, TribeUser, Post, Like, User, Comment } from '@prisma/client';
 
 interface PostProps {
-  posts: {
-    comments: {}[];
-    content: string;
-    title: string;
-    id: string;
-    authorId: string;
-    edited: boolean;
-    likes: {}[];
-    author: { username: string; image: string };
-    tribe: Tribe & { users: TribeUser[] };
-    createdAt: string;
-  }[];
   pageUsername?: string;
   newPosts?: Post[];
 }
-
-const Posts = ({ posts, pageUsername, newPosts }: PostProps) => {
-  const { user } = useCurrentUser();
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const Posts = ({ pageUsername, newPosts }: PostProps) => {
+  const { user }: any = useCurrentUser();
+  const { data: posts } = useSWR(
+    `https://accountability-tribe.vercel.app/user/api/posts/${pageUsername}/${user?.id}`,
+    fetcher
+  );
   const pathname = usePathname();
   if (posts?.length === 0 && pathname.startsWith('/tribe')) {
     return (
@@ -68,26 +61,31 @@ const Posts = ({ posts, pageUsername, newPosts }: PostProps) => {
               createdAt,
               title,
               edited,
+            }: Post & {
+              tribe: Tribe & { users: TribeUser[] };
+              author: User;
+              likes: Like[];
+              comments: Comment[];
             }) => {
               const admin: { userId: string } | undefined = tribe?.users.find(
-                (user) => (user.userRole = 'ADMIN')
+                (user: TribeUser) => (user.userRole = 'ADMIN')
               );
               return (
                 <CarouselItem key={id}>
                   <PostSnippet
-                    username={author.username}
-                    profileImage={author.image}
+                    username={author.username as string}
+                    profileImage={author.image as string}
                     postContent={content}
                     comments={comments as any}
                     likes={likes as any}
-                    createdAt={createdAt}
+                    createdAt={createdAt as any}
                     isAdmin={authorId === admin?.userId}
                     postId={id}
                     hasLiked={likes.some(
                       (like: any) => like.user.id === user?.id
                     )}
                     tribe={tribe as any}
-                    postTitle={title}
+                    postTitle={title as string}
                     newPosts={newPosts as any}
                     postAuthorId={authorId}
                     edited={edited}

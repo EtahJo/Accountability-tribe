@@ -1,156 +1,27 @@
+'use client';
+import useSWR from 'swr';
 import ProfileHeader from '@/components/UserProfile/ProfileHeader/index';
 import UserProfileBody from '@/components/UserProfileBody/index';
-import { currentUser } from '@/lib/authentication';
 
-import { is_member } from '@/action/tribe/join-tribe';
-import { get_tribe_members } from '@/action/tribe/get-tribe-members';
-import Tribes from '@/components/Tribes/index';
-import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
-
-const base_url = process.env.BASE_URL;
-
-async function getPostData(username: string, currentUserId: string) {
-  const postsRes = await fetch(
-    `${base_url}/user/api/posts/${username}/${currentUserId}`,
-    {
-      next: {
-        tags: ['userPosts'],
-      },
-    }
-  );
-  if (!postsRes.ok) {
-    throw new Error('Failed to fetch data');
-  }
-  return postsRes.json();
-}
-async function getSessionData(username: string, currentUserId: string) {
-  const sessionRes = await fetch(
-    `${base_url}/user/api/sessions/${username}/${currentUserId}?page=${1}&filter=${'all'}`,
-    {
-      next: {
-        tags: ['userSessions'],
-      },
-    }
-  );
-  if (!sessionRes.ok) {
-    throw new Error('Failed to fetch data');
-  }
-
-  return sessionRes.json();
-}
-async function getTribesData(username: string, currentUserId: string) {
-  const tribesRes = await fetch(
-    `${base_url}/user/api/tribes/${username}/${currentUserId}`,
-    {
-      next: {
-        tags: ['userTribes'],
-      },
-    }
-  );
-  if (!tribesRes.ok) {
-    throw new Error('Failed to fetch data');
-  }
-
-  return tribesRes.json();
-}
-async function getTasksData(username: string) {
-  const tasksRes = await fetch(
-    `${base_url}/user/api/tasks/${username}/uncompleted`,
-    {
-      next: {
-        tags: ['userTasks'],
-      },
-    }
-  );
-  if (!tasksRes.ok) {
-    throw new Error('Failed to fetch data');
-  }
-
-  return tasksRes.json();
-}
-async function getCompletedTasksData(username: string) {
-  const completedTasksRes = await fetch(
-    `${base_url}/user/api/tasks/${username}/completed-task`,
-    {
-      next: {
-        tags: ['userCompletedTasks'],
-      },
-    }
-  );
-  if (!completedTasksRes.ok) {
-    throw new Error('Failed to fetch data');
-  }
-
-  return completedTasksRes.json();
-}
-async function getUserData(username: string) {
-  const userRes = await fetch(`${base_url}/user/api/${username}`, {
-    next: {
-      tags: ['userInfo'],
-    },
-  });
-  if (!userRes.ok) {
-    throw new Error('Failed to fetch data');
-  }
-  return userRes.json();
-}
-const page = async ({ params }: { params: { username: string } }) => {
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const page = ({ params }: { params: { username: string } }) => {
   const { username } = params;
-  const user: any = await currentUser();
-  const userData = await getUserData(username);
-  const countryCode = userData?.number?.split(',')[0].toUpperCase();
-  const posts = await getPostData(username, user?.id);
-  const sessions = await getSessionData(username, user?.id as string);
-  const tribes = await getTribesData(username, user?.id);
-  const tasks = await getTasksData(username);
-  const completedTask = await getCompletedTasksData(username);
-
-  if (userData.error) {
-    return (
-      <div className="h-screen flex justify-center">
-        <p>{userData.error}</p>
-      </div>
-    );
+  const {
+    data: user,
+    isLoading,
+    isValidating,
+  } = useSWR(
+    `https://accountability-tribe.vercel.app/user/api/${username}`,
+    fetcher
+  );
+  if (isLoading) {
+    return null;
   }
-
   return (
     <div>
       <div>
-        <ProfileHeader
-          user={userData}
-          phoneNumber={userData?.number}
-          countryCode={countryCode}
-        />
-        <UserProfileBody
-          user={user}
-          sessions={sessions.sessions}
-          tribes={tribes}
-          pageUserName={username}
-          posts={posts}
-          tasks={tasks}
-          completedTasks={completedTask}
-        >
-          <Tribes pageUsername={username}>
-            {tribes?.map(async ({ tribe, newPosts }: any) => {
-              const members = await get_tribe_members(tribe.id);
-              const isMember = await is_member(tribe.id, user?.id as string);
-              return (
-                <TribeSnippet
-                  key={tribe.id}
-                  name={tribe?.name}
-                  desc={tribe?.description}
-                  tribeId={tribe?.id}
-                  members={members?.length}
-                  isMember={isMember.result}
-                  userId={user?.id as string}
-                  image={tribe?.profileImage}
-                  lastVisit={tribe.tribeVisit[0]?.lastVisit}
-                  newPosts={newPosts}
-                />
-              );
-            })}
-          </Tribes>
-        </UserProfileBody>
+        <ProfileHeader user={user} />
+        <UserProfileBody pageUserName={username} />
       </div>
     </div>
   );

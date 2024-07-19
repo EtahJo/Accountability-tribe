@@ -1,4 +1,5 @@
 'use client';
+import useSWR from 'swr';
 import SectionHeader from '@/components/SectionHeader/index';
 import {
   Carousel,
@@ -9,17 +10,14 @@ import {
 } from '@/components/ui/carousel';
 import { FaPlusCircle, FaArrowRight } from 'react-icons/fa';
 import Todo from '@/components/TodoList/Todo';
-import { Task, SessionParticipant } from '@prisma/client';
 import Link from 'next/link';
 
-const TodoList = ({
-  tasks,
-  pageUsername,
-}: {
-  tasks: any;
-  //  Task[] & { sessionParticipants: SessionParticipant }[];
-  pageUsername: string;
-}) => {
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const TodoList = ({ pageUsername }: { pageUsername: string }) => {
+  const { data: tasks } = useSWR(
+    `https://accountability-tribe.vercel.app/user/api/tasks/${pageUsername}/uncompleted`,
+    fetcher
+  );
   return (
     <div>
       <SectionHeader
