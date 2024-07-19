@@ -30,9 +30,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
   const { user: currentUser }: any = useCurrentUser();
   const { data: sessions } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/sessions/${pageUsername}/${
-      currentUser.id
-    }?page=${1}&filter=${'all'}`,
+    `https://accountability-tribe.vercel.app/user/api/sessions/${pageUsername}/${currentUser.id}`,
     fetcher
   );
   return (
