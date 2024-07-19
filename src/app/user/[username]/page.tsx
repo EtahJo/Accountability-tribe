@@ -4,7 +4,7 @@ import ProfileHeader from '@/components/UserProfile/ProfileHeader/index';
 import UserProfileBody from '@/components/UserProfileBody/index';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
-const page = ({ params }: { params: { username: string } }) => {
+const UseProfilePage = ({ params }: { params: { username: string } }) => {
   const { username } = params;
   const {
     data: user,
@@ -27,4 +27,4 @@ const page = ({ params }: { params: { username: string } }) => {
   );
 };
 
-export default page;
+export default UseProfilePage;

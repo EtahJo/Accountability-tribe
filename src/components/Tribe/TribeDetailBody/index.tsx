@@ -54,12 +54,7 @@ const TribeDetailBody = ({
           <PostForm tribeId={tribeInfo.id} />
 
           {/** Posts */}
-          <Posts
-            posts={posts as any}
-            newPosts={currentNewPosts}
-            // pageUsername={pageUsername}
-            // tribeId={tribeInfo.tribeId as any}
-          />
+          <Posts newPosts={currentNewPosts} />
         </div>
         <div className="col-start-10 col-end-12">
           <SectionHeader name="Similar Tribes" />
