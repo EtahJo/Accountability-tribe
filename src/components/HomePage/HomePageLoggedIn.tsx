@@ -39,19 +39,18 @@ type TribeProps = Pick<
   'name' | 'description' | 'id' | 'profileImage'
 > & { users: TribeUser[]; tribeVisit: TribeVisit[]; newPosts: Post[] };
 interface HomeLoggedInProps {
-  highlightedUsers: highlightedUsersType[];
   user: User;
 }
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const HomeLoggedIn = ({ highlightedUsers, user }: HomeLoggedInProps) => {
+const HomeLoggedIn = ({ user }: HomeLoggedInProps) => {
   const { data: session } = useSWR(
     `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`,
     fetcher
   );
   return (
     <div className="pb-48 px-20">
-      <HeroLoggedIn highlightedUsers={highlightedUsers} />
+      <HeroLoggedIn />
       <SectionHeader name="Take Note" />
       <div
         className={cn('flex gap-2', session ? 'items-center' : 'items-start')}

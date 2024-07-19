@@ -7,31 +7,16 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-// import { useCurrentUser } from '@/hooks/use-current-user';
-
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
-import { Tribe, TribeUser, TribeVisit, Post } from '@prisma/client';
-type RecommendedTribeProps = Pick<
-  Tribe,
-  'name' | 'description' | 'id' | 'profileImage'
-> & { users: TribeUser[]; tribeVisit: TribeVisit[]; newPosts: Post[] };
+
 interface RecommendedTribesProps {
-  // recommendedTribes: RecommendedTribeProps[];
   userId: string;
 }
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
-const RecommendedTribesCarousel = ({
-  // recommendedTribes,
-  userId,
-}: RecommendedTribesProps) => {
-  // const { user }: any = useCurrentUser();
+const RecommendedTribesCarousel = ({ userId }: RecommendedTribesProps) => {
   const { data: recommendedTribes } = useSWR(
     `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${userId}`,
     fetcher
-  );
-  const numberOFItemsToBeMappedThrough = recommendedTribes?.filter(
-    (tribe: any) =>
-      !tribe.users.some((tribeUser: TribeUser) => tribeUser.userId === userId)
   );
   return (
     <div className="mx-9">

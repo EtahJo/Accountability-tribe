@@ -1,4 +1,5 @@
 'use client';
+import useSWR from 'swr';
 import BackgroundSlideShow from '@/components/BackgroundSlidShow/index';
 import { FaEllipsisH } from 'react-icons/fa';
 import ToolTip from '@/components/ToolTip/index';
@@ -11,12 +12,12 @@ export type highlightedUsersType = Pick<
   User,
   'id' | 'username' | 'country' | 'image'
 > & { streak: { count: number }; tribes: {}[] };
-
-const HeroLoggedIn = ({
-  highlightedUsers,
-}: {
-  highlightedUsers: highlightedUsersType[];
-}) => {
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const HeroLoggedIn = () => {
+  const { data: highlightedUsers } = useSWR(
+    `https://accountability-tribe.vercel.app/user/api/highlighted-users`,
+    fetcher
+  );
   const slides = [
     { src: '/bg-mountain.jpg' },
     {
@@ -82,7 +83,14 @@ const HeroLoggedIn = ({
           </span>
           <div className="flex items-center gap-x-2">
             {highlightedUsers?.map(
-              ({ username, country, image, id, streak, tribes }) => {
+              ({
+                username,
+                country,
+                image,
+                id,
+                streak,
+                tribes,
+              }: highlightedUsersType) => {
                 return (
                   <UserSnippet
                     key={id}

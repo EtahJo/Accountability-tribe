@@ -1,23 +1,15 @@
-'use client';
 import HomePageLoggedIn from '@/components/HomePage/HomePageLoggedIn';
 import HomePageLoggedOut from '@/components/HomePage/HomePageLoggedOut';
-import { useCurrentUser } from '@/hooks/use-current-user';
-import useSWR from 'swr';
+import { currentUser } from '@/lib/authentication';
 
 const base_url = process.env.BASE_URL;
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const Home = () => {
-  const { user }: any = useCurrentUser();
-  const { data: highlightedUsers } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/highlighted-users`,
-    fetcher
-  );
+const Home = async () => {
+  const user: any = await currentUser();
   if (!user) return <HomePageLoggedOut />;
-
   return (
     <main className="">
-      <HomePageLoggedIn highlightedUsers={highlightedUsers} user={user} />
+      <HomePageLoggedIn user={user} />
     </main>
   );
 };
