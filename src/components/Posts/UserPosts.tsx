@@ -18,7 +18,7 @@ interface PostProps {
   newPosts?: Post[];
 }
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
-const Posts = ({ pageUsername, newPosts }: PostProps) => {
+const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
   const { user }: any = useCurrentUser();
   const { data: posts } = useSWR(
     `https://accountability-tribe.vercel.app/user/api/posts/${pageUsername}/${user?.id}`,
@@ -102,4 +102,4 @@ const Posts = ({ pageUsername, newPosts }: PostProps) => {
   );
 };
 
-export default Posts;
+export default UserPosts;

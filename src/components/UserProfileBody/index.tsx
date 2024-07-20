@@ -3,7 +3,8 @@ import useSWR from 'swr';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import UpcomingSessions from '@/components/UpcomingSessions/index';
 import TodoList from '@/components/TodoList/index';
-import Posts from '@/components/Posts/index';
+import UserPosts from '@/components/Posts/UserPosts';
+// import Posts from '@/components/Posts/UserPosts';
 import Achievements from '@/components/Achievements/index';
 import Tribes from '@/components/Tribes/index';
 
@@ -23,7 +24,7 @@ const UserProfileBody = ({ pageUserName }: UserProfileBodyProps) => {
           <TodoList pageUsername={pageUserName} />
         )}
 
-        <Posts pageUsername={pageUserName} />
+        <UserPosts pageUsername={pageUserName} />
       </div>
       <div className="col-start-10 col-end-12">
         <Achievements pageUsername={pageUserName} />

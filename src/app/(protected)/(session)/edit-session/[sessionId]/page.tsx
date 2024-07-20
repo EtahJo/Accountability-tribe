@@ -5,17 +5,15 @@ import { currentUser } from '@/lib/authentication';
 import { Session } from '@prisma/client';
 
 const base_url = process.env.BASE_URL;
-
 async function getTasksData(username: string) {
   const tasksRes = await fetch(
-    `${base_url}/user/api/tasks/${username}/uncompleted`,
+    `http://localhost:3000/user/api/tasks/${username}/uncompleted`,
     {
       next: {
         tags: ['userUnCompletedTasks'],
       },
     }
   );
-
   if (!tasksRes.ok) {
     throw new Error('Failed to fetch data');
   }

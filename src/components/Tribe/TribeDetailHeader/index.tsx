@@ -1,4 +1,5 @@
 'use client';
+import useSWR from 'swr';
 import { useState, useTransition, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaPen } from 'react-icons/fa';
@@ -6,6 +7,7 @@ import TribeUsers from '@/components/Tribe/TribeUsers/index';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { join_tribe } from '@/action/tribe/join-tribe';
 import { toast } from 'sonner';
+import { TribeUser } from '@prisma/client';
 import ProfileImage from '@/components/Tribe/TribeDetailHeader/ProfileImage';
 import { delete_tribe } from '@/action/tribe/delete-tribe';
 import EditTribeModalForm from '@/components/Forms/EditTribeModalForm';
@@ -14,38 +16,22 @@ import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
 
 interface TribeDetailHeaderProps {
-  profileImage: string;
-  tribeName: string;
-  tribeUsers: number;
-  tribeDescription: string;
-  adminsUsername: string[];
-  tribeTags: [];
   tribeId: string;
-  users: {
-    user: { username: string; image: string };
-    userRole: string;
-    adminsUsername: string[];
-    userId: string;
-  }[];
-  isMember?: boolean;
 }
-const TribeDetailHeader = ({
-  profileImage,
-  tribeName,
-  tribeUsers,
-  tribeDescription,
-  adminsUsername,
-  users, /// members of the tribe
-  tribeId,
-  isMember,
-  tribeTags,
-}: TribeDetailHeaderProps) => {
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
   const [isPending, startTransition] = useTransition();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editTribeModalOpen, setEditTribeModalOpen] = useState(false);
-  const router = useRouter();
   const { user }: any = useCurrentUser();
-  const isAdmin = adminsUsername.includes(user?.username);
+  const {
+    data: tribeInfo,
+    isLoading,
+    isValidating,
+  } = useSWR(`http://localhost:3000/tribe/api/${user.id}/${tribeId}`, fetcher);
+  const router = useRouter();
+
+  const isAdmin = tribeInfo?.adminsUsername?.includes(user?.username);
   useEffect(() => {
     router.prefetch(`/user/${user.username}`);
   }, []);
@@ -74,6 +60,12 @@ const TribeDetailHeader = ({
       });
     });
   };
+  if (isLoading || isValidating || tribeInfo === undefined) {
+    return null;
+  }
+  const isMember = tribeInfo?.users.some(
+    (tribeUser: TribeUser) => tribeUser.userId === user?.id
+  );
   return (
     <div className=" grid  grid-cols-10">
       <div className="bg-white shadow-3xl rounded-3xl p-10  pt-24 flex-col relative col-start-2 col-end-10 mx-2">
@@ -106,7 +98,7 @@ const TribeDetailHeader = ({
 
           <ProfileImage
             isAdmin={isAdmin}
-            profileImage={profileImage}
+            profileImage={tribeInfo?.profileImage}
             tribeId={tribeId}
           />
           <div className="flex items-center">
@@ -139,7 +131,7 @@ const TribeDetailHeader = ({
           <div className="bg-purple px-3 py-2 rounded-xl ">
             <EditableComponent
               tribeId={tribeId}
-              text={tribeName}
+              text={tribeInfo.name}
               name="name"
               editTrigger={
                 <FaPen className="text-lightPink cursor-pointer hover:text-black" />
@@ -157,12 +149,13 @@ const TribeDetailHeader = ({
                 setModalIsOpen(true);
               }}
             >
-              {tribeUsers} {tribeUsers > 1 ? 'members' : 'member'}
+              {tribeInfo?.users.length}{' '}
+              {tribeInfo?.users.length > 1 ? 'members' : 'member'}
             </p>
           </div>
           <EditableComponent
             tribeId={tribeId}
-            text={tribeDescription}
+            text={tribeInfo?.description}
             textArea
             name="description"
             editTrigger={
@@ -183,7 +176,7 @@ const TribeDetailHeader = ({
               Edit Tribe Information
             </Button>
           )}
-          {users.length === 0 && isAdmin && (
+          {tribeInfo?.users?.length === 0 && isAdmin && (
             <DeleteConfirmation
               trigger={
                 <Button
@@ -216,19 +209,19 @@ const TribeDetailHeader = ({
         </div>
         <TribeUsers
           isOpen={modalIsOpen}
-          users={users}
+          users={tribeInfo?.users}
           onRequestClose={() => setModalIsOpen(false)}
-          tribeName={tribeName}
+          tribeName={tribeInfo?.name}
           tribeId={tribeId}
         />
         <EditTribeModalForm
           isOpen={editTribeModalOpen}
           onRequestClose={() => setEditTribeModalOpen(false)}
-          tribeDescription={tribeDescription}
-          tribeName={tribeName}
+          tribeDescription={tribeInfo?.description}
+          tribeName={tribeInfo?.name}
           tribeId={tribeId}
-          profileImage={profileImage}
-          tribeTags={new Set(tribeTags)}
+          profileImage={tribeInfo?.profileImage}
+          tribeTags={new Set(tribeInfo?.tags)}
         />
       </div>
     </div>

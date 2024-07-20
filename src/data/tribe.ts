@@ -154,6 +154,7 @@ export const getTribesWithSimilarTags = async (
       },
       include: {
         users: { include: { user: true } },
+
         tribeVisit: {
           where: {
             userId: currentUserId,
