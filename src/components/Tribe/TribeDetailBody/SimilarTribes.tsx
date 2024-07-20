@@ -14,7 +14,7 @@ const SimilarTribes = ({ tribeId }: { tribeId: string }) => {
     isLoading,
     isValidating,
   } = useSWR(
-    `http://localhost:3000/tribe/api/${user.id}/${tribeId}/similar-tribes`,
+    `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${tribeId}/similar-tribes`,
     fetcher
   );
   if (isLoading || isValidating || similarTribes === undefined) return null;

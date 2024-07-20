@@ -28,7 +28,10 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
     data: tribeInfo,
     isLoading,
     isValidating,
-  } = useSWR(`http://localhost:3000/tribe/api/${user.id}/${tribeId}`, fetcher);
+  } = useSWR(
+    `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${tribeId}`,
+    fetcher
+  );
   const router = useRouter();
 
   const isAdmin = tribeInfo?.adminsUsername?.includes(user?.username);

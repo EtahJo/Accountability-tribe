@@ -16,7 +16,7 @@ const TribePosts = ({ tribeId }: { tribeId: string }) => {
     isLoading,
     isValidating,
   } = useSWR(
-    `http://localhost:3000/tribe/api/posts/${tribeId}/${user.id}`,
+    `https://accountability-tribe.vercel.app/tribe/api/posts/${tribeId}/${user.id}`,
     fetcher
   );
   useEffect(() => {
