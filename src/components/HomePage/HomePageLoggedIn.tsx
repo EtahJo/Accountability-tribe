@@ -50,13 +50,7 @@ const HomeLoggedIn = ({ user }: HomeLoggedInProps) => {
     fetcher
   );
   if (isLoading || session === undefined) {
-    return (
-      <div className="flex items-center gap-x-1">
-        {Array.from({ length: 2 }).map((_, index) => (
-          <UpcomingSessionSkeleton key={index} />
-        ))}
-      </div>
-    );
+    return null;
   }
   return (
     <div className="pb-48 px-20">
