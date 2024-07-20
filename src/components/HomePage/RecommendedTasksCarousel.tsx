@@ -7,6 +7,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { Task, SessionParticipant } from '@prisma/client';
+import TaskSkeleton from '@/components/Skeletons/TaskSkeleton';
 import Todo from '@/components/TodoList/Todo';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -24,10 +25,19 @@ interface TaskCarouselProps {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const RecommendedTasksCarousel = () => {
   const { user }: any = useCurrentUser();
-  const { data: highPriorityTasks } = useSWR(
+  const { data: highPriorityTasks, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/user/api/tasks/${user.username}/high-priority`,
     fetcher
   );
+  if (isLoading || highPriorityTasks === undefined) {
+    return (
+      <div className="flex items-center gap-x-2">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <TaskSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
   if (highPriorityTasks?.length === 0) {
     return (
       <div

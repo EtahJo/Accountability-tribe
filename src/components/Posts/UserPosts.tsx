@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/carousel';
 import { usePathname } from 'next/navigation';
 import { Tribe, TribeUser, Post, Like, User, Comment } from '@prisma/client';
+import PostSkeleton from '@/components/Skeletons/PostSkeleton';
 
 interface PostProps {
   pageUsername?: string;
@@ -20,12 +21,16 @@ interface PostProps {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
   const { user }: any = useCurrentUser();
-  const { data: posts } = useSWR(
+  const { data: userPosts, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/user/api/posts/${pageUsername}/${user?.id}`,
     fetcher
   );
   const pathname = usePathname();
-  if (posts?.length === 0 && pathname.startsWith('/tribe')) {
+  if (isLoading || userPosts === undefined) {
+    return <PostSkeleton />;
+  }
+
+  if (userPosts?.length === 0 && pathname.startsWith('/tribe')) {
     return (
       <div className="bg-white p-2 rounded-3xl shadow-3xl">
         <p className="font-bold text-2xl text-center">
@@ -33,7 +38,7 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
         </p>
       </div>
     );
-  } else if (posts?.length === 0 && !pathname.startsWith('/tribe')) {
+  } else if (userPosts?.length === 0 && !pathname.startsWith('/tribe')) {
     return null;
   }
   return (
@@ -49,7 +54,7 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
         className="w-full "
       >
         <CarouselContent className="w-full">
-          {posts?.map(
+          {userPosts?.map(
             ({
               id,
               tribe,

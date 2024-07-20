@@ -3,21 +3,25 @@ import useSWR from 'swr';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 import SectionHeader from '@/components/SectionHeader';
+import TribeSkeleton from '@/components/Skeletons/TribeSkeleton';
 import { TribeUser, TribeVisit, Tribe, Post } from '@prisma/client';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const SimilarTribes = ({ tribeId }: { tribeId: string }) => {
   const { user }: any = useCurrentUser();
-  const {
-    data: similarTribes,
-    isLoading,
-    isValidating,
-  } = useSWR(
+  const { data: similarTribes, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${tribeId}/similar-tribes`,
     fetcher
   );
-  if (isLoading || isValidating || similarTribes === undefined) return null;
+  if (isLoading || similarTribes === undefined)
+    return (
+      <div className="flex flex-col items-center gap-y-2">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <TribeSkeleton key={index} />
+        ))}
+      </div>
+    );
 
   return (
     <div>

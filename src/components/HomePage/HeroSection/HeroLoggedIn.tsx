@@ -4,6 +4,7 @@ import BackgroundSlideShow from '@/components/BackgroundSlidShow/index';
 import { FaEllipsisH } from 'react-icons/fa';
 import ToolTip from '@/components/ToolTip/index';
 import UserSnippet from '@/components/UserSnippet/index';
+import UserSkeleton from '@/components/Skeletons/UserSkeleton';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { User } from '@prisma/client';
@@ -14,10 +15,19 @@ export type highlightedUsersType = Pick<
 > & { streak: { count: number }; tribes: {}[] };
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HeroLoggedIn = () => {
-  const { data: highlightedUsers } = useSWR(
+  const { data: highlightedUsers, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/user/api/highlighted-users`,
     fetcher
   );
+  if (isLoading || highlightedUsers === undefined) {
+    return (
+      <div className="flex items-center gap-x-2">
+        {Array.from({ length: 2 }).map((_, index) => (
+          <UserSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
   const slides = [
     { src: '/bg-mountain.jpg' },
     {

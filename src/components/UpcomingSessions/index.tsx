@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import SectionHeader from '@/components/SectionHeader/index';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import UpcomingSession from '@/components/UpcomingSession/index';
+import UpcomingSessionSkeleton from '@/components/Skeletons/UpcomingSessionSkeleton';
 import { SessionParticipant } from '@prisma/client';
 import { FaPlusCircle, FaArrowRight } from 'react-icons/fa';
 import {
@@ -29,10 +30,19 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
   const { user: currentUser }: any = useCurrentUser();
-  const { data: sessions } = useSWR(
+  const { data: sessions, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/user/api/sessions/${pageUsername}/${currentUser.id}?page=1`,
     fetcher
   );
+  if (isLoading || sessions === undefined) {
+    return (
+      <div className="flex items-center gap-x-2">
+        {Array.from({ length: 2 }).map((_, index) => (
+          <UpcomingSessionSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
   return (
     <div>
       <SectionHeader

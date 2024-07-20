@@ -76,6 +76,7 @@ export const getAllTribePostEdits = async (tribeId: string) => {
         post: {
           include: {
             author: true,
+            tribe: true,
             comments: {
               include: {
                 author: true,

@@ -6,11 +6,7 @@ import UserProfileBody from '@/components/UserProfileBody/index';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UseProfilePage = ({ params }: { params: { username: string } }) => {
   const { username } = params;
-  const {
-    data: user,
-    isLoading,
-    isValidating,
-  } = useSWR(
+  const { data: user, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/user/api/${username}`,
     fetcher
   );

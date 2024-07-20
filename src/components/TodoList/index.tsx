@@ -9,15 +9,25 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { FaPlusCircle, FaArrowRight } from 'react-icons/fa';
+import TaskSkeleton from '../Skeletons/TaskSkeleton';
 import Todo from '@/components/TodoList/Todo';
 import Link from 'next/link';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const TodoList = ({ pageUsername }: { pageUsername: string }) => {
-  const { data: tasks } = useSWR(
+  const { data: tasks, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/user/api/tasks/${pageUsername}/uncompleted`,
     fetcher
   );
+  if (isLoading || tasks === undefined) {
+    return (
+      <div className="flex items-center gap-x-2">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <TaskSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
   return (
     <div>
       <SectionHeader

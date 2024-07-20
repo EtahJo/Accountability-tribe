@@ -7,6 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import TribeSkeleton from '@/components/Skeletons/TribeSkeleton';
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 
 interface RecommendedTribesProps {
@@ -14,10 +15,19 @@ interface RecommendedTribesProps {
 }
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const RecommendedTribesCarousel = ({ userId }: RecommendedTribesProps) => {
-  const { data: recommendedTribes } = useSWR(
+  const { data: recommendedTribes, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${userId}`,
     fetcher
   );
+  if (isLoading || recommendedTribes === undefined) {
+    return (
+      <div className="flex items-center gap-x-2">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <TribeSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="mx-9">

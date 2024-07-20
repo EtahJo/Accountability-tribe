@@ -4,6 +4,7 @@ import SectionHeader from '@/components/SectionHeader/index';
 import HeroLoggedIn from '@/components/HomePage/HeroSection/HeroLoggedIn';
 import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 import UpcomingSessionDetail from '@/components/UpcomingSessionDetails/index';
+import UpcomingSessionSkeleton from '../Skeletons/UpcomingSessionSkeleton';
 import Todo from '@/components/TodoList/Todo';
 import { parseISO } from 'date-fns';
 import ContactSection from '@/components/ContactSection/ContactSection';
@@ -44,10 +45,19 @@ interface HomeLoggedInProps {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const HomeLoggedIn = ({ user }: HomeLoggedInProps) => {
-  const { data: session } = useSWR(
+  const { data: session, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`,
     fetcher
   );
+  if (isLoading || session === undefined) {
+    return (
+      <div className="flex items-center gap-x-1">
+        {Array.from({ length: 2 }).map((_, index) => (
+          <UpcomingSessionSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
   return (
     <div className="pb-48 px-20">
       <HeroLoggedIn />

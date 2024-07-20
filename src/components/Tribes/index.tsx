@@ -7,6 +7,7 @@ import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 import { is_member } from '@/action/tribe/join-tribe';
 import { get_tribe_members } from '@/action/tribe/get-tribe-members';
 import { TribeUser } from '@prisma/client';
+import TribeSkeleton from '../Skeletons/TribeSkeleton';
 import UserSessions from '@/app/user/[username]/sessions/page';
 interface TribesProps {
   pageUsername: string;
@@ -14,14 +15,19 @@ interface TribesProps {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const Tribes = ({ pageUsername }: TribesProps) => {
   const { user }: any = useCurrentUser();
-  const {
-    data: tribes,
-    isLoading,
-    isValidating,
-  } = useSWR(
+  const { data: tribes, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/user/api/tribes/${pageUsername}/${user.id}`,
     fetcher
   );
+  if (isLoading || tribes === undefined) {
+    return (
+      <div className="flex flex-col gap-y-2">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <TribeSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col justify-center">

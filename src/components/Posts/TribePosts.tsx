@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import PostSnippet from '@/components/Posts/Post';
+import PostSkeleton from '../Skeletons/PostSkeleton';
 import PostForm from '@/components/Forms/PostForm';
 import { Tribe, TribeUser, Post, Like, User, Comment } from '@prisma/client';
 import SectionHeader from '@/components/SectionHeader/index';
@@ -11,19 +12,21 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const TribePosts = ({ tribeId }: { tribeId: string }) => {
   const [currentNewPosts, setCurrentNewPosts] = useState<Post[]>([]);
   const { user }: any = useCurrentUser();
-  const {
-    data: tribePosts,
-    isLoading,
-    isValidating,
-  } = useSWR(
+  const { data: tribePosts, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/tribe/api/posts/${tribeId}/${user.id}`,
     fetcher
   );
   useEffect(() => {
     setCurrentNewPosts(tribePosts?.newPosts);
   }, []);
-  if (isLoading || isValidating || tribePosts === undefined) {
-    return null;
+  if (isLoading || tribePosts === undefined) {
+    return (
+      <div>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <PostSkeleton key={index} />
+        ))}
+      </div>
+    );
   }
   return (
     <div>

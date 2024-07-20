@@ -1,5 +1,5 @@
 'use client';
-import useSWR from 'swr';
+
 import { useCurrentUser } from '@/hooks/use-current-user';
 import UpcomingSessions from '@/components/UpcomingSessions/index';
 import TodoList from '@/components/TodoList/index';

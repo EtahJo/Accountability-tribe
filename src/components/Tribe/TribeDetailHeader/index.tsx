@@ -24,11 +24,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editTribeModalOpen, setEditTribeModalOpen] = useState(false);
   const { user }: any = useCurrentUser();
-  const {
-    data: tribeInfo,
-    isLoading,
-    isValidating,
-  } = useSWR(
+  const { data: tribeInfo, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${tribeId}`,
     fetcher
   );
@@ -63,7 +59,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
       });
     });
   };
-  if (isLoading || isValidating || tribeInfo === undefined) {
+  if (isLoading || tribeInfo === undefined) {
     return null;
   }
   const isMember = tribeInfo?.users.some(

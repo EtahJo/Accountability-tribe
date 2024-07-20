@@ -49,7 +49,7 @@ const Navbar = () => {
           href={'/tribes'}
           className={cn(
             'bg-lightPink rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl group',
-            pathname === '/tribes' && 'bg-black text-white'
+            pathname.startsWith('/tribes') && 'bg-black text-white shadow-none'
           )}
         >
           <p className="w-full group-hover:text-white">Tribes</p>
@@ -58,10 +58,21 @@ const Navbar = () => {
           href={'/sessions'}
           className={cn(
             'bg-lightPink rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl',
-            pathname === '/sessions' && 'bg-black text-white'
+            pathname.startsWith('/sessions') &&
+              'bg-black text-white shadow-none'
           )}
         >
           Sessions
+        </Link>
+        <Link
+          href={'/tribe-admin-management'}
+          className={cn(
+            'bg-lightPink rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl',
+            pathname.startsWith('/tribe-admin-management') &&
+              'bg-black text-white shadow-none'
+          )}
+        >
+          Manage Tribes
         </Link>
       </div>
       {session.status === 'authenticated' ? (
