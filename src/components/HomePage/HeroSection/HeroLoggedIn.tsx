@@ -19,15 +19,15 @@ const HeroLoggedIn = () => {
     `https://accountability-tribe.vercel.app/user/api/highlighted-users`,
     fetcher
   );
-  if (isLoading || highlightedUsers === undefined) {
-    return (
-      <div className="flex items-center gap-x-2">
-        {Array.from({ length: 2 }).map((_, index) => (
-          <UserSkeleton key={index} />
-        ))}
-      </div>
-    );
-  }
+  // if (isLoading || highlightedUsers === undefined) {
+  //   return (
+  //     <div className="flex items-center gap-x-2">
+  //       {Array.from({ length: 2 }).map((_, index) => (
+  //         <UserSkeleton key={index} />
+  //       ))}
+  //     </div>
+  //   );
+  // }
   const slides = [
     { src: '/bg-mountain.jpg' },
     {
