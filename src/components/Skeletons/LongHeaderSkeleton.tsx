@@ -11,7 +11,7 @@ const LongHeaderSkeleton = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className={cn('w-3/4 rounded-3xl p-10 h-64', classNames)}>
+    <div className={cn('w-3/4 rounded-3xl p-10 ', classNames)}>
       {/* <Skeleton className=" w-full rounded-3xl" /> */}
       {children}
     </div>

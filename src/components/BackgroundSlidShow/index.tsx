@@ -5,6 +5,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 import { cn } from '@/lib/utils';
 
 const BackgroundSlideShow = ({
@@ -34,7 +35,7 @@ const BackgroundSlideShow = ({
             key={index}
             className={cn(' relative bg-lightPink bg-blend-normal', className)}
           >
-            <Image
+            <CldImage
               src={slide.src}
               alt="slider image"
               priority

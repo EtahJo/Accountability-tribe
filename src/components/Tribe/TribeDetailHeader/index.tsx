@@ -10,10 +10,13 @@ import { toast } from 'sonner';
 import { TribeUser } from '@prisma/client';
 import ProfileImage from '@/components/Tribe/TribeDetailHeader/ProfileImage';
 import { delete_tribe } from '@/action/tribe/delete-tribe';
+import LongHeaderSkeleton from '@/components/Skeletons/LongHeaderSkeleton';
+import UserSkeleton from '@/components/Skeletons/UserSkeleton';
 import EditTribeModalForm from '@/components/Forms/EditTribeModalForm';
 import EditableComponent from '@/components/Tribe/TribeDetailHeader/EditableComponent';
 import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface TribeDetailHeaderProps {
   tribeId: string;
@@ -60,7 +63,19 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
     });
   };
   if (isLoading || tribeInfo === undefined) {
-    return null;
+    return (
+      <LongHeaderSkeleton classNames="bg-white flex flex-col space-y-4 m-auto justify-center items-center">
+        <UserSkeleton classNames="w-[180px] h-[180px]" />
+        <div
+          className="w-full bg-purple flex flex-col space-y-3 
+        rounded-2xl justify-center items-center py-3"
+        >
+          <Skeleton className="w-[250px] h-12" />
+          <Skeleton className="w-[100px] h-6 bg-lightPink" />
+        </div>
+        <Skeleton className="w-[250px] h-5" />
+      </LongHeaderSkeleton>
+    );
   }
   const isMember = tribeInfo?.users.some(
     (tribeUser: TribeUser) => tribeUser.userId === user?.id

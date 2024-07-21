@@ -5,6 +5,7 @@ import { FaEllipsisH } from 'react-icons/fa';
 import ToolTip from '@/components/ToolTip/index';
 import UserSnippet from '@/components/UserSnippet/index';
 import UserSkeleton from '@/components/Skeletons/UserSkeleton';
+import LongHeaderSkeleton from '@/components/Skeletons/LongHeaderSkeleton';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { User } from '@prisma/client';
@@ -19,22 +20,14 @@ const HeroLoggedIn = () => {
     `https://accountability-tribe.vercel.app/user/api/highlighted-users`,
     fetcher
   );
-  // if (isLoading || highlightedUsers === undefined) {
-  //   return (
-  //     <div className="flex items-center gap-x-2">
-  //       {Array.from({ length: 2 }).map((_, index) => (
-  //         <UserSkeleton key={index} />
-  //       ))}
-  //     </div>
-  //   );
-  // }
+
   const slides = [
-    { src: '/bg-mountain.jpg' },
+    { src: 'v1718702194/ztkcydlsey7rtrrxnq7l.jpg' },
     {
-      src: '/bg-tree.jpg',
+      src: 'v1718704071/eslhb9bgdycqw5d9r1re.jpg',
     },
     {
-      src: '/bg-sky.jpg',
+      src: 'v1718702194/ztkcydlsey7rtrrxnq7l.jpg',
     },
   ];
   return (

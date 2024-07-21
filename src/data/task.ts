@@ -36,7 +36,13 @@ export const getHighPriorityTasks = async (userId: string) => {
         sessionParticipants: {
           include: {
             sessionParticipant: {
-              include: { session: true },
+              include: {
+                session: {
+                  include: {
+                    users: true,
+                  },
+                },
+              },
             },
           },
         },

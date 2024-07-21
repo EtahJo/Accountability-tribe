@@ -1,10 +1,11 @@
 'use client';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
-const UserSkeleton = () => {
+const UserSkeleton = ({ classNames }: { classNames: string }) => {
   return (
     <div>
-      <Skeleton className="w-[80px] h-[80px] rounded-full border shadow-3xl" />
+      <Skeleton className={cn('rounded-full border shadow-3xl', classNames)} />
     </div>
   );
 };

@@ -6,12 +6,12 @@ interface AuthLayoutProps {
 }
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   const slides = [
-    { src: '/bg-mountain.jpg' },
+    { src: 'v1718702194/ztkcydlsey7rtrrxnq7l.jpg' },
     {
-      src: '/bg-tree.jpg',
+      src: 'v1718704071/eslhb9bgdycqw5d9r1re.jpg',
     },
     {
-      src: '/bg-sky.jpg',
+      src: 'v1718702194/ztkcydlsey7rtrrxnq7l.jpg',
     },
   ];
   return (

@@ -6,6 +6,9 @@ import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 import UpcomingSessionDetail from '@/components/UpcomingSessionDetails/index';
 import UpcomingSessionSkeleton from '../Skeletons/UpcomingSessionSkeleton';
 import Todo from '@/components/TodoList/Todo';
+import UserSkeleton from '../Skeletons/UserSkeleton';
+import LongHeaderSkeleton from '../Skeletons/LongHeaderSkeleton';
+import UpcomingSessionDetailSkeleton from '../Skeletons/UpcomingSessionDetailSkeleton';
 import { parseISO } from 'date-fns';
 import ContactSection from '@/components/ContactSection/ContactSection';
 import {
@@ -49,9 +52,7 @@ const HomeLoggedIn = ({ user }: HomeLoggedInProps) => {
     `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`,
     fetcher
   );
-  if (isLoading || session === undefined) {
-    return null;
-  }
+
   return (
     <div className="pb-48 px-20">
       <HeroLoggedIn />
@@ -83,7 +84,9 @@ const HomeLoggedIn = ({ user }: HomeLoggedInProps) => {
             {' '}
             Your Next Session
           </h1>
-          {session ? (
+          {isLoading ? (
+            <UpcomingSessionDetailSkeleton />
+          ) : session ? (
             <UpcomingSessionDetail
               startDate={
                 formatDateTime(
