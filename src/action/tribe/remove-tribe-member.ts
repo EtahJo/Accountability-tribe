@@ -48,11 +48,15 @@ export const remove_tribe_user = async (tribeId: string, userId: string) => {
     data: {
       userId: tribeUser.userId,
       type: 'WARNING',
-      message: `You have been deleted from the ${tribe.name} tribe`,
+      message: `You have been removed from the ${tribe.name} tribe`,
     },
   });
+  const successMessage =
+    userToDelete.id !== dbUser.id && tribeAdmin
+      ? 'Tribe member deleted'
+      : 'You left tribe';
   return {
-    success: 'Tribe member deleted',
+    success: successMessage,
     creatorUsername: dbUser.username,
     tribeId,
   };

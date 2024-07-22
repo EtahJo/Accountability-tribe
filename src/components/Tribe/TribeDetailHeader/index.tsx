@@ -8,6 +8,7 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 import { join_tribe } from '@/action/tribe/join-tribe';
 import { mutate } from 'swr';
 import { toast } from 'sonner';
+import { remove_tribe_user } from '@/action/tribe/remove-tribe-member';
 import { TribeUser } from '@prisma/client';
 import ProfileImage from '@/components/Tribe/TribeDetailHeader/ProfileImage';
 import { delete_tribe } from '@/action/tribe/delete-tribe';
@@ -86,6 +87,33 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
           mutate(
             `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}/similar-tribes`
           );
+        }
+      });
+    });
+  };
+  const leaveTribe = () => {
+    startTransition(() => {
+      remove_tribe_user(tribeId, user.id).then((data) => {
+        if (data.success) {
+          toast.success(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.tribeId}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${data.creatorUsername}/${user.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${user.id}`
+          );
+        }
+        if (data.error) {
+          toast.error(data.error);
         }
       });
     });
@@ -239,7 +267,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
             />
           )}
 
-          {!isMember && (
+          {!isMember ? (
             <Button
               onClick={joinTribe}
               className="w-48 m-auto move-button"
@@ -247,6 +275,26 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
             >
               Join Us
             </Button>
+          ) : (
+            !isAdmin && (
+              <DeleteConfirmation
+                trigger={
+                  <Button className="w-48 m-auto move-button bg-gray-400 hover:bg-gray-600">
+                    Leave Tribe
+                  </Button>
+                }
+                confirmationMessage="Are you sure you want to leave tribe?"
+                consequenceMessage="You will no longer be able to participate in tribe"
+                action={
+                  <Button
+                    className="bg-gray-400 hover:bg-gray-600"
+                    onClick={leaveTribe}
+                  >
+                    Leave Anyway
+                  </Button>
+                }
+              />
+            )
           )}
         </div>
         <TribeUsers

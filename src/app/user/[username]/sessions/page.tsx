@@ -11,7 +11,7 @@ async function getSessionData(
   filter: string
 ) {
   const sessionRes = await fetch(
-    `${base_url}/user/api/sessions/${username}/${currentUserId}?page=${page}&filter=${filter}`,
+    `https://accountability-tribe.vercel.app/user/api/sessions/${username}/${currentUserId}?page=${page}&filter=${filter}`,
     {
       next: {
         tags: ['userSessions'],
