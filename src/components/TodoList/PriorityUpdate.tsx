@@ -3,6 +3,7 @@ import { useTransition } from 'react';
 import Formsy from 'formsy-react';
 import FormsySelectInput from '@/components/CustomSelectInput/FormsySelectInput';
 import { edit_task } from '@/action/task/edit-task';
+import { mutate } from 'swr';
 import { cn } from '@/lib/utils';
 import {
   Popover,
@@ -33,6 +34,26 @@ const PriorityUpdate = ({ priority, taskId, userId }: PriorityUpdateProps) => {
       id: '3',
     },
   ];
+  const updateTaskPriority = (value: any) => {
+    startTransition(() => {
+      edit_task({ priority: parseInt(value) }, taskId).then((data) => {
+        if (data.success) {
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/high-priority`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+          );
+        }
+      });
+    });
+  };
   return (
     <div>
       {user?.id === userId ? (
@@ -63,11 +84,7 @@ const PriorityUpdate = ({ priority, taskId, userId }: PriorityUpdateProps) => {
                     ? 'HIGH PRIORITY'
                     : 'LOW PRIORITY'
                 }
-                onValueChange={(value: any) => {
-                  startTransition(() => {
-                    edit_task({ priority: parseInt(value) }, taskId);
-                  });
-                }}
+                onValueChange={updateTaskPriority}
                 disabled={isPending}
               />
             </Formsy>

@@ -1,11 +1,13 @@
 'use client';
 import * as z from 'zod';
+import { mutate } from 'swr';
 import { useState, useTransition } from 'react';
 import { CreateCommentSchema } from '@/schemas/index';
 import Formsy from 'formsy-react';
 import CustomInput from '@/components/CustomInput/customInput';
 import { Button } from '@/components/ui/button';
 import { FaPaperPlane } from 'react-icons/fa';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import { create_comment_response } from '@/action/comment /create-comment-response';
 import { toast } from 'sonner';
 
@@ -20,12 +22,19 @@ const CommentResponseForm = ({
 }) => {
   const [comment, setComment] = useState('');
   const [isPending, startTransition] = useTransition();
+  const { user }: any = useCurrentUser();
   const onValidSubmit = (vals: z.infer<typeof CreateCommentSchema>) => {
     startTransition(() => {
       create_comment_response(vals, commentId).then((data) => {
         if (data.success) {
           setComment('');
           setResponding(false);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+          );
         }
         if (data.error) {
           toast.error(data.error);

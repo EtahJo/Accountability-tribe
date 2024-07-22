@@ -4,6 +4,8 @@ import CustomInput from '@/components/CustomInput/customInput';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { edit_tribe } from '@/action/tribe/edit-tribe';
+import { useCurrentUser } from '@/hooks/use-current-user';
+import { mutate } from 'swr';
 import { toast } from 'sonner';
 import Formsy from 'formsy-react';
 import { EditTribeSchema } from '@/schemas/index';
@@ -32,6 +34,7 @@ const EditableComponent = ({
   textArea,
   divClasses,
 }: EditableComponentProps) => {
+  const { user }: any = useCurrentUser();
   const [edit, setEdit] = useState(false);
   const [isPending, startTransition] = useTransition();
   const onValidSubmit = (vals: z.infer<typeof EditTribeSchema>) => {
@@ -42,6 +45,24 @@ const EditableComponent = ({
         }
         if (data.success) {
           toast.success(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.tribeId}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${data.creatorUsername}/${user.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${user.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}/similar-tribes`
+          );
         }
       });
     });

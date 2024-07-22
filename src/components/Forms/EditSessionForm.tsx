@@ -17,6 +17,8 @@ import { EditSessionSchema } from '@/schemas/index';
 import { addHours, subHours, addMinutes, subMinutes } from 'date-fns';
 import SelectTasks from '@/components/CustomMultipleSelectInput/SelectTasks';
 import Todo from '@/components/TodoList/Todo';
+import { mutate } from 'swr';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import { Session } from '@prisma/client';
 
 interface EditSessionProps {
@@ -44,6 +46,7 @@ const EditSessionForm = ({
   const [minutes, setMinutes] = useState(0);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const { user }: any = useCurrentUser();
 
   const onValidSubmit = (vals: z.infer<typeof EditSessionSchema>) => {
     startTransition(() => {
@@ -56,6 +59,15 @@ const EditSessionForm = ({
           if (data.success) {
             setError('');
             setSuccess(data.success);
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+            );
           }
         })
         .catch((error) => {

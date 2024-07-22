@@ -10,7 +10,6 @@ import {
   getSessionUserBySessionUserId,
 } from '@/data/session';
 import { getTimeDifference, getDuration } from '@/util/DateTime';
-import { revalidateTag } from 'next/cache';
 
 export const edit_session = async (
   values: z.infer<typeof EditSessionSchema>,
@@ -99,9 +98,11 @@ export const edit_session = async (
   );
 
   // TODO: send email to all participants
-  revalidateTag('userSessions');
 
-  return { success: 'Changes successfully made to Session' };
+  return {
+    success: 'Changes successfully made to Session',
+    creatorUsername: dbUser.username,
+  };
 
   // all checks passed then update session
 };

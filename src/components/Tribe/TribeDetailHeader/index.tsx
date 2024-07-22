@@ -6,6 +6,7 @@ import { FaPen } from 'react-icons/fa';
 import TribeUsers from '@/components/Tribe/TribeUsers/index';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { join_tribe } from '@/action/tribe/join-tribe';
+import { mutate } from 'swr';
 import { toast } from 'sonner';
 import { TribeUser } from '@prisma/client';
 import ProfileImage from '@/components/Tribe/TribeDetailHeader/ProfileImage';
@@ -45,6 +46,24 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
         }
         if (data.success) {
           toast.success(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.tribeId}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${data.creatorUsername}/${user.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${user.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}/similar-tribes`
+          );
         }
       });
     });
@@ -58,6 +77,15 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
         if (data.success) {
           toast.success(data.success);
           router.push(`/user/${user.username}`);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${data.creatorUsername}/${user.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}/similar-tribes`
+          );
         }
       });
     });

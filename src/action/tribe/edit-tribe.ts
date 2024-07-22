@@ -5,7 +5,6 @@ import { db } from '@/lib/db';
 import { getTribeById, getSpecificTribeAdmin } from '@/data/tribe';
 import { getUserById } from '@/data/user';
 import { currentUser } from '@/lib/authentication';
-import { revalidateTag } from 'next/cache';
 
 export const edit_tribe = async (
   values: z.infer<typeof EditTribeSchema>,
@@ -38,6 +37,5 @@ export const edit_tribe = async (
       ...values,
     },
   });
-  revalidateTag('tribeInfo');
-  return { success: 'Change saved' };
+  return { success: 'Change saved', tribeId, creatorUsername: dbUser.username };
 };

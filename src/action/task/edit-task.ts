@@ -8,13 +8,12 @@ import {
 import { getUserById } from '@/data/user';
 import { db } from '@/lib/db';
 import { EditTaskSchema } from '@/schemas/index';
-import { revalidateTag } from 'next/cache';
+
 import { currentUser } from '@/lib/authentication';
 import { link_task_session } from '@/action/task/link-task-to-session';
 import { getStreakByUserId } from '@/data/streak';
 import { Status } from '@prisma/client';
 import { startOfDay, isSameDay, differenceInDays } from 'date-fns';
-import { Streak } from '@prisma/client';
 
 export const edit_task = async (
   values: z.infer<typeof EditTaskSchema>,
@@ -125,7 +124,8 @@ export const edit_task = async (
     );
     return { success: 'Task added to session' };
   }
-  revalidateTag('userTasks');
-  revalidateTag('userUnCompletedTasks');
-  return { success: 'Task Successfully Updated' };
+  return {
+    success: 'Task Successfully Updated',
+    creatorUsername: dbUser.username,
+  };
 };

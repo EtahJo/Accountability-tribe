@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { create_task } from '@/action/task/create-task';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
+import { mutate } from 'swr';
 
 interface TaskProps {
   title: string;
@@ -72,6 +73,12 @@ const CreateTask = () => {
               priority: 0,
             },
           ]);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/high-priority`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+          );
         }
       });
     });
@@ -160,10 +167,16 @@ const CreateTask = () => {
             type="button"
             size={'slg'}
             onClick={handleAddTask}
+            disabled={isPending}
           >
             Add Task
           </Button>
-          <Button size={'slg'} className="move-button py-2" type="submit">
+          <Button
+            size={'slg'}
+            className="move-button py-2"
+            type="submit"
+            disabled={isPending}
+          >
             {tasks.length > 1 ? ' Create Tasks' : ' Create Task'}
           </Button>
         </div>

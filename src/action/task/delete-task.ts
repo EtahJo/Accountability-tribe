@@ -4,7 +4,6 @@ import { db } from '@/lib/db';
 import { getTaskById } from '@/data/task';
 import { getUserById } from '@/data/user';
 import { currentUser } from '@/lib/authentication';
-import { revalidateTag } from 'next/cache';
 
 export const delete_task = async (taskId: string) => {
   const user = await currentUser();
@@ -33,7 +32,5 @@ export const delete_task = async (taskId: string) => {
       id: taskId,
     },
   });
-  revalidateTag('userTasks');
-  revalidateTag('userUnCompletedTasks');
-  return { success: 'Task deleted' };
+  return { success: 'Task deleted', creatorUsername: dbUser.username };
 };

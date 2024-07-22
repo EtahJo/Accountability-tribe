@@ -2,7 +2,6 @@
 import { db } from '@/lib/db';
 import { getUserById } from '@/data/user';
 import { currentUser } from '@/lib/authentication';
-import { revalidateTag } from 'next/cache';
 
 export const tribe_visit = async (tribeId: string, userId: string) => {
   const user = await currentUser();
@@ -26,5 +25,5 @@ export const tribe_visit = async (tribeId: string, userId: string) => {
       lastVisit: new Date(),
     },
   });
-  revalidateTag('userSimilarTribes');
+  return { success: 'Last visit updated', creatorUsername: dbUser.username };
 };

@@ -25,6 +25,7 @@ const TribeInfoSection = ({
     `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${tribeId}`,
     fetcher
   );
+
   if (isLoading || tribeDetails === undefined)
     return (
       <div>
@@ -34,6 +35,13 @@ const TribeInfoSection = ({
         ))}
       </div>
     );
+  if (!tribeDetails.tribeInfo.adminsUsername?.includes(user?.username)) {
+    return (
+      <div>
+        <p>Not Authorised </p>
+      </div>
+    );
+  }
   const { tribeInfo, tribeTotalPosts } = tribeDetails;
   const { name, description, profileImage, adminsUsername, users, posts, id } =
     tribeInfo;

@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import { CreateTribeSchema } from '@/schemas/index';
+import { mutate } from 'swr';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import CustomTagsInput from '@/components/CustomTagsInput/index';
 
 const CreateTribe = () => {
@@ -18,6 +20,7 @@ const CreateTribe = () => {
   const [success, setSuccess] = useState('');
   const [isPending, startTransition] = useTransition();
   const [tags, setTags] = useState(new Set());
+  const { user }: any = useCurrentUser();
 
   const addTag = (tag: any) => {
     setTags(new Set(tags).add(tag));
@@ -69,6 +72,15 @@ const CreateTribe = () => {
         if (data.success) {
           setError('');
           setSuccess(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${data.creatorUsername}/${user.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}/similar-tribes`
+          );
         }
       });
     });

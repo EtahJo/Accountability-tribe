@@ -7,7 +7,6 @@ import { currentUser } from '@/lib/authentication';
 import { getSpecificTribeAdmin, getAllTribeAdmins } from '@/data/tribe';
 import { getPostById } from '@/data/post';
 import { getUserById } from '@/data/user';
-import { revalidateTag } from 'next/cache';
 
 export const edit_post = async (
   values: z.infer<typeof EditPostSchema>,
@@ -70,7 +69,10 @@ export const edit_post = async (
       )
     );
   }
-  revalidateTag('tribePosts');
-  revalidateTag('tribePostEdits');
-  return { success: 'Changes pending review' };
+  return {
+    success: 'Changes pending review',
+    approved,
+    postAuthorUsername: dbUser.username,
+    postTribeId: post.tribeId,
+  };
 };

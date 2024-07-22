@@ -4,7 +4,6 @@ import { getPostById } from '@/data/post';
 import { getUserById } from '@/data/user';
 import { getSpecificTribeAdmin } from '@/data/tribe';
 import { currentUser } from '@/lib/authentication';
-import { revalidateTag } from 'next/cache';
 
 export const delete_post = async (postId: string) => {
   const user = await currentUser();
@@ -23,12 +22,12 @@ export const delete_post = async (postId: string) => {
 
   const postAuthorId = post.authorId;
   const postContent = post.content;
+  const tribeId = post.tribeId;
   await db.post.delete({
     where: {
       id: postId,
     },
   });
-  revalidateTag('tribePosts');
   if (tribeAdmin && postAuthorId !== dbUser.id) {
     await db.notification.create({
       data: {
@@ -40,5 +39,9 @@ export const delete_post = async (postId: string) => {
     return { success: 'Post deleted and post author informed' };
   }
 
-  return { success: 'Post deleted' };
+  return {
+    success: 'Post deleted',
+    postAuthorUsername: dbUser.username,
+    postTribeId: tribeId,
+  };
 };

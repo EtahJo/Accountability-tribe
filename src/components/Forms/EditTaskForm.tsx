@@ -9,6 +9,8 @@ import DateOnlyInput from '@/components/CustomDateInput/DateOnlyInput';
 import FormsySelectInput from '@/components/CustomSelectInput/FormsySelectInput';
 import { Button } from '@/components/ui/button';
 import { FormError } from '@/components/Messages/Error';
+import { mutate } from 'swr';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import { FormSuccess } from '@/components/Messages/Success';
 import { Status } from '@prisma/client';
 
@@ -24,6 +26,7 @@ export interface EditTaskFormProps {
 }
 
 const EditTaskForm = ({ presentTask }: EditTaskFormProps) => {
+  const { user }: any = useCurrentUser();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -80,6 +83,21 @@ const EditTaskForm = ({ presentTask }: EditTaskFormProps) => {
         if (data.success) {
           setError('');
           setSuccess(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/high-priority`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/completed-task`
+          );
         }
       });
     });

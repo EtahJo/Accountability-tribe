@@ -23,7 +23,6 @@ const FullBodyContent = ({ tribeId }: { tribeId: string }) => {
         ))}
       </div>
     );
-
   return (
     <div>
       <TribeInfoSection tribeId={tribeId} postEdits={postEdits} />

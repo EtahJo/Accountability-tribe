@@ -9,6 +9,7 @@ import { make_tribe_admin } from '@/action/tribe/add-tribe-admin';
 import { remove_as_admin } from '@/action/tribe/remove-as-admin';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { mutate } from 'swr';
 import { FaUser } from 'react-icons/fa';
 
 interface TribeUserProps {
@@ -51,6 +52,12 @@ const TribeUser = ({
         make_tribe_admin(tribeId, userId).then((data) => {
           if (data?.success) {
             toast.success(data.success);
+            mutate(
+              `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.tribeId}`
+            );
           }
           if (data?.error) {
             toast.error(data.error);
@@ -64,6 +71,12 @@ const TribeUser = ({
         remove_as_admin(tribeId, userId).then((data) => {
           if (data?.success) {
             toast.success(data.success);
+            mutate(
+              `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.tribeId}`
+            );
           }
           if (data?.error) {
             toast.error(data.error);
@@ -77,6 +90,21 @@ const TribeUser = ({
         remove_tribe_user(tribeId, userId).then((data) => {
           if (data.success) {
             toast.success(data.success);
+            mutate(
+              `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.tribeId}`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tribes/${data.creatorUsername}/${user.id}`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${user.id}`
+            );
           }
           if (data.error) {
             toast.error(data.error);

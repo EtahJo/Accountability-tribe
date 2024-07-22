@@ -7,7 +7,6 @@ import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
 import { getPostById } from '@/data/post';
 import { is_member } from '@/action/tribe/join-tribe';
-import { revalidateTag } from 'next/cache';
 
 export const create_comment = async (
   values: z.infer<typeof CreateCommentSchema>,
@@ -55,8 +54,9 @@ export const create_comment = async (
     });
   }
 
-  revalidateTag('tribePosts');
-  revalidateTag('userPosts');
-
-  return { success: 'Comment Created' };
+  return {
+    success: 'Comment Created',
+    postAuthorUsername: post?.author.username,
+    postTribeId: post?.tribeId,
+  };
 };

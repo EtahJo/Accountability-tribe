@@ -4,9 +4,9 @@ import { CreateCommentSchema } from '@/schemas/index';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
 import { getCommentById } from '@/data/comment';
+import { getPostById } from '@/data/post';
 import { is_member } from '@/action/tribe/join-tribe';
 import { db } from '@/lib/db';
-import { revalidateTag } from 'next/cache';
 
 export const create_comment_response = async (
   values: z.infer<typeof CreateCommentSchema>,
@@ -28,6 +28,7 @@ export const create_comment_response = async (
   }
   const comment = await getCommentById(commentId);
   const post = comment?.post;
+  const dbPost = await getPostById(post?.id as string);
   const tribeId = post?.tribeId;
   const isMember = await is_member(tribeId as string, dbUser.id);
   if (!isMember.result) {
@@ -52,8 +53,9 @@ export const create_comment_response = async (
       },
     });
   }
-
-  revalidateTag('tribePosts');
-  revalidateTag('userPosts');
-  return { success: 'Comment created' };
+  return {
+    success: 'Comment created',
+    postTribeId: dbPost?.tribeId,
+    postAuthorUsername: dbPost?.author.username,
+  };
 };

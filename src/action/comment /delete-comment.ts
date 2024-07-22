@@ -4,9 +4,8 @@ import { db } from '@/lib/db';
 import { getUserById } from '@/data/user';
 import { currentUser } from '@/lib/authentication';
 import { getCommentById, getCommentReplies } from '@/data/comment';
+import { getPostById } from '@/data/post';
 import { getSpecificTribeAdmin } from '@/data/tribe';
-
-import { revalidateTag } from 'next/cache';
 
 export const delete_comment = async (commentId: string) => {
   const user = await currentUser();
@@ -21,8 +20,9 @@ export const delete_comment = async (commentId: string) => {
   if (!comment) {
     return { error: 'Comment does not exist' };
   }
+  const post = await getPostById(comment.postId);
   const specificAdmin = await getSpecificTribeAdmin(
-    comment.post.tribeId,
+    post?.tribeId as string,
     dbUser.id
   );
 
@@ -53,6 +53,9 @@ export const delete_comment = async (commentId: string) => {
       },
     });
   }
-  revalidateTag('tribePosts');
-  return { success: 'Comment deleted' };
+  return {
+    success: 'Comment deleted',
+    postAuthorUsername: post?.author.username,
+    postTribeId: post?.tribeId,
+  };
 };

@@ -1,16 +1,15 @@
 'use server';
 import * as z from 'zod';
 import { db } from '@/lib/db';
+import { currentUser } from '@/lib/authentication';
+import { getUserById } from '@/data/user';
 import {
   getSessionById,
   getSessionParticipantById,
   getSessionTaskByTaskIdSessionId,
 } from '@/data/session';
 import { getTaskById } from '@/data/task';
-import { revalidateTag } from 'next/cache';
 import { isAfter } from 'date-fns';
-import { checkIsAfter } from '@/util/DateTime';
-import { LinkMultipleTaskSchema } from '@/schemas/index';
 
 export const link_task_session = async (
   sessionParticipantId: string,
@@ -19,7 +18,14 @@ export const link_task_session = async (
   const sessionParticipant = await getSessionParticipantById(
     sessionParticipantId
   );
-
+  const user = await currentUser();
+  if (!user) {
+    return { error: 'Not Authorised' };
+  }
+  const dbUser = await getUserById(user.id as string);
+  if (!dbUser) {
+    return { error: 'Not Authorised' };
+  }
   const session = await getSessionById(sessionParticipant?.sessionId as string);
   if (!session) {
     return { error: 'Session does not exist' };
@@ -52,24 +58,5 @@ export const link_task_session = async (
       taskId,
     },
   });
-  revalidateTag('userTasks');
-  // revalidateTag('userSessions');
-  // revalidateTag('userUnCompletedTasks');
-  return { success: 'Task added to session' };
+  return { success: 'Task added to session', creatorUsername: dbUser.username };
 };
-
-// export const link_multiple_tasks = async (
-//   values: z.infer<typeof LinkMultipleTaskSchema>,
-//   sessionParticipantId: string
-// ) => {
-//   const validdatedFields = LinkMultipleTaskSchema.safeParse(values);
-//   if (!validdatedFields.success) {
-//     return { error: 'Invalid Fields' };
-//   }
-//   const { taskIds } = validdatedFields.data;
-//   taskIds.map(
-//     async ({ value }) => await link_task_session(sessionParticipantId, value)
-//   );
-
-//   return { success: 'Tasks added to session' };
-// };

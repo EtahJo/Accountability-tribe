@@ -4,10 +4,12 @@ import Formsy from 'formsy-react';
 import CustomInput from '@/components/CustomInput/customInput';
 import { Button } from '@/components/ui/button';
 import * as z from 'zod';
+import { mutate } from 'swr';
 import { CreatePostSchema } from '@/schemas/index';
 import { create_post } from '@/action/post/create-post';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 const PostForm = ({ tribeId }: { tribeId: string }) => {
   const [isPending, startTransition] = useTransition();
@@ -15,6 +17,7 @@ const PostForm = ({ tribeId }: { tribeId: string }) => {
   const [title, setTitle] = useState('');
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const { user }: any = useCurrentUser();
   const onValidSubmit = (vals: z.infer<typeof CreatePostSchema>) => {
     startTransition(() => {
       create_post(vals, tribeId).then((data) => {
@@ -25,6 +28,18 @@ const PostForm = ({ tribeId }: { tribeId: string }) => {
         if (data.success) {
           setError('');
           setSuccess(data.success);
+          if (data.approved) {
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/tribe/api/posts/${tribeId}/${user.id}`
+            );
+          } else {
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${tribeId}`
+            );
+          }
         }
       });
     });

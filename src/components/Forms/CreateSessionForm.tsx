@@ -17,6 +17,7 @@ import { addHours, subHours, addMinutes, subMinutes } from 'date-fns';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import Formsy from 'formsy-react';
 import { Button } from '@/components/ui/button';
+import { mutate } from 'swr';
 import SelectTasks from '@/components/CustomMultipleSelectInput/SelectTasks';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -48,6 +49,15 @@ const CreateSessionForm = () => {
           if (data.success) {
             setError('');
             setSuccess(data.success);
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+            );
           }
         })
         .catch((error) => {

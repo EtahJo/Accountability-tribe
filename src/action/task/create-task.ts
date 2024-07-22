@@ -5,7 +5,6 @@ import { CreateTaskArraySchema } from '@/schemas/index';
 import { currentUser } from '@/lib/authentication';
 import { db } from '@/lib/db';
 import { getUserById } from '@/data/user';
-import { revalidateTag } from 'next/cache';
 
 export const create_task = async (
   values: z.infer<typeof CreateTaskArraySchema>,
@@ -42,8 +41,8 @@ export const create_task = async (
       })
     )
   );
-
-  revalidateTag('userTasks');
-  revalidateTag('userUnCompletedTasks');
-  return { success: 'Tasks Successfully Created' };
+  return {
+    success: 'Tasks Successfully Created',
+    creatorUsername: dbUser.username,
+  };
 };

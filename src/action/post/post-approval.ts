@@ -5,7 +5,6 @@ import { getPostById, getPostEditById } from '@/data/post';
 import { getUserById } from '@/data/user';
 import { getSpecificTribeAdmin } from '@/data/tribe';
 import { currentUser } from '@/lib/authentication';
-import { revalidateTag } from 'next/cache';
 
 export const approve_post = async (postId: string) => {
   const user = await currentUser();
@@ -39,9 +38,11 @@ export const approve_post = async (postId: string) => {
       locationId: postId,
     },
   });
-
-  revalidateTag('tribePosts');
-  return { success: 'Post approved' };
+  return {
+    success: 'Post approved',
+    postTribeId: post?.tribeId,
+    postAuthorUsername: post?.author.username,
+  };
 };
 
 export const post_edit_approval = async (postEditId: string) => {
@@ -56,6 +57,10 @@ export const post_edit_approval = async (postEditId: string) => {
   const postEdit = await getPostEditById(postEditId);
   if (!postEdit) {
     return { error: 'Post Edit does not exist' };
+  }
+  const post = await getPostById(postEdit.postId);
+  if (!post) {
+    return { error: 'Post does not exist' };
   }
   const isAdminLoggedIn = await getSpecificTribeAdmin(
     postEdit.post.tribeId,
@@ -87,7 +92,9 @@ export const post_edit_approval = async (postEditId: string) => {
       locationId: postEdit.post.id,
     },
   });
-  revalidateTag('tribePosts');
-  revalidateTag('tribePostEdits');
-  return { success: 'Edit approved' };
+  return {
+    success: 'Edit approved',
+    postTribeId: post?.tribeId,
+    postAuthorUsername: post.author.username,
+  };
 };

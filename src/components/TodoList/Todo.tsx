@@ -18,6 +18,7 @@ import StatusUpdate from '@/components/TodoList/StatusUpdate';
 import SessionModal from '@/components/TodoList/SessionModal';
 import PriorityUpdate from '@/components/TodoList/PriorityUpdate';
 import { Task } from '@prisma/client';
+import { mutate } from 'swr';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
@@ -54,9 +55,40 @@ const Todo = ({
         }
         if (data.success) {
           toast.success(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/high-priority`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+          );
         }
       });
     });
+  };
+  const onUpdateSuccess = (data: any) => {
+    if (data.success) {
+      mutate(
+        `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/high-priority`
+      );
+      mutate(
+        `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+      );
+      mutate(
+        `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+      );
+      mutate(
+        `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+      );
+      mutate(
+        `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/completed-task`
+      );
+    }
   };
   return (
     <Accordion
@@ -73,9 +105,13 @@ const Todo = ({
                 onClick={() => {
                   setCompleted((prev) => !prev);
                   if (status === 'COMPLETE') {
-                    edit_task({ status: 'PROGRESS' }, taskId);
+                    edit_task({ status: 'PROGRESS' }, taskId).then(
+                      onUpdateSuccess
+                    );
                   } else {
-                    edit_task({ status: 'COMPLETE' }, taskId);
+                    edit_task({ status: 'COMPLETE' }, taskId).then(
+                      onUpdateSuccess
+                    );
                   }
                 }}
               >

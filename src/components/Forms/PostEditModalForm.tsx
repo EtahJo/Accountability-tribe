@@ -6,7 +6,9 @@ import Formsy from 'formsy-react';
 import CustomInput from '@/components/CustomInput/customInput';
 import { Button } from '@/components/ui/button';
 import { edit_post } from '@/action/post/edit-post';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import * as z from 'zod';
+import { mutate } from 'swr';
 import { EditPostSchema } from '@/schemas/index';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
@@ -25,6 +27,7 @@ const PostEditModal = ({
 }: Props & PostEditModalProps) => {
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const { user }: any = useCurrentUser();
   const [isPending, startTransition] = useTransition();
   useEffect(() => {
     setError('');
@@ -40,6 +43,18 @@ const PostEditModal = ({
         if (data.success) {
           setError('');
           setSuccess(data.success);
+          if (data.approved) {
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+            );
+          } else {
+            mutate(
+              `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/post-edits`
+            );
+          }
         }
       });
     });

@@ -1,11 +1,13 @@
 'use client';
-import { useEffect } from 'react';
+import { useTransition } from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { CldImage } from 'next-cloudinary';
 import { FaUsers } from 'react-icons/fa';
 import FullTextOnHover from '@/components/FullTextOnHover/index';
 import { join_tribe } from '@/action/tribe/join-tribe';
+
+import { mutate } from 'swr';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { formatDateTime } from '@/util/DateTime';
@@ -38,7 +40,35 @@ const TribeSnippet = ({
   manage,
 }: TribeSnippetProps) => {
   const { user }: any = useCurrentUser();
-  useEffect(() => {}, [isMember, members]);
+  const [isPending, startTransition] = useTransition();
+
+  const joinTribe = () => {
+    startTransition(() => {
+      join_tribe(tribeId, userId as string).then((data) => {
+        if (data.error) {
+          toast.error(data.error);
+        }
+        if (data.success) {
+          toast.success(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.tribeId}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${data.creatorUsername}/${user.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${user.id}`
+          );
+        }
+      });
+    });
+  };
   return (
     <div
       className="bg-white flex flex-col items-center 
@@ -117,16 +147,8 @@ const TribeSnippet = ({
         <Button
           className="my-2 move-button py-3"
           size={'slg'}
-          onClick={() =>
-            join_tribe(tribeId, userId as string).then((data) => {
-              if (data.error) {
-                toast.error(data.error);
-              }
-              if (data.success) {
-                toast.success(data.success);
-              }
-            })
-          }
+          disabled={isPending}
+          onClick={joinTribe}
         >
           Join Us
         </Button>

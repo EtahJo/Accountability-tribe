@@ -4,7 +4,6 @@ import { db } from '@/lib/db';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
 import { getSpecificTribeAdmin, getTribeById } from '@/data/tribe';
-import { revalidateTag } from 'next/cache';
 
 export const remove_as_admin = async (tribeId: string, userId: string) => {
   const user = await currentUser();
@@ -62,6 +61,5 @@ export const remove_as_admin = async (tribeId: string, userId: string) => {
       pageId: tribe?.id,
     },
   });
-  revalidateTag('userTribe');
-  return { success: 'User removed as admin' };
+  return { success: 'User removed as admin', tribeId };
 };

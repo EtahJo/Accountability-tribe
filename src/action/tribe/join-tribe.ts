@@ -7,7 +7,6 @@ import {
   getTribeById,
   getAllTribeAdmins,
 } from '@/data/tribe';
-import { revalidateTag } from 'next/cache';
 import { currentUser } from '@/lib/authentication';
 
 export const join_tribe = async (tribeId: string, userId: string) => {
@@ -56,8 +55,11 @@ export const join_tribe = async (tribeId: string, userId: string) => {
       pageId: tribe?.id,
     },
   });
-  revalidateTag('tribeInfo');
-  return { success: 'Successfully Joined Tribe' };
+  return {
+    success: 'Successfully Joined Tribe',
+    creatorUsername: dbUser.username,
+    tribeId,
+  };
 };
 
 export const is_member = async (tribeId: string, userId: string) => {

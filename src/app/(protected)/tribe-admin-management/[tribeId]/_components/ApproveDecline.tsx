@@ -3,6 +3,8 @@ import { useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { approve_post, post_edit_approval } from '@/action/post/post-approval';
 import { delete_post } from '@/action/post/delete-post';
+import { mutate } from 'swr';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import { toast } from 'sonner';
 
 const ApproveDecline = ({
@@ -12,6 +14,7 @@ const ApproveDecline = ({
   postId?: string;
   postEditId?: string;
 }) => {
+  const { user }: any = useCurrentUser();
   const [isPending, startTransition] = useTransition();
 
   const approvePostEdit = () => {
@@ -22,6 +25,15 @@ const ApproveDecline = ({
         }
         if (data.success) {
           toast.success(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/post-edits`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+          );
         }
       });
     });
@@ -34,6 +46,15 @@ const ApproveDecline = ({
         }
         if (data.success) {
           toast.success(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.postTribeId}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+          );
         }
       });
     });

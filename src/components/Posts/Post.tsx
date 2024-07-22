@@ -15,12 +15,12 @@ import { getDuration } from '@/util/DateTime';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
+import { mutate } from 'swr';
 import { Tribe, TribeVisit, Post } from '@prisma/client';
 import { delete_post_like } from '@/action/like/delete-like';
 import { Badge } from '@/components/ui/badge';
 import PostEditModal from '@/components/Forms/PostEditModalForm';
 import EllipsisDropdown from '@/components/EllipsisDropdown/index';
-import { cn } from '@/lib/utils';
 
 interface PostProps {
   postId: string;
@@ -83,15 +83,14 @@ const PostSnippet = ({
   edited,
   postEditTitle,
   postEditContent,
-}: // createdAt,
-PostProps) => {
+}: PostProps) => {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [openLikeModal, setOpenLikeModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [like, setLike] = useState(hasLiked);
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
-  const { user } = useCurrentUser();
+  const { user }: any = useCurrentUser();
   const firstFiveComments = comments.slice(0, 5);
   const Liked = () => {
     if (!hasLiked) {
@@ -99,6 +98,14 @@ PostProps) => {
       create_post_like(postId).then((data) => {
         if (data.error) {
           toast.error(data.error);
+        }
+        if (data.success) {
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+          );
         }
       });
     }
@@ -109,6 +116,14 @@ PostProps) => {
       if (data.error) {
         toast.error(data.error);
       }
+      if (data.success) {
+        mutate(
+          `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+        );
+        mutate(
+          `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+        );
+      }
     });
   };
   const deletePost = () => {
@@ -116,6 +131,12 @@ PostProps) => {
       delete_post(postId).then((data) => {
         if (data.success) {
           toast.success(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+          );
         }
         if (data.error) {
           toast.error(data.error);

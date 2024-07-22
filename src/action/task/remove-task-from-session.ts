@@ -6,14 +6,9 @@ import {
   getTaskById,
   getSessionTaskByTaskIdAndSessionParticipantId,
 } from '@/data/task';
-import {
-  getSessionById,
-  getSessionUserBySessionUserId,
-  getSessionParticipantById,
-} from '@/data/session';
+import { getSessionParticipantById } from '@/data/session';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
-import { revalidateTag } from 'next/cache';
 
 export const remove_task_from_session = async (
   taskId: string,
@@ -34,10 +29,6 @@ export const remove_task_from_session = async (
   if (task.userId !== dbUser.id) {
     return { error: 'You are not authorised' };
   }
-  //   const session = await getSessionById(sessionId);
-  //   if (!session) {
-  //     return { error: 'Session does not exist' };
-  //   }
   const sessionParticipant = await getSessionParticipantById(
     sessionParticipantId
   );
@@ -54,6 +45,8 @@ export const remove_task_from_session = async (
   await db.sessionTask.delete({
     where: { id: sessionTask.id },
   });
-  revalidateTag('userTasks');
-  return { success: 'Task removed from session' };
+  return {
+    success: 'Task removed from session',
+    creatorUsername: dbUser.username,
+  };
 };

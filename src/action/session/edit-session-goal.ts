@@ -1,12 +1,10 @@
 'use server';
 import * as z from 'zod';
 import { db } from '@/lib/db';
-import { is_member } from '@/action/tribe/join-tribe';
 import { getSessionUserBySessionUserId } from '@/data/session';
 import { EditSessionSchema } from '@/schemas/index';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
-import { revalidateTag } from 'next/cache';
 
 export const edit_session_goal = async (
   values: z.infer<typeof EditSessionSchema>,
@@ -37,7 +35,8 @@ export const edit_session_goal = async (
       goal,
     },
   });
-
-  revalidateTag('userSessions');
-  return { success: 'Goal Successfully Updated' };
+  return {
+    success: 'Goal Successfully Updated',
+    creatorUsername: dbUser.username,
+  };
 };

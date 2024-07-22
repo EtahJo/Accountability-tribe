@@ -1,8 +1,10 @@
 'use client';
 import { useState, useTransition } from 'react';
 import * as z from 'zod';
+import { mutate } from 'swr';
 import { EditTribeSchema } from '@/schemas/index';
 import { edit_tribe } from '@/action/tribe/edit-tribe';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import ModalWrapper from '@/components/ModalWrap/index';
 import Formsy from 'formsy-react';
 import UploadImage from '@/components/UploadImage/index';
@@ -30,6 +32,7 @@ const EditTribeModalForm = ({
   profileImage,
   onRequestClose,
 }: Props & EditTribeModalFormProps) => {
+  const { user }: any = useCurrentUser();
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isPending, startTransition] = useTransition();
@@ -86,6 +89,27 @@ const EditTribeModalForm = ({
         if (data.success) {
           setError('');
           setSuccess(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.tribeId}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${data.creatorUsername}/${user.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${user.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}/similar-tribes`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}/similar-tribes`
+          );
         }
       });
     });

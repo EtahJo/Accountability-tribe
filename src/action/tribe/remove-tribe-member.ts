@@ -7,7 +7,6 @@ import {
   getSpecificTribeAdmin,
   getTribeUserByTribeUserId,
 } from '@/data/tribe';
-import { revalidateTag } from 'next/cache';
 
 export const remove_tribe_user = async (tribeId: string, userId: string) => {
   const user = await currentUser();
@@ -52,6 +51,9 @@ export const remove_tribe_user = async (tribeId: string, userId: string) => {
       message: `You have been deleted from the ${tribe.name} tribe`,
     },
   });
-  revalidateTag('tribeInfo');
-  return { success: 'Tribe member deleted' };
+  return {
+    success: 'Tribe member deleted',
+    creatorUsername: dbUser.username,
+    tribeId,
+  };
 };

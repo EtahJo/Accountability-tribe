@@ -2,46 +2,19 @@
 import useSWR from 'swr';
 import SectionHeader from '@/components/SectionHeader/index';
 import HeroLoggedIn from '@/components/HomePage/HeroSection/HeroLoggedIn';
-import TribeSnippet from '@/components/Tribe/TribeSnippet/index';
 import UpcomingSessionDetail from '@/components/UpcomingSessionDetails/index';
-import UpcomingSessionSkeleton from '../Skeletons/UpcomingSessionSkeleton';
-import Todo from '@/components/TodoList/Todo';
-import UserSkeleton from '../Skeletons/UserSkeleton';
-import LongHeaderSkeleton from '../Skeletons/LongHeaderSkeleton';
+
 import UpcomingSessionDetailSkeleton from '../Skeletons/UpcomingSessionDetailSkeleton';
-import { parseISO } from 'date-fns';
+
 import ContactSection from '@/components/ContactSection/ContactSection';
-import {
-  formatDateTime,
-  getTimeDifference,
-  isToday,
-  isThisWeek,
-  checkIsAfter,
-} from '@/util/DateTime';
-import { highlightedUsersType } from '@/components/HomePage/HeroSection/HeroLoggedIn';
-import {
-  Task,
-  SessionParticipant,
-  Tribe,
-  TribeUser,
-  User,
-  TribeVisit,
-  Post,
-} from '@prisma/client';
+import { formatDateTime, isToday, checkIsAfter } from '@/util/DateTime';
+import { User } from '@prisma/client';
 import TasksCarousel from './RecommendedTasksCarousel';
 import RecommendedTribesCarousel from '@/components/HomePage/RecommendedTribesCarousel';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
-type SelectedTaskProps = Pick<
-  Task,
-  'dueDate' | 'title' | 'description' | 'status' | 'id' | 'userId' | 'priority'
-> & { sessionParticipants: SessionParticipant[] };
-type TribeProps = Pick<
-  Tribe,
-  'name' | 'description' | 'id' | 'profileImage'
-> & { users: TribeUser[]; tribeVisit: TribeVisit[]; newPosts: Post[] };
 interface HomeLoggedInProps {
   user: User;
 }

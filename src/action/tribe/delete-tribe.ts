@@ -3,7 +3,6 @@ import { db } from '@/lib/db';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
 import { getTribeById, getSpecificTribeAdmin } from '@/data/tribe';
-import { revalidateTag } from 'next/cache';
 
 export const delete_tribe = async (tribeId: string) => {
   const user = await currentUser();
@@ -27,6 +26,9 @@ export const delete_tribe = async (tribeId: string) => {
   await db.tribe.delete({
     where: { id: tribe.id },
   });
-  revalidateTag('userTribes');
-  return { success: 'Tribe deleted' };
+  return {
+    success: 'Tribe deleted',
+    creatorUsername: dbUser.username,
+    tribeId,
+  };
 };

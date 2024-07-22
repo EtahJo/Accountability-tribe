@@ -5,7 +5,6 @@ import { getSessionById, getSessionUserBySessionUserId } from '@/data/session';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
 import { isAfter } from 'date-fns';
-import { revalidateTag } from 'next/cache';
 
 export const delete_session = async (sessionId: string) => {
   const user = await currentUser();
@@ -40,6 +39,5 @@ export const delete_session = async (sessionId: string) => {
       id: sessionId,
     },
   });
-  revalidateTag('userSessions');
-  return { success: 'Session deleted' };
+  return { success: 'Session deleted', creatorUsername: dbUser.username };
 };

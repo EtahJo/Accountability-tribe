@@ -8,7 +8,6 @@ import {
   getSpecificTribeAdmin,
   getTribeById,
 } from '@/data/tribe';
-import { revalidateTag } from 'next/cache';
 
 export const make_tribe_admin = async (tribeId: string, userId: string) => {
   const user = await currentUser();
@@ -66,6 +65,5 @@ export const make_tribe_admin = async (tribeId: string, userId: string) => {
       pageId: tribe?.id,
     },
   });
-  revalidateTag('tribeInfo');
-  return { success: 'New Admin Added' };
+  return { success: 'New Admin Added', tribeId };
 };

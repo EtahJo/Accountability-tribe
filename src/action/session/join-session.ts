@@ -2,7 +2,6 @@
 import { db } from '@/lib/db';
 import { getSessionUserBySessionUserId, getSessionAdmin } from '@/data/session';
 import { getUserById } from '@/data/user';
-import { revalidateTag } from 'next/cache';
 
 export const join_session = async (
   values: any,
@@ -55,8 +54,10 @@ export const join_session = async (
       type: 'SESSIONUPDATES',
     },
   });
-  revalidateTag('userSessions');
-  return { success: 'Session Successfully Added' };
+  return {
+    success: 'Session Successfully Added',
+    creatorUsername: dbUser.username,
+  };
 };
 
 export const is_member = async (sessionId: string, userId: string) => {

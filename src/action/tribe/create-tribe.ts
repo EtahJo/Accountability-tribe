@@ -5,7 +5,6 @@ import { CreateTribeSchema } from '@/schemas/index';
 import { db } from '@/lib/db';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
-import { revalidateTag } from 'next/cache';
 
 export const create_tribe = async (
   values: z.infer<typeof CreateTribeSchema>
@@ -40,6 +39,9 @@ export const create_tribe = async (
       adminsUsername: [dbUser.username as string],
     },
   });
-  revalidateTag('userTribes');
-  return { success: 'Tribe Successfully Created' };
+  return {
+    success: 'Tribe Successfully Created',
+    tribeId: tribe.id,
+    creatorUsername: dbUser.username,
+  };
 };

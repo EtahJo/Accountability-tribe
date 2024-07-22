@@ -2,7 +2,6 @@
 import { db } from '@/lib/db';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
-import { revalidateTag } from 'next/cache';
 import { getPostById } from '@/data/post';
 import { getCommentById } from '@/data/comment';
 
@@ -40,10 +39,11 @@ export const create_post_like = async (postId: string) => {
       },
     });
   }
-
-  revalidateTag('userPosts');
-  revalidateTag('tribePosts');
-  return { success: 'Like Added' };
+  return {
+    success: 'Like Added',
+    postAuthorUsername: post?.author.username,
+    postTribeId: post?.tribeId,
+  };
 };
 export const create_comment_like = async (commentId: string) => {
   const user = await currentUser();
@@ -79,7 +79,10 @@ export const create_comment_like = async (commentId: string) => {
       },
     });
   }
-
-  revalidateTag('userPosts');
-  revalidateTag('tribePosts');
+  const post = await getPostById(comment.postId);
+  return {
+    success: 'Comment Liked',
+    postAuthorUsername: post?.author.username,
+    postTribeId: post?.tribeId,
+  };
 };

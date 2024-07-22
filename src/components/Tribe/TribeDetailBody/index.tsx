@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import TribePosts from '@/components/Posts/TribePosts';
 import SimilarTribes from './SimilarTribes';
+import { mutate } from 'swr';
 
 import { Post, TribeUser } from '@prisma/client';
 import { tribe_visit } from '@/action/tribe/tribe-visit';
@@ -16,7 +17,7 @@ const TribeDetailBody = ({
   tribeId,
 }: // newPosts,
 TribeDetailBodyProps) => {
-  const { user } = useCurrentUser();
+  const { user }: any = useCurrentUser();
   const [error, setError] = useState<{ error: { message: string } } | null>(
     null
   );
@@ -24,7 +25,19 @@ TribeDetailBodyProps) => {
   useEffect(() => {
     const updateLastVisit = async () => {
       try {
-        await tribe_visit(tribeId, user?.id as string);
+        await tribe_visit(tribeId, user?.id as string).then((data) => {
+          if (data.success) {
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tribes/${data.creatorUsername}/${user.id}`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${tribeId}/similar-tribes`
+            );
+          }
+        });
       } catch (error) {
         console.error('Last visit update error', error);
       }

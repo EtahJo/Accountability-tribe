@@ -6,7 +6,6 @@ import { db } from '@/lib/db';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
 import { getDuration } from '@/util/DateTime';
-import { revalidateTag } from 'next/cache';
 
 export const create_session = async (
   values: z.infer<typeof CreateSessionSchema>
@@ -70,8 +69,5 @@ export const create_session = async (
     );
   }
 
-  revalidateTag('userSessions');
-  revalidateTag('userTasks');
-  revalidateTag('userUnCompletedTasks');
-  return { success: 'Session Created', session, sessionParticipant };
+  return { success: 'Session Created', creatorUsername: dbUser.username };
 };

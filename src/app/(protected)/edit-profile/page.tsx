@@ -6,6 +6,7 @@ import CustomCheckbox from '@/components/CustomCheckbox/index';
 import { Button } from '@/components/ui/button';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { EditProfileSchema } from '@/schemas/index';
+import { mutate } from 'swr';
 import { editProfile } from '@/action/auth/edit-profile';
 import * as z from 'zod';
 import UploadImage from '@/components/UploadImage/index';
@@ -43,6 +44,9 @@ const Editprofile = () => {
         }
         if (data.success) {
           setSuccess(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/${data.username}`
+          );
         }
       });
     });

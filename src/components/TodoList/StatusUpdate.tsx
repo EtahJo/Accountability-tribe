@@ -5,6 +5,7 @@ import FormsySelectInput from '@/components/CustomSelectInput/FormsySelectInput'
 import { Status } from '@prisma/client';
 import { edit_task } from '@/action/task/edit-task';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { mutate } from 'swr';
 import {
   Popover,
   PopoverContent,
@@ -37,6 +38,29 @@ const StatusUpdate = ({ status, taskId, userId }: StatusUpdateProps) => {
       id: Status.PROGRESS,
     },
   ];
+  const updateTaskStatus = (value: any) => {
+    startTransition(() => {
+      edit_task({ status: value }, taskId).then((data) => {
+        if (data.success) {
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/high-priority`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/completed-task`
+          );
+        }
+      });
+    });
+  };
   return (
     <div>
       {user?.id === userId ? (
@@ -50,11 +74,7 @@ const StatusUpdate = ({ status, taskId, userId }: StatusUpdateProps) => {
             <Formsy>
               <FormsySelectInput
                 name="status"
-                onValueChange={(value: any) => {
-                  startTransition(() => {
-                    edit_task({ status: value }, taskId);
-                  });
-                }}
+                onValueChange={updateTaskStatus}
                 items={items}
                 placeholder={status === 'NOTSTARTED' ? 'NOT STARTED' : status}
                 disabled={isPending}

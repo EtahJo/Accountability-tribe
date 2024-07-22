@@ -28,7 +28,7 @@ SectionHeaderType) => {
       <div className={cn('text-4xl font-bold text-shadow-lg')}>
         {' '}
         {icon && <div>{icon}</div>}
-        <div>{name}</div>
+        <div data-testid="section_title">{name}</div>
       </div>
       {buttonLink && user?.username === pageUsername && (
         <Button className="move-button flex items-center gap-1">

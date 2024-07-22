@@ -3,6 +3,8 @@ import UploadImage from '@/components/UploadImage/index';
 import { CldImage } from 'next-cloudinary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { FaUser } from 'react-icons/fa';
+import { mutate } from 'swr';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import { edit_tribe } from '@/action/tribe/edit-tribe';
 import Formsy from 'formsy-react';
 import { toast } from 'sonner';
@@ -18,6 +20,7 @@ const ProfileImage = ({
   profileImage,
   tribeId,
 }: ProfileImageProps) => {
+  const { user }: any = useCurrentUser();
   const onValidSubmit = (profileImage: string) => {
     const inputInfo = { profileImage };
     edit_tribe(inputInfo, tribeId).then((data) => {
@@ -26,6 +29,24 @@ const ProfileImage = ({
       }
       if (data.success) {
         toast.success(data.success);
+        mutate(
+          `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}`
+        );
+        mutate(
+          `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.tribeId}`
+        );
+        mutate(
+          `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin`
+        );
+        mutate(
+          `https://accountability-tribe.vercel.app/user/api/tribes/${data.creatorUsername}/${user.id}`
+        );
+        mutate(
+          `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${user.id}`
+        );
+        mutate(
+          `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}/similar-tribes`
+        );
       }
     });
   };

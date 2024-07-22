@@ -2,10 +2,10 @@
 import * as z from 'zod';
 import { db } from '@/lib/db';
 import { getCommentById } from '@/data/comment';
+import { getPostById } from '@/data/post';
 import { CreateCommentSchema } from '@/schemas/index';
 import { currentUser } from '@/lib/authentication';
 import { getUserById } from '@/data/user';
-import { revalidateTag } from 'next/cache';
 
 export const edit_comment = async (
   values: z.infer<typeof CreateCommentSchema>,
@@ -30,7 +30,10 @@ export const edit_comment = async (
     where: { id: comment.id },
     data: { ...values, edited: true },
   });
-  //   revalidateTag('tribePosts');
-  revalidateTag('userPosts');
-  return { success: 'Comment edit made' };
+  const post = await getPostById(comment.postId);
+  return {
+    success: 'Comment edit made',
+    postAuthorUsername: post?.author.username,
+    postTribeId: post?.tribeId,
+  };
 };

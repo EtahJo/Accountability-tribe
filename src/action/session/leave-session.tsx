@@ -7,7 +7,6 @@ import {
   getSessionUserBySessionUserId,
   getSessionUsers,
 } from '@/data/session';
-import { revalidateTag } from 'next/cache';
 
 export const leave_session = async (sessionId: string) => {
   const user = await currentUser();
@@ -78,7 +77,5 @@ export const leave_session = async (sessionId: string) => {
       },
     },
   });
-
-  revalidateTag('userSessions');
-  return { success: 'You left Session' };
+  return { success: 'You left Session', creatorUsername: dbUser.username };
 };

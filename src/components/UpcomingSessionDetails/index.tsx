@@ -32,6 +32,7 @@ import {
 import Todo from '@/components/TodoList/Todo';
 import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
 import { cn } from '@/lib/utils';
+import { mutate } from 'swr';
 
 interface UpcomingSessionDetailProps {
   period: string;
@@ -64,8 +65,7 @@ const UpcomingSessionDetail = ({
   pageUser, // the user profile we are looking at
   sessionParticipantId,
   showDeleteOrLeave,
-}: // creatorId,
-UpcomingSessionProps & UpcomingSessionDetailProps) => {
+}: UpcomingSessionProps & UpcomingSessionDetailProps) => {
   const [isPending, startTransition] = useTransition();
   const [editGoal, setEditGoal] = useState(false);
   const [newMeetingLink, setNewMeetingLink] = useState('');
@@ -90,6 +90,15 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
           if (data.success) {
             setError('');
             setSuccess(data.success);
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+            );
           }
           if (data.error) {
             setSuccess('');
@@ -115,6 +124,15 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
           if (data?.success) {
             setError('');
             setSuccess(data.success);
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+            );
           }
         })
         .catch(() => {
@@ -134,6 +152,15 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
           if (data?.success) {
             setError('');
             setSuccess(data.success);
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+            );
           }
         })
         .catch(() => {
@@ -151,6 +178,18 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
           }
           if (data.success) {
             toast.success(data.success);
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/high-priority`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+            );
+            mutate(
+              `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+            );
           }
         })
       );
@@ -164,6 +203,15 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
         }
         if (data.success) {
           toast.success(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+          );
         }
       });
     });
@@ -175,6 +223,15 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
       }
       if (data.success) {
         toast.success(data.success);
+        mutate(
+          `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+        );
+        mutate(
+          `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+        );
+        mutate(
+          `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+        );
       }
     });
   };
@@ -186,6 +243,15 @@ UpcomingSessionProps & UpcomingSessionDetailProps) => {
         }
         if (data.success) {
           toast.success(data.success);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+          );
         }
       });
     });

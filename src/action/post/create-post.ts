@@ -10,7 +10,6 @@ import {
 } from '@/data/tribe';
 import { totalTribePostUnApproved } from '@/data/tribe';
 import { getUserById } from '@/data/user';
-import { revalidateTag } from 'next/cache';
 
 export const create_post = async (
   values: z.infer<typeof CreatePostSchema>,
@@ -46,10 +45,6 @@ export const create_post = async (
       approved,
     },
   });
-  const tags = ['tribePosts', 'userPosts'];
-  for (const tag of tags) {
-    revalidateTag(tag);
-  }
   const unApprovedTotal = await totalTribePostUnApproved(tribeId);
   const allTribeAdmins = await getAllTribeAdmins(tribeId);
   if (allTribeAdmins && !tribeAdmin) {
@@ -73,5 +68,9 @@ export const create_post = async (
     ? 'Post Successfully Created'
     : 'Post Created and Pending Approval';
 
-  return { success: returnMessage };
+  return {
+    success: returnMessage,
+    approved,
+    postAuthorUsername: dbUser.username,
+  };
 };

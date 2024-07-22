@@ -5,7 +5,6 @@ import { currentUser } from '@/lib/authentication';
 import { getUserByEmail, getUserById } from '@/data/user';
 import bcrypt from 'bcryptjs';
 import { db } from '@/lib/db';
-import { revalidateTag } from 'next/cache';
 
 export const editProfile = async (
   values: z.infer<typeof EditProfileSchema>
@@ -39,10 +38,9 @@ export const editProfile = async (
     values.password = hashedPassword;
     values.newPassword = undefined;
   }
-  await db.user.update({
+  const updatedUser = await db.user.update({
     where: { id: dbUser.id },
     data: { ...values },
   });
-  revalidateTag('userInfo');
-  return { success: 'User Data Updated' };
+  return { success: 'User Data Updated', username: updatedUser.username };
 };

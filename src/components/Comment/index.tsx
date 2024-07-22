@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fa';
 import { CldImage } from 'next-cloudinary';
 import { getDuration } from '@/util/DateTime';
+import { mutate } from 'swr';
 import { CreateCommentSchema } from '@/schemas/index';
 import { Button } from '@/components/ui/button';
 import { create_comment_like } from '@/action/like/create-like';
@@ -93,6 +94,14 @@ const Comment = ({
         if (data?.error) {
           toast.error(data?.error);
         }
+        if (data.success) {
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+          );
+        }
       });
     }
   };
@@ -102,6 +111,14 @@ const Comment = ({
       if (data.error) {
         toast.error(data.error);
       }
+      if (data.success) {
+        mutate(
+          `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+        );
+        mutate(
+          `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+        );
+      }
     });
   };
   const deleteComment = () => {
@@ -109,6 +126,14 @@ const Comment = ({
       delete_comment(commentId).then((data) => {
         if (data.error) {
           toast.error(data.error);
+        }
+        if (data.success) {
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+          );
         }
       });
     });
@@ -121,6 +146,12 @@ const Comment = ({
         }
         if (data.success) {
           setEditComment(false);
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+          );
         }
       });
     });

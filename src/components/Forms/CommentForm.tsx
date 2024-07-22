@@ -8,10 +8,13 @@ import { Button } from '@/components/ui/button';
 import { FaPaperPlane } from 'react-icons/fa';
 import { create_comment } from '@/action/comment /create-comment';
 import { toast } from 'sonner';
+import { useCurrentUser } from '@/hooks/use-current-user';
+import { mutate } from 'swr';
 
 const CommentForm = ({ postId }: { postId: string }) => {
   const [comment, setComment] = useState('');
   const [isPending, startTransition] = useTransition();
+  const { user }: any = useCurrentUser();
   const onValidSubmit = (vals: z.infer<typeof CreateCommentSchema>) => {
     startTransition(() => {
       create_comment(vals, postId).then((data) => {
@@ -20,6 +23,12 @@ const CommentForm = ({ postId }: { postId: string }) => {
         }
         if (data.success) {
           setComment('');
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+          );
         }
       });
     });
