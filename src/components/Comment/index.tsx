@@ -101,6 +101,12 @@ const Comment = ({
           mutate(
             `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
           );
+          mutate(
+            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postAuthorUsername}/post-edits`
+          );
+          mutate(
+            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.postTribeId}`
+          );
         }
       });
     }

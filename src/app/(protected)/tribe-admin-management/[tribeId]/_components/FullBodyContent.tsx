@@ -33,7 +33,9 @@ const FullBodyContent = ({ tribeId }: { tribeId: string }) => {
             No posts edits pending review for this tribe
           </p>
         </div>
-      ) : (
+      ) : !postEdits[0].post.tribe.adminsUsername.includes(
+          user.username
+        ) ? null : (
         postEdits.map(
           ({
             id,
