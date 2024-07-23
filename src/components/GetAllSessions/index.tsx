@@ -1,6 +1,9 @@
 'use client';
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import useSWR from 'swr';
 import Link from 'next/link';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import UpcomingSession from '@/components/UpcomingSession/index';
 import { FaPlusCircle } from 'react-icons/fa';
 import {
@@ -25,21 +28,36 @@ import {
   checkIsAfter,
 } from '@/util/DateTime';
 import { cn } from '@/lib/utils';
+import { SessionParticipant } from '@prisma/client';
 import FilterForm from '@/components/Forms/FilterForm';
+import PaginationController from '../PaginationController';
 
-const GetAllSessions = ({
-  username,
-  filter,
-  prevPage,
-  sessions,
-  totalPages,
-  current_user,
-  page,
-  nextPage,
-  pageNumbers,
-}: any) => {
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+const GetAllSessions = ({ username }: { username: string }) => {
   const [filteredData, setFilteredData] = useState(null);
-  const isPageOutofRange = page > totalPages;
+  const searchParams = useSearchParams();
+  let page = parseInt(searchParams?.get('page') as string, 10);
+  page = !page || page < 1 ? 1 : page;
+  const filter = searchParams.get('filter');
+  const { user }: any = useCurrentUser();
+  const { data: sessionsData, isLoading } = useSWR(
+    `https://accountability-tribe.vercel.app/user/api/sessions/${username}/${user.id}?page=1&filter=${filter}`,
+    fetcher
+  );
+  if (isLoading || sessionsData === undefined) {
+    return null;
+  }
+  const prevPage = page - 1 > 0 ? page - 1 : 1;
+  const nextPage = page + 1;
+  const pageNumbers = [];
+  const offsetNumber = 3;
+  for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {
+    if (i >= 1 && i <= sessionsData?.totalPages) {
+      pageNumbers.push(i);
+    }
+  }
+
   const getFilteredData = (data: any) => {
     setFilteredData(data);
   };
@@ -78,7 +96,6 @@ const GetAllSessions = ({
           buttonLink="/create-session"
           buttonTitle="Create Session"
           buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
-          // myProfile={username === current_user.username}
           pageUsername={username}
           classNames="col-start-2 col-end-12"
         />
@@ -88,7 +105,7 @@ const GetAllSessions = ({
               Filter :{' '}
               <p className="font-bold">
                 {' '}
-                {filter === 'thisWeek' ? 'THIS WEEK' : filter.toUpperCase()}
+                {filter === 'thisWeek' ? 'THIS WEEK' : filter?.toUpperCase()}
               </p>
             </Button>
           </DropdownMenuTrigger>
@@ -108,7 +125,7 @@ const GetAllSessions = ({
           </PopoverTrigger>
           <PopoverContent>
             <FilterForm
-              data={sessions.sessions}
+              data={sessionsData.sessions.sessions}
               getFilteredData={getFilteredData}
             />
           </PopoverContent>
@@ -116,15 +133,11 @@ const GetAllSessions = ({
       </div>
 
       <div className="flex flex-wrap justify-center gap-4 my-5">
-        {(filteredData ? filteredData : sessions.sessions)?.map(
+        {(filteredData ? filteredData : sessionsData.sessions.sessions).map(
           ({
             session,
-            userRole,
-            isMember,
             goal,
-            isUserAdmin,
-            participants,
-            admin,
+            adminUsername,
             userId,
             tasks,
             sessionParticipantId,
@@ -137,16 +150,10 @@ const GetAllSessions = ({
               >
                 <UpcomingSession
                   startDate={
-                    formatDateTime(
-                      session.startDateTime,
-                      current_user?.timezone
-                    ).date
+                    formatDateTime(session.startDateTime, user?.timezone).date
                   }
                   startTime={
-                    formatDateTime(
-                      session.startDateTime,
-                      current_user?.timezone
-                    ).time
+                    formatDateTime(session.startDateTime, user?.timezone).time
                   }
                   goal={goal || session.goal}
                   duration={JSON.parse(session.duration)}
@@ -156,20 +163,21 @@ const GetAllSessions = ({
                   isTodayCheck={isToday(session.startDateTime)}
                   isAfter={checkIsAfter(session.endDateTime)}
                   meetingLink={session.meetingLink}
-                  isAdmin={isUserAdmin}
+                  isAdmin={adminUsername === user.username}
                   sessionId={session.id}
                   // period={'day'}
                   endDate={
-                    formatDateTime(session.endDateTime, current_user?.timezone)
-                      .date
+                    formatDateTime(session.endDateTime, user?.timezone).date
                   }
                   endTime={
-                    formatDateTime(session.endDateTime, current_user?.timezone)
-                      .time
+                    formatDateTime(session.endDateTime, user?.timezone).time
                   }
-                  isMember={isMember}
-                  members={participants.participants.length}
-                  admin={admin.username}
+                  isMember={session.users.some(
+                    (sessionParticipant: SessionParticipant) =>
+                      sessionParticipant.userId === user.id
+                  )}
+                  members={session.participants}
+                  admin={adminUsername}
                   userId={userId}
                   endDateTime={session.endDateTime}
                   tasks={tasks}
@@ -181,74 +189,23 @@ const GetAllSessions = ({
           }
         )}
       </div>
-      {totalPages === 0 && (
+      {sessionsData.totalPages === 0 && (
         <div className="m-auto flex justify-center  h-screen">
           <p className="bg-white rounded-xl p-2 h-10">
             {' '}
             No sessions{' '}
-            {filter === 'thisWeek' ? 'THIS WEEK' : filter.toUpperCase()}
+            {filter === 'thisWeek' ? 'THIS WEEK' : filter?.toUpperCase()}
           </p>
         </div>
       )}
-      {isPageOutofRange && totalPages !== 0 ? (
-        <div className="m-auto flex justify-center  h-screen">
-          <p className="bg-white rounded-xl p-2 h-10">Page out of range...</p>
-        </div>
-      ) : (
-        <div
-          className=" flex justify-center gap-4 text-white
-    m-auto text-xl font-bold"
-        >
-          {page === 1 ? (
-            <div
-              className="opacity-50 bg-purple rounded-2xl shadow-3xl  p-2 move-button"
-              aria-disabled={true}
-            >
-              Previous
-            </div>
-          ) : (
-            <Link
-              href={`?page=${prevPage}&filter=${filter}`}
-              className="cursor-pointer
-           bg-purple rounded-xl shadow-3xl  p-2 move-button"
-              aria-label="Previous page"
-            >
-              Previous
-            </Link>
-          )}
-          {pageNumbers.map((pageNumber: any, index: any) => (
-            <Link
-              key={index}
-              href={`?page=${pageNumber}&filter=${filter}`}
-              className={cn(
-                'cursor-pointer bg-purple rounded-xl shadow-3xl  p-2 move-button',
-                pageNumber === page && 'bg-black'
-              )}
-              aria-label="Previous page"
-            >
-              {pageNumber}
-            </Link>
-          ))}
-          {sessions.hasMore ? (
-            <Link
-              href={`?page=${nextPage}&filter=${filter}`}
-              className={cn(
-                'cursor-pointer move-button bg-purple rounded-xl shadow-3xl  p-2'
-              )}
-              aria-label="Next page"
-            >
-              Next
-            </Link>
-          ) : (
-            <div
-              className="opacity-50 bg-purple rounded-xl shadow-3xl  p-2 move-button"
-              aria-disabled={true}
-            >
-              Next
-            </div>
-          )}
-        </div>
-      )}
+      <PaginationController
+        page={page}
+        pageNumbers={pageNumbers}
+        prevPage={prevPage}
+        nextPage={nextPage}
+        hasMore={sessionsData.hasMore}
+        totalPages={sessionsData.totalPages}
+      />
     </div>
   );
 };

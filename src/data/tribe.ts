@@ -140,12 +140,31 @@ export const getAllTribeAdmins = async (tribeId: string) => {
     console.error('Error while getting all tribe admins', error.message);
   }
 };
+export const totalSimilarTribes = async (tags: string) => {
+  try {
+    const tagsArray = tags.split(',');
+    const total = await db.tribe.count({
+      where: {
+        tags: {
+          hasSome: tagsArray,
+        },
+      },
+    });
+    return total;
+  } catch (error: any) {
+    console.error('Error getting total similar tribes', error.message);
+  }
+};
 export const getTribesWithSimilarTags = async (
   tags: string,
-  currentUserId: string
+  currentUserId: string,
+  pageLimit: number,
+  pageNumber: number
 ) => {
   try {
     const tagsArray = tags.split(',');
+    const totalTribes = await totalSimilarTribes(tags);
+    const totalPages = Math.ceil((totalTribes as number) / pageLimit);
     const tribes = await db.tribe.findMany({
       where: {
         tags: {
@@ -161,14 +180,33 @@ export const getTribesWithSimilarTags = async (
           },
         },
       },
+      take: pageLimit + 1,
+      skip: pageLimit * (pageNumber - 1),
     });
-    return tribes;
+    const hasMore = tribes.length > pageLimit;
+    const result = hasMore ? tribes.slice(0, pageLimit) : tribes;
+
+    return { tribes: result, hasMore, totalPages };
   } catch (error) {
     throw error;
   }
 };
-export const getAllTribes = async (currentUserId: string) => {
+export const totalOfTribes = async () => {
   try {
+    const tribesTotal = await db.tribe.count({});
+    return tribesTotal;
+  } catch (error: any) {
+    console.error('Error getting the total of tribes', error.message);
+  }
+};
+export const getAllTribes = async (
+  currentUserId: string,
+  pageLimit: number,
+  pageNumber: number
+) => {
+  try {
+    const totalTribes = await totalOfTribes();
+    const totalPages = Math.ceil((totalTribes as number) / pageLimit);
     const tribes = await db.tribe.findMany({
       include: {
         users: {
@@ -180,8 +218,13 @@ export const getAllTribes = async (currentUserId: string) => {
           },
         },
       },
+      take: pageLimit + 1,
+      skip: pageLimit * (pageNumber - 1),
     });
-    return tribes;
+    const hasMore = tribes.length > pageLimit;
+    const result = hasMore ? tribes.slice(0, pageLimit) : tribes;
+
+    return { tribes: result, hasMore, totalPages };
   } catch {
     throw new Error();
   }

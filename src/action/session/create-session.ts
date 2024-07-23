@@ -35,6 +35,7 @@ export const create_session = async (
       endDateTime: startEndDateTime.endDateTime,
       meetingLink,
       duration,
+      adminUsername: dbUser.username,
     },
   });
   const sessionParticipant = await db.sessionParticipant.create({

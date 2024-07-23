@@ -6,11 +6,16 @@ export async function GET(req: NextRequest, context: any) {
   const searchParams = req.nextUrl.searchParams;
   const tagQuery = searchParams.get('tags');
   const userIdQuery = searchParams.get('userId');
-  const tribesFilteredByTags =
-    tagQuery &&
-    (await getTribesWithSimilarTags(tagQuery as string, userIdQuery as string));
-  const allTribes = await getAllTribes(userIdQuery as string);
-  const returnValue = tagQuery ? tribesFilteredByTags : allTribes;
+  const tribesFilteredByTags = tagQuery
+    ? await getTribesWithSimilarTags(
+        tagQuery as string,
+        userIdQuery as string,
+        6,
+        1
+      )
+    : await getAllTribes(userIdQuery as string, 6, 1);
+  // const allTribes = await getAllTribes(userIdQuery as string, 6, 1);
+  const returnValue = tribesFilteredByTags.tribes;
   const modifiedData = [];
   if (!returnValue) {
     return NextResponse.json({});

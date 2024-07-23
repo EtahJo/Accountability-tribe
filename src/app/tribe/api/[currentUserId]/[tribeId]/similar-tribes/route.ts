@@ -9,10 +9,12 @@ export async function GET(req: Request, context: any) {
     const tags = tribe?.tags.join(',');
     const similarTribes = await getTribesWithSimilarTags(
       tags as string,
-      params.currentUserId
+      params.currentUserId,
+      6,
+      1
     );
     const modifiedData = [];
-    for (const tribe of similarTribes) {
+    for (const tribe of similarTribes.tribes) {
       const newPosts =
         tribe.tribeVisit.length === 1
           ? await getAllTribeNewPosts(tribe.id, tribe.tribeVisit[0].lastVisit)

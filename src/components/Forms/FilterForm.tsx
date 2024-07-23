@@ -21,33 +21,46 @@ const FilterForm = ({ data, getFilteredData }: FilterFormProps) => {
     });
   };
   return (
-    <Formsy onValidSubmit={onValidSubmit}>
-      <h1 className="font-bold">Duration</h1>
-      <div className="flex items-center gap-x-2">
-        <CustomInput name="durationHours" type="number" placeholder="Hours" />
-        <CustomInput
-          name="durationMinutes"
-          type="number"
-          placeholder="Minutes"
-        />
-      </div>
-      <div className="flex items-center gap-x-5">
-        <CustomInput
-          name="startTime"
-          type="time"
-          placeholder="08:00"
-          lable="Start Time"
-        />
+    <Formsy
+      onValidSubmit={onValidSubmit}
+      className="bg-white w-max p-5 rounded-3xl my-3"
+    >
+      <div className="flex gap-x-3">
+        <div>
+          <h1 className="font-bold">Duration</h1>
+          <div className="flex items-center gap-x-2">
+            <CustomInput
+              name="durationHours"
+              type="number"
+              placeholder="Hours"
+            />
+            <CustomInput
+              name="durationMinutes"
+              type="number"
+              placeholder="Minutes"
+            />
+          </div>
+        </div>
+        <div className="flex items-center gap-x-5">
+          <CustomInput
+            name="startTime"
+            type="time"
+            placeholder="08:00"
+            lable="Start Time"
+          />
 
-        <CustomInput
+          {/* <CustomInput
           name="endTime"
           type="time"
           placeholder="20:00"
           lable="End Time"
-        />
+        /> */}
+        </div>
       </div>
 
-      <Button type="submit">Filter</Button>
+      <Button type="submit" className="w-full">
+        Filter
+      </Button>
     </Formsy>
   );
 };

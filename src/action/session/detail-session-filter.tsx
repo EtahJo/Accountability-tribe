@@ -18,7 +18,9 @@ export const detail_session_filter = async (
     !durationMinutes && durationHours ? '0' : durationMinutes;
   if (durationHours) {
     data = data.filter((item: any) => {
-      const durationObject = JSON.parse(item.session.duration);
+      const durationObject = JSON.parse(
+        item?.session?.duration || item?.duration
+      );
       const hours: string =
         durationObject.hours[0] === '0'
           ? durationObject.hours[1]
@@ -34,7 +36,9 @@ export const detail_session_filter = async (
   }
   if (durationMinutes) {
     data = data.filter((item: any) => {
-      const durationObject = JSON.parse(item.session.duration);
+      const durationObject = JSON.parse(
+        item?.session?.duration || item?.duration
+      );
       const minutes: string | number =
         durationObject.minutes[0] === '0'
           ? parseInt(durationObject.minutes[1])
@@ -51,12 +55,14 @@ export const detail_session_filter = async (
   }
   if (startTime) {
     data = data.filter((item: any) => {
-      const startTimeParsed = parseISO(item.session.startDateTime);
+      const startTimeParsed = parseISO(
+        item?.session?.startDateTime || item?.startDateTime
+      );
       const formattedTime = format(startTimeParsed, 'HH:mm');
 
       return formattedTime === startTime;
     });
   }
-
+  // TODO: Add filter for end time
   return { filteredData: data };
 };

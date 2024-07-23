@@ -148,6 +148,7 @@ model Session{
    goal   String
    startDateTime DateTime
    endDateTime   DateTime?
+   adminUsername String?
    meetingLink   String
    duration    String?
    participants Int? @default(0)

@@ -46,7 +46,7 @@ const Navbar = () => {
       </Link>
       <div className=" rounded-2xl p-2 flex gap-2 items-center">
         <Link
-          href={'/tribes'}
+          href={'/tribes?page=1'}
           className={cn(
             'bg-lightPink rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl group',
             pathname.startsWith('/tribes') && 'bg-black text-white shadow-none'
@@ -55,7 +55,7 @@ const Navbar = () => {
           <p className="w-full group-hover:text-white">Tribes</p>
         </Link>
         <Link
-          href={'/sessions'}
+          href={'/sessions?page=1&filter=all'}
           className={cn(
             'bg-lightPink rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl',
             pathname.startsWith('/sessions') &&

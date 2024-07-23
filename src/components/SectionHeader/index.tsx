@@ -1,5 +1,6 @@
 'use client';
 import { SectionHeaderType } from '@/types/types';
+import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useCurrentUser } from '@/hooks/use-current-user';
@@ -16,12 +17,15 @@ const SectionHeader = ({
 }: // myProfile,
 SectionHeaderType) => {
   const { user }: any = useCurrentUser();
+  const pathname = usePathname();
 
   return (
     <div
       className={cn(
         'flex items-center gap-3',
-        user?.username === pageUsername ? 'justify-between' : 'justify-start',
+        pathname.endsWith(user.username) || !pathname.includes('user')
+          ? 'justify-between'
+          : 'justify-start',
         classNames
       )}
     >
@@ -30,12 +34,13 @@ SectionHeaderType) => {
         {icon && <div>{icon}</div>}
         <div data-testid="section_title">{name}</div>
       </div>
-      {buttonLink && user?.username === pageUsername && (
-        <Button className="move-button flex items-center gap-1">
-          {buttonIcon && buttonIcon}
-          <Link href={buttonLink}>{buttonTitle}</Link>
-        </Button>
-      )}
+      {buttonLink &&
+        (pathname.endsWith(user.username) || !pathname.includes('user')) && (
+          <Button className="move-button flex items-center gap-1">
+            {buttonIcon && buttonIcon}
+            <Link href={buttonLink}>{buttonTitle}</Link>
+          </Button>
+        )}
     </div>
   );
 };
