@@ -18,7 +18,6 @@ export async function GET(req: NextRequest, context: any) {
           pageInt
         )
       : await getAllTribes(params.currentUserId, pageLimit, pageInt);
-
     const modifiedTribeData = [];
     for (const tribe of tribes.tribes) {
       const newPosts =
