@@ -6,12 +6,6 @@ import { useSearchParams } from 'next/navigation';
 import PaginationController from '@/components/PaginationController';
 import UpcomingSession from '@/components/UpcomingSession';
 import UpcomingSessionSkeleton from '@/components/Skeletons/UpcomingSessionSkeleton';
-import {
-  formatDateTime,
-  getTimeDifference,
-  isToday,
-  checkIsAfter,
-} from '@/util/DateTime';
 import { SessionParticipant } from '@prisma/client';
 import SessionFilter from './SessionFilter';
 import FilterForm from '@/components/Forms/FilterForm';
@@ -74,28 +68,12 @@ const SessionsBody = () => {
             return (
               <UpcomingSession
                 key={session.id}
-                startDate={
-                  formatDateTime(session.startDateTime, user?.timezone).date
-                }
-                startTime={
-                  formatDateTime(session.startDateTime, user?.timezone).time
-                }
+                startDateTime={session.startDateTime}
                 goal={sessionParticipant?.goal || session.goal}
                 duration={JSON.parse(session.duration)}
-                timeLeft={parseFloat(
-                  getTimeDifference(session.startDateTime).minutes
-                )}
-                isTodayCheck={isToday(session.startDateTime)}
-                isAfter={checkIsAfter(session.endDateTime)}
                 meetingLink={session.meetingLink}
                 isAdmin={session.adminUsername === user.username}
                 sessionId={session.id}
-                endDate={
-                  formatDateTime(session.endDateTime, user?.timezone).date
-                }
-                endTime={
-                  formatDateTime(session.endDateTime, user?.timezone).time
-                }
                 isMember={session.users.some(
                   (sessionParticipant: SessionParticipant) =>
                     sessionParticipant.userId === user.id
@@ -106,6 +84,7 @@ const SessionsBody = () => {
                 endDateTime={session.endDateTime}
                 tasks={tasks}
                 pageUser={user}
+                pageUsername={user.username}
                 sessionParticipantId={sessionParticipant?.id}
               />
             );

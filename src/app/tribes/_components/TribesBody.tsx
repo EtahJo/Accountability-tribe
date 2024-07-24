@@ -15,7 +15,6 @@ const TribesBody = () => {
   let page = parseInt(searchParams?.get('page') as string, 10);
   page = !page || page < 1 ? 1 : page;
   const filter = searchParams.get('filter') || '';
-  console.log('Filter', filter, user.id, page);
   const { data: tribesData, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/tribes/api/${user.id}?page=${page}&filter=${filter}`,
     fetcher

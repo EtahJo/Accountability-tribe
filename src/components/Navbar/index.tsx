@@ -7,18 +7,19 @@ import NotificationIcon from '@/components/NavbarIcon/NotificationIcon';
 import StreakIcon from '@/components/NavbarIcon/StreakIcon';
 import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
 import { usePathname, useRouter } from 'next/navigation';
-import { FaBolt, FaBell } from 'react-icons/fa';
-import NavbarItem from '../ProfileIconItem/index';
 import ModalWrapper from '../ModalWrap/index';
 import { delete_user } from '@/action/auth/delete-user';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import MobileView from '@/components/Navbar/MobileView';
+import { FaBars } from 'react-icons/fa';
 
 import { cn } from '@/lib/utils';
 
 const Navbar = () => {
   const { session, user }: any = useCurrentUser();
   const [isPending, startTransition] = useTransition();
+  const [openDropdown, setOpenDropdown] = useState(false);
   const [openDeleteUserModal, setOpenDeleteUserModal] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -44,7 +45,8 @@ const Navbar = () => {
         <p className="text-lightPink">Accountability </p>
         Tribe
       </Link>
-      <div className=" rounded-2xl p-2 flex gap-2 items-center">
+
+      <div className=" rounded-2xl p-2 lg:flex gap-2 items-center hidden">
         <Link
           href={'/tribes?page=1'}
           className={cn(
@@ -64,34 +66,43 @@ const Navbar = () => {
         >
           Sessions
         </Link>
-        <Link
-          href={'/tribe-admin-management'}
-          className={cn(
-            'bg-lightPink rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl',
-            pathname.startsWith('/tribe-admin-management') &&
-              'bg-black text-white shadow-none'
-          )}
-        >
-          Manage Tribes
-        </Link>
+        {session.status === 'authenticated' && (
+          <Link
+            href={'/tribe-admin-management'}
+            className={cn(
+              'bg-lightPink rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl',
+              pathname.startsWith('/tribe-admin-management') &&
+                'bg-black text-white shadow-none'
+            )}
+          >
+            Manage Tribes
+          </Link>
+        )}
       </div>
       {session.status === 'authenticated' ? (
-        <div className="flex justify-between items-center">
-          {' '}
-          <div className="relative flex items-center gap-4">
+        <div className="flex justify-between items-center gap-x-4">
+          <FaBars
+            size={30}
+            className="text-lightPink block lg:hidden "
+            onClick={() => setOpenDropdown((prev) => !prev)}
+          />
+          {openDropdown && (
+            <MobileView closeDropdown={() => setOpenDropdown(false)} />
+          )}{' '}
+          <div className="relative lg:flex items-center gap-4 hidden">
             <StreakIcon count={user?.streak?.count} />
             <NotificationIcon notifications={user.notifications} />
-            <ProfileIcon
-              deleteUser={
-                <Button
-                  variant={'destructive'}
-                  onClick={() => setOpenDeleteUserModal(true)}
-                >
-                  Delete Account
-                </Button>
-              }
-            />
           </div>
+          <ProfileIcon
+            deleteUser={
+              <Button
+                variant={'destructive'}
+                onClick={() => setOpenDeleteUserModal(true)}
+              >
+                Delete Account
+              </Button>
+            }
+          />
         </div>
       ) : (
         <div className="flex gap-2">

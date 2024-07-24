@@ -55,8 +55,8 @@ const TodoList = ({ pageUsername }: { pageUsername: string }) => {
                 dueDate={task.dueDate}
                 sessionParticipants={task.sessionParticipants}
                 taskId={task.id}
-                // dateCompleted={task.dateCompleted}
                 userId={task.userId}
+                pageUsername={pageUsername}
               />
             </CarouselItem>
           ))}

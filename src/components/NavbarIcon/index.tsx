@@ -12,9 +12,7 @@ const NavbarIcon = ({ children, trigger }: NavbarIconProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent className="absolute right-0">
-        {children}
-      </DropdownMenuContent>
+      <DropdownMenuContent className="mr-10">{children}</DropdownMenuContent>
     </DropdownMenu>
   );
 };

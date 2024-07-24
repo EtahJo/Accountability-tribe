@@ -4,7 +4,6 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 import UpcomingSessions from '@/components/UpcomingSessions/index';
 import TodoList from '@/components/TodoList/index';
 import UserPosts from '@/components/Posts/UserPosts';
-// import Posts from '@/components/Posts/UserPosts';
 import Achievements from '@/components/Achievements/index';
 import Tribes from '@/components/Tribes/index';
 
@@ -18,7 +17,6 @@ const UserProfileBody = ({ pageUserName }: UserProfileBodyProps) => {
   return (
     <div className="grid grid-cols-12 pb-24">
       <div className="col-start-2 col-end-9">
-        {/* <SelectPeriod /> */}
         <UpcomingSessions pageUsername={pageUserName} />
         {pageUserName === user?.username && (
           <TodoList pageUsername={pageUserName} />

@@ -1,49 +1,39 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-// import { PeriodContext } from '@/context/PeriodContext';
+
 import { FaClock, FaCalendar } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import FullTextOnHover from '@/components/FullTextOnHover/index';
 import UpcomingSessionDetailModal from '../UpcomingSessionDetails/Modal';
-import { isToday, isThisWeek } from 'date-fns';
+import { formatDateTime, getTimeDifference } from '@/util/DateTime';
+import { isAfter, isToday, isThisWeek, isBefore } from 'date-fns';
+import { useCurrentUser } from '@/hooks/use-current-user';
 import Link from 'next/link';
 
 export interface UpcomingSessionProps {
-  startDate: string;
-  startTime: string;
   goal: string;
   duration: { hours: string; minutes: string };
-  timeLeft: number;
-  isTodayCheck: boolean;
-  isAfter: boolean;
   meetingLink: string;
   isAdmin?: boolean;
   sessionId: string;
   userId: string;
-  endDate: string;
-  endTime: string;
   isMember?: boolean;
   members: number;
   admin?: string;
   endDateTime: string;
   tasks?: {}[];
   pageUser?: any;
+  pageUsername: string;
   sessionParticipantId: string;
+  startDateTime: string;
 }
 
 const UpcomingSession = ({
-  startDate,
-  startTime,
   goal,
   duration,
-  timeLeft,
-  isTodayCheck,
-  isAfter,
   meetingLink,
   isAdmin,
   sessionId,
-  endDate,
-  endTime,
   isMember,
   members,
   admin,
@@ -52,16 +42,21 @@ const UpcomingSession = ({
   tasks,
   pageUser,
   sessionParticipantId,
+  startDateTime,
+  pageUsername,
 }: UpcomingSessionProps) => {
-  // const { period } = useContext(PeriodContext);
-  const period = isToday(startDate)
-    ? 'day'
-    : isThisWeek(startDate)
-    ? 'week'
-    : '';
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  useEffect(() => {}, [isMember]);
+  const { user }: any = useCurrentUser();
+
+  const startDate = formatDateTime(startDateTime, user?.timezone).date;
+  const startTime = formatDateTime(startDateTime, user?.timezone).time;
+
+  const now = new Date();
+  const isTodayCheck = isToday(startDateTime);
+  const isWeekCheck = isThisWeek(startDateTime);
+  const checkIfAfter = isAfter(now, endDateTime);
+  const onGoing = isAfter(now, startDateTime) && isBefore(now, endDateTime);
+  const timeLeft = parseFloat(getTimeDifference(startDateTime).minutes);
 
   return (
     <div className="bg-white p-3 w-[400px]  rounded-3xl flex items-center gap-2  justify-between move-button cursor-pointer m-4  shadow-3xl">
@@ -81,9 +76,9 @@ const UpcomingSession = ({
           </div>
         </div>
         <div>
-          <FullTextOnHover text={goal} isAfter={isAfter} />
+          <FullTextOnHover text={goal} isAfter={checkIfAfter} />
 
-          {period == 'day' && (
+          {isTodayCheck && (
             <div className="flex ">
               {timeLeft > 0 ? (
                 <div className="flex gap-1 flex-nowrap">
@@ -94,17 +89,17 @@ const UpcomingSession = ({
                 </div>
               ) : (
                 <p className="text-purple font-extrabold">
-                  {isAfter ? 'Ended' : 'Started'}
+                  {checkIfAfter ? 'Ended' : 'Started'}
                 </p>
               )}
             </div>
           )}
-          {period == 'week' && (
+          {!isTodayCheck && !checkIfAfter && (
             <div className="flex items-center gap-1">
               <FaCalendar className="text-purple" />
               <p className="font-bold whitespace-nowrap text-xs">
                 <>
-                  {isAfter ? (
+                  {checkIfAfter ? (
                     <p className="text-normal">Past</p>
                   ) : (
                     <>
@@ -145,19 +140,11 @@ const UpcomingSession = ({
       <UpcomingSessionDetailModal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
-        startDate={startDate}
-        startTime={startTime}
         goal={goal}
         duration={duration}
-        timeLeft={timeLeft}
-        isTodayCheck={isTodayCheck}
-        isAfter={isAfter}
         meetingLink={meetingLink}
         isAdmin={isAdmin}
         sessionId={sessionId}
-        period={period}
-        endDate={endDate}
-        endTime={endTime}
         isMember={isMember}
         members={members}
         admin={admin}
@@ -166,6 +153,8 @@ const UpcomingSession = ({
         tasks={tasks}
         pageUser={pageUser}
         sessionParticipantId={sessionParticipantId}
+        startDateTime={startDateTime}
+        pageUsername={pageUsername}
       />
     </div>
   );

@@ -16,13 +16,6 @@ import {
 
 import Link from 'next/link';
 
-import {
-  formatDateTime,
-  getTimeDifference,
-  isToday,
-  isThisWeek,
-  checkIsAfter,
-} from '@/util/DateTime';
 interface UpcomingSessionsProps {
   pageUsername: string;
 }
@@ -77,39 +70,12 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
                       className="lg:basis-1/2 md:1"
                     >
                       <UpcomingSession
+                        startDateTime={session.startDateTime}
                         tasks={tasks}
-                        pageUser={pageUsername}
-                        startDate={
-                          formatDateTime(
-                            session.startDateTime,
-                            currentUser?.timezone
-                          ).date
-                        }
-                        startTime={
-                          formatDateTime(
-                            session.startDateTime,
-                            currentUser?.timezone
-                          ).time
-                        }
-                        endDate={
-                          formatDateTime(
-                            session.endDateTime,
-                            currentUser?.timezone
-                          ).date
-                        }
-                        endTime={
-                          formatDateTime(
-                            session.endDateTime,
-                            currentUser?.timezone
-                          ).time
-                        }
+                        pageUser={currentUser}
+                        pageUsername={pageUsername}
                         goal={goal || session.goal}
                         duration={JSON.parse(session.duration)}
-                        timeLeft={parseFloat(
-                          getTimeDifference(session.startDateTime).minutes
-                        )}
-                        isTodayCheck={isToday(session.startDateTime)}
-                        isAfter={checkIsAfter(session.endDateTime)}
                         meetingLink={session.meetingLink}
                         sessionId={session.id}
                         isAdmin={adminUsername === currentUser.username}

@@ -1,11 +1,17 @@
-import React from 'react';
+import { cn } from '@/lib/utils';
 interface ProfileIconItemProps {
   title?: string;
   icon: React.ReactNode;
   number?: number | null;
+  titleClass?: string;
 }
 
-const ProfileIconItem = ({ title, icon, number }: ProfileIconItemProps) => {
+const ProfileIconItem = ({
+  title,
+  icon,
+  number,
+  titleClass,
+}: ProfileIconItemProps) => {
   return (
     <div className="flex align-middle items-center my-2 cursor-pointer  rounded-md move-button">
       <div className="relative">
@@ -16,7 +22,7 @@ const ProfileIconItem = ({ title, icon, number }: ProfileIconItemProps) => {
           </p>
         )}
       </div>
-      {title && <p className="ml-4 w-[150px]">{title}</p>}
+      {title && <p className={cn('ml-4 w-[150px]', titleClass)}>{title}</p>}
     </div>
   );
 };

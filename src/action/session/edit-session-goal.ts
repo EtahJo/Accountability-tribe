@@ -9,7 +9,6 @@ import { getUserById } from '@/data/user';
 export const edit_session_goal = async (
   values: z.infer<typeof EditSessionSchema>,
   sessionId: string
-  //   pageUserId: string
 ) => {
   const { goal } = values;
   // check if user logged in

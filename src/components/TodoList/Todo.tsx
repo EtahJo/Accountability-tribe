@@ -27,12 +27,15 @@ import { toast } from 'sonner';
 interface TodoProps {
   taskId: string;
   sessionParticipants: {}[];
+  pageUsername: string;
 }
 const Todo = ({
   title,
   priority,
   description,
   status,
+  pageUsername,
+
   // id,
   dueDate,
   sessionParticipants,
@@ -207,6 +210,7 @@ const Todo = ({
         isOpen={isOpenModal}
         onRequestClose={() => setIsOpenModal(false)}
         taskId={taskId}
+        pageUsername={pageUsername}
       />
     </Accordion>
   );

@@ -8,8 +8,9 @@ import {
 import { Status } from '@prisma/client';
 
 export const getTotalNumberOfUserSessions = async (userId: string) => {
+  const now = new Date();
   const sessions = await db.sessionParticipant.findMany({
-    where: { userId },
+    where: { userId, session: { endDateTime: { gte: now } } },
   });
   return sessions.length;
 };
@@ -22,9 +23,9 @@ export const getAllUserSessions = async (
   try {
     const totalItems = await getTotalNumberOfUserSessions(userId);
     const totalPages = Math.ceil(totalItems / pageLimit);
-
+    const now = new Date();
     const sessions = await db.sessionParticipant.findMany({
-      where: { userId },
+      where: { userId, session: { endDateTime: { gte: now } } },
       include: {
         session: {
           include: {
@@ -54,7 +55,7 @@ export const getAllUserSessions = async (
       skip: pageLimit * (pageNumber - 1),
       orderBy: {
         session: {
-          startDateTime: 'desc',
+          startDateTime: 'asc',
         },
       },
     });
@@ -594,7 +595,7 @@ export const getUserClosestSession = async (userId: string) => {
       where: {
         userId,
         session: {
-          startDateTime: {
+          endDateTime: {
             gte: new Date(),
           },
         },
@@ -650,7 +651,10 @@ export const getSessionUsers = async (sessionId: string) => {
 
 export const totalAllSessions = async () => {
   try {
-    const total = await db.session.count({});
+    const now = new Date();
+    const total = await db.session.count({
+      where: { endDateTime: { gte: now } },
+    });
     return total;
   } catch (error: any) {
     console.error('Error getting all sessions total', error.message);
@@ -659,9 +663,13 @@ export const totalAllSessions = async () => {
 
 export const getAllSessions = async (pageLimit: number, pageNumber: number) => {
   try {
+    const now = new Date();
     const totalItems = await totalAllSessions();
     const totalPages = Math.ceil((totalItems as number) / pageLimit);
     const sessions = await db.session.findMany({
+      where: {
+        endDateTime: { gte: now },
+      },
       include: {
         users: {
           include: {
@@ -689,7 +697,7 @@ export const getAllSessions = async (pageLimit: number, pageNumber: number) => {
       take: pageLimit + 1,
       skip: pageLimit * (pageNumber - 1),
       orderBy: {
-        startDateTime: 'desc',
+        startDateTime: 'asc',
       },
     });
     const hasMore = sessions?.length > pageLimit;
@@ -761,7 +769,7 @@ export const getAllTomorrowSessions = async (
       take: pageLimit + 1,
       skip: pageLimit * (pageNumber - 1),
       orderBy: {
-        startDateTime: 'desc',
+        startDateTime: 'asc',
       },
     });
     const hasMore = sessions?.length > pageLimit;
@@ -836,7 +844,7 @@ export const getAllThisWeekSessions = async (
       take: pageLimit + 1,
       skip: pageLimit * (pageNumber - 1),
       orderBy: {
-        startDateTime: 'desc',
+        startDateTime: 'asc',
       },
     });
     const hasMore = sessions?.length > pageLimit;
@@ -914,7 +922,7 @@ export const getAllTodaySessions = async (
       take: pageLimit + 1,
       skip: pageLimit * (pageNumber - 1),
       orderBy: {
-        startDateTime: 'desc',
+        startDateTime: 'asc',
       },
     });
     const hasMore = sessions?.length > pageLimit;
@@ -987,7 +995,7 @@ export const getAllOngoingSessions = async (
       take: pageLimit + 1,
       skip: pageLimit * (pageNumber - 1),
       orderBy: {
-        startDateTime: 'desc',
+        startDateTime: 'asc',
       },
     });
     const hasMore = sessions?.length > pageLimit;
@@ -1054,7 +1062,7 @@ export const getAllEndedSessions = async (
       take: pageLimit + 1,
       skip: pageLimit * (pageNumber - 1),
       orderBy: {
-        startDateTime: 'desc',
+        startDateTime: 'asc',
       },
     });
     const hasMore = sessions?.length > pageLimit;

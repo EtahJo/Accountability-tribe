@@ -45,7 +45,7 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
         {notifications?.map((notification) => (
           <DropdownMenuItem
             key={notification.id}
-            className="w-full whitespace-nowrap cursor-pointer border-b"
+            className="w-[300px] cursor-pointer border-b"
             onClick={() => onNotificationClick(notification.id)}
           >
             <div className="flex items-center gap-2 text-lightPink group">

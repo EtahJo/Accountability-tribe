@@ -9,7 +9,7 @@ const Home = async () => {
   if (!user) return <HomePageLoggedOut />;
   return (
     <main className="">
-      <HomePageLoggedIn user={user} />
+      <HomePageLoggedIn />
     </main>
   );
 };

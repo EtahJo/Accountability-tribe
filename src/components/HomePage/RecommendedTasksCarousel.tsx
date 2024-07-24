@@ -82,6 +82,7 @@ const RecommendedTasksCarousel = () => {
                   sessionParticipants={sessionParticipants}
                   taskId={id}
                   userId={userId}
+                  pageUsername={user.username}
                 />
               </CarouselItem>
             )

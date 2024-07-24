@@ -12,8 +12,8 @@ const SessionFilter = ({ page }: { page: number }) => {
   );
   const filters = [
     {
-      text: 'All',
-      filter: 'all',
+      text: 'Upcoming',
+      filter: 'allupcoming',
     },
     {
       text: 'Ended',

@@ -4,9 +4,7 @@ import BackgroundSlideShow from '@/components/BackgroundSlidShow/index';
 import { FaEllipsisH } from 'react-icons/fa';
 import ToolTip from '@/components/ToolTip/index';
 import UserSnippet from '@/components/UserSnippet/index';
-import UserSkeleton from '@/components/Skeletons/UserSkeleton';
-import LongHeaderSkeleton from '@/components/Skeletons/LongHeaderSkeleton';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { User } from '@prisma/client';
 
@@ -51,7 +49,7 @@ const HeroLoggedIn = () => {
           before:h-5  before:-right-5 before:shadow-roundTright after:absolute after:-bottom-5 after:rounded-5xl after:bg-transparent after:w-5
           after:h-5 after:shadow-roundTright after:left-0 flex justify-center items-center "
           >
-            <p className="text-5xl font-bold uppercase text-shadow-lg">
+            <p className="text-2xl xl:text-4xl lg:text-3xl font-bold uppercase text-shadow-lg whitespace-nowrap">
               Build Tribes
             </p>
           </div>
@@ -67,7 +65,10 @@ const HeroLoggedIn = () => {
           before:h-5  before:-left-5 before:shadow-roundTleft after:absolute after:-bottom-5 after:rounded-5xl after:bg-transparent after:w-5
           after:h-5 after:shadow-roundTleft after:right-0 flex justify-center items-center "
           >
-            <p className="text-5xl font-bold uppercase text-shadow-lg">
+            <p
+              className=" font-bold uppercase text-shadow-lg
+            text-sm xl:text-4xl lg:text-3xl  min-[824px]:text-2xl text-center sm:text-md "
+            >
               Be Accountable
             </p>
           </div>

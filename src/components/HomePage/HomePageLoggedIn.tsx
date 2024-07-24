@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import SectionHeader from '@/components/SectionHeader/index';
 import HeroLoggedIn from '@/components/HomePage/HeroSection/HeroLoggedIn';
 import UpcomingSessionDetail from '@/components/UpcomingSessionDetails/index';
-
+import { getTimeDifference } from '@/util/DateTime';
 import UpcomingSessionDetailSkeleton from '../Skeletons/UpcomingSessionDetailSkeleton';
 
 import ContactSection from '@/components/ContactSection/ContactSection';
@@ -14,13 +14,12 @@ import RecommendedTribesCarousel from '@/components/HomePage/RecommendedTribesCa
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
-interface HomeLoggedInProps {
-  user: User;
-}
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const HomeLoggedIn = ({ user }: HomeLoggedInProps) => {
+const HomeLoggedIn = () => {
+  const { user }: any = useCurrentUser();
   const { data: session, isLoading } = useSWR(
     `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`,
     fetcher
@@ -31,9 +30,12 @@ const HomeLoggedIn = ({ user }: HomeLoggedInProps) => {
       <HeroLoggedIn />
       <SectionHeader name="Take Note" />
       <div
-        className={cn('flex gap-2', session ? 'items-center' : 'items-start')}
+        className={cn(
+          'flex gap-2 lg:flex-row flex-col',
+          session ? 'items-center' : 'items-start'
+        )}
       >
-        <div className="w-3/4">
+        <div className="lg:w-3/4 w-full">
           <div className="bg-purple p-10 rounded-5xl my-5 flex flex-col w-full">
             <h1 className="text-2xl font-bold text-white uppercase mb-3">
               {' '}
@@ -52,7 +54,7 @@ const HomeLoggedIn = ({ user }: HomeLoggedInProps) => {
           </div>
         </div>
 
-        <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col ">
+        <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col  w-full ">
           <h1 className="text-2xl font-bold text-white uppercase mb-3">
             {' '}
             Your Next Session
@@ -61,48 +63,22 @@ const HomeLoggedIn = ({ user }: HomeLoggedInProps) => {
             <UpcomingSessionDetailSkeleton />
           ) : session ? (
             <UpcomingSessionDetail
-              startDate={
-                formatDateTime(
-                  session.session.startDateTime,
-                  user?.timezone as string
-                ).date
-              }
-              startTime={
-                formatDateTime(
-                  session.session.startDateTime,
-                  user?.timezone as string
-                ).time
-              }
+              startDateTime={session.session.startDateTime}
+              pageUsername={user.username as string}
               goal={session?.goal}
               duration={JSON.parse(session.session.duration)}
-              timeLeft={20}
-              isTodayCheck={isToday(session.session.startDateTime)}
-              isAfter={checkIsAfter(session.session.endDateTime)}
               meetingLink={session.session.meetingLink}
-              isAdmin={session.adminUserName === user.username}
+              isAdmin={session.adminUsername === user.username}
               sessionId={session.session.id}
-              period={'day'}
-              endDate={
-                formatDateTime(
-                  session.session.endDateTime,
-                  user.timezone as string
-                ).date
-              }
-              endTime={
-                formatDateTime(
-                  session.session.endDateTime,
-                  user.timezone as string
-                ).time
-              }
               isMember={session.session.users.some(
                 (participant: any) => participant.userId === user.id
               )}
               members={session.session.participants as number}
-              admin={session.adminUserName}
+              admin={session.adminUsername}
               userId={session.userId} // the id of th user with the session
               endDateTime={session.session.endDateTime}
               tasks={session.tasks}
-              pageUser={session.user.username}
+              pageUser={user}
               sessionParticipantId={session.id}
             />
           ) : (

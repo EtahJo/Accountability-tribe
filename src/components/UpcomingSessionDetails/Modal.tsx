@@ -4,37 +4,32 @@ import { Props } from 'react-modal';
 import UpcomingSessionDetail from '@/components/UpcomingSessionDetails/index';
 import { UpcomingSessionProps } from '@/components/UpcomingSession/index';
 interface UpcomingSessionDetailModalProps {
-  period: string;
   upcomingSessionChildren?: React.ReactNode;
   tasks?: {}[];
   pageUser?: {};
+  pageUsername?: string;
   sessionParticipantId: string;
+  startDateTime: string;
 }
 
 const UpcomingSessionDetailModal = ({
   isOpen,
   onRequestClose,
-  startDate,
-  startTime,
   goal,
   duration,
-  timeLeft,
   meetingLink,
-  isTodayCheck,
-  isAfter,
   isAdmin,
   isMember,
   sessionId,
   members,
   userId,
   admin,
-  endDate,
   endDateTime,
-  endTime,
-  period,
   tasks,
   pageUser,
+  pageUsername,
   sessionParticipantId,
+  startDateTime,
 }: Props & UpcomingSessionDetailModalProps & UpcomingSessionProps) => {
   return (
     <ModalWrapper
@@ -44,19 +39,11 @@ const UpcomingSessionDetailModal = ({
       className={' w-max'}
     >
       <UpcomingSessionDetail
-        startDate={startDate}
-        startTime={startTime}
         goal={goal}
         duration={duration}
-        timeLeft={timeLeft}
-        isTodayCheck={isTodayCheck}
-        isAfter={isAfter}
         meetingLink={meetingLink}
         isAdmin={isAdmin}
         sessionId={sessionId}
-        period={period}
-        endDate={endDate}
-        endTime={endTime}
         isMember={isMember}
         members={members}
         admin={admin}
@@ -66,6 +53,8 @@ const UpcomingSessionDetailModal = ({
         pageUser={pageUser}
         sessionParticipantId={sessionParticipantId}
         showDeleteOrLeave
+        startDateTime={startDateTime}
+        pageUsername={pageUsername}
       />
     </ModalWrapper>
   );

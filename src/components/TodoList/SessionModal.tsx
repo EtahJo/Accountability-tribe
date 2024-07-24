@@ -2,12 +2,6 @@
 import { useTransition } from 'react';
 import ModalWrapper from '../ModalWrap/index';
 import UpcomingSession from '@/components/UpcomingSession/index';
-import {
-  formatDateTime,
-  getTimeDifference,
-  isToday,
-  checkIsAfter,
-} from '@/util/DateTime';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Props } from 'react-modal';
 import { remove_task_from_session } from '@/action/task/remove-task-from-session';
@@ -17,6 +11,7 @@ import { toast } from 'sonner';
 interface SessionModalProps {
   sessionParticipants: {}[];
   taskId: string;
+  pageUsername: string;
 }
 
 const SessionModal = ({
@@ -24,6 +19,7 @@ const SessionModal = ({
   isOpen,
   onRequestClose,
   taskId,
+  pageUsername,
 }: SessionModalProps & Props) => {
   const [isPending, startTransition] = useTransition();
   const { user }: any = useCurrentUser();
@@ -50,38 +46,10 @@ const SessionModal = ({
         {sessionParticipants?.map(({ sessionParticipant }: any) => (
           <div className="flex items-center gap-1" key={sessionParticipant.id}>
             <UpcomingSession
-              startDate={
-                formatDateTime(
-                  sessionParticipant.session.startDateTime,
-                  user?.timezone
-                ).date
-              }
-              startTime={
-                formatDateTime(
-                  sessionParticipant.session.startDateTime,
-                  user?.timezone
-                ).time
-              }
-              endDate={
-                formatDateTime(
-                  sessionParticipant.session.endDateTime,
-                  user?.timezone
-                ).date
-              }
-              endTime={
-                formatDateTime(
-                  sessionParticipant.session.endDateTime,
-                  user?.timezone
-                ).time
-              }
+              startDateTime={sessionParticipant.session.startDateTime}
               goal={sessionParticipant.goal || sessionParticipant.session.goal}
               duration={JSON.parse(sessionParticipant.session.duration)}
-              timeLeft={parseFloat(
-                getTimeDifference(sessionParticipant.session.startDateTime)
-                  .minutes
-              )}
-              isTodayCheck={isToday(sessionParticipant.session.startDateTime)}
-              isAfter={checkIsAfter(sessionParticipant.session.endDateTime)}
+              pageUsername={pageUsername}
               meetingLink={sessionParticipant.session.meetingLink}
               sessionId={sessionParticipant.session.id}
               isMember={true}
@@ -91,6 +59,8 @@ const SessionModal = ({
               endDateTime={sessionParticipant.session.endDateTime}
               userId={sessionParticipant.userId}
               sessionParticipantId={sessionParticipant.id}
+              pageUser={user}
+              // tasks={}
             />
             <ToolTip
               trigger={
