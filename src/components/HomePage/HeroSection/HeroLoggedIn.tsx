@@ -30,8 +30,8 @@ const HeroLoggedIn = () => {
   ];
   return (
     <div>
-      <div className="bg-white rounded-5xl grid grid-cols-12 h-[450px]  w-full relative my-5">
-        <div className="absolute left-0 w-full top-0 z-0 h-full bg-red-200 rounded-5xl">
+      <div className=" rounded-5xl grid grid-cols-12 h-[450px]  w-full relative my-5">
+        <div className="absolute left-0 w-full top-0 z-0 h-full bg-red-200 rounded-5xl mt-14 min-[640px]:mt-0">
           <BackgroundSlideShow
             slides={slides}
             className="w-full h-[450px] rounded-5xl"
@@ -47,9 +47,9 @@ const HeroLoggedIn = () => {
             className="bg-lightPink absolute top-0 w-full h-[100px] 
           rounded-br-5xl before:absolute before:top-0 before:rounded-5xl before:bg-transparent before:w-5
           before:h-5  before:-right-5 before:shadow-roundTright after:absolute after:-bottom-5 after:rounded-5xl after:bg-transparent after:w-5
-          after:h-5 after:shadow-roundTright after:left-0 flex justify-center items-center "
+          after:h-5 after:shadow-roundTright after:left-0  justify-center items-center  min-[640px]:flex hidden"
           >
-            <p className="text-2xl xl:text-4xl lg:text-3xl font-bold uppercase text-shadow-lg whitespace-nowrap">
+            <p className=" font-bold uppercase text-shadow-lg whitespace-nowrap  text-sm xl:text-4xl lg:text-3xl  min-[824px]:text-2xl text-center sm:text-md  ">
               Build Tribes
             </p>
           </div>
@@ -63,7 +63,7 @@ const HeroLoggedIn = () => {
             className="bg-lightPink absolute top-0 w-full h-[100px] 
          rounded-bl-5xl before:absolute before:top-0 before:rounded-5xl before:bg-transparent before:w-5
           before:h-5  before:-left-5 before:shadow-roundTleft after:absolute after:-bottom-5 after:rounded-5xl after:bg-transparent after:w-5
-          after:h-5 after:shadow-roundTleft after:right-0 flex justify-center items-center "
+          after:h-5 after:shadow-roundTleft after:right-0  justify-center items-center min-[640px]:flex hidden "
           >
             <p
               className=" font-bold uppercase text-shadow-lg
@@ -75,16 +75,16 @@ const HeroLoggedIn = () => {
         </div>
         <div
           className="z-10 col-span-3  flex items-center py-5
-         px-10 flex-col justify-end gap-3"
+         px-10 flex-col justify-end gap-3 min-[777px]:col-start-2 min-[640px]:col-start-3 col-start-5"
         >
-          <span className="flex items-center text-white bg-black p-2 rounded-md flex-col">
+          <div className="flex items-center text-white bg-black p-2 rounded-md flex-col ">
             <h1 className="font-bold text-lg whitespace-nowrap">
               Hightlighted Users
             </h1>
             <p className="whitespace-nowrap text-base text-lightPink">
               {'Because of their consistency 🎊'}
             </p>
-          </span>
+          </div>
           <div className="flex items-center gap-x-2">
             {highlightedUsers?.map(
               ({
@@ -126,9 +126,9 @@ const HeroLoggedIn = () => {
             className="bg-lightPink absolute bottom-0 w-full h-[100px] 
         rounded-t-5xl  before:absolute before:bottom-0 before:rounded-5xl before:bg-transparent before:w-5
           before:h-5 before:shadow-roundright before:-right-5 after:absolute after:bottom-0 after:rounded-5xl after:bg-transparent after:w-5
-          after:h-5 after:shadow-roundleft after:-left-5 flex justify-center items-center"
+          after:h-5 after:shadow-roundleft after:-left-5  justify-center items-center min-[640px]:flex hidden"
           >
-            <p className="text-5xl font-bold uppercase text-shadow-lg ">
+            <p className=" font-bold uppercase text-shadow-lg text-sm xl:text-4xl lg:text-3xl  min-[824px]:text-2xl text-center sm:text-md  ">
               Stay Consistent
             </p>
           </div>

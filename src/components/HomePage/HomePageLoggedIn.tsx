@@ -28,14 +28,13 @@ const HomeLoggedIn = () => {
   return (
     <div className="pb-48 px-20">
       <HeroLoggedIn />
-      <SectionHeader name="Take Note" />
+      {/* <SectionHeader name="Take Note" /> */}
       <div
         className={cn(
-          'flex gap-2 lg:flex-row flex-col',
-          session ? 'items-center' : 'items-start'
+          'flex gap-2 lg:flex-row flex-col mt-14 min-[640px]:mt-0 justify-center items-start'
         )}
       >
-        <div className="lg:w-3/4 w-full">
+        <div className="lg:w-1/2 w-full">
           <div className="bg-purple p-10 rounded-5xl my-5 flex flex-col w-full">
             <h1 className="text-2xl font-bold text-white uppercase mb-3">
               {' '}
@@ -54,7 +53,7 @@ const HomeLoggedIn = () => {
           </div>
         </div>
 
-        <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col  w-full ">
+        <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col  lg:w-[420px] w-full">
           <h1 className="text-2xl font-bold text-white uppercase mb-3">
             {' '}
             Your Next Session

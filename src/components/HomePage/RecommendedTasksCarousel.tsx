@@ -71,7 +71,7 @@ const RecommendedTasksCarousel = () => {
               description,
               sessionParticipants,
             }: any) => (
-              <CarouselItem key={id} className="lg:basis-1/3 md:basis-1/2">
+              <CarouselItem key={id} className="lg:basis-1/2 md:basis-1/2">
                 <Todo
                   title={title}
                   priority={priority}

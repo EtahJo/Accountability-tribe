@@ -39,7 +39,7 @@ const Navbar = () => {
   return (
     <div className="bg-purple rounded-full m-4 p-2 z-50 fixed phone:w-[96%] flex items-center justify-between  w-[90]">
       <Link
-        className="md:text-3xl font-semibold text-white p-2 text-xl sm:text-2xl cursor-pointer flex"
+        className="md:text-3xl font-semibold text-white p-2 text-lg sm:text-2xl cursor-pointer flex"
         href={'/'}
       >
         <p className="text-lightPink">Accountability </p>
@@ -82,7 +82,7 @@ const Navbar = () => {
       {session.status === 'authenticated' ? (
         <div className="flex justify-between items-center gap-x-4">
           <FaBars
-            size={30}
+            size={25}
             className="text-lightPink block lg:hidden "
             onClick={() => setOpenDropdown((prev) => !prev)}
           />
