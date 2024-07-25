@@ -62,7 +62,7 @@ const AddSession = ({ sessionId, goal }: AddSessionProps) => {
           Add Session
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="z-[150] w-[310px]">
+      <PopoverContent className="z-[150] min-[417px]:w-[310px] w-[250px] flex justify-center">
         <Formsy
           className="flex flex-col justify-center"
           onValidSubmit={addSession}
@@ -81,7 +81,12 @@ const AddSession = ({ sessionId, goal }: AddSessionProps) => {
           />
           {error && <FormError message={error} />}
           {success && <FormSuccess message={success} />}
-          <Button className="move-button" type="submit" disabled={isPending}>
+          <Button
+            className="move-button"
+            type="submit"
+            disabled={isPending}
+            size={'slg'}
+          >
             Done
           </Button>
         </Formsy>

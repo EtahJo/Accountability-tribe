@@ -70,8 +70,10 @@ const TodoHeader = ({
       )}
 
       <div>
-        <p className="font-bold text-base text-start">{title}</p>
-        <div className="flex items-center gap-2 ">
+        <p className="font-bold min-[417px]:text-base text-start   text-xs">
+          {title}
+        </p>
+        <div className="flex min-[417px]:items-center gap-2 min-[417px]:flex-row flex-col items-start">
           <PriorityUpdate priority={priority} taskId={taskId} userId={userId} />
           <StatusUpdate status={status} taskId={taskId} userId={userId} />
         </div>

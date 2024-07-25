@@ -51,7 +51,7 @@ const SessionTasks = ({
   return (
     <div className="flex flex-col justify-center items-center relative">
       {tasks?.map(({ task }: any) => (
-        <div className="flex items-center gap-1" key={task.id}>
+        <div className="flex items-center relative" key={task.id}>
           <Todo
             title={task.title}
             priority={task.priority}
@@ -64,35 +64,39 @@ const SessionTasks = ({
             userId={task.userId}
             pageUsername={pageUsername}
           />
-          <DeleteConfirmation
-            trigger={
-              <ToolTip
-                trigger={
-                  <Button
-                    className={cn(
-                      'font-bold hover:text-purple cursor-pointer',
-                      isPending ? 'opacity-50' : 'opacity-100'
-                    )}
-                  >
-                    X
-                  </Button>
-                }
-              >
-                <p>Remove task from session</p>
-              </ToolTip>
-            }
-            confirmationMessage="Are you sure you want to remove task from session?"
-            consequenceMessage=""
-            action={
-              <Button
-                onClick={() => {
-                  removeTaskFromSession(task.id);
-                }}
-              >
-                Remove
-              </Button>
-            }
-          />
+          <div className="absolute top-0 right-0 m-3">
+            <DeleteConfirmation
+              trigger={
+                <ToolTip
+                  trigger={
+                    <Button
+                      className={cn(
+                        'font-bold hover:text-purple cursor-pointer -ml-2',
+                        isPending ? 'opacity-50' : 'opacity-100'
+                      )}
+                      size={'sm'}
+                      variant={'ghost'}
+                    >
+                      X
+                    </Button>
+                  }
+                >
+                  <p>Remove task from session</p>
+                </ToolTip>
+              }
+              confirmationMessage="Are you sure you want to remove task from session?"
+              consequenceMessage=""
+              action={
+                <Button
+                  onClick={() => {
+                    removeTaskFromSession(task.id);
+                  }}
+                >
+                  Remove
+                </Button>
+              }
+            />
+          </div>
         </div>
       ))}
       {isMember && !isAfter && pageUsername === user.username && (

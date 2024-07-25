@@ -27,7 +27,7 @@ const AddTaskToSessionForm = ({
   );
   const addTaskToSession = async (vals: any) => {
     startTransition(() => {
-      vals.taskIds.map((task: any) =>
+      vals?.taskIds?.map((task: any) =>
         link_task_session(sessionParticipantId, task.value).then((data) => {
           if (data.error) {
             toast.error(data.error);
@@ -52,13 +52,14 @@ const AddTaskToSessionForm = ({
     });
   };
   return (
-    <Formsy onValidSubmit={addTaskToSession}>
-      <div className="w-[300px]">
-        <SelectTasks
-          name="taskIds"
-          options={taskGoodToAdd as { id: string; title: string }[]}
-        />
-      </div>
+    <Formsy
+      onValidSubmit={addTaskToSession}
+      className="flex flex-col justify-center items-center"
+    >
+      <SelectTasks
+        name="taskIds"
+        options={taskGoodToAdd as { id: string; title: string }[]}
+      />
 
       <Button type="submit" size={'slg'} className="py-2" disabled={isPending}>
         Add Tasks

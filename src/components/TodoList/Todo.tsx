@@ -42,7 +42,9 @@ const Todo = ({
     <Accordion
       type="single"
       collapsible
-      className={cn('bg-white rounded-2xl my-2 w-[320px] shadow-3xl mx-2 p-2')}
+      className={cn(
+        'bg-white rounded-2xl my-2 min-[417px]:w-[320px] shadow-3xl mx-2 p-2 w-[200px]'
+      )}
     >
       <AccordionItem value={taskId} className="border-b-0">
         <AccordionTrigger className="hover:no-underline">

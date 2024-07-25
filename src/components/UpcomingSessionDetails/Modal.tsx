@@ -36,7 +36,7 @@ const UpcomingSessionDetailModal = ({
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Session Details"
-      className={' w-max'}
+      className={'xl:w-max w-[300px]'}
     >
       <UpcomingSessionDetail
         goal={goal}

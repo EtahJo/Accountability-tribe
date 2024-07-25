@@ -74,7 +74,7 @@ const UpcomingSessionDetail = ({
         onGoing={onGoing}
         checkIfAfter={checkIfAfter}
       />
-      <div className="flex items-center gap-4 flex-wrap ">
+      <div className="flex items-center gap-4 flex-wrap justify-center">
         <div>
           <div className="flex flex-col gap-y-6  border-purple border-2 rounded-3xl my-2 min-[586px]:p-4 p-1">
             <TimeDurationDetails

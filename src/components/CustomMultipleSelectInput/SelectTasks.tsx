@@ -21,7 +21,7 @@ const SelectTasks = ({
     setValue(selectedOptions);
   };
   return (
-    <div>
+    <div className="min-[417px]:w-[300px] w-[200px]">
       {lable && (
         <InputLabel lable={lable} labelIcon={labelIcon} required={required} />
       )}
