@@ -45,7 +45,10 @@ const TodoList = ({ pageUsername }: { pageUsername: string }) => {
       >
         <CarouselContent className="w-full">
           {tasks?.map((task: any) => (
-            <CarouselItem key={task.id} className="lg:basis-1/3 md:basis-1/2">
+            <CarouselItem
+              key={task.id}
+              className="min-[1450px]:basis-1/3 basis-2/2 flex-col "
+            >
               <Todo
                 title={task.title}
                 priority={task.priority}
@@ -61,8 +64,8 @@ const TodoList = ({ pageUsername }: { pageUsername: string }) => {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="w-5 h-5 bg-purple text-white shadow-3xl" />
+        <CarouselNext className="w-5 h-5 bg-purple text-white shadow-3xl" />
       </Carousel>
       <div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto ">
         <Link href={`/user/${pageUsername}/tasklist?page=1&filter=all`}>
