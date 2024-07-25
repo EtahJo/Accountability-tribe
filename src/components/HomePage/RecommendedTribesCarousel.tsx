@@ -29,8 +29,11 @@ const RecommendedTribesCarousel = ({ userId }: RecommendedTribesProps) => {
       >
         <CarouselContent className="w-full">
           {Array.from({ length: 3 }).map((_, index) => (
-            <CarouselItem className="min-[1450px]:basis-1/3 basis-2/2 flex-col">
-              <TribeSkeleton key={index} />
+            <CarouselItem
+              className="min-[1450px]:basis-1/3 basis-2/2 flex-col"
+              key={index}
+            >
+              <TribeSkeleton />
             </CarouselItem>
           ))}
         </CarouselContent>
