@@ -1,16 +1,15 @@
 'use client';
 import { useState } from 'react';
-
-import { FaClock, FaCalendar } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import FullTextOnHover from '@/components/FullTextOnHover/index';
 import UpcomingSessionDetailModal from '../UpcomingSessionDetails/Modal';
 import { formatDateTime, getTimeDifference } from '@/util/DateTime';
-import { isAfter, isToday, isThisWeek, isBefore } from 'date-fns';
+import { isAfter, isToday, isBefore } from 'date-fns';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import Link from 'next/link';
 import GotoButton from '@/components/GoTo/index';
-
+import SessionDuration from '@/components/UpcomingSession/SessionDuration';
+import PeriodCheck from '@/components/UpcomingSession/PeriodCheck';
 export interface UpcomingSessionProps {
   goal: string;
   duration: { hours: string; minutes: string };
@@ -64,58 +63,16 @@ const UpcomingSession = ({
         className="flex items-center gap-1"
         onClick={() => setModalIsOpen(true)}
       >
-        <div className="flex  bg-lighterPink  h-[80px] justify-center items-center rounded-3xl px-4 gap-2">
-          <FaClock size={30} className="text-purple" />
-          <div>
-            <p className="text-[rgba(0,0,0,0.3)]">Duration</p>
-            {duration && (
-              <p className="font-bold whitespace-nowrap">
-                {duration.hours}h {duration.minutes}m
-              </p>
-            )}
-          </div>
-        </div>
+        <SessionDuration duration={duration} />
         <div>
           <FullTextOnHover text={goal} isAfter={checkIfAfter} />
-
-          {isTodayCheck && (
-            <div className="flex ">
-              {timeLeft > 0 ? (
-                <div className="flex gap-1 flex-nowrap">
-                  <p className="text-sm whitespace-nowrap">Starts in </p>{' '}
-                  <p className="text-purple font-bold text-sm whitespace-nowrap">
-                    {timeLeft} Mins
-                  </p>
-                </div>
-              ) : (
-                <p className="text-purple font-extrabold">
-                  {checkIfAfter ? 'Ended' : 'Started'}
-                </p>
-              )}
-            </div>
-          )}
-          {!isTodayCheck && !checkIfAfter && (
-            <div className="flex items-center gap-1">
-              <FaCalendar className="text-purple" />
-              <p className="font-bold whitespace-nowrap text-xs">
-                <>
-                  {checkIfAfter ? (
-                    <p className="text-normal">Past</p>
-                  ) : (
-                    <>
-                      {' '}
-                      {isTodayCheck
-                        ? timeLeft < 0
-                          ? 'Started Today'
-                          : 'Today'
-                        : startDate}{' '}
-                      at {startTime}
-                    </>
-                  )}
-                </>
-              </p>
-            </div>
-          )}
+          <PeriodCheck
+            isTodayCheck={isTodayCheck}
+            timeLeft={timeLeft}
+            checkIfAfter={checkIfAfter}
+            startTime={startTime}
+            startDate={startDate}
+          />
         </div>
       </div>
 
