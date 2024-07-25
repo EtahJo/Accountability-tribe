@@ -6,8 +6,12 @@ interface ContactInfoSectionProps {
 const ContactInfoSection = ({ title, detail }: ContactInfoSectionProps) => {
   return (
     <span className="flex items-center">
-      <p className="text-white mr-1.5">{title}</p>
-      <p className="text-lightPink">{detail}</p>
+      <p className="text-white mr-1.5 whitespace-nowrap phone:text-base text-xs ">
+        {title}
+      </p>
+      <p className="text-lightPink whitespace-nowrap phone:text-base text-xs">
+        {detail}
+      </p>
     </span>
   );
 };
