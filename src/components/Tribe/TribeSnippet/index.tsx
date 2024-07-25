@@ -70,7 +70,7 @@ const TribeSnippet = ({
     <div
       className="bg-white flex flex-col items-center 
     justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl
-     m-auto w-[300px] relative group/item"
+     m-auto largePhone:w-[300px] relative group/item w-[200px]"
     >
       {newPosts && newPosts.length > 0 && (
         <Badge className="bg-purple absolute left-1 top-1 rounded-3xl">
@@ -100,7 +100,7 @@ const TribeSnippet = ({
       />
       {!isMember && (
         <Button
-          className="my-2 move-button py-3"
+          className="my-2 move-button "
           size={'slg'}
           disabled={isPending}
           onClick={joinTribe}

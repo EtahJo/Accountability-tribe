@@ -4,7 +4,7 @@ import { FaUsers } from 'react-icons/fa';
 
 const ProfileImage = ({ image }: { image?: string | null }) => {
   return (
-    <Avatar className="w-[80px]  h-[80px] shadow-lg">
+    <Avatar className="largePhone:w-[80px]  largePhone:h-[80px] shadow-lg w-[50px] h-[50px]">
       {image ? (
         <CldImage
           width={'100'}

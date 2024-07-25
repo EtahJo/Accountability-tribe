@@ -22,11 +22,13 @@ const TribeDetails = ({
 }: TribeDetailsProps) => {
   return (
     <Link
-      className="move-button m-auto flex flex-col items-center"
+      className="move-button  flex flex-col items-center"
       href={!manage ? `/tribe/${tribeId}` : ''}
     >
       <ProfileImage image={image} />
-      <p className="font-bold text-purple text-xl whitespace-nowrap">{name}</p>
+      <p className="font-bold text-purple largePhone:text-xl whitespace-nowrap text-lg">
+        {name}
+      </p>
       {members && (
         <p className="whitespace-nowrap">
           {members} {members > 1 ? 'members' : 'member'}
@@ -34,8 +36,11 @@ const TribeDetails = ({
       )}
 
       {desc && (
-        <div className="bg-lighterPink mx-2 rounded-xl p-2">
-          <FullTextOnHover text={desc} className="w-[200px] text-center" />
+        <div className="bg-lighterPink largePhone:mx-2 rounded-xl p-2 ">
+          <FullTextOnHover
+            text={desc}
+            className="largePhone:w-[200px] text-center w-[150px]"
+          />
         </div>
       )}
     </Link>
