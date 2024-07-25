@@ -66,8 +66,8 @@ const RecommendedTribesCarousel = ({ userId }: RecommendedTribesProps) => {
           )}
         </CarouselContent>
 
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="w-5 h-5 bg-lightPink text-white shadow-3xl" />
+        <CarouselNext className="w-5 h-5 bg-lightPink text-white shadow-3xl" />
       </Carousel>
     </div>
   );
