@@ -26,7 +26,7 @@ const HomeLoggedIn = () => {
   );
 
   return (
-    <div className="pb-48 px-20">
+    <div className="pb-48 largePhone:px-20 px-5">
       <HeroLoggedIn />
       {/* <SectionHeader name="Take Note" /> */}
       <div
@@ -53,7 +53,7 @@ const HomeLoggedIn = () => {
           </div>
         </div>
 
-        <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col  lg:w-[420px] w-full">
+        <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col  lg:w-[450px] w-full">
           <h1 className="text-2xl font-bold text-white uppercase mb-3">
             {' '}
             Your Next Session

@@ -24,8 +24,7 @@ const CustomInput = ({
   inputClassNames,
   labelIcon,
   setValue,
-}: // defaultValue,
-CustomInputTypes & InputLabelProps) => {
+}: CustomInputTypes & InputLabelProps) => {
   const onChange = (e: any) => {
     setValue(e.target.value);
   };
@@ -36,7 +35,7 @@ CustomInputTypes & InputLabelProps) => {
       )}
       <div
         className={cn(
-          'shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex align-middle',
+          'shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex align-middle max-[538px]:w-[200px] ',
           inputClassNames
         )}
       >
@@ -47,27 +46,22 @@ CustomInputTypes & InputLabelProps) => {
             placeholder={placeholder}
             onChange={changeEvent || onChange}
             value={value}
-            // autoComplete="off"
             disabled={disabled}
-            // defaultValue={defaultValue}
             className={cn(
-              'bg-transparent px-5 py-2 w-full placeholder:text-gray-400 focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0 border-none',
+              'bg-transparent px-5 py-2 w-full placeholder:text-gray-400 focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0 border-none ',
               className
             )}
           />
         ) : (
           <Input
-            // autoComplete="off"
             type={type}
             placeholder={placeholder}
             name={name}
             required={required}
             onChange={changeEvent || onChange}
             value={value}
-            // ng-name={name}
             className="bg-transparent border-none"
             disabled={disabled}
-            // defaultValue={defaultValue}
           />
         )}
         {Icon && (

@@ -16,9 +16,12 @@ const TimeDurationDetails = ({
   duration,
 }: TimeDurationDetailsProps) => {
   return (
-    <div className="flex flex-col gap-y-6">
-      <div className="flex justify-between mx-4">
-        <div className="flex items-start gap-2">
+    <div className="flex flex-col gap-y-6 text-xs min-[441px]:text-sm">
+      <div
+        className="flex min-[586px]:justify-between min-[586px]:flex-row flex-col justify-center min-[586px]:items-start 
+      items-center min-[586px]:gap-y-0 gap-y-2"
+      >
+        <div className="flex items-start gap-2 min-[586px]:border-b-transparent border-b border-b-lightPink min-[586px]:pb-0 pb-2">
           <p className="font-bold">Start:</p>
           <span>
             <p>{startDate}</p>
@@ -33,7 +36,7 @@ const TimeDurationDetails = ({
           </span>
         </div>
       </div>
-      <span className="flex items-center gap-1 mx-4">
+      <span className="flex items-center gap-1 mx-4 min-[586px]:justify-start justify-center">
         <FaClock className="text-purple" />
         <p className="font-bold">Duration:</p>
         <p className="  rounded-md px-2 py-px bg-lightPink">

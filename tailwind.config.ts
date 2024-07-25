@@ -42,7 +42,7 @@ const config = {
       screens: {
         phone: '374px',
         medPhone: '439px',
-        largePhone: '524px',
+        largePhone: '582px',
         '350': '350px',
       },
       keyframes: {

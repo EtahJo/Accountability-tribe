@@ -27,7 +27,6 @@ const SessionNewTitleForm = ({
   const [newGoal, setNewGoal] = useState(goal);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
-  const [editGoal, setEditGoal] = useState(false);
   const onValidSubmit = (vals: z.infer<typeof EditSessionSchema>) => {
     startTransition(async () => {
       edit_session_goal(vals, sessionId)
@@ -59,7 +58,10 @@ const SessionNewTitleForm = ({
     // setEditGoal(false);
   };
   return (
-    <Formsy className="flex flex-col gap-y-2" onValidSubmit={onValidSubmit}>
+    <Formsy
+      className="flex flex-col gap-y-2 justify-center items-center"
+      onValidSubmit={onValidSubmit}
+    >
       <Custominput
         textArea
         name="goal"
@@ -70,7 +72,12 @@ const SessionNewTitleForm = ({
       />
       {error && <FormError message={error} />}
       {success && <FormSuccess message={success} />}
-      <Button type="submit" className="move-button" disabled={isPending}>
+      <Button
+        type="submit"
+        className="move-button"
+        disabled={isPending}
+        size={'slg'}
+      >
         Update
       </Button>
       <Button
@@ -78,6 +85,7 @@ const SessionNewTitleForm = ({
         className="move-button"
         onClick={doneFunction}
         disabled={isPending}
+        size={'slg'}
       >
         Done
       </Button>
