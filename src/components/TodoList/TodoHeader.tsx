@@ -48,7 +48,7 @@ const TodoHeader = ({
     <div className="flex gap-x-2 items-center">
       {user?.id === userId ? (
         <div
-          className="h-6 w-6 bg-transparent border-lightPink border-2 rounded-full flex items-center justify-center cursor-pointer "
+          className="h-4 w-4 bg-transparent border-lightPink border-2 rounded-full flex items-center justify-center cursor-pointer "
           onClick={() => {
             setCompleted((prev) => !prev);
             if (status === 'COMPLETE') {
@@ -63,6 +63,7 @@ const TodoHeader = ({
               'text-purple m-auto',
               status === 'COMPLETE' || completed ? 'block' : 'hidden'
             )}
+            size={20}
           />
         </div>
       ) : (
@@ -70,10 +71,10 @@ const TodoHeader = ({
       )}
 
       <div>
-        <p className="font-bold min-[417px]:text-base text-start   text-xs">
+        <p className="font-bold largePhone:text-base text-start   text-xs">
           {title}
         </p>
-        <div className="flex min-[417px]:items-center gap-2 min-[417px]:flex-row flex-col items-start">
+        <div className="flex largePhone:items-center gap-2 largePhone:flex-row flex-col items-start">
           <PriorityUpdate priority={priority} taskId={taskId} userId={userId} />
           <StatusUpdate status={status} taskId={taskId} userId={userId} />
         </div>

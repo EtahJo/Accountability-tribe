@@ -61,7 +61,7 @@ const PriorityUpdate = ({ priority, taskId, userId }: PriorityUpdateProps) => {
           <PopoverTrigger asChild>
             <p
               className={cn(
-                'text-white bg-purple rounded-xl px-2 py-px text-xs whitespace-nowrap cursor-pointer',
+                'text-white bg-purple rounded-xl px-2 py-px text-xs whitespace-nowrap cursor-pointer shadow-3xl',
                 priority === 2 && 'bg-green-600',
                 priority === 3 && 'bg-gray-500',
                 priority === 1 && 'bg-purple'

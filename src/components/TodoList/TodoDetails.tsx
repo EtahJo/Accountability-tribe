@@ -21,14 +21,14 @@ const TodoDetails = ({
   return (
     <div
       className={cn(
-        'bg-lighterPink mt-3 rounded-2xl p-2 flex items-center justify-between'
+        'bg-lighterPink mt-3 rounded-2xl p-2 flex items-center largePhone:justify-between largePhone:flex-row flex-col justify-center'
       )}
     >
       <div className=" flex flex-col gap-1">
         <FullTextOnHover
           text={description as string}
           textClassName="top-0"
-          className="w-52"
+          className="largePhone:w-52 w-32"
         />
 
         <span className="flex">
@@ -40,7 +40,7 @@ const TodoDetails = ({
       </div>
       {sessionParticipants?.length > 0 && (
         <Badge
-          className="whitespace-nowrap w-28 cursor-pointer pr-2"
+          className="whitespace-nowrap largePhone:w-28 cursor-pointer pr-2 w-max"
           onClick={() => {
             if (sessionParticipants.length > 0) {
               setIsOpenModal(true);

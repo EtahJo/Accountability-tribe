@@ -43,7 +43,7 @@ const Todo = ({
       type="single"
       collapsible
       className={cn(
-        'bg-white rounded-2xl my-2 min-[417px]:w-[320px] shadow-3xl mx-2 p-2 w-[200px]'
+        'bg-white rounded-2xl my-2 largePhone:w-[320px] shadow-3xl  p-2 min-[348px]:w-[200px] w-[170px]'
       )}
     >
       <AccordionItem value={taskId} className="border-b-0">

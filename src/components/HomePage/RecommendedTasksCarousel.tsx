@@ -52,7 +52,7 @@ const RecommendedTasksCarousel = () => {
     );
   }
   return (
-    <div className="mx-4">
+    <div className="largePhone:mx-4 mx-3">
       <Carousel
         opts={{
           align: 'center',
@@ -71,7 +71,10 @@ const RecommendedTasksCarousel = () => {
               description,
               sessionParticipants,
             }: any) => (
-              <CarouselItem key={id} className="lg:basis-1/2 md:basis-1/2">
+              <CarouselItem
+                key={id}
+                className="min-[922px]:basis-1/2 basis-2/2 flex-col"
+              >
                 <Todo
                   title={title}
                   priority={priority}
@@ -89,8 +92,8 @@ const RecommendedTasksCarousel = () => {
           )}
         </CarouselContent>
 
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="w-5 h-5 bg-lightPink text-white shadow-3xl" />
+        <CarouselNext className="w-5 h-5 bg-lightPink text-white shadow-3xl" />
       </Carousel>
     </div>
   );
