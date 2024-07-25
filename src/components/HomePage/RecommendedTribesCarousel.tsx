@@ -21,11 +21,20 @@ const RecommendedTribesCarousel = ({ userId }: RecommendedTribesProps) => {
   );
   if (isLoading || recommendedTribes === undefined) {
     return (
-      <div className="flex items-center gap-x-2">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <TribeSkeleton key={index} />
-        ))}
-      </div>
+      <Carousel
+        opts={{
+          align: 'center',
+        }}
+        className="w-full "
+      >
+        <CarouselContent className="w-full">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <CarouselItem className="min-[1450px]:basis-1/3 basis-2/2 flex-col">
+              <TribeSkeleton key={index} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
     );
   }
 
@@ -48,7 +57,10 @@ const RecommendedTribesCarousel = ({ userId }: RecommendedTribesProps) => {
               tribeVisit,
               newPosts,
             }: any) => (
-              <CarouselItem key={id} className="lg:basis-1/3 md:1/2">
+              <CarouselItem
+                key={id}
+                className="min-[1450px]:basis-1/3 basis-2/2 flex-col"
+              >
                 <TribeSnippet
                   key={id}
                   name={name}

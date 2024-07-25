@@ -7,7 +7,7 @@ const TribeSkeleton = () => {
       className="
   bg-white flex flex-col items-center 
     justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl
-     m-auto w-[300px]  "
+     m-auto largePhone:w-[300px] w-[200px] "
     >
       <Skeleton className="w-[80px]  h-[80px] shadow-lg rounded-full" />
       <Skeleton className="h-4 w-[100px]" />

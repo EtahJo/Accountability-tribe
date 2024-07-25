@@ -31,11 +31,23 @@ const RecommendedTasksCarousel = () => {
   );
   if (isLoading || highPriorityTasks === undefined) {
     return (
-      <div className="flex items-center gap-x-2">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <TaskSkeleton key={index} />
-        ))}
-      </div>
+      <Carousel
+        opts={{
+          align: 'center',
+        }}
+        className="w-full "
+      >
+        <CarouselContent className="w-full">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <CarouselItem
+              className="min-[1450px]:basis-1/3 basis-2/2 flex-col "
+              key={index}
+            >
+              <TaskSkeleton />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
     );
   }
   if (highPriorityTasks?.length === 0) {
@@ -73,7 +85,7 @@ const RecommendedTasksCarousel = () => {
             }: any) => (
               <CarouselItem
                 key={id}
-                className="min-[922px]:basis-1/2 basis-2/2 flex-col"
+                className="min-[1450px]:basis-1/3 basis-2/2 flex-col "
               >
                 <Todo
                   title={title}

@@ -36,7 +36,7 @@ const HomeLoggedIn = () => {
       >
         <div className="xl:w-3/4 w-full">
           <div className="bg-purple p-10 rounded-5xl my-5 flex flex-col w-full">
-            <h1 className="text-2xl font-bold text-white uppercase mb-3">
+            <h1 className="largePhone:text-2xl font-bold text-white uppercase mb-3 text-lg largePhone:text-start text-center">
               {' '}
               Some High Priority Task
             </h1>
@@ -45,7 +45,7 @@ const HomeLoggedIn = () => {
           </div>
 
           <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col w-full ">
-            <h1 className="text-2xl font-bold text-white uppercase ml-5">
+            <h1 className="largePhone:text-2xl font-bold text-white uppercase mb-3 text-lg largePhone:text-start text-center ,l-5">
               {' '}
               Some Tribes to Visit
             </h1>
@@ -54,7 +54,7 @@ const HomeLoggedIn = () => {
         </div>
 
         <div className="bg-purple p-5 rounded-5xl my-5 flex flex-col  xl:w-[450px] w-full">
-          <h1 className="text-2xl font-bold text-white uppercase mb-3">
+          <h1 className="largePhone:text-2xl font-bold text-white uppercase mb-3 text-lg largePhone:text-start text-center">
             {' '}
             Your Next Session
           </h1>
@@ -85,7 +85,9 @@ const HomeLoggedIn = () => {
               className="bg-white mx-10 w-3/4 p-5 flex flex-col 
             items-center justify-center rounded-2xl gap-4 "
             >
-              <p className="whitespace-nowrap text-xl">No Upcoming Session</p>
+              <p className="whitespace-nowrap largePhone:text-xl text-base">
+                No Upcoming Session
+              </p>
               <Link href={'/create-session'}>
                 <Button className="move-button">Create Session</Button>
               </Link>
