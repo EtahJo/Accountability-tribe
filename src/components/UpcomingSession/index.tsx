@@ -58,13 +58,19 @@ const UpcomingSession = ({
   const timeLeft = parseFloat(getTimeDifference(startDateTime).minutes);
 
   return (
-    <div className="bg-white p-3 w-[400px]  rounded-3xl flex items-center gap-2  justify-between move-button cursor-pointer m-4  shadow-3xl">
+    <div
+      className="bg-white p-3 largePhone:w-[380px]  rounded-3xl flex items-center gap-2  largePhone:justify-between move-button cursor-pointer m-4 
+     shadow-3xl justify-center largePhone:flex-row flex-col w-[250px]"
+    >
       <div
-        className="flex items-center gap-1"
+        className="flex items-center gap-1 largePhone:flex-row flex-col"
         onClick={() => setModalIsOpen(true)}
       >
         <SessionDuration duration={duration} />
-        <div>
+        <div
+          className="flex flex-col
+        largePhone:justify-start justify-center items-center largePhone:items-start"
+        >
           <FullTextOnHover text={goal} isAfter={checkIfAfter} />
           <PeriodCheck
             isTodayCheck={isTodayCheck}
