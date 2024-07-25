@@ -8,6 +8,8 @@ import Todo from '@/components/TodoList/Todo';
 import ToolTip from '@/components/ToolTip/index';
 import { cn } from '@/lib/utils';
 import AddTaskToSessionForm from '@/components/Forms/AddTaskToSessionForm';
+import DeleteConfirmation from '../Confirmations/DeleteConfirmation';
+import { Button } from '@/components/ui/button';
 
 interface SessionTasksProps {
   tasks?: {}[];
@@ -47,7 +49,7 @@ const SessionTasks = ({
     });
   };
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center relative">
       {tasks?.map(({ task }: any) => (
         <div className="flex items-center gap-1" key={task.id}>
           <Todo
@@ -62,23 +64,35 @@ const SessionTasks = ({
             userId={task.userId}
             pageUsername={pageUsername}
           />
-          <ToolTip
+          <DeleteConfirmation
             trigger={
-              <p
+              <ToolTip
+                trigger={
+                  <Button
+                    className={cn(
+                      'font-bold hover:text-purple cursor-pointer',
+                      isPending ? 'opacity-50' : 'opacity-100'
+                    )}
+                  >
+                    X
+                  </Button>
+                }
+              >
+                <p>Remove task from session</p>
+              </ToolTip>
+            }
+            confirmationMessage="Are you sure you want to remove task from session?"
+            consequenceMessage=""
+            action={
+              <Button
                 onClick={() => {
                   removeTaskFromSession(task.id);
                 }}
-                className={cn(
-                  'font-bold hover:text-purple cursor-pointer',
-                  isPending ? 'opacity-50' : 'opacity-100'
-                )}
               >
-                X
-              </p>
+                Remove
+              </Button>
             }
-          >
-            <p>Remove task from session</p>
-          </ToolTip>
+          />
         </div>
       ))}
       {isMember && !isAfter && pageUsername === user.username && (

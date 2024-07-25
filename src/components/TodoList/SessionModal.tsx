@@ -60,7 +60,6 @@ const SessionModal = ({
               userId={sessionParticipant.userId}
               sessionParticipantId={sessionParticipant.id}
               pageUser={user}
-              // tasks={}
             />
             <ToolTip
               trigger={
