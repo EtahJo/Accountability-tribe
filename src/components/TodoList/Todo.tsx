@@ -13,7 +13,7 @@ import { Task } from '@prisma/client';
 import TodoHeader from '@/components/TodoList/TodoHeader';
 import DeleteTodo from './DeleteTodo';
 import TodoDetails from '@/components/TodoList/TodoDetails';
-import EditTask from '@/components/GoTo/EditTask';
+import GoToButton from '@/components/GoTo/index';
 
 interface TodoProps {
   taskId: string;
@@ -66,7 +66,7 @@ const Todo = ({
           />
           {user?.id === userId && (
             <div>
-              <EditTask taskId={taskId} />
+              <GoToButton href={`/edit-task/${taskId}`} title="Edit" />
               <DeleteTodo taskId={taskId} />
             </div>
           )}

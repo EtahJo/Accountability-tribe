@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { FaClock, FaCalendar } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { formatDateTime, getTimeDifference } from '@/util/DateTime';
 import { isAfter, isToday, isThisWeek, isBefore } from 'date-fns';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import Link from 'next/link';
+import GotoButton from '@/components/GoTo/index';
 
 export interface UpcomingSessionProps {
   goal: string;
@@ -53,7 +54,6 @@ const UpcomingSession = ({
 
   const now = new Date();
   const isTodayCheck = isToday(startDateTime);
-  const isWeekCheck = isThisWeek(startDateTime);
   const checkIfAfter = isAfter(now, endDateTime);
   const onGoing = isAfter(now, startDateTime) && isBefore(now, endDateTime);
   const timeLeft = parseFloat(getTimeDifference(startDateTime).minutes);
@@ -119,7 +119,7 @@ const UpcomingSession = ({
         </div>
       </div>
 
-      {timeLeft <= 0 && !isAfter && (
+      {onGoing && (
         <Button className="move-button ">
           <Link
             href={meetingLink || '/'}
@@ -130,12 +130,9 @@ const UpcomingSession = ({
           </Link>
         </Button>
       )}
-      {timeLeft > 2 && !isAfter && isAdmin && (
-        <Button className="move-button ">
-          <Link href={`/edit-session/${sessionId}`}>Edit</Link>
-        </Button>
+      {timeLeft > 2 && !checkIfAfter && isAdmin && (
+        <GotoButton title="Edit" href={`/edit-session/${sessionId}`} />
       )}
-      {/* {isAfter&&} */}
 
       <UpcomingSessionDetailModal
         isOpen={modalIsOpen}
