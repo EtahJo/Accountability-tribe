@@ -75,10 +75,3 @@ export type TribeSnippetType = {
   name: string;
   members: number;
 };
-export type TribeSnippetTwoType = {
-  profileImage: StaticImageData;
-  tribeName: string;
-  members: number;
-  description: string;
-  link: string;
-};
