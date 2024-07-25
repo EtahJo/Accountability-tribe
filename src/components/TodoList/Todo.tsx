@@ -1,28 +1,19 @@
 'use client';
-import { useState, useTransition } from 'react';
-import { FaCheck } from 'react-icons/fa';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useCurrentUser } from '@/hooks/use-current-user';
-import FullTextOnHover from '../FullTextOnHover/index';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Badge } from '@/components/ui/badge';
-import { formatDateTime } from '@/util/DateTime';
-import { edit_task } from '@/action/task/edit-task';
-import { delete_task } from '@/action/task/delete-task';
-import StatusUpdate from '@/components/TodoList/StatusUpdate';
 import SessionModal from '@/components/TodoList/SessionModal';
-import PriorityUpdate from '@/components/TodoList/PriorityUpdate';
 import { Task } from '@prisma/client';
-import { mutate } from 'swr';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
-import { toast } from 'sonner';
+import TodoHeader from '@/components/TodoList/TodoHeader';
+import DeleteTodo from './DeleteTodo';
+import TodoDetails from '@/components/TodoList/TodoDetails';
+import EditTask from '@/components/GoTo/EditTask';
 
 interface TodoProps {
   taskId: string;
@@ -35,8 +26,6 @@ const Todo = ({
   description,
   status,
   pageUsername,
-
-  // id,
   dueDate,
   sessionParticipants,
   taskId,
@@ -47,52 +36,8 @@ const Todo = ({
 > &
   TodoProps) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [completed, setCompleted] = useState(false);
-  const [isPending, startTransition] = useTransition();
   const { user }: any = useCurrentUser();
-  const deleteTask = () => {
-    startTransition(() => {
-      delete_task(taskId).then((data) => {
-        if (data?.error) {
-          toast.error(data.error);
-        }
-        if (data.success) {
-          toast.success(data.success);
-          mutate(
-            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/high-priority`
-          );
-          mutate(
-            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
-          );
-          mutate(
-            `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
-          );
-          mutate(
-            `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
-          );
-        }
-      });
-    });
-  };
-  const onUpdateSuccess = (data: any) => {
-    if (data.success) {
-      mutate(
-        `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/high-priority`
-      );
-      mutate(
-        `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
-      );
-      mutate(
-        `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
-      );
-      mutate(
-        `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
-      );
-      mutate(
-        `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/completed-task`
-      );
-    }
-  };
+
   return (
     <Accordion
       type="single"
@@ -101,106 +46,26 @@ const Todo = ({
     >
       <AccordionItem value={taskId} className="border-b-0">
         <AccordionTrigger className="hover:no-underline">
-          <div className="flex gap-x-2 items-center">
-            {user?.id === userId ? (
-              <div
-                className="h-6 w-6 bg-transparent border-lightPink border-2 rounded-full flex items-center justify-center cursor-pointer "
-                onClick={() => {
-                  setCompleted((prev) => !prev);
-                  if (status === 'COMPLETE') {
-                    edit_task({ status: 'PROGRESS' }, taskId).then(
-                      onUpdateSuccess
-                    );
-                  } else {
-                    edit_task({ status: 'COMPLETE' }, taskId).then(
-                      onUpdateSuccess
-                    );
-                  }
-                }}
-              >
-                <FaCheck
-                  className={cn(
-                    'text-purple m-auto',
-                    status === 'COMPLETE' || completed ? 'block' : 'hidden'
-                  )}
-                />
-              </div>
-            ) : (
-              <div className="ml-3" />
-            )}
-
-            <div>
-              <p className="font-bold text-base text-start">{title}</p>
-              <div className="flex items-center gap-2 ">
-                <PriorityUpdate
-                  priority={priority}
-                  taskId={taskId}
-                  userId={userId}
-                />
-                <StatusUpdate status={status} taskId={taskId} userId={userId} />
-              </div>
-            </div>
-          </div>
+          <TodoHeader
+            taskId={taskId}
+            userId={userId}
+            status={status}
+            title={title}
+            priority={priority}
+          />
         </AccordionTrigger>
 
         <AccordionContent>
-          <div
-            className={cn(
-              'bg-lighterPink mt-3 rounded-2xl p-2 flex items-center justify-between'
-            )}
-          >
-            <div className=" flex flex-col gap-1">
-              <FullTextOnHover
-                text={description as string}
-                textClassName="top-0"
-                className="w-52"
-              />
-
-              <span className="flex">
-                <p>Due: </p>
-                <p className="text-purple font-bold">
-                  {formatDateTime(dueDate as any, user?.timezone).date}
-                </p>
-              </span>
-            </div>
-            {sessionParticipants?.length > 0 && (
-              <Badge
-                className="whitespace-nowrap w-28 cursor-pointer pr-2"
-                onClick={() => {
-                  if (sessionParticipants.length > 0) {
-                    setIsOpenModal(true);
-                  }
-                }}
-              >
-                In {sessionParticipants?.length} Sessions
-              </Badge>
-            )}
-          </div>
+          <TodoDetails
+            description={description}
+            dueDate={dueDate}
+            sessionParticipants={sessionParticipants}
+            setIsOpenModal={setIsOpenModal}
+          />
           {user?.id === userId && (
             <div>
-              <Link
-                href={`/edit-task/${taskId}`}
-                className="flex justify-center mt-2"
-              >
-                <Button size={'slg'} className="py-2">
-                  Edit
-                </Button>
-              </Link>
-              <DeleteConfirmation
-                trigger={
-                  <Button
-                    className="py-2 mt-2"
-                    size={'slg'}
-                    variant="destructive"
-                    disabled={isPending}
-                  >
-                    Delete Task
-                  </Button>
-                }
-                confirmationMessage="Are you sure you want to delete task?"
-                consequenceMessage="This action is not reversible"
-                action={<Button onClick={deleteTask}>Delete</Button>}
-              />
+              <EditTask taskId={taskId} />
+              <DeleteTodo taskId={taskId} />
             </div>
           )}
         </AccordionContent>
