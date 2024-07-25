@@ -27,7 +27,9 @@ const ModalWrapper = ({
       )}
       closeTimeoutMS={100}
     >
-      {children}
+      <div className="h-[700px] overflow-y-scroll overflow-x-hidden">
+        {children}
+      </div>
     </Modal>
   );
 };

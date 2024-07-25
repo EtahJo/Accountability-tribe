@@ -38,13 +38,9 @@ const SessionModal = ({
     });
   };
   return (
-    <ModalWrapper
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      className="bg-white w-1/2 "
-    >
-      <div className="flex flex-col justify-center items-center">
-        <h1 className="font-bold text-2xl">Task Sessions</h1>
+    <ModalWrapper isOpen={isOpen} onRequestClose={onRequestClose} className=" ">
+      <div className="flex flex-col justify-center items-center bg-white rounded-3xl shadow-3xl relative">
+        <h1 className="font-bold text-2xl ">Task Sessions</h1>
         {sessionParticipants?.map(({ sessionParticipant }: any) => (
           <div
             className="flex items-center gap-1 relative"

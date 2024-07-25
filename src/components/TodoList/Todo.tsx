@@ -65,8 +65,12 @@ const Todo = ({
             setIsOpenModal={setIsOpenModal}
           />
           {user?.id === userId && (
-            <div>
-              <GoToButton href={`/edit-task/${taskId}`} title="Edit" />
+            <div className="my-2">
+              <GoToButton
+                href={`/edit-task/${taskId}`}
+                title="Edit"
+                size={'slg'}
+              />
               <DeleteTodo taskId={taskId} />
             </div>
           )}

@@ -1,5 +1,5 @@
 'use client';
-import { Button } from '@/components/ui/button';
+import { Button, ButtonProps } from '@/components/ui/button';
 import Link, { LinkProps } from 'next/link';
 
 interface GotoButtonProps {
@@ -9,10 +9,11 @@ interface GotoButtonProps {
 const GotoButton = ({
   title,
   href,
+  size,
   ...linkProps
-}: GotoButtonProps & LinkProps) => {
+}: GotoButtonProps & LinkProps & Pick<ButtonProps, 'size'>) => {
   return (
-    <Button className="move-button ">
+    <Button className="move-button " size={size}>
       <Link {...linkProps} href={href}>
         {title}
       </Link>
