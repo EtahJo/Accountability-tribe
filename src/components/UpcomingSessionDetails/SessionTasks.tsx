@@ -85,7 +85,6 @@ const SessionTasks = ({
                 </ToolTip>
               }
               confirmationMessage="Are you sure you want to remove task from session?"
-              consequenceMessage=""
               action={
                 <Button
                   onClick={() => {

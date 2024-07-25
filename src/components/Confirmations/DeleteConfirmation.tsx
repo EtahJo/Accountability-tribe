@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 interface DeleteConfirmationProps {
   trigger: React.ReactNode;
   confirmationMessage: string;
-  consequenceMessage: string;
+  consequenceMessage?: string;
   action: React.ReactNode;
 }
 

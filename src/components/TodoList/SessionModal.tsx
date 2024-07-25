@@ -6,7 +6,9 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 import { Props } from 'react-modal';
 import { remove_task_from_session } from '@/action/task/remove-task-from-session';
 import ToolTip from '@/components/ToolTip/index';
+import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
 import { toast } from 'sonner';
+import { Button } from '../ui/button';
 
 interface SessionModalProps {
   sessionParticipants: {}[];
@@ -44,7 +46,10 @@ const SessionModal = ({
       <div className="flex flex-col justify-center items-center">
         <h1 className="font-bold text-2xl">Task Sessions</h1>
         {sessionParticipants?.map(({ sessionParticipant }: any) => (
-          <div className="flex items-center gap-1" key={sessionParticipant.id}>
+          <div
+            className="flex items-center gap-1 relative"
+            key={sessionParticipant.id}
+          >
             <UpcomingSession
               startDateTime={sessionParticipant.session.startDateTime}
               goal={sessionParticipant.goal || sessionParticipant.session.goal}
@@ -61,20 +66,35 @@ const SessionModal = ({
               sessionParticipantId={sessionParticipant.id}
               pageUser={user}
             />
-            <ToolTip
-              trigger={
-                <p
-                  onClick={() => {
-                    removeTaskFromSession(sessionParticipant.id);
-                  }}
-                  className="font-bold hover:text-purple cursor-pointer"
-                >
-                  X
-                </p>
-              }
-            >
-              <p>Remove task from session</p>
-            </ToolTip>
+            <div className="absolute top-0 right-0 m-3">
+              <DeleteConfirmation
+                trigger={
+                  <ToolTip
+                    trigger={
+                      <Button
+                        className="font-bold hover:text-purple cursor-pointer m-1"
+                        size={'sm'}
+                        variant={'ghost'}
+                      >
+                        X
+                      </Button>
+                    }
+                  >
+                    <p>Remove task from session</p>
+                  </ToolTip>
+                }
+                confirmationMessage="Are sure you want to remove this session from task?"
+                action={
+                  <Button
+                    onClick={() => {
+                      removeTaskFromSession(sessionParticipant.id);
+                    }}
+                  >
+                    Remove Session
+                  </Button>
+                }
+              />
+            </div>
           </div>
         ))}
       </div>
