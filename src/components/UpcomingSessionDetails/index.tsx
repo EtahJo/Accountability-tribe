@@ -64,7 +64,7 @@ const UpcomingSessionDetail = ({
   const onGoing = isAfter(now, startDateTime) && isBefore(now, endDateTime);
 
   return (
-    <div className="bg-white p-5 rounded-3xl shadow-3xl ">
+    <div className="bg-white min-[489px]:p-5 rounded-3xl shadow-3xl p-1 ">
       <UpcomingSessionDetailHeader
         isThisWeekCheck={isWeekCheck}
         timeLeft={timeLeft}
