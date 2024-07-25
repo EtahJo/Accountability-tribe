@@ -85,6 +85,7 @@ const DuplicateSession = ({
             value={newGoal}
             disabled={isPending}
           />
+
           <SelectTasks
             name="taskIds"
             options={pageUser?.tasks as { id: string; title: string }[]}

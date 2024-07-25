@@ -56,10 +56,12 @@ const AddTaskToSessionForm = ({
       onValidSubmit={addTaskToSession}
       className="flex flex-col justify-center items-center"
     >
-      <SelectTasks
-        name="taskIds"
-        options={taskGoodToAdd as { id: string; title: string }[]}
-      />
+      <div className="min-[417px]:w-[300px] w-[200px]">
+        <SelectTasks
+          name="taskIds"
+          options={taskGoodToAdd as { id: string; title: string }[]}
+        />
+      </div>
 
       <Button type="submit" size={'slg'} className="py-2" disabled={isPending}>
         Add Tasks

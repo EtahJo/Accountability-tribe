@@ -74,11 +74,13 @@ const AddSession = ({ sessionId, goal }: AddSessionProps) => {
             value={newGoal}
             disabled={isPending}
           />
+
           <SelectTasks
             lable="Add Tasks"
             name="taskIds"
             options={user.tasks as { id: string; title: string }[]}
           />
+
           {error && <FormError message={error} />}
           {success && <FormSuccess message={success} />}
           <Button
