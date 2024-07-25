@@ -1,30 +1,19 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Avatar } from '@/components/ui/avatar';
-import { FaUser } from 'react-icons/fa';
 import Link from 'next/link';
-import { CldImage } from 'next-cloudinary';
-
-import { FaFacebook, FaLinkedin, FaTwitter, FaEdit } from 'react-icons/fa';
-import countries from 'i18n-iso-countries';
-import enLocale from 'i18n-iso-countries/langs/en.json';
-import { format } from 'libphonenumber-js';
+import { FaEdit } from 'react-icons/fa';
 import { User } from '@prisma/client';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import SocialMedia from '@/components/UserProfile/ProfileHeader/SocialMedia';
+import ContactInfo from '@/components/UserProfile/ProfileHeader/ContactInfo';
+import UserProfileImage from '@/components/UserProfile/ProfileHeader/UserProfileImage';
 
-countries.registerLocale(enLocale);
 interface ProfileHeaderProps {
   user: User;
 }
 const ProfileHeader = ({ user }: ProfileHeaderProps) => {
   const { session }: any = useCurrentUser();
-  const phoneNumber = user?.number;
-  const countryCode = user?.number?.split(',')[0].toUpperCase() as any;
-  const countryName = countries.getName(user?.country as string, 'en');
-  const formatedNumber = phoneNumber
-    ? format(phoneNumber, countryCode, 'INTERNATIONAL')
-    : '';
   return (
     <div className="py-10">
       <div className="bg-purple grid grid-cols-12 justify-between rounded-5xl mx-10 pt-10 ">
@@ -36,10 +25,7 @@ const ProfileHeader = ({ user }: ProfileHeaderProps) => {
             </span>
 
             {session && user?.id === session?.data?.user.id && (
-              <Button
-                // variant={'primary'}
-                className="bg-black hover:bg-lightPink flex items-center gap-1 align-middle justify-between group move-button"
-              >
+              <Button className="bg-black hover:bg-lightPink flex items-center gap-1 align-middle justify-between group move-button">
                 <Link href={'/edit-profile'}>Edit information</Link>
                 <FaEdit
                   size={20}
@@ -49,86 +35,13 @@ const ProfileHeader = ({ user }: ProfileHeaderProps) => {
             )}
           </div>
           <div className="flex justify-between">
-            <div>
-              <span className="flex items-center">
-                <p className="text-white mr-1.5">Email:</p>
-                <p className="text-lightPink">{user?.email}</p>
-              </span>
-              {user?.country && (
-                <span className="flex items-center">
-                  <p className="text-white mr-1.5">Country:</p>
-                  <p className="text-lightPink">{countryName}</p>
-                </span>
-              )}
-              {user?.number && (
-                <span className="flex items-center">
-                  <p className="text-white mr-1.5">Phone Number:</p>
-                  <p className="text-lightPink">{formatedNumber}</p>
-                </span>
-              )}
-            </div>
-            <div className="flex items-center gap-x-2">
-              {user?.facebook && (
-                <Link
-                  href={user?.facebook}
-                  passHref
-                  target={'_blank'}
-                  rel="noopener noreferrer"
-                  className="bg-white rounded-full p-px hover:bg-lightPink
-                   hover:shadow-3xl cursor-pointer move-button"
-                >
-                  <FaFacebook size={40} />
-                </Link>
-              )}
-              {user?.X && (
-                <Link
-                  href={user?.X}
-                  passHref
-                  target={'_blank'}
-                  rel="noopener noreferrer"
-                  className="bg-white rounded-full p-1.5  hover:bg-lightPink hover:shadow-3xl cursor-pointer
-                  move-button"
-                >
-                  <FaTwitter size={35} />
-                </Link>
-              )}
-              {user?.linkedIn && (
-                <Link
-                  href={user?.linkedIn}
-                  passHref
-                  target={'_blank'}
-                  rel="noopener noreferrer"
-                  className="bg-white rounded-full p-1.5  hover:bg-lightPink hover:shadow-3xl cursor-pointer
-                move-button"
-                >
-                  <FaLinkedin size={35} />
-                </Link>
-              )}
-            </div>
+            <ContactInfo user={user} />
+            <SocialMedia user={user} />
           </div>
         </div>
 
         <div className="col-start-10 col-end-12 flex flex-col h-[250px] relative w-full">
-          <Avatar className="w-[180px] h-[180px] z-10 items-center flex justify-center m-auto border-2 border-purple bg-lightPink">
-            {user?.image ? (
-              <CldImage
-                src={user?.image}
-                width="160"
-                height={'160'}
-                crop="fill"
-                sizes="100vw"
-                alt="User Profile"
-                className="rounded-full bg-white  shadow-3xl"
-              />
-            ) : (
-              <div
-                className="bg-black rounded-full p-px w-[170px]
-               h-[170px] flex justify-center align-middle items-center"
-              >
-                <FaUser className="text-white" size={120} />
-              </div>
-            )}
-          </Avatar>
+          <UserProfileImage user={user} />
           <div
             className="bg-lightPink absolute bottom-0 w-full h-[100px] border-l-2
          border-l-purple border-t-2 border-t-purple rounded-tl-5xl border-r-2 border-r-purple

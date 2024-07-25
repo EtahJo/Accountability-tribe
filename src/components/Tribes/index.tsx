@@ -33,7 +33,7 @@ const Tribes = ({ pageUsername }: TribesProps) => {
     <div className="flex flex-col justify-center">
       <SectionHeader
         name="Tribes"
-        classNames=""
+        classNames="flex-row"
         buttonTitle="Create Tribe"
         pageUsername={pageUsername}
         buttonLink="/create-tribe"
