@@ -13,23 +13,25 @@ const SectionHeader = ({
   buttonTitle,
   buttonIcon,
   classNames,
-  pageUsername,
-}: // myProfile,
-SectionHeaderType) => {
+}: SectionHeaderType) => {
   const { user }: any = useCurrentUser();
   const pathname = usePathname();
 
   return (
     <div
       className={cn(
-        'flex items-center gap-3',
+        'flex items-center gap-3 lg:flex-row flex-col lg:justify-between justify-center',
         pathname.endsWith(user.username) || !pathname.includes('user')
           ? 'justify-between'
           : 'justify-start',
         classNames
       )}
     >
-      <div className={cn('text-4xl font-bold text-shadow-lg')}>
+      <div
+        className={cn(
+          'lg:text-3xl font-bold text-shadow-lg xl:whitespace-nowrap largePhone:text-2xl text-xl text-center xl:text-start'
+        )}
+      >
         {' '}
         {icon && <div>{icon}</div>}
         <div data-testid="section_title">{name}</div>
