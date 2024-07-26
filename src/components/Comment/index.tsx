@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { getDuration } from '@/util/DateTime';
-import LikeModal from '@/components/Posts/LikeModal';
 import CommentResponseForm from '../Forms/CommentResponseForm';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { cn } from '@/lib/utils';
@@ -54,7 +53,6 @@ const Comment = ({
   isAdmin,
   edited,
 }: CommentProps) => {
-  const [openLikeModal, setOpenLikeModal] = useState(false);
   const [responding, setResponding] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [editComment, setEditComment] = useState(false);
@@ -93,10 +91,14 @@ const Comment = ({
         profileImage={profileImage}
         isAdmin={isAdmin}
         commentId={commentId}
+        duration={duration}
         showEditFunction={() => setEditComment(true)}
       />
 
-      <div className="ml-10 flex justify-between items-center">
+      <div
+        className=" flex justify-between largePhone:items-center  
+      largePhone:flex-row flex-col items-start ml-6 largePhone:ml-10"
+      >
         <EditComment
           comment={comment}
           commentId={commentId}
@@ -106,34 +108,18 @@ const Comment = ({
         />
 
         <div className="flex gap-2 items-center">
-          <p className="text-sm font-bold whitespace-nowrap">{duration}</p>
-          <div className="flex items-center gap-2">
-            <CommentLikeSection
-              commentId={commentId}
-              commentLiked={commentLiked}
-            />
+          <CommentLikeSection
+            commentId={commentId}
+            commentLiked={commentLiked}
+            commentLikes={commentLikes}
+          />
 
-            {commentLikes?.length > 0 && (
-              <p
-                className="text-purple cursor-pointer whitespace-nowrap"
-                onClick={() => setOpenLikeModal(true)}
-              >
-                {commentLikes.length}{' '}
-                {commentLikes.length > 1 ? 'Likes' : 'Like'}
-              </p>
-            )}
-          </div>
           <CommentReplies
             replies={replies}
             setResponding={setResponding}
             setShowReplies={setShowReplies}
           />
         </div>
-        <LikeModal
-          isOpen={openLikeModal}
-          onRequestClose={() => setOpenLikeModal(false)}
-          likes={commentLikes}
-        />
       </div>
       <CommentResponseForm
         commentId={commentId}

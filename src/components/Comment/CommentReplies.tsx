@@ -17,10 +17,11 @@ const CommentReplies = ({
     <div className="flex items-center gap-2">
       <div className="relative">
         <Button
+          size={'icon'}
           className="peer relative"
           onClick={() => setResponding((prev: boolean) => !prev)}
         >
-          <FaComment className="text-lightPink" />
+          <FaComment className="text-lightPink" size={15} />
         </Button>
         <p
           className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-5
@@ -31,7 +32,7 @@ const CommentReplies = ({
       </div>
       {replies?.length > 0 && (
         <p
-          className="text-lightPink cursor-pointer whitespace-nowrap"
+          className="text-lightPink cursor-pointer whitespace-nowrap largePhone:text-base  text-xs"
           onClick={() => setShowReplies((prev: boolean) => !prev)}
         >
           {' '}

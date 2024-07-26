@@ -14,6 +14,7 @@ interface CommentHeaderProps {
   isAdmin: boolean;
   authorId: string;
   commentId: string;
+  duration: string;
   showEditFunction: () => void;
 }
 
@@ -23,6 +24,7 @@ const CommentHeader = ({
   isAdmin,
   authorId,
   commentId,
+  duration,
   showEditFunction,
 }: CommentHeaderProps) => {
   const [isPending, startTransition] = useTransition();
@@ -65,13 +67,18 @@ const CommentHeader = ({
           <p className="font-semibold">{authorUsername}</p>
         </div>
       </Link>
-      <EllipsisDropdown
-        authorId={authorId}
-        isAdmin={isAdmin}
-        deleteAction={deleteComment}
-        showEditFunction={showEditFunction}
-        isPending={isPending}
-      />
+      <div className="flex justify-end items-end flex-col">
+        <EllipsisDropdown
+          authorId={authorId}
+          isAdmin={isAdmin}
+          deleteAction={deleteComment}
+          showEditFunction={showEditFunction}
+          isPending={isPending}
+        />
+        <p className=" whitespace-nowrap largePhone:text-base text-xs">
+          {duration}
+        </p>
+      </div>
     </div>
   );
 };

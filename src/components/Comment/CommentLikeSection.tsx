@@ -7,17 +7,21 @@ import { toast } from 'sonner';
 import { mutate } from 'swr';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
+import LikeModal from '@/components/Posts/LikeModal';
 
 interface CommentLikeSectionProps {
   commentLiked: boolean;
   commentId: string;
+  commentLikes: {}[];
 }
 
 const CommentLikeSection = ({
   commentLiked,
   commentId,
+  commentLikes,
 }: CommentLikeSectionProps) => {
   const [like, setLike] = useState(commentLiked);
+  const [openLikeModal, setOpenLikeModal] = useState(false);
   const { user }: any = useCurrentUser();
   const LikeComment = () => {
     if (!commentLiked) {
@@ -66,32 +70,51 @@ const CommentLikeSection = ({
     });
   };
   return (
-    <Button
-      onClick={commentLiked ? deleteCommentLike : LikeComment}
-      className="move-button"
-    >
-      {like ? (
-        <div>
-          <FaThumbsUp className="text-purple cursor-pointer peer" />
-          <p
-            className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
+    <div className="flex items-center gap-2">
+      <Button
+        onClick={commentLiked ? deleteCommentLike : LikeComment}
+        className="move-button"
+        size={'sm'}
+      >
+        {like ? (
+          <div>
+            <FaThumbsUp className="text-purple cursor-pointer peer" size={15} />
+            <p
+              className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
      left-3 hidden peer peer-hover:block text-black"
-          >
-            Liked
-          </p>
-        </div>
-      ) : (
-        <div className="relative">
-          <FaRegThumbsUp className="text-purple cursor-pointer peer" />
-          <p
-            className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
+            >
+              Liked
+            </p>
+          </div>
+        ) : (
+          <div className="relative">
+            <FaRegThumbsUp
+              className="text-purple cursor-pointer peer"
+              size={10}
+            />
+            <p
+              className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
      left-3 hidden peer peer-hover:block text-black"
-          >
-            Like
-          </p>
-        </div>
+            >
+              Like
+            </p>
+          </div>
+        )}
+      </Button>
+      {commentLikes?.length > 0 && (
+        <p
+          className="text-purple cursor-pointer whitespace-nowrap largePhone:text-base text-xs"
+          onClick={() => setOpenLikeModal(true)}
+        >
+          {commentLikes.length} {commentLikes.length > 1 ? 'Likes' : 'Like'}
+        </p>
       )}
-    </Button>
+      <LikeModal
+        isOpen={openLikeModal}
+        onRequestClose={() => setOpenLikeModal(false)}
+        likes={commentLikes as any}
+      />
+    </div>
   );
 };
 

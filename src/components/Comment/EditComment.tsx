@@ -74,8 +74,8 @@ const EditComment = ({
           </p>
         </Formsy>
       ) : (
-        <div>
-          <p>{comment}</p>
+        <div className="largePhone:w-full">
+          <p className="lg:text-base text-sm">{comment}</p>
           {edited && <p className=" text-sm  opacity-30">Edited</p>}
         </div>
       )}
