@@ -68,7 +68,7 @@ const PostLikeSection = ({ likes, hasLiked, postId }: PostLikeSectionProps) => {
     });
   };
   return (
-    <div className="ml-5 flex items-center gap-x-2">
+    <div className="flex items-center gap-x-2">
       <Button
         className="move-button"
         size={'icon'}
@@ -76,7 +76,7 @@ const PostLikeSection = ({ likes, hasLiked, postId }: PostLikeSectionProps) => {
       >
         {like ? (
           <div>
-            <FaThumbsUp className="text-purple cursor-pointer peer" />
+            <FaThumbsUp className="text-purple cursor-pointer peer" size={15} />
             <p
               className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
          left-3 hidden peer peer-hover:block text-black"
@@ -86,7 +86,10 @@ const PostLikeSection = ({ likes, hasLiked, postId }: PostLikeSectionProps) => {
           </div>
         ) : (
           <div className="relative">
-            <FaRegThumbsUp className="text-purple cursor-pointer peer" />
+            <FaRegThumbsUp
+              className="text-purple cursor-pointer peer"
+              size={15}
+            />
             <p
               className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
          left-3 hidden peer peer-hover:block text-black"
@@ -99,7 +102,7 @@ const PostLikeSection = ({ likes, hasLiked, postId }: PostLikeSectionProps) => {
 
       {likes.length > 0 && (
         <p
-          className="text-purple cursor-pointer hover:underline"
+          className="text-purple cursor-pointer hover:underline text-xs"
           onClick={() => setOpenLikeModal(true)}
         >
           {likes.length} {likes.length > 1 ? 'Likes' : 'Like'}

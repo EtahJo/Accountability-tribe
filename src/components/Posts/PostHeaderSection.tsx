@@ -60,26 +60,29 @@ const PostHeaderSection = ({
     });
   };
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between ">
       <div className="flex items-start gap-x-2">
         <div className="flex flex-col gap-y-2">
           <Link
             className="flex items-center gap-2 cursor-pointer"
             href={`/user/${username}`}
           >
-            <ProfileImage image={profileImage} alt="Author profile image" />
-            <div>
-              <p className="font-bold text-xl">{username}</p>
+            <div className="flex flex-col justify-center items-center">
+              <ProfileImage image={profileImage} alt="Author profile image" />
+              {edited && <p className=" text-sm  opacity-30 ">Edited</p>}
+            </div>
+
+            <div className="phone:text-base text-xs">
+              <p className="font-bold phone:text-xl text-sm">{username}</p>
 
               <p>{duration}</p>
             </div>
           </Link>
-          {edited && <p className=" text-sm  opacity-30 ml-12">Edited</p>}
         </div>
 
         {isAdmin && <p className="text-sm text-lightPink mt-2">Admin</p>}
       </div>
-      <div className="flex flex-col items-end justify-end">
+      <div className="flex flex-col largePhone:items-end justify-center items-end">
         <EllipsisDropdown
           authorId={postAuthorId}
           isAdmin={isAdmin}
@@ -88,15 +91,10 @@ const PostHeaderSection = ({
           showEditFunction={() => setShowEdit(true)}
         />
         {!pathname.startsWith('/tribe') && tribe && (
-          <span className="flex items-center gap-2">
-            <p>Posted In :</p>
+          <span className="flex items-end largePhone:gap-x-1 largePhone:flex-row flex-col text-xs">
+            <p className="">Posted In</p>
             <Link href={`/tribe/${tribe.id}`}>
-              <Button
-                variant={'link'}
-                className="font-bold text-lightPink mx-0 px-0"
-              >
-                {tribe.name}
-              </Button>
+              <p className="font-bold text-lightPink mx-0 px-0">{tribe.name}</p>
             </Link>
           </span>
         )}

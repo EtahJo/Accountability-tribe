@@ -5,51 +5,44 @@ interface PostTitleProps {
   postTitle: string;
 }
 
+const Title = ({ postTitle }: { postTitle: string }) => {
+  return (
+    <div className="bg-purple p-2   shadow-3xl rounded-sm ">
+      <h2
+        className="font-bold largePhone:text-xl text-white phone:text-lg 
+      largePhone:text-start text-center text-base"
+      >
+        {postTitle}
+      </h2>
+    </div>
+  );
+};
+
 const PostTitle = ({ postEditTitle, postTitle }: PostTitleProps) => {
   return (
-    <div>
+    <div className="">
       {postTitle && (
         <div>
           {postEditTitle ? (
             postEditTitle === postTitle ? (
               <span className="flex items-center">
-                <h2
-                  className="font-bold text-xl
-  bg-purple p-2 w-max text-white rounded-sm"
-                >
-                  {postTitle}
-                </h2>
+                <Title postTitle={postTitle} />
                 <p className="italic ">{'(No Changes made)'}</p>
               </span>
             ) : (
               <div>
                 <span className="flex items-center gap-2">
-                  <h2
-                    className="font-bold text-xl
-  bg-purple p-2 w-max text-white rounded-sm"
-                  >
-                    {postTitle}
-                  </h2>
+                  <Title postTitle={postTitle} />
                   <Badge className="">Original content</Badge>
                 </span>
                 <span className="flex items-center gap-2">
-                  <h2
-                    className="font-bold text-xl
-  bg-purple p-2 w-max text-white rounded-sm"
-                  >
-                    {postEditTitle}
-                  </h2>
+                  <Title postTitle={postEditTitle} />
                   <Badge className="">Edited Content</Badge>
                 </span>
               </div>
             )
           ) : (
-            <h2
-              className="font-bold text-xl
-  bg-purple p-2 w-max text-white rounded-sm"
-            >
-              {postTitle}
-            </h2>
+            <Title postTitle={postTitle} />
           )}
         </div>
       )}

@@ -78,7 +78,10 @@ const PostSnippet = ({
       ? Math.floor(theDuration.days) + ' days'
       : theDuration.weeks.weeks + 'w';
   return (
-    <div className="bg-white rounded-2xl p-5  my-5 relative" id={postId}>
+    <div
+      className="bg-white rounded-2xl largePhone:p-5  my-5 relative w-full p-2 "
+      id={postId}
+    >
       <PostHeaderSection
         username={username}
         profileImage={profileImage}
@@ -103,7 +106,10 @@ const PostSnippet = ({
         )
       )}
 
-      <div className="w-full bg-lighterPink rounded-2xl p-5 mt-6 mb-4">
+      <div
+        className=" bg-lighterPink rounded-2xl largePhone:p-5 mt-6 mb-4
+      flex flex-col w-full gap-y-2 p-2"
+      >
         <PostTitle postEditTitle={postEditTitle} postTitle={postTitle} />
 
         <PostContent
@@ -116,10 +122,10 @@ const PostSnippet = ({
 
         {comments.length > 0 && (
           <p
-            className="text-lightPink cursor-pointer"
+            className="text-lightPink cursor-pointer text-xs"
             onClick={() => setOpenCommentModal(true)}
           >
-            {comments.length} comments
+            {comments.length} {comments.length > 1 ? 'comments' : 'comment'}
           </p>
         )}
       </div>

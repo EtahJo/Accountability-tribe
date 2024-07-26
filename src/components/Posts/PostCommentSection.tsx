@@ -27,8 +27,10 @@ const PostCommentSection = ({
   const { user }: any = useCurrentUser();
   const firstFiveComments = comments.slice(0, 5);
   return (
-    <div>
-      <CommentForm postId={postId} />
+    <div className="flex flex-col ">
+      <div className="m-auto">
+        <CommentForm postId={postId} />
+      </div>
 
       {comments.length > 0 && (
         <div className="bg-gray-100 p-3 rounded-2xl ">
