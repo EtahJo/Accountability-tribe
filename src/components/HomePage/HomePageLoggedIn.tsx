@@ -19,9 +19,10 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const HomeLoggedIn = () => {
+  const baseUrl = process.env.BASE_URL;
   const { user }: any = useCurrentUser();
   const { data: session, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`,
+    `${baseUrl}/user/api/sessions/${user.username}/closest-session`,
     fetcher
   );
 

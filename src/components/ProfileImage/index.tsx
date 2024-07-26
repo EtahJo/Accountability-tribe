@@ -1,16 +1,22 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { CldImage } from 'next-cloudinary';
+import { cn } from '@/lib/utils';
 import { FaUsers } from 'react-icons/fa';
 
-const ProfileImage = ({
-  image,
-  alt,
-}: {
+interface ProfileImageProps {
   image?: string | null;
   alt: string;
-}) => {
+  dimensions?: string;
+}
+
+const ProfileImage = ({ image, alt, dimensions }: ProfileImageProps) => {
   return (
-    <Avatar className="largePhone:w-[80px]  largePhone:h-[80px] shadow-lg w-[50px] h-[50px]">
+    <Avatar
+      className={cn(
+        'largePhone:w-[80px]  largePhone:h-[80px] shadow-lg w-[50px] h-[50px]',
+        dimensions
+      )}
+    >
       {image ? (
         <CldImage
           width={'100'}

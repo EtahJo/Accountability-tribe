@@ -27,6 +27,7 @@ import { toast } from 'sonner';
 import EllipsisDropdown from '@/components/EllipsisDropdown/index';
 import Formsy from 'formsy-react';
 import CustomInput from '@/components/CustomInput/customInput';
+import CommentHeader from './CommentHeader';
 
 interface CommentProps {
   profileImage: string;
@@ -194,39 +195,14 @@ const Comment = ({
       )}
       id={commentId}
     >
-      <div className="flex justify-between items-center">
-        <Link
-          href={`/user/${authorUsername}`}
-          className="flex items-center gap-x-2 cursor-pointer"
-        >
-          <Avatar className=" w-[30px] h-[30px] items-center border-2 border-lightPink  shadow-3xl">
-            {!profileImage ? (
-              <AvatarFallback className="bg-black">
-                <FaUser className="text-white" size={50} />
-              </AvatarFallback>
-            ) : (
-              <CldImage
-                width="50"
-                height="50"
-                crop={'fill'}
-                src={profileImage}
-                sizes="100vw"
-                alt="Tribe profile"
-              />
-            )}
-          </Avatar>
-          <div className="">
-            <p className="font-semibold">{authorUsername}</p>
-          </div>
-        </Link>
-        <EllipsisDropdown
-          authorId={authorId}
-          isAdmin={isAdmin}
-          deleteAction={deleteComment}
-          showEditFunction={() => setEditComment(true)}
-          isPending={isPending}
-        />
-      </div>
+      <CommentHeader
+        authorId={authorId}
+        authorUsername={authorUsername}
+        profileImage={profileImage}
+        isAdmin={isAdmin}
+        commentId={commentId}
+        showEditFunction={() => setEditComment(true)}
+      />
 
       <div className="ml-10 flex justify-between items-center">
         <div className="basis-3/4">
