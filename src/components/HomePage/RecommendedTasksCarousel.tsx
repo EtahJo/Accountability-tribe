@@ -26,7 +26,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const RecommendedTasksCarousel = () => {
   const { user }: any = useCurrentUser();
   const { data: highPriorityTasks, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/tasks/${user.username}/high-priority`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${user.username}/high-priority`,
     fetcher
   );
   if (isLoading || highPriorityTasks === undefined) {

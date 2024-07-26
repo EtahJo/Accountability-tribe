@@ -13,7 +13,7 @@ const TribePosts = ({ tribeId }: { tribeId: string }) => {
   const [currentNewPosts, setCurrentNewPosts] = useState<Post[]>([]);
   const { user }: any = useCurrentUser();
   const { data: tribePosts, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/tribe/api/posts/${tribeId}/${user.id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${tribeId}/${user.id}`,
     fetcher
   );
   useEffect(() => {

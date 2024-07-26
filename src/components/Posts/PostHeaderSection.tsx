@@ -47,10 +47,10 @@ const PostHeaderSection = ({
         if (data.success) {
           toast.success(data.success);
           mutate(
-            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${data.postAuthorUsername}/${user?.id}`
           );
           mutate(
-            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postTribeId}/${user.id}`
           );
         }
         if (data.error) {

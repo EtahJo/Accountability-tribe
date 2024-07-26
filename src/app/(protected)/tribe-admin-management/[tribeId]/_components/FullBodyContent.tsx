@@ -12,7 +12,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const FullBodyContent = ({ tribeId }: { tribeId: string }) => {
   const { user }: any = useCurrentUser();
   const { data: postEdits, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/tribe/api/posts/${tribeId}/post-edits`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${tribeId}/post-edits`,
     fetcher
   );
   if (isLoading || postEdits === undefined)

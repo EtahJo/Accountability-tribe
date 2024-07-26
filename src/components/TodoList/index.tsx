@@ -16,7 +16,7 @@ import Link from 'next/link';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const TodoList = ({ pageUsername }: { pageUsername: string }) => {
   const { data: tasks, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/tasks/${pageUsername}/uncompleted`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${pageUsername}/uncompleted`,
     fetcher
   );
   if (isLoading || tasks === undefined) {

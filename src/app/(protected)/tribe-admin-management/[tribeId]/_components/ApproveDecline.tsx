@@ -26,13 +26,13 @@ const ApproveDecline = ({
         if (data.success) {
           toast.success(data.success);
           mutate(
-            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/post-edits`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postTribeId}/post-edits`
           );
           mutate(
-            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${data.postAuthorUsername}/${user?.id}`
           );
           mutate(
-            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postTribeId}/${user.id}`
           );
         }
       });
@@ -47,13 +47,13 @@ const ApproveDecline = ({
         if (data.success) {
           toast.success(data.success);
           mutate(
-            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.postTribeId}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${user.username}/user-is-tribe-admin/${data.postTribeId}`
           );
           mutate(
-            `https://accountability-tribe.vercel.app/user/api/posts/${data.postAuthorUsername}/${user?.id}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${data.postAuthorUsername}/${user?.id}`
           );
           mutate(
-            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postTribeId}/${user.id}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postTribeId}/${user.id}`
           );
         }
       });
@@ -68,10 +68,10 @@ const ApproveDecline = ({
         if (data.success) {
           toast.success(data.success);
           mutate(
-            `https://accountability-tribe.vercel.app/tribe/api/posts/${data.postAuthorUsername}/post-edits`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postAuthorUsername}/post-edits`
           );
           mutate(
-            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${data.postTribeId}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${user.username}/user-is-tribe-admin/${data.postTribeId}`
           );
         }
       });

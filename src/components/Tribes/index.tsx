@@ -16,7 +16,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const Tribes = ({ pageUsername }: TribesProps) => {
   const { user }: any = useCurrentUser();
   const { data: tribes, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/tribes/${pageUsername}/${user.id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${pageUsername}/${user.id}`,
     fetcher
   );
   if (isLoading || tribes === undefined) {

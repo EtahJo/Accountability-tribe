@@ -26,7 +26,7 @@ const GetAllSessions = ({ username }: { username: string }) => {
   const filter = searchParams.get('filter');
   const { user }: any = useCurrentUser();
   const { data: sessionsData, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/sessions/${username}/${user.id}?page=1&filter=${filter}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${username}/${user.id}?page=1&filter=${filter}`,
     fetcher
   );
   if (isLoading || sessionsData === undefined) {

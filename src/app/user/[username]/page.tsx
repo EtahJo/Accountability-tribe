@@ -10,7 +10,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UseProfilePage = ({ params }: { params: { username: string } }) => {
   const { username } = params;
   const { data: user, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/${username}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/${username}`,
     fetcher
   );
   if (isLoading) {

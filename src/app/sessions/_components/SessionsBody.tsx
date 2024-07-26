@@ -19,7 +19,7 @@ const SessionsBody = () => {
   page = !page || page < 1 ? 1 : page;
   const filter = searchParams.get('filter');
   const { data: sessionsData, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/sessions/api?page=${page}&filter=${filter}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/sessions/api?page=${page}&filter=${filter}`,
     fetcher
   );
   if (isLoading || sessionsData === undefined) {

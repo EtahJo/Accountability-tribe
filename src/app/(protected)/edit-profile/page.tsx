@@ -45,7 +45,7 @@ const Editprofile = () => {
         if (data.success) {
           setSuccess(data.success);
           mutate(
-            `https://accountability-tribe.vercel.app/user/api/${data.username}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/${data.username}`
           );
         }
       });

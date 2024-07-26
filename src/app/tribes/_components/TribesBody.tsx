@@ -16,7 +16,7 @@ const TribesBody = () => {
   page = !page || page < 1 ? 1 : page;
   const filter = searchParams.get('filter') || '';
   const { data: tribesData, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/tribes/api/${user.id}?page=${page}&filter=${filter}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/tribes/api/${user.id}?page=${page}&filter=${filter}`,
     fetcher
   );
   if (isLoading || tribesData === undefined) {

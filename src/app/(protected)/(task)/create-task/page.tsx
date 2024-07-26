@@ -74,10 +74,10 @@ const CreateTask = () => {
             },
           ]);
           mutate(
-            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/high-priority`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/high-priority`
           );
           mutate(
-            `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/uncompleted`
           );
         }
       });

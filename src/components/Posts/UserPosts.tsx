@@ -22,7 +22,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
   const { user }: any = useCurrentUser();
   const { data: userPosts, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/posts/${pageUsername}/${user?.id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${pageUsername}/${user?.id}`,
     fetcher
   );
   const pathname = usePathname();

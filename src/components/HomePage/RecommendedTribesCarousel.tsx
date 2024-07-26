@@ -16,7 +16,7 @@ interface RecommendedTribesProps {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const RecommendedTribesCarousel = ({ userId }: RecommendedTribesProps) => {
   const { data: recommendedTribes, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/tribe/api/recommended-tribes/${userId}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/recommended-tribes/${userId}`,
     fetcher
   );
   if (isLoading || recommendedTribes === undefined) {

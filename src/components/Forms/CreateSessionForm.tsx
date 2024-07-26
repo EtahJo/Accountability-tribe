@@ -24,7 +24,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const CreateSessionForm = () => {
   const { user }: any = useCurrentUser();
   const { data: tasks } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/tasks/${user.username}/uncompleted`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${user.username}/uncompleted`,
     fetcher
   );
 
@@ -50,13 +50,13 @@ const CreateSessionForm = () => {
             setError('');
             setSuccess(data.success);
             mutate(
-              `https://accountability-tribe.vercel.app/user/api/sessions/${user.username}/closest-session`
+              `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${user.username}/closest-session`
             );
             mutate(
-              `https://accountability-tribe.vercel.app/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
+              `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`
             );
             mutate(
-              `https://accountability-tribe.vercel.app/user/api/tasks/${data.creatorUsername}/uncompleted`
+              `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/uncompleted`
             );
           }
         })

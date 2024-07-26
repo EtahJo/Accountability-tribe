@@ -73,13 +73,13 @@ const CreateTribe = () => {
           setError('');
           setSuccess(data.success);
           mutate(
-            `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${user.username}/user-is-tribe-admin`
           );
           mutate(
-            `https://accountability-tribe.vercel.app/user/api/tribes/${data.creatorUsername}/${user.id}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${data.creatorUsername}/${user.id}`
           );
           mutate(
-            `https://accountability-tribe.vercel.app/tribe/api/${user.id}/${data.tribeId}/similar-tribes`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/${user.id}/${data.tribeId}/similar-tribes`
           );
         }
       });

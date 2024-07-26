@@ -7,7 +7,7 @@ import { Session } from '@prisma/client';
 const base_url = process.env.BASE_URL;
 async function getTasksData(username: string) {
   const tasksRes = await fetch(
-    `https://accountability-tribe.vercel.app/user/api/tasks/${username}/uncompleted`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${username}/uncompleted`,
     {
       next: {
         tags: ['userUnCompletedTasks'],

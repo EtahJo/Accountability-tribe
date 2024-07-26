@@ -15,7 +15,7 @@ export type highlightedUsersType = Pick<
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HeroLoggedIn = () => {
   const { data: highlightedUsers, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/highlighted-users`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/highlighted-users`,
     fetcher
   );
 

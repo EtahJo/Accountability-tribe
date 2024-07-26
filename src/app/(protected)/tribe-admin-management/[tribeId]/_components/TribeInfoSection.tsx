@@ -22,7 +22,7 @@ const TribeInfoSection = ({
 }) => {
   const { user }: any = useCurrentUser();
   const { data: tribeDetails, isLoading } = useSWR(
-    `https://accountability-tribe.vercel.app/user/api/tribes/${user.username}/user-is-tribe-admin/${tribeId}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${user.username}/user-is-tribe-admin/${tribeId}`,
     fetcher
   );
 
