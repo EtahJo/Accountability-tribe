@@ -15,17 +15,19 @@ const LikeModal = ({
     <ModalWrapper
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="bg-white w-[330px]"
+      className="w-max"
     >
-      {likes?.map((like, index) => (
-        <TribeUser
-          key={index}
-          name={like?.user?.username}
-          profileImage={like?.user?.image}
-          //   {/* don't want admin to show*/}
-          isAdmin={false}
-        />
-      ))}
+      <div className="bg-white p-3 rounded-3xl shadow-3xl">
+        {likes?.map((like, index) => (
+          <TribeUser
+            key={index}
+            name={like?.user?.username}
+            profileImage={like?.user?.image}
+            //   {/* don't want admin to show*/}
+            isAdmin={false}
+          />
+        ))}
+      </div>
     </ModalWrapper>
   );
 };
