@@ -1,5 +1,5 @@
 'use client';
-import { FaCalendar } from 'react-icons/fa';
+import { FaCalendar, FaClock } from 'react-icons/fa';
 
 interface PeriodCheckProps {
   isTodayCheck: boolean;
@@ -36,24 +36,36 @@ const PeriodCheck = ({
       )}
       {!isTodayCheck && !checkIfAfter && (
         <div className="flex items-center gap-1">
-          <FaCalendar className="text-purple" />
-          <p className="font-bold whitespace-nowrap text-xs">
+          <span className="font-bold whitespace-nowrap text-xs">
             <>
               {checkIfAfter ? (
                 <p className="text-normal">Past</p>
               ) : (
                 <>
                   {' '}
-                  {isTodayCheck
-                    ? timeLeft < 0
-                      ? 'Started Today'
-                      : 'Today'
-                    : startDate}{' '}
-                  at {startTime}
+                  {isTodayCheck ? (
+                    timeLeft < 0 ? (
+                      'Started Today'
+                    ) : (
+                      'Today'
+                    )
+                  ) : (
+                    <span>
+                      <span className="flex items-center gap-x-2">
+                        <FaCalendar className="text-purple" />
+                        <p>{startDate}</p>
+                      </span>
+
+                      <span className="flex items-center gap-x-2">
+                        <FaClock className="text-purple" />
+                        <p> {startTime}</p>
+                      </span>
+                    </span>
+                  )}
                 </>
               )}
             </>
-          </p>
+          </span>
         </div>
       )}
     </div>
