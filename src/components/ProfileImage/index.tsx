@@ -2,7 +2,13 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { CldImage } from 'next-cloudinary';
 import { FaUsers } from 'react-icons/fa';
 
-const ProfileImage = ({ image }: { image?: string | null }) => {
+const ProfileImage = ({
+  image,
+  alt,
+}: {
+  image?: string | null;
+  alt: string;
+}) => {
   return (
     <Avatar className="largePhone:w-[80px]  largePhone:h-[80px] shadow-lg w-[50px] h-[50px]">
       {image ? (
@@ -12,7 +18,7 @@ const ProfileImage = ({ image }: { image?: string | null }) => {
           crop={'fill'}
           src={image}
           sizes="100vw"
-          alt="Tribe profile"
+          alt={alt}
         />
       ) : (
         <AvatarFallback className="bg-black">
