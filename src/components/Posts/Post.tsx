@@ -122,7 +122,7 @@ const PostSnippet = ({
 
         {comments.length > 0 && (
           <p
-            className="text-lightPink cursor-pointer text-xs"
+            className="text-lightPink cursor-pointer largePhone:text-base text-xs"
             onClick={() => setOpenCommentModal(true)}
           >
             {comments.length} {comments.length > 1 ? 'comments' : 'comment'}

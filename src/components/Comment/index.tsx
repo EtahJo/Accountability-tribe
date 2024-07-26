@@ -1,33 +1,14 @@
 'use client';
-import { useState, useTransition, useEffect } from 'react';
-import * as z from 'zod';
-import Link from 'next/link';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import {
-  FaUser,
-  FaThumbsUp,
-  FaRegThumbsUp,
-  FaComment,
-  FaPaperPlane,
-} from 'react-icons/fa';
-import { CldImage } from 'next-cloudinary';
+import { useState, useEffect } from 'react';
 import { getDuration } from '@/util/DateTime';
-import { mutate } from 'swr';
-import { CreateCommentSchema } from '@/schemas/index';
-import { Button } from '@/components/ui/button';
-import { create_comment_like } from '@/action/like/create-like';
-import { edit_comment } from '@/action/comment /edit-comment';
-import { delete_comment } from '@/action/comment /delete-comment';
-import { delete_comment_like } from '@/action/like/delete-like';
 import LikeModal from '@/components/Posts/LikeModal';
 import CommentResponseForm from '../Forms/CommentResponseForm';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import EllipsisDropdown from '@/components/EllipsisDropdown/index';
-import Formsy from 'formsy-react';
-import CustomInput from '@/components/CustomInput/customInput';
+import CommentLikeSection from './CommentLikeSection';
 import CommentHeader from './CommentHeader';
+import EditComment from '@/components/Comment/EditComment';
+import CommentReplies from './CommentReplies';
 
 interface CommentProps {
   profileImage: string;
@@ -73,9 +54,7 @@ const Comment = ({
   isAdmin,
   edited,
 }: CommentProps) => {
-  const [like, setLike] = useState(commentLiked);
   const [openLikeModal, setOpenLikeModal] = useState(false);
-  const [isPending, startTransition] = useTransition();
   const [responding, setResponding] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [editComment, setEditComment] = useState(false);
@@ -88,93 +67,6 @@ const Comment = ({
   }, []);
 
   const { user }: any = useCurrentUser();
-  const Liked = () => {
-    if (!commentLiked) {
-      setLike(true);
-      create_comment_like(commentId).then((data) => {
-        if (data?.error) {
-          toast.error(data?.error);
-        }
-        if (data.success) {
-          mutate(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${data.postAuthorUsername}/${user?.id}`
-          );
-          mutate(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postTribeId}/${user.id}`
-          );
-          mutate(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postAuthorUsername}/post-edits`
-          );
-          mutate(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${user.username}/user-is-tribe-admin/${data.postTribeId}`
-          );
-        }
-      });
-    }
-  };
-  const deleteCommentLike = () => {
-    setLike(false);
-    delete_comment_like(commentId).then((data) => {
-      if (data.error) {
-        toast.error(data.error);
-      }
-      if (data.success) {
-        mutate(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${data.postAuthorUsername}/${user?.id}`
-        );
-        mutate(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postTribeId}/${user.id}`
-        );
-        mutate(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postAuthorUsername}/post-edits`
-        );
-        mutate(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${user.username}/user-is-tribe-admin/${data.postTribeId}`
-        );
-      }
-    });
-  };
-  const deleteComment = () => {
-    startTransition(() => {
-      delete_comment(commentId).then((data) => {
-        if (data.error) {
-          toast.error(data.error);
-        }
-        if (data.success) {
-          mutate(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${data.postAuthorUsername}/${user?.id}`
-          );
-          mutate(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postTribeId}/${user.id}`
-          );
-          mutate(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postAuthorUsername}/post-edits`
-          );
-          mutate(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${user.username}/user-is-tribe-admin/${data.postTribeId}`
-          );
-        }
-      });
-    });
-  };
-  const onValidSubmit = (vals: z.infer<typeof CreateCommentSchema>) => {
-    startTransition(() => {
-      edit_comment(vals, commentId).then((data) => {
-        if (data?.error) {
-          toast.error(data.error);
-        }
-        if (data.success) {
-          setEditComment(false);
-          mutate(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${data.postAuthorUsername}/${user?.id}`
-          );
-          mutate(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${data.postTribeId}/${user.id}`
-          );
-        }
-      });
-    });
-  };
   const NowDateTime = new Date();
   const theDuration = getDuration(createdAt, NowDateTime.toISOString());
   const duration =
@@ -205,68 +97,22 @@ const Comment = ({
       />
 
       <div className="ml-10 flex justify-between items-center">
-        <div className="basis-3/4">
-          {editComment ? (
-            <Formsy
-              className="flex items-center gap-x-2 w-full"
-              onValidSubmit={onValidSubmit}
-            >
-              <CustomInput
-                name="content"
-                value={comment}
-                disabled={isPending}
-                placeholder="React to post (Be Positive)"
-                Icon={
-                  <Button type="submit" disabled={isPending}>
-                    <FaPaperPlane />
-                  </Button>
-                }
-                inputClassNames={'p-2 w-[300px]'}
-              />
-              <p
-                className="cursor-pointer text-sm font-bold"
-                onClick={() => setEditComment(false)}
-              >
-                X
-              </p>
-            </Formsy>
-          ) : (
-            <div>
-              <p>{comment}</p>
-              {edited && <p className=" text-sm  opacity-30">Edited</p>}
-            </div>
-          )}
-        </div>
+        <EditComment
+          comment={comment}
+          commentId={commentId}
+          edited={edited}
+          editComment={editComment}
+          setEditComment={setEditComment}
+        />
 
         <div className="flex gap-2 items-center">
           <p className="text-sm font-bold whitespace-nowrap">{duration}</p>
           <div className="flex items-center gap-2">
-            <Button
-              onClick={commentLiked ? deleteCommentLike : Liked}
-              className="move-button"
-            >
-              {like ? (
-                <div>
-                  <FaThumbsUp className="text-purple cursor-pointer peer" />
-                  <p
-                    className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
-                 left-3 hidden peer peer-hover:block text-black"
-                  >
-                    Liked
-                  </p>
-                </div>
-              ) : (
-                <div className="relative">
-                  <FaRegThumbsUp className="text-purple cursor-pointer peer" />
-                  <p
-                    className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
-                 left-3 hidden peer peer-hover:block text-black"
-                  >
-                    Like
-                  </p>
-                </div>
-              )}
-            </Button>
+            <CommentLikeSection
+              commentId={commentId}
+              commentLiked={commentLiked}
+            />
+
             {commentLikes?.length > 0 && (
               <p
                 className="text-purple cursor-pointer whitespace-nowrap"
@@ -277,31 +123,11 @@ const Comment = ({
               </p>
             )}
           </div>
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <Button
-                className="peer relative"
-                onClick={() => setResponding((prev) => !prev)}
-              >
-                <FaComment className="text-lightPink" />
-              </Button>
-              <p
-                className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-5
-                 left-3 hidden peer peer-hover:block text-black"
-              >
-                Reply
-              </p>
-            </div>
-            {replies?.length > 0 && (
-              <p
-                className="text-lightPink cursor-pointer whitespace-nowrap"
-                onClick={() => setShowReplies((prev) => !prev)}
-              >
-                {' '}
-                {replies?.length} {replies?.length > 1 ? 'replies' : 'reply'}
-              </p>
-            )}
-          </div>
+          <CommentReplies
+            replies={replies}
+            setResponding={setResponding}
+            setShowReplies={setShowReplies}
+          />
         </div>
         <LikeModal
           isOpen={openLikeModal}

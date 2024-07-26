@@ -28,7 +28,7 @@ const PostCommentSection = ({
   const firstFiveComments = comments.slice(0, 5);
   return (
     <div className="flex flex-col ">
-      <div className="m-auto">
+      <div className="largePhone:m-0 m-auto ">
         <CommentForm postId={postId} />
       </div>
 

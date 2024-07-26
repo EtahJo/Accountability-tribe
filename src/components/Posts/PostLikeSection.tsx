@@ -102,7 +102,7 @@ const PostLikeSection = ({ likes, hasLiked, postId }: PostLikeSectionProps) => {
 
       {likes.length > 0 && (
         <p
-          className="text-purple cursor-pointer hover:underline text-xs"
+          className="text-purple cursor-pointer hover:underline largePhone:text-base text-xs"
           onClick={() => setOpenLikeModal(true)}
         >
           {likes.length} {likes.length > 1 ? 'Likes' : 'Like'}
