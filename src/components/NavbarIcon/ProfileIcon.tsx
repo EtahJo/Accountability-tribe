@@ -18,31 +18,16 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuPortal,
 } from '@/components/ui/dropdown-menu';
-import DeleteConfirmation from '@/components/Confirmations/DeleteConfirmation';
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
 
 const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
   const { user }: any = useCurrentUser();
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
   const onLogoutClick = () => {
     logout().then(() => {
       router.push('/auth/login');
     });
   };
-  const deleteAccount = () => {
-    startTransition(() => {
-      delete_user(user.id).then((data) => {
-        if (data?.error) {
-          toast.error(data.error);
-        }
-        if (data.success) {
-          toast.success(data.success);
-        }
-      });
-    });
-  };
+
   return (
     <div>
       <NavbarIcon
@@ -86,7 +71,7 @@ const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
             <NavbarItem title="Settings" icon={<FaCog size={25} />} />
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
-            <DropdownMenuSubContent>
+            <DropdownMenuSubContent sideOffset={-120}>
               <DropdownMenuItem>Change Theme</DropdownMenuItem>
 
               <DropdownMenuItem>{deleteUser}</DropdownMenuItem>

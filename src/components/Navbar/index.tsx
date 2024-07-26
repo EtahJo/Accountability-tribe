@@ -38,7 +38,7 @@ const Navbar = () => {
   };
   return (
     <div className=" mt-4 p-2 z-50 fixed flex items-center justify-center  w-full">
-      <div className="bg-purple rounded-full justify-between items-center flex w-[96%] mx-2">
+      <div className="bg-purple rounded-full justify-between items-center flex w-[96%] mx-2 p-2">
         <Link
           className="md:text-3xl font-semibold text-white p-2 text-lg sm:text-2xl cursor-pointer flex"
           href={'/'}
