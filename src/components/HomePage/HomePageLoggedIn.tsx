@@ -17,12 +17,10 @@ import { cn } from '@/lib/utils';
 import { useCurrentUser } from '@/hooks/use-current-user';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 const HomeLoggedIn = () => {
-  const baseUrl = process.env.BASE_URL;
   const { user }: any = useCurrentUser();
   const { data: session, isLoading } = useSWR(
-    `${baseUrl}/user/api/sessions/${user.username}/closest-session`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${user.username}/closest-session`,
     fetcher
   );
 
