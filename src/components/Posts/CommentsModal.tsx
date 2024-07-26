@@ -49,29 +49,31 @@ const CommentsModal = ({
     <ModalWrapper
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="bg-white p-5 w-3/4"
+      className=" w-max"
     >
-      {comments?.map(
-        (comment) =>
-          !comment.parentId && (
-            <Comment
-              key={comment?.id}
-              authorUsername={comment?.author?.username}
-              profileImage={comment?.author?.image}
-              comment={comment?.content}
-              createdAt={comment.createdAt}
-              commentLiked={comment.likes?.some(
-                (like) => like.user.id === user?.id
-              )}
-              commentLikes={comment.likes}
-              commentId={comment.id}
-              replies={comment.replies as any}
-              edited={comment.edited}
-              authorId={comment?.authorId}
-              isAdmin={isAdmin}
-            />
-          )
-      )}
+      <div className="bg-white p-5 rounded-3xl shadow-3xl">
+        {comments?.map(
+          (comment) =>
+            !comment.parentId && (
+              <Comment
+                key={comment?.id}
+                authorUsername={comment?.author?.username}
+                profileImage={comment?.author?.image}
+                comment={comment?.content}
+                createdAt={comment.createdAt}
+                commentLiked={comment.likes?.some(
+                  (like) => like.user.id === user?.id
+                )}
+                commentLikes={comment.likes}
+                commentId={comment.id}
+                replies={comment.replies as any}
+                edited={comment.edited}
+                authorId={comment?.authorId}
+                isAdmin={isAdmin}
+              />
+            )
+        )}
+      </div>
     </ModalWrapper>
   );
 };
