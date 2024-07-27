@@ -97,7 +97,7 @@ const PostSnippet = ({
       {showNewPostConditionOne ? (
         <Badge
           className="absolute top-0 right-0 bg-purple rounded-2xl
-        largePhone:text-[8px] text-[6px] mb-2"
+        largePhone:text-[8px] text-[6px] mb-2 "
         >
           New Post
         </Badge>

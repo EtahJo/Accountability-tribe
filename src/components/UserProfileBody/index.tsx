@@ -26,7 +26,7 @@ const UserProfileBody = ({ pageUserName }: UserProfileBodyProps) => {
           <UserPosts pageUsername={pageUserName} />
         </div>
       </div>
-      <div className="xl:col-start-10 xl:col-end-12  col-start-1 col-end-11 flex justify-around xl:flex-col flex-row xl:justify-start flex-wrap">
+      <div className="xl:col-start-10 xl:col-end-12  col-start-1 col-end-12 flex justify-around xl:flex-col flex-row xl:justify-start flex-wrap">
         <Achievements pageUsername={pageUserName} />
         <Tribes pageUsername={pageUserName} />
       </div>
