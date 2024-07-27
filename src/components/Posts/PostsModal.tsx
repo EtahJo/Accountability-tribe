@@ -32,7 +32,13 @@ const PostsModal = ({
       className="w-max"
       modalHeader="Shared experiences and lots more"
     >
-      <div className="bg-purple p-3 rounded-3xl shadow-3xl w-[300px]">
+      <div className="bg-purple p-3 rounded-3xl shadow-3xl w-[320px] relative">
+        <p
+          className="absolute top-0 right-3 font-bold m-2 "
+          onClick={onRequestClose}
+        >
+          X
+        </p>
         {posts?.map(
           ({
             id,
@@ -51,7 +57,7 @@ const PostsModal = ({
             likes: Like[];
             comments: Comment[];
           }) => (
-            <div key={id}>
+            <div key={id} className="rounded-3xl shadow-3xl">
               <PostSnippet
                 username={author.username as string}
                 profileImage={author.image as string}

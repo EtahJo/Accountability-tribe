@@ -95,12 +95,18 @@ const PostSnippet = ({
         tribe={tribe}
       />
       {showNewPostConditionOne ? (
-        <Badge className="absolute top-0 right-0 bg-purple rounded-2xl">
+        <Badge
+          className="absolute top-0 right-0 bg-purple rounded-2xl
+        largePhone:text-[8px] text-[6px] mb-2"
+        >
           New Post
         </Badge>
       ) : (
         showNewPostConditionTwo && (
-          <Badge className="absolute top-0 right-0 bg-purple rounded-2xl">
+          <Badge
+            className="absolute top-0 right-0 bg-purple rounded-2xl
+         "
+          >
             New to Tribe
           </Badge>
         )

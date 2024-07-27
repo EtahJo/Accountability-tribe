@@ -36,12 +36,12 @@ const EllipsisDropdown = ({
   if (!isAuthor && !showMakeFirstConditionOne && !showMakeFirstConditionTwo)
     return null;
   return (
-    <div>
+    <div className="z-[300]">
       <DropdownMenu>
         <DropdownMenuTrigger className="group">
           <FaEllipsisH className="text-purple group-hover:shadow-3xl group-hover:text-black rounded-3xl" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className=" flex flex-col items-center justify-center">
+        <DropdownMenuContent className=" flex flex-col items-center justify-center z-[300]">
           {isAuthor && (
             <DropdownMenuItem
               onClick={showEditFunction}

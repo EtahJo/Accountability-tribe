@@ -88,7 +88,7 @@ const PostHeaderSection = ({
           </Link>
         </div>
       </div>
-      <div className="flex flex-col largePhone:items-end justify-center items-end">
+      <div className="flex flex-col largePhone:items-end justify-center items-end pt-1">
         <EllipsisDropdown
           authorId={postAuthorId}
           isAdmin={isAdmin}
@@ -97,7 +97,7 @@ const PostHeaderSection = ({
           showEditFunction={() => setShowEdit(true)}
         />
         {!pathname.startsWith('/tribe') && tribe && (
-          <span className="flex items-end lg:gap-x-1 lg:flex-row flex-col text-xs">
+          <span className="flex items-end  lg:gap-x-1 lg:flex-row flex-col text-xs -mt-3">
             <p className="">Posted In</p>
             <Link href={`/tribe/${tribe.id}`}>
               <p className="font-bold text-lightPink mx-0 px-0 whitespace-nowrap">
