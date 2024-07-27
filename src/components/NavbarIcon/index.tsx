@@ -12,7 +12,9 @@ const NavbarIcon = ({ children, trigger }: NavbarIconProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent className="mr-10">{children}</DropdownMenuContent>
+      <DropdownMenuContent className="mr-10 max-h-[400px] overflow-y-scroll ml-2">
+        {children}
+      </DropdownMenuContent>
     </DropdownMenu>
   );
 };
