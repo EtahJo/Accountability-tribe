@@ -14,8 +14,9 @@ const ModalWrapper = ({
   onRequestClose,
   contentLabel,
   children,
+  modalHeader,
   className,
-}: Modal.Props) => {
+}: Modal.Props & { modalHeader?: string }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -27,8 +28,11 @@ const ModalWrapper = ({
       )}
       closeTimeoutMS={100}
     >
-      <div className="h-[700px] overflow-y-scroll overflow-x-hidden">
-        {children}
+      <div className="flex flex-col justify-center items-center gap-y-3">
+        <h2 className="font-bold text-lg">{modalHeader}</h2>
+        <div className="h-[700px] overflow-y-scroll overflow-x-hidden">
+          {children}
+        </div>
       </div>
     </Modal>
   );
