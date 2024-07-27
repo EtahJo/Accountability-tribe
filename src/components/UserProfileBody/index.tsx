@@ -15,8 +15,8 @@ const UserProfileBody = ({ pageUserName }: UserProfileBodyProps) => {
   const { user }: any = useCurrentUser();
 
   return (
-    <div className="grid grid-cols-12 pb-24">
-      <div className="xl:col-start-2 xl:col-end-9 col-start-2 col-end-11">
+    <div className="grid grid-cols-12 pb-24 largePhone:px-20 px-5">
+      <div className="xl:col-start-1 xl:col-end-9 col-start-1 col-end-12 p-10">
         <UpcomingSessions pageUsername={pageUserName} />
         {pageUserName === user?.username && (
           <TodoList pageUsername={pageUserName} />
@@ -24,7 +24,7 @@ const UserProfileBody = ({ pageUserName }: UserProfileBodyProps) => {
 
         <UserPosts pageUsername={pageUserName} />
       </div>
-      <div className="xl:col-start-10 xl:col-end-12  col-start-2 col-end-11 flex justify-around xl:flex-col flex-row xl:justify-start flex-wrap">
+      <div className="xl:col-start-10 xl:col-end-12  col-start-1 col-end-11 flex justify-around xl:flex-col flex-row xl:justify-start flex-wrap">
         <Achievements pageUsername={pageUserName} />
         <Tribes pageUsername={pageUserName} />
       </div>

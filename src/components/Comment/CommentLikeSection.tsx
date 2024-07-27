@@ -90,7 +90,7 @@ const CommentLikeSection = ({
           <div className="relative">
             <FaRegThumbsUp
               className="text-purple cursor-pointer peer"
-              size={10}
+              size={15}
             />
             <p
               className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3

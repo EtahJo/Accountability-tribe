@@ -61,13 +61,13 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
             }}
             className="w-full"
           >
-            <CarouselContent>
+            <CarouselContent className="w-full">
               {sessions?.sessions?.sessions.map(
                 ({ session, goal, tasks, adminUsername, id, userId }: any) => {
                   return (
                     <CarouselItem
                       key={session.id}
-                      className="lg:basis-1/2 md:1"
+                      className=" basis-2/2 flex-col "
                     >
                       <UpcomingSession
                         startDateTime={session.startDateTime}
@@ -94,8 +94,8 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
                 }
               )}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            <CarouselPrevious className="w-5 h-5 bg-purple text-white shadow-3xl" />
+            <CarouselNext className="w-5 h-5 bg-purple text-white shadow-3xl" />
           </Carousel>
         </div>
       )}

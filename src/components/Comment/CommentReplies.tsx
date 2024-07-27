@@ -17,7 +17,7 @@ const CommentReplies = ({
     <div className="flex items-center gap-2">
       <div className="relative">
         <Button
-          size={'icon'}
+          size={'sm'}
           className="peer relative"
           onClick={() => setResponding((prev: boolean) => !prev)}
         >

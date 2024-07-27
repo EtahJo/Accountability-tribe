@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { mutate } from 'swr';
 import { delete_post } from '@/action/post/delete-post';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Tribe, TribeVisit } from '@prisma/client';
 import { toast } from 'sonner';
@@ -67,20 +67,26 @@ const PostHeaderSection = ({
             className="flex items-center gap-2 cursor-pointer"
             href={`/user/${username}`}
           >
-            <div className="flex flex-col justify-center items-center">
-              <ProfileImage image={profileImage} alt="Author profile image" />
-              {edited && <p className=" text-sm  opacity-30 ">Edited</p>}
+            <div className="flex flex-col justify-center largePhone:items-start relative items-center">
+              <ProfileImage
+                image={profileImage}
+                alt="Author profile image"
+                dimensions="largePhone:w-[50px] largePhone:h-[50px] w-[30px] h-[30px]"
+              />
+              {isAdmin && (
+                <Badge className="largePhone:text-[8px] text-lightPink mt-2 text-[6px]  ">
+                  Admin
+                </Badge>
+              )}
             </div>
 
             <div className="phone:text-base text-xs">
-              <p className="font-bold phone:text-xl text-sm">{username}</p>
-
-              <p>{duration}</p>
+              <p className="font-bold largePhone:text-xl text-sm">{username}</p>
+              <p className="largePhone:text-base text-xs">{duration}</p>
+              {edited && <p className=" text-sm  opacity-30 ">Edited</p>}
             </div>
           </Link>
         </div>
-
-        {isAdmin && <p className="text-sm text-lightPink mt-2">Admin</p>}
       </div>
       <div className="flex flex-col largePhone:items-end justify-center items-end">
         <EllipsisDropdown
@@ -91,10 +97,12 @@ const PostHeaderSection = ({
           showEditFunction={() => setShowEdit(true)}
         />
         {!pathname.startsWith('/tribe') && tribe && (
-          <span className="flex items-end largePhone:gap-x-1 largePhone:flex-row flex-col text-xs">
+          <span className="flex items-end lg:gap-x-1 lg:flex-row flex-col text-xs">
             <p className="">Posted In</p>
             <Link href={`/tribe/${tribe.id}`}>
-              <p className="font-bold text-lightPink mx-0 px-0">{tribe.name}</p>
+              <p className="font-bold text-lightPink mx-0 px-0 whitespace-nowrap">
+                {tribe.name}
+              </p>
             </Link>
           </span>
         )}

@@ -65,9 +65,12 @@ const CommentHeader = ({
         />
         <div className="">
           <p className="font-semibold">{authorUsername}</p>
+          <p className=" whitespace-nowrap largePhone:text-base text-xs opacity-50">
+            {duration}
+          </p>
         </div>
       </Link>
-      <div className="flex justify-end items-end flex-col">
+      <div className="flex justify-center items-center gap-x-1">
         <EllipsisDropdown
           authorId={authorId}
           isAdmin={isAdmin}
@@ -75,9 +78,6 @@ const CommentHeader = ({
           showEditFunction={showEditFunction}
           isPending={isPending}
         />
-        <p className=" whitespace-nowrap largePhone:text-base text-xs">
-          {duration}
-        </p>
       </div>
     </div>
   );

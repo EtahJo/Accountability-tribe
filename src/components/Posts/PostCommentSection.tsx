@@ -25,7 +25,7 @@ const PostCommentSection = ({
   postId,
 }: PostCommentSectionProps) => {
   const { user }: any = useCurrentUser();
-  const firstFiveComments = comments.slice(0, 5);
+  const firstFiveComments = comments.slice(0, 2);
   return (
     <div className="flex flex-col ">
       <div className="largePhone:m-0 m-auto ">

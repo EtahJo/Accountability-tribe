@@ -47,11 +47,12 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
         name="Shared Experiences and Lots More"
         pageUsername={pageUsername}
       />
+
       <Carousel
         opts={{
           align: 'center',
         }}
-        className="w-full "
+        className="w-full"
       >
         <CarouselContent className="w-full">
           {userPosts?.map(
@@ -76,7 +77,7 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
                 (user: TribeUser) => (user.userRole = 'ADMIN')
               );
               return (
-                <CarouselItem key={id}>
+                <CarouselItem key={id} className="">
                   <PostSnippet
                     username={author.username as string}
                     profileImage={author.image as string}
@@ -100,8 +101,8 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
             }
           )}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="w-5 h-5 bg-purple text-white shadow-3xl" />
+        <CarouselNext className="w-5 h-5 bg-purple text-white shadow-3xl" />
       </Carousel>
     </div>
   );
