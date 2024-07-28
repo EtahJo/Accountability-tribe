@@ -1,5 +1,5 @@
 'use client';
-import { useTransition, useState } from 'react';
+import { useTransition, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import ProfileIcon from '@/components/NavbarIcon/ProfileIcon';
@@ -21,8 +21,19 @@ const Navbar = () => {
   const [isPending, startTransition] = useTransition();
   const [openDropdown, setOpenDropdown] = useState(false);
   const [openDeleteUserModal, setOpenDeleteUserModal] = useState(false);
+  const [isSticky, setSticky] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const handleScroll = () => {
+    setSticky(window.scrollY > 0);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   const deleteAccount = () => {
     startTransition(() => {
       delete_user(user.id).then((data) => {
@@ -37,7 +48,12 @@ const Navbar = () => {
     });
   };
   return (
-    <div className=" mt-4 p-2 z-50 fixed flex items-center justify-center  w-full">
+    <div
+      className={cn(
+        ' z-50 fixed flex items-center justify-center  w-full',
+        isSticky ? 'mt-0 top-0 py-0 px-2' : 'mt-4 py-2 px-2'
+      )}
+    >
       <div className="bg-purple rounded-full justify-between items-center flex w-[96%] mx-2 p-2">
         <Link
           className="md:text-3xl font-semibold text-white p-2 text-lg sm:text-2xl cursor-pointer flex"

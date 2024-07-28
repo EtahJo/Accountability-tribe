@@ -24,7 +24,7 @@ const Achievements = ({ pageUsername }: AchievementsProps) => {
     );
   }
   return (
-    <div className="mb-4">
+    <div className="">
       <SectionHeader name="Achievements" />
       <div>
         {completedTasks?.map((task: any) => (
