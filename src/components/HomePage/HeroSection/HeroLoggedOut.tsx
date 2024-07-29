@@ -1,6 +1,7 @@
 'use client';
 import HeroBlob from '@/components/HomePage/HeroSection/HeroBlob';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const LoggedOut = () => {
   return (
@@ -12,11 +13,11 @@ const LoggedOut = () => {
         >
           follow our five step path
         </p>
-        <div className="w-48">
+        <Link className="w-48" href={'/auth/login'}>
           <Button className="move-button" size={'slg'}>
             Get Started
           </Button>
-        </div>
+        </Link>
       </div>
 
       <div className="flex items-center largePhone:flex-row flex-col largePhone:gap-y-0 largePhone:mt-32">
