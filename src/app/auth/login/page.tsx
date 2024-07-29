@@ -2,10 +2,8 @@
 import React, { useState, useTransition } from 'react';
 import * as z from 'zod';
 
-import CustomCheckbox from '@/components/CustomCheckbox/index';
 import Custominput from '@/components/CustomInput/customInput';
-import MainButton from '@/components/Button/MainButton';
-
+import GoogleLoginButton from '../_components/GoogleLoginButton';
 import Formsy from 'formsy-react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import Link from 'next/link';
@@ -53,7 +51,7 @@ const Login = () => {
         tagline="The Journey Begins when you"
       />
       <div className="justify-center relative lg:w-3/4 w-full ">
-        <div className="bg-white rounded-3xl p-10 shadow-buttonInner phone:w-96 relative">
+        <div className="bg-white rounded-3xl p-10 shadow-buttonInner phone:w-96 relative flex-col gap-y-2">
           <h1 className="bg-lightPink rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-2xl">
             Login Here
           </h1>
@@ -110,12 +108,13 @@ const Login = () => {
               </Link>
             </div>
             {error && <FormError message={error} />}
-            <div className="w-full place-content-center m-auto">
+            <div className="w-full place-content-center m-auto flex flex-col items-center gap-y-2">
               <Button size={'slg'} variant="primary" disabled={isPending}>
                 Login
               </Button>
             </div>
           </Formsy>
+          <GoogleLoginButton />
         </div>
       </div>
     </>

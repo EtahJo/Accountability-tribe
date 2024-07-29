@@ -3,6 +3,7 @@ import authConfig from './auth.config';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { db } from './lib/db';
 import { getUserById } from './data/user';
+import { getAccountByUserId } from './data/account';
 import { Streak, Session, Task, Notification } from '@prisma/client';
 
 declare module 'next-auth' {
@@ -22,6 +23,7 @@ declare module 'next-auth' {
       tasks: Task[];
       streak: Streak;
       notifications: Notification[];
+      isOAuth: boolean;
 
       // isOAuth: boolean;
     } & DefaultSession['user'];
@@ -34,6 +36,17 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
     error: '/auth/error',
   },
   callbacks: {
+    async signIn({ account, user }) {
+      if (account?.provider !== 'credential') {
+        await db.user.update({
+          where: { id: user.id },
+          data: {
+            username: user.name,
+          },
+        });
+      }
+      return true;
+    },
     async session({ token, session }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
@@ -52,6 +65,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
         session.user.tasks = token.tasks as [];
         session.user.streak = token.streak as Streak;
         session.user.notifications = token.notifications as [];
+        session.user.isOAuth = token.isOAuth as boolean;
       }
       return session;
     },
@@ -60,6 +74,9 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
 
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
+      const existingAccount = await getAccountByUserId(existingUser.id);
+
+      token.isOAuth = !!existingAccount;
       token.username = existingUser.username;
       token.number = existingUser.number;
       token.linkedIn = existingUser.linkedIn;

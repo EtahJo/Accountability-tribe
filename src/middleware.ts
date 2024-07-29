@@ -21,7 +21,7 @@ export default auth(
     const isUserProfileRoute = nextUrl.pathname.startsWith(userProfilePrefix);
     const isTribeProfileRoute = nextUrl.pathname.startsWith(tribeProfilePrefix);
 
-    // if (isApiRoute) return;
+    if (isApiRoute) return;
     if (isAuthRoute) {
       if (isLoggedIn) {
         return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));

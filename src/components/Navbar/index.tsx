@@ -106,9 +106,6 @@ const Navbar = () => {
               className="text-lightPink block lg:hidden "
               onClick={() => setOpenDropdown((prev) => !prev)}
             />
-            {/* {openDropdown && (
-              <MobileView closeDropdown={() => setOpenDropdown(false)} />
-            )}{' '} */}
             <div className="relative lg:flex items-center gap-4 hidden">
               <StreakIcon count={user?.streak?.count} />
               <NotificationIcon notifications={user.notifications} />
@@ -125,16 +122,13 @@ const Navbar = () => {
             />
           </div>
         ) : (
-          <div className="flex gap-2">
+          <div>
             <FaBars
               size={25}
               className="text-lightPink block lg:hidden "
               onClick={() => setOpenDropdown((prev) => !prev)}
             />
-            {/* {openDropdown && (
-              <MobileView closeDropdown={() => setOpenDropdown(false)} />
-            )}{' '} */}
-            <div className="largePhone:flex hidden">
+            <div className="largePhone:flex hidden gap-2">
               <Link
                 className="font-thin hover:font-bold cursor-pointer"
                 href={'/auth/login'}

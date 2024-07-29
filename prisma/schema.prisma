@@ -42,6 +42,7 @@ enum NotificationType{
 model User {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   username      String?         @unique
+  name         String?
   email         String?         @unique
   password      String?
   emailVerified DateTime?
@@ -63,9 +64,30 @@ timezone      String?
     likes   Like[]
     tribeVisits TribeVisit[]
     tasks   Task[]
+    accounts      Account[]
  notifications Notification[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String @unique @db.ObjectId
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? @db.String
+  access_token       String? @db.String
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.String
+  session_state      String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
 model Streak {
