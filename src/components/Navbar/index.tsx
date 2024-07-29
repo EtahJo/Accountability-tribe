@@ -62,7 +62,6 @@ const Navbar = () => {
           <p className="text-lightPink">Accountability </p>
           Tribe
         </Link>
-
         <div className=" rounded-2xl p-2 lg:flex gap-2 items-center hidden">
           <Link
             href={'/tribes?page=1'}
@@ -97,6 +96,9 @@ const Navbar = () => {
             </Link>
           )}
         </div>
+        {openDropdown && (
+          <MobileView closeDropdown={() => setOpenDropdown(false)} />
+        )}{' '}
         {session.status === 'authenticated' ? (
           <div className="flex justify-between items-center gap-x-4">
             <FaBars
@@ -104,9 +106,9 @@ const Navbar = () => {
               className="text-lightPink block lg:hidden "
               onClick={() => setOpenDropdown((prev) => !prev)}
             />
-            {openDropdown && (
+            {/* {openDropdown && (
               <MobileView closeDropdown={() => setOpenDropdown(false)} />
-            )}{' '}
+            )}{' '} */}
             <div className="relative lg:flex items-center gap-4 hidden">
               <StreakIcon count={user?.streak?.count} />
               <NotificationIcon notifications={user.notifications} />
@@ -124,18 +126,28 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="flex gap-2">
-            <Link
-              className="font-thin hover:font-bold cursor-pointer"
-              href={'/auth/login'}
-            >
-              Login
-            </Link>
-            <Link
-              href={'/auth/signup'}
-              className="text-white font-thin hover:font-bold cursor-pointer"
-            >
-              Sign Up
-            </Link>
+            <FaBars
+              size={25}
+              className="text-lightPink block lg:hidden "
+              onClick={() => setOpenDropdown((prev) => !prev)}
+            />
+            {/* {openDropdown && (
+              <MobileView closeDropdown={() => setOpenDropdown(false)} />
+            )}{' '} */}
+            <div className="largePhone:flex hidden">
+              <Link
+                className="font-thin hover:font-bold cursor-pointer"
+                href={'/auth/login'}
+              >
+                Login
+              </Link>
+              <Link
+                href={'/auth/signup'}
+                className="text-white font-thin hover:font-bold cursor-pointer"
+              >
+                Sign Up
+              </Link>
+            </div>
           </div>
         )}
         <ModalWrapper

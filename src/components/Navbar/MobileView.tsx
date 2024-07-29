@@ -37,6 +37,22 @@ const MobileView = ({ closeDropdown }: MobileViewProps) => {
             />
           </div>
         )}
+        {!user && (
+          <div className="flex flex-col items-center gap-y-2 mb-2">
+            <Link
+              className="font-thin hover:font-bold cursor-pointer"
+              href={'/auth/login'}
+            >
+              Login
+            </Link>
+            <Link
+              href={'/auth/signup'}
+              className="text-white font-thin hover:font-bold cursor-pointer"
+            >
+              Sign Up
+            </Link>
+          </div>
+        )}
         <div className="flex flex-col gap-y-2">
           <Link
             href={'/tribes?page=1'}

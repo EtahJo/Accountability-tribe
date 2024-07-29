@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 const LoggedOut = () => {
   return (
-    <div className=" largePhone:bg-home-bg-image bg-cover bg-center bg-no-repeat min-h-screen my-14 relative flex flex-col gap-y-8 bg-home-bg-image-phone">
+    <div className=" largePhone:bg-home-bg-image bg-cover bg-center bg-no-repeat min-h-screen my-14 relative flex flex-col gap-y-8 bg-home-bg-image-phone overflow-hidden">
       <div className="flex flex-col items-center">
         <p
           className=" font-bold min-[1327px]:text-7xl min-[841px]:text-6xl min-[723px]:text-5xl min-[391px]:text-3xl text-xl
