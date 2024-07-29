@@ -4,22 +4,22 @@ import { Button } from '@/components/ui/button';
 
 const LoggedOut = () => {
   return (
-    <div className=" largePhone:bg-home-bg-image bg-cover bg-center bg-no-repeat min-h-screen my-14 relative flex flex-col gap-y-8 bg-home-bg-image-phone overflow-hidden">
-      <div className="flex flex-col items-center">
+    <div className=" largePhone:bg-home-bg-image bg-cover bg-center bg-no-repeat min-h-screen my-14 relative flex flex-col largePhone:gap-y-8 bg-home-bg-image-phone overflow-hidden gap-y-52">
+      <div className="flex flex-col items-center mt-32 largePhone:mt-0 gap-y-3">
         <p
-          className=" font-bold min-[1327px]:text-7xl min-[841px]:text-6xl min-[723px]:text-5xl min-[391px]:text-3xl text-xl
-      uppercase text-center  min-[1309px]:m-20 min-[583px]:m-10 m-5 text-white"
+          className=" font-bold min-[1327px]:text-7xl min-[841px]:text-6xl min-[723px]:text-5xl text-4xl
+      uppercase text-center  text-white"
         >
           follow our five step path
         </p>
-        <div className="w-48 -mt-14">
+        <div className="w-48">
           <Button className="move-button" size={'slg'}>
             Get Started
           </Button>
         </div>
       </div>
 
-      <div className="flex items-center largePhone:flex-row flex-col">
+      <div className="flex items-center largePhone:flex-row flex-col largePhone:gap-y-0 largePhone:mt-32">
         <HeroBlob textOne="Share" textTwo="your story" number={'01'} />
         <HeroBlob textOne="Start or" textTwo="Join Tribe" number={'02'} />
         <HeroBlob textOne="Set" textTwo="Daily Tasks" number={'03'} />

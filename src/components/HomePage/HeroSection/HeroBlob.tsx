@@ -70,7 +70,7 @@ const HeroBlob = ({
         dy=".3em"
         fill="white"
         style={{ backgroundColor: 'white' }}
-        className="uppercase text-5xl font-bold"
+        className="uppercase text-6xl font-bold"
       >
         {number}
       </text>
