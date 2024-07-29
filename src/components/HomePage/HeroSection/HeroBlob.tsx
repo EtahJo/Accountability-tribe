@@ -1,12 +1,20 @@
 'use client';
 
-const HeroBlob = () => {
+const HeroBlob = ({
+  textOne,
+  textTwo,
+  number,
+}: {
+  textOne: string;
+  textTwo: string;
+  number: string;
+}) => {
   return (
     <svg
       id="visual"
       viewBox="0 0 900 600"
-      width="700"
-      height="400"
+      width="600"
+      height="300"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
     >
@@ -51,6 +59,45 @@ const HeroBlob = () => {
           ></animate>
         </path>
       </g>
+
+      <text
+        x="50%"
+        y="40%"
+        textAnchor="middle"
+        stroke="#9352E6"
+        strokeWidth="2px"
+        color="white"
+        dy=".3em"
+        fill="white"
+        style={{ backgroundColor: 'white' }}
+        className="uppercase text-5xl font-bold"
+      >
+        {number}
+      </text>
+      <text
+        x="50%"
+        y="50%"
+        textAnchor="middle"
+        stroke="#000"
+        strokeWidth="1px"
+        color="white"
+        dy=".3em"
+        className="uppercase text-4xl font-bold "
+      >
+        {textOne}
+      </text>
+      <text
+        x="50%"
+        y="60%"
+        textAnchor="middle"
+        stroke="#000"
+        strokeWidth="1px"
+        color="white"
+        dy=".3em"
+        className="uppercase text-4xl font-bold "
+      >
+        {textTwo}
+      </text>
     </svg>
   );
 };
