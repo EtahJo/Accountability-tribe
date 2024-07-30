@@ -10,13 +10,14 @@ import Link from 'next/link';
 import AuthMessage from '@/components/AuthMessage/index';
 import { login } from '@/action/auth/login';
 import { LoginSchema } from '@/schemas/index';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { editProfile } from '@/action/auth/edit-profile';
 import { FormError } from '@/components/Messages/Error';
 
 const Login = () => {
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl');
   const [remember, setRemember] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -25,7 +26,7 @@ const Login = () => {
   const [isPending, startTransition] = useTransition();
   const onSubmit = (vals: z.infer<typeof LoginSchema>) => {
     startTransition(() => {
-      login(vals)
+      login(vals, callbackUrl)
         .then((data) => {
           if (data?.error) {
             setError(data.error);
@@ -34,7 +35,6 @@ const Login = () => {
             editProfile({
               remember: vals.remember,
             });
-            router.push('/user-home');
           }
         })
         .catch(() => setError('Something went wrong'));
@@ -51,11 +51,11 @@ const Login = () => {
         tagline="The Journey Begins when you"
       />
       <div className="justify-center relative lg:w-3/4 w-full ">
-        <div className="bg-white rounded-3xl p-10 shadow-buttonInner phone:w-96 relative flex-col gap-y-2">
+        <div className="bg-white rounded-3xl p-10 shadow-buttonInner phone:w-96 relative flex-col gap-y-4">
           <h1 className="bg-lightPink rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-2xl">
             Login Here
           </h1>
-          <Formsy autoComplete="off" onValidSubmit={onSubmit}>
+          <Formsy autoComplete="off" onValidSubmit={onSubmit} className="mb-3">
             <Custominput
               name="email"
               type="text"

@@ -7,6 +7,7 @@ export const authRoutes = [
 ];
 export const userProfilePrefix = '/user/';
 export const tribeProfilePrefix = '/tribe/';
+
 export const apiAuthPrefix = '/api/auth';
 
 export const DEFAULT_LOGIN_REDIRECT = '/';

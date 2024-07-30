@@ -5,6 +5,12 @@ import Google from 'next-auth/providers/google';
 import GitHub from 'next-auth/providers/github';
 import bcrypt from 'bcryptjs';
 import { getUserByEmail } from '@/data/user';
+import { google } from 'googleapis';
+
+const scopes = [
+  'https://www.googleapis.com/auth/calendar.events',
+  'https://www.googleapis.com/auth/calendar',
+].join(' ');
 
 export default {
   providers: [
@@ -15,6 +21,7 @@ export default {
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      // authorization: `https://accounts.google.com/o/oauth2/auth?prompt=consent&access_type=offline&response_type=code&scope=${scopes}`,
     }),
     Credentials({
       async authorize(credentials) {

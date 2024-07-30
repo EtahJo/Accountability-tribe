@@ -157,9 +157,9 @@ export const totalSimilarTribes = async (tags: string) => {
 };
 export const getTribesWithSimilarTags = async (
   tags: string,
-  currentUserId: string,
   pageLimit: number,
-  pageNumber: number
+  pageNumber: number,
+  currentUserId?: string
 ) => {
   try {
     const tagsArray = tags.split(',');
@@ -200,9 +200,9 @@ export const totalOfTribes = async () => {
   }
 };
 export const getAllTribes = async (
-  currentUserId: string,
   pageLimit: number,
-  pageNumber: number
+  pageNumber: number,
+  currentUserId?: string
 ) => {
   try {
     const totalTribes = await totalOfTribes();

@@ -13,15 +13,15 @@ export async function GET(req: NextRequest, context: any) {
     const tribes = filterString
       ? await getTribesWithSimilarTags(
           filterString,
-          params.currentUserId,
           pageLimit,
-          pageInt
+          pageInt,
+          params.currentUserId
         )
-      : await getAllTribes(params.currentUserId, pageLimit, pageInt);
+      : await getAllTribes(pageLimit, pageInt, params.currentUserId);
     const modifiedTribeData = [];
     for (const tribe of tribes.tribes) {
       const newPosts =
-        tribe.tribeVisit.length === 1
+        tribe?.tribeVisit && tribe?.tribeVisit?.length === 1
           ? await getAllTribeNewPosts(tribe.id, tribe.tribeVisit[0].lastVisit)
           : await getAllTribePosts(tribe.id, params.currentUserId as string);
       modifiedTribeData.push({

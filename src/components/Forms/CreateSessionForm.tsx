@@ -18,6 +18,7 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 import Formsy from 'formsy-react';
 import { Button } from '@/components/ui/button';
 import { mutate } from 'swr';
+import { create_google_meeting_link } from '@/action/session/create_google_meeting_link';
 import SelectTasks from '@/components/CustomMultipleSelectInput/SelectTasks';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -64,6 +65,8 @@ const CreateSessionForm = () => {
           setSuccess('');
           setError('Something went wrong');
         });
+
+      // create_google_meeting_link(vals,)
     });
   };
   return (

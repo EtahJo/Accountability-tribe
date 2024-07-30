@@ -38,10 +38,11 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
   callbacks: {
     async signIn({ account, user }) {
       if (account?.provider !== 'credential') {
+        const username = `${user.name}_oauth`;
         await db.user.update({
           where: { id: user.id },
           data: {
-            username: user.name,
+            username,
           },
         });
       }
@@ -69,8 +70,12 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (!token.sub) return token;
+      if (account?.accessToken) {
+        token.accessToken = account.access_token;
+        token.refreshToken = account.refresh_token;
+      }
 
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
@@ -90,7 +95,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
       token.tasks = existingUser.tasks;
       token.streak = existingUser.streak;
       token.notifications = existingUser.notifications;
-
+      console.log('Token is', token);
       return token;
     },
   },

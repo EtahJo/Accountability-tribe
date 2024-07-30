@@ -2,7 +2,7 @@ import { db } from '@/lib/db';
 
 export const getAllTribePosts = async (
   tribeId: string,
-  currentUserId: string
+  currentUserId?: string
 ) => {
   try {
     const posts = await db.post.findMany({

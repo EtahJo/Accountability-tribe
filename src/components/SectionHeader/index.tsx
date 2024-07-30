@@ -21,7 +21,7 @@ const SectionHeader = ({
     <div
       className={cn(
         'flex items-center gap-3 lg:flex-row flex-col lg:justify-between justify-center',
-        pathname.endsWith(user.username) || !pathname.includes('user')
+        pathname.endsWith(user?.username) || !pathname.includes('user')
           ? 'justify-between'
           : 'justify-start',
         classNames
@@ -37,7 +37,7 @@ const SectionHeader = ({
         <div data-testid="section_title">{name}</div>
       </div>
       {buttonLink &&
-        (pathname.endsWith(user.username) || !pathname.includes('user')) && (
+        (pathname.endsWith(user?.username) || !pathname.includes('user')) && (
           <Button className="move-button flex items-center gap-1">
             {buttonIcon && buttonIcon}
             <Link href={buttonLink}>{buttonTitle}</Link>

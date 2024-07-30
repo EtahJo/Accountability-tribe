@@ -4,7 +4,11 @@ import { LoginSchema } from '@/schemas/index';
 import { getUserByEmail } from '@/data/user';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-export const login = async (values: z.infer<typeof LoginSchema>) => {
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
+export const login = async (
+  values: z.infer<typeof LoginSchema>,
+  callbackUrl?: string | null
+) => {
   const validatedFields = LoginSchema.safeParse(values);
   if (!validatedFields.success) {
     return { error: 'Invalid fields' };
@@ -21,6 +25,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     await signIn('credentials', {
       email,
       password,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
     return { success: 'Success' };
   } catch (error) {
