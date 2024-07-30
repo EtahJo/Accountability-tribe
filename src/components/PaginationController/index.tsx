@@ -1,25 +1,28 @@
 'use client';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 interface PaginationControllerProps {
   hasMore: boolean;
-  nextPage: number;
   page: number;
   pageNumbers: number[];
-  prevPage: number;
   totalPages: number;
+  filter?: string | null;
 }
 
 const PaginationController = ({
   hasMore,
-  nextPage,
   page,
+  filter,
   pageNumbers,
-  prevPage,
   totalPages,
 }: PaginationControllerProps) => {
+  const router = useRouter();
   const isPageOutofRange = page > totalPages;
+  const prevPage = page - 1 > 0 ? page - 1 : 1;
+  const nextPage = page + 1;
+
   return (
     <div>
       {isPageOutofRange && totalPages !== 0 ? (
@@ -40,7 +43,11 @@ const PaginationController = ({
             </div>
           ) : (
             <Link
-              href={`?page=${prevPage}`}
+              href={
+                !filter || filter === undefined
+                  ? `?page=${prevPage}`
+                  : `?page=${prevPage}&filter=${filter}`
+              }
               className="cursor-pointer
            bg-purple rounded-xl shadow-3xl  p-2 move-button"
               aria-label="Previous page"
@@ -51,7 +58,11 @@ const PaginationController = ({
           {pageNumbers.map((pageNumber: any, index: any) => (
             <Link
               key={index}
-              href={`?page=${pageNumber}`}
+              href={
+                !filter || filter === undefined
+                  ? `?page=${pageNumber}`
+                  : `?page=${pageNumber}&filter=${filter}`
+              }
               className={cn(
                 'cursor-pointer bg-purple rounded-xl shadow-3xl  p-2 move-button',
                 pageNumber === page && 'bg-black'
@@ -64,7 +75,11 @@ const PaginationController = ({
 
           {hasMore ? (
             <Link
-              href={`?page=${nextPage}`}
+              href={
+                !filter || filter === undefined
+                  ? `?page=${nextPage}`
+                  : `?page=${nextPage}&filter=${filter}`
+              }
               className={cn(
                 'cursor-pointer move-button bg-purple rounded-xl shadow-3xl  p-2'
               )}

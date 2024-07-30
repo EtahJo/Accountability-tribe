@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
-const SessionFilter = ({ page }: { page: number }) => {
+const SessionFilter = () => {
   const searchParams = useSearchParams();
   const [selectedFilter, setSelectedFilter] = useState(
     searchParams.get('filter')
@@ -13,7 +13,7 @@ const SessionFilter = ({ page }: { page: number }) => {
   const filters = [
     {
       text: 'Upcoming',
-      filter: 'allupcoming',
+      filter: 'upcoming',
     },
     {
       text: 'Ended',
@@ -42,7 +42,7 @@ const SessionFilter = ({ page }: { page: number }) => {
     lg:justify-start justify-center"
     >
       {filters?.map(({ filter, text }, index) => (
-        <Link href={`?page=${page}&filter=${filter}`} key={index}>
+        <Link href={`?page=1&filter=${filter}`} key={index}>
           <Button
             key={index}
             onClick={() => {

@@ -306,8 +306,29 @@ export const totalTribePostUnApproved = async (tribeId: string) => {
   }
 };
 
-export const getAllTribesUserIsAdmin = async (username: string) => {
+export const totalTribeUserIsAdmin = async (username: string) => {
   try {
+    const total = await db.tribe.count({
+      where: {
+        adminsUsername: {
+          has: username,
+        },
+      },
+    });
+    return total;
+  } catch (error: any) {
+    console.error('Error getting total tribes user is admin of', error.message);
+  }
+};
+
+export const getAllTribesUserIsAdmin = async (
+  username: string,
+  pageLimit: number,
+  pageNumber: number
+) => {
+  try {
+    const totalTribes = await totalTribeUserIsAdmin(username);
+    const totalPages = Math.ceil((totalTribes as number) / pageLimit);
     const tribes = await db.tribe.findMany({
       where: {
         adminsUsername: {
@@ -318,8 +339,13 @@ export const getAllTribesUserIsAdmin = async (username: string) => {
         users: true,
         tribeVisit: true,
       },
+      take: pageLimit + 1,
+      skip: pageLimit * (pageNumber - 1),
     });
-    return tribes;
+    const hasMore = tribes.length > pageLimit;
+    const result = hasMore ? tribes.slice(0, pageLimit) : tribes;
+
+    return { tribes: result, hasMore, totalPages };
   } catch (error: any) {
     console.error('Error getting all tribes user is admin ', error.message);
   }

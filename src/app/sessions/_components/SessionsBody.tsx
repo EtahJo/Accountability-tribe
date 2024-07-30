@@ -31,8 +31,6 @@ const SessionsBody = () => {
       </div>
     );
   }
-  const prevPage = page - 1 > 0 ? page - 1 : 1;
-  const nextPage = page + 1;
   const pageNumbers = [];
   const offsetNumber = 3;
   for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {
@@ -43,10 +41,12 @@ const SessionsBody = () => {
   const getFilteredData = (data: any) => {
     setFilteredData(data);
   };
+  console.log('filter', filter);
+
   return (
     <div className="h-max">
       <div className="flex justify-center items-center flex-col gap-y-3">
-        <SessionFilter page={page} />
+        <SessionFilter />
         {/* TODO: connect filter form to searchparams */}
         <FilterForm
           data={sessionsData?.sessions}
@@ -92,12 +92,11 @@ const SessionsBody = () => {
         )}
       </div>
       <PaginationController
-        prevPage={prevPage}
-        nextPage={nextPage}
         pageNumbers={pageNumbers}
         hasMore={sessionsData.hasMore}
         page={page}
         totalPages={sessionsData.totalPages}
+        filter={filter}
       />
     </div>
   );

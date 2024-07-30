@@ -56,7 +56,7 @@ const GetAllSessions = ({ username }: { username: string }) => {
     <div className="h-screen mt-4">
       <div className="flex flex-col gap-y-3 justify-center items-center">
         <div className="flex flex-col justify-center items-center">
-          <SessionFilter page={page} />
+          <SessionFilter />
           <FilterForm
             data={sessionsData.sessions.sessions}
             getFilteredData={getFilteredData}
@@ -113,8 +113,6 @@ const GetAllSessions = ({ username }: { username: string }) => {
         <PaginationController
           page={page}
           pageNumbers={pageNumbers}
-          prevPage={prevPage}
-          nextPage={nextPage}
           hasMore={sessionsData.hasMore}
           totalPages={sessionsData.totalPages}
         />

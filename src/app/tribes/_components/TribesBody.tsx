@@ -86,9 +86,8 @@ const TribesBody = () => {
         page={page}
         hasMore={tribesData.hasMore}
         totalPages={tribesData.totalPages}
-        nextPage={nextPage}
-        prevPage={prevPage}
         pageNumbers={pageNumbers}
+        filter={filter}
       />
     </div>
   );
