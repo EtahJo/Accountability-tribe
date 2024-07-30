@@ -9,9 +9,9 @@ export async function GET(req: Request, context: any) {
     const tags = tribe?.tags.join(',');
     const similarTribes = await getTribesWithSimilarTags(
       tags as string,
-      params.currentUserId,
       6,
-      1
+      1,
+      params.currentUserId
     );
     const modifiedData = [];
     for (const tribe of similarTribes.tribes) {

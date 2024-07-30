@@ -33,6 +33,7 @@ const UseProfilePage = ({ params }: { params: { username: string } }) => {
       </div>
     );
   }
+  console.log('Page user >>', user);
   return (
     <div>
       <div>

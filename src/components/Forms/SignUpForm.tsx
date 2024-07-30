@@ -9,6 +9,7 @@ import { signup } from '@/action/auth/signup';
 import { Button } from '@/components/ui/button';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
+import GoogleLoginButton from '@/app/auth/_components/GoogleLoginButton';
 
 import TimeZoneInput from '@/components/TimeZoneInput/index';
 import { useRouter } from 'next/navigation';
@@ -123,10 +124,11 @@ const SignUpForm = () => {
         {error && <FormError message={error} />}
         {success && <FormSuccess message={success} />}
       </div>
-      <div className="w-full place-content-center m-auto">
+      <div className="w-full place-content-center m-auto flex flex-col gap-y-3">
         <Button size={'slg'} variant="primary" disabled={isPending}>
           Sign Up
         </Button>
+        <GoogleLoginButton />
       </div>
     </Formsy>
   );

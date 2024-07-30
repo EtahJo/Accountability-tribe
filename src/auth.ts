@@ -2,7 +2,7 @@ import NextAuth, { type DefaultSession } from 'next-auth';
 import authConfig from './auth.config';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { db } from './lib/db';
-import { getUserById } from './data/user';
+import { getUserById, getUserByUsername } from './data/user';
 import { getAccountByUserId } from './data/account';
 import { Streak, Session, Task, Notification } from '@prisma/client';
 
@@ -36,18 +36,22 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
     error: '/auth/error',
   },
   callbacks: {
-    async signIn({ account, user }) {
-      if (account?.provider !== 'credential') {
-        const username = `${user.name}_oauth`;
-        await db.user.update({
-          where: { id: user.id },
-          data: {
-            username,
-          },
-        });
-      }
-      return true;
-    },
+    // async signIn({ account, user }) {
+    //   if (account?.provider !== 'credential') {
+    //     const existingUser = await getUserById(user?.id as string);
+    //     console.log();
+    //     if (existingUser && !existingUser?.username) {
+    //       const username = `${user.name}_${user?.id as string}`;
+    //       await db.user.update({
+    //         where: { id: user.id },
+    //         data: {
+    //           username,
+    //         },
+    //       });
+    //     }
+    //   }
+    //   return true;
+    // },
     async session({ token, session }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
@@ -80,6 +84,17 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
       const existingAccount = await getAccountByUserId(existingUser.id);
+      if (existingAccount) {
+        if (!existingUser?.username) {
+          const username = `${existingUser.name}_${existingUser?.id as string}`;
+          await db.user.update({
+            where: { id: existingUser.id },
+            data: {
+              username,
+            },
+          });
+        }
+      }
 
       token.isOAuth = !!existingAccount;
       token.username = existingUser.username;
@@ -90,11 +105,14 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
       token.image = existingUser.image;
       token.country = existingUser.country;
       token.remember = existingUser.remember;
-      token.timezone = existingUser.timezone;
+      token.timezone =
+        existingUser.timezone ||
+        Intl.DateTimeFormat().resolvedOptions().timeZone;
       token.sessions = existingUser.sessions;
       token.tasks = existingUser.tasks;
       token.streak = existingUser.streak;
       token.notifications = existingUser.notifications;
+
       return token;
     },
   },
