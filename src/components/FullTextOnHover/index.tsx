@@ -13,7 +13,7 @@ const FullTextOnHover = ({
   textClassName,
 }: FullTextOnHoverProps) => {
   return (
-    <div className={cn('group relative', isAfter ? 'w-52' : 'w-28', className)}>
+    <div className={cn('group relative w-28', className)}>
       <div className="truncate ">{text}</div>
       <p
         className={cn(

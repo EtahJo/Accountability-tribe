@@ -37,7 +37,10 @@ const SessionFilter = ({ page }: { page: number }) => {
     },
   ];
   return (
-    <div className="flex items-center gap-x-2 my-3">
+    <div
+      className="flex items-center gap-2 my-3 flex-wrap 
+    lg:justify-start justify-center"
+    >
       {filters?.map(({ filter, text }, index) => (
         <Link href={`?page=${page}&filter=${filter}`} key={index}>
           <Button

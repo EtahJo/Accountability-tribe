@@ -44,7 +44,7 @@ const SessionsBody = () => {
     setFilteredData(data);
   };
   return (
-    <div className="h-screen">
+    <div className="h-max">
       <div className="flex justify-center items-center flex-col gap-y-3">
         <SessionFilter page={page} />
         {/* TODO: connect filter form to searchparams */}
@@ -54,7 +54,7 @@ const SessionsBody = () => {
         />
       </div>
 
-      <div className="flex items-center flex-wrap justify-between">
+      <div className="flex items-center flex-wrap lg:justify-between justify-center">
         {(filteredData ? filteredData : sessionsData?.sessions)?.map(
           (session: any) => {
             const checkUser = session.users.filter(
