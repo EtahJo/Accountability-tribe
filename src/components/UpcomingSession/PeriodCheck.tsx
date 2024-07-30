@@ -5,6 +5,7 @@ interface PeriodCheckProps {
   isTodayCheck: boolean;
   timeLeft: number;
   checkIfAfter: boolean;
+  isBefore: boolean;
   startDate: string;
   startTime: string;
 }
@@ -12,6 +13,7 @@ interface PeriodCheckProps {
 const PeriodCheck = ({
   isTodayCheck,
   timeLeft,
+  isBefore,
   checkIfAfter,
   startDate,
   startTime,
@@ -34,7 +36,29 @@ const PeriodCheck = ({
           )}
         </div>
       )}
-      {!isTodayCheck && !checkIfAfter && (
+      <div className="flex items-start gap-2 largePhone:flex-row flex-col">
+        {checkIfAfter && (
+          <p className="text-normal font-bold whitespace-nowrap text-xs">
+            Past on
+          </p>
+        )}
+        {isBefore ||
+          (checkIfAfter && (
+            <span>
+              <span className="flex items-center gap-x-2">
+                <FaCalendar className="text-purple" />
+                <p>{startDate}</p>
+              </span>
+
+              <span className="flex items-center gap-x-2">
+                <FaClock className="text-purple" />
+                <p> {startTime}</p>
+              </span>
+            </span>
+          ))}
+      </div>
+
+      {/* {!isTodayCheck && !checkIfAfter && (
         <div className="flex items-center gap-1">
           <span className="font-bold whitespace-nowrap text-xs">
             <>
@@ -67,7 +91,7 @@ const PeriodCheck = ({
             </>
           </span>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

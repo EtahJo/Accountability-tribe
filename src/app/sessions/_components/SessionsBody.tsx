@@ -76,7 +76,7 @@ const SessionsBody = () => {
                 sessionId={session.id}
                 isMember={session.users.some(
                   (sessionParticipant: SessionParticipant) =>
-                    sessionParticipant.userId === user.id
+                    sessionParticipant?.userId === user?.id
                 )}
                 members={session.users.length}
                 admin={session.adminUsername}

@@ -54,6 +54,7 @@ const UpcomingSession = ({
   const now = new Date();
   const isTodayCheck = isToday(startDateTime);
   const checkIfAfter = isAfter(now, endDateTime);
+  const isBeforeCheck = isBefore(now, startDate);
   const onGoing = isAfter(now, startDateTime) && isBefore(now, endDateTime);
   const timeLeft = parseFloat(getTimeDifference(startDateTime).minutes);
 
@@ -78,6 +79,7 @@ const UpcomingSession = ({
             checkIfAfter={checkIfAfter}
             startTime={startTime}
             startDate={startDate}
+            isBefore={isBeforeCheck}
           />
         </div>
       </div>

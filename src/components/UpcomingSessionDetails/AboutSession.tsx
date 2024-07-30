@@ -15,7 +15,7 @@ const AboutSession = ({
   isMember,
 }: AboutSessionProps) => {
   return (
-    <div className="flex gap-x-2 flex-wrap -mt-5 ml-2 text-xs min-[434px]:text-sm min-[434px]:justify-start justify-center">
+    <div className="flex gap-x-1 flex-wrap -mt-5 ml-2 text-xs min-[434px]:text-sm largePhone:justify-start justify-center">
       <p className="whitespace-nowrap">This Session with </p>
       {/* TODO:Add link to user profile */}
       <Link href={`/user/${admin}`} className="text-lightPink">
@@ -23,9 +23,10 @@ const AboutSession = ({
       </Link>
 
       <p className="whitespace-nowrap">
-        as admin has {members} {members > 1 ? ' participants' : ' participant'}
+        as admin has {members}{' '}
+        {members > 1 ? ' participants,' : ' participant,'}
       </p>
-      <p className="font-bold"> {isMember && !isAdmin && ',including you'}</p>
+      <p className="font-bold"> {isMember && !isAdmin && 'including you'}</p>
     </div>
   );
 };
