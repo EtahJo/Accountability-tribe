@@ -29,7 +29,7 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
   );
   if (isLoading || sessions === undefined) {
     return (
-      <div className="flex items-center gap-x-2">
+      <div className="flex items-center gap-x-2 lg:flex-row flex-col">
         {Array.from({ length: 2 }).map((_, index) => (
           <UpcomingSessionSkeleton key={index} />
         ))}
@@ -49,7 +49,7 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
       {sessions?.sessions?.sessions.length === 0 ? (
         <div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
           <div>
-            <p>You have no upcoming sessions</p>
+            <p>No upcoming sessions</p>
             {/* TODO: add session recommendations */}
           </div>
         </div>

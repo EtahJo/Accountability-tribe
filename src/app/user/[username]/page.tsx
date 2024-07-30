@@ -5,7 +5,8 @@ import LongHeaderSkeleton from '@/components/Skeletons/LongHeaderSkeleton';
 import UserSkeleton from '@/components/Skeletons/UserSkeleton';
 import UserProfileBody from '@/components/UserProfileBody/index';
 import { Skeleton } from '@/components/ui/skeleton';
-
+import UpcomingSessionSkeleton from '@/components/Skeletons/UpcomingSessionSkeleton';
+import PostSkeleton from '@/components/Skeletons/PostSkeleton';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UseProfilePage = ({ params }: { params: { username: string } }) => {
   const { username } = params;
@@ -16,8 +17,11 @@ const UseProfilePage = ({ params }: { params: { username: string } }) => {
   if (isLoading) {
     return (
       <div className="mx-16">
-        <LongHeaderSkeleton classNames="bg-purple flex justify-between items-center  mt-16 w-full py-10 px-32 ">
-          <div className="flex flex-col gap-y-2">
+        <LongHeaderSkeleton
+          classNames="bg-purple flex justify-between items-center 
+         mt-16 w-full py-10 px-32 largePhone:flex-row flex-col "
+        >
+          <div className="flex flex-col gap-y-2 p-3">
             <Skeleton className="h-12 w-[250px]" />
             <div className="flex flex-col space-y-3">
               {Array.from({ length: 3 }).map((_, index) => (
@@ -30,10 +34,15 @@ const UseProfilePage = ({ params }: { params: { username: string } }) => {
           </div>
           <UserSkeleton classNames="w-[180px] h-[180px]" />
         </LongHeaderSkeleton>
+        <div className="flex items-center gap-x-2 lg:flex-row flex-col my-10">
+          {Array.from({ length: 2 }).map((_, index) => (
+            <UpcomingSessionSkeleton key={index} />
+          ))}
+        </div>
+        <PostSkeleton />
       </div>
     );
   }
-  console.log('Page user >>', user);
   return (
     <div>
       <div>
