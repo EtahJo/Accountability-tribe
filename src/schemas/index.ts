@@ -88,7 +88,10 @@ export const CreateSessionSchema = z.object({
   ),
   meetingLink: z
     .string()
-    .min(1, { message: 'Please add a Google Meeting Link' }),
+    .regex(
+      /^https:\/\/meet\.google\.com\/[a-zA-Z]{3,4}-[a-zA-Z]{4}-[a-zA-Z]{3}$/,
+      { message: 'Please enter a valid google meeting link' }
+    ),
   duration: z.optional(z.string()),
 });
 

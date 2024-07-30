@@ -11,8 +11,14 @@ export const create_session = async (
   values: z.infer<typeof CreateSessionSchema>
 ) => {
   const validatedFields = CreateSessionSchema.safeParse(values);
+
+  const errorMessage = validatedFields.error?.message
+    .split(',')[2]
+    .split(':')[1]
+    .split('"')[1];
+
   if (!validatedFields.success) {
-    return { error: 'Invalid Fields' };
+    return { error: errorMessage };
   }
   const { goal, startEndDateTime, meetingLink, taskIds } = validatedFields.data;
   const user = await currentUser();

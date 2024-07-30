@@ -2,7 +2,7 @@ export const authRoutes = [
   '/auth/login',
   '/auth/signup',
   '/auth/error',
-  '/auth/reset',
+  '/auth/forgot-password',
   '/auth/new-password',
 ];
 export const userProfilePrefix = '/user/';

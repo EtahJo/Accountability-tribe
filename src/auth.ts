@@ -95,7 +95,6 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
       token.tasks = existingUser.tasks;
       token.streak = existingUser.streak;
       token.notifications = existingUser.notifications;
-      console.log('Token is', token);
       return token;
     },
   },
