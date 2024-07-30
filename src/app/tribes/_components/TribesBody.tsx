@@ -46,9 +46,9 @@ const TribesBody = () => {
   });
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="flex flex-col  h-max">
       <TribesFilter tags={Array.from(tags)} page={page} />
-      <div className="flex items-center justify-start">
+      <div className="flex items-center justify-start flex-wrap ">
         {tribesData.tribes.map(
           ({
             description,

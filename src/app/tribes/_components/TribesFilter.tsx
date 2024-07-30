@@ -20,7 +20,10 @@ const TribesFilter = ({ tags, page }: TribesFilterProps) => {
   };
 
   return (
-    <div className="flex items-center gap-x-2 my-3">
+    <div
+      className="flex items-center gap-2 my-3 flex-wrap 
+    lg:justify-start justify-center"
+    >
       {tags?.map((tag, index) => (
         <Link href={`?page=${page}&filter=${tag}`} key={index}>
           <Button
