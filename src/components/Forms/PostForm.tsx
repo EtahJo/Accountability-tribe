@@ -45,7 +45,7 @@ const PostForm = ({ tribeId }: { tribeId: string }) => {
     });
   };
   return (
-    <div className="bg-white rounded-2xl shadow-3xl p-5 mb-5 w-full">
+    <div className="bg-white rounded-2xl shadow-3xl p-5 mb-5 md:w-full w-max">
       <Formsy onValidSubmit={onValidSubmit}>
         <CustomInput
           lable="What's your post about?"

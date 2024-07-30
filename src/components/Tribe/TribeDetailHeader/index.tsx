@@ -137,14 +137,14 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
     (tribeUser: TribeUser) => tribeUser.userId === user?.id
   );
   return (
-    <div className=" grid  grid-cols-10">
-      <div className="bg-white shadow-3xl rounded-3xl p-10  pt-24 flex-col relative col-start-2 col-end-10 mx-2">
+    <div className=" grid  grid-cols-12">
+      <div className="bg-white shadow-3xl rounded-3xl p-10  pt-24 flex-col relative col-start-2 col-end-12">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div
               className="w-[100px] h-[100px] rounded-full 
-     bg-lightPink flex justify-center items-center shadow-buttonInner
-      p-2 -mt-24 relative"
+     bg-lightPink justify-center items-center shadow-buttonInner
+      p-2 -mt-24 relative min-[814px]:flex hidden"
             >
               <p
                 className="text-shadow-xl text-center whitespace-normal 
@@ -155,7 +155,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
             </div>
             <div
               className="w-[100px] h-[100px] rounded-full  
-     bg-lightPink flex justify-center items-center shadow-buttonInner p-2"
+     bg-lightPink  justify-center items-center shadow-buttonInner p-2 min-[814px]:flex hidden"
             >
               <p
                 className="text-shadow-xl text-center whitespace-normal 
@@ -174,7 +174,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
           <div className="flex items-center">
             <div
               className="w-[100px] h-[100px] rounded-full 
-     bg-lightPink flex justify-center items-center shadow-buttonInner p-2"
+     bg-lightPink justify-center items-center shadow-buttonInner p-2 min-[814px]:flex hidden"
             >
               <p
                 className="text-shadow-xl text-center 
@@ -184,8 +184,8 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
               </p>
             </div>
             <div
-              className="w-[100px] h-[100px] rounded-full  bg-lightPink flex 
-            justify-center items-center shadow-buttonInner p-2 -mt-24"
+              className="w-[100px] h-[100px] rounded-full  bg-lightPink
+            justify-center items-center shadow-buttonInner p-2 -mt-24 min-[814px]:flex hidden"
             >
               <p
                 className="text-shadow-xl text-center whitespace-normal
@@ -209,7 +209,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
               cancelTrigger={
                 <p className="text-lightPink font-bold cursor-pointer">X</p>
               }
-              textClass="text-4xl font-bold text-center"
+              textClass="md:text-4xl font-bold text-center text-xl"
               showEditOption={isAdmin}
             />
 
@@ -234,7 +234,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
             cancelTrigger={
               <p className="text-lightPink font-bold cursor-pointer">X</p>
             }
-            textClass="text-lg  text-center"
+            textClass="md:text-lg  text-center text-sm"
             showEditOption={isAdmin}
           />
 

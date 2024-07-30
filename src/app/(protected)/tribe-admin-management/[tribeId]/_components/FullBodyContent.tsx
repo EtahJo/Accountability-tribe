@@ -17,7 +17,7 @@ const FullBodyContent = ({ tribeId }: { tribeId: string }) => {
   );
   if (isLoading || postEdits === undefined)
     return (
-      <div>
+      <div className="min-[640px]:mt-0 mt-16">
         {Array.from({ length: 3 }).map((_, index) => (
           <PostSkeleton key={index} />
         ))}

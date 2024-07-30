@@ -46,13 +46,16 @@ const TribeInfoSection = ({
   const { name, description, profileImage, adminsUsername, users, posts, id } =
     tribeInfo;
   return (
-    <div className="flex flex-col gap-y-5 mb-5 medPhone:items-start items-center">
-      <TribeHeader
-        tribeName={name}
-        tribeDescription={description}
-        tribeProfileImage={profileImage}
-        tribeId={id}
-      />
+    <div className="flex flex-col gap-y-5 mb-5 ">
+      <div className="flex ">
+        <TribeHeader
+          tribeName={name}
+          tribeDescription={description}
+          tribeProfileImage={profileImage}
+          tribeId={id}
+        />
+      </div>
+
       <div className="flex flex-wrap items-center justify-start gap-5">
         <Totals total={users.length} propertyName="Member" />
         <Totals total={tribeTotalPosts} propertyName="Post" />

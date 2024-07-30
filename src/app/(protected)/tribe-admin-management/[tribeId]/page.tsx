@@ -11,7 +11,7 @@ const TribeManageMentPage = async ({
   return (
     <div className="flex flex-col gap-y-10 justify-around items-center ">
       <div className="grid grid-cols-12 items-start md:gap-y-0 gap-y-4">
-        <div className="min-[923px]:col-start-2 min-[923px:col-span-6 col-span-10  col-start-2  ">
+        <div className="min-[923px]:col-start-2 min-[923px]:col-span-6 col-span-10  col-start-2  ">
           <FullBodyContent tribeId={tribeId} />
         </div>
         <div className="min-[923px]:col-start-9 flex flex-col justify-center items-center col-start-2 min-[923px]:col-span-2 col-span-10 ">

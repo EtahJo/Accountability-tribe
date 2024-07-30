@@ -30,7 +30,10 @@ const TribePosts = ({ tribeId }: { tribeId: string }) => {
   }
   return (
     <div>
-      <PostForm tribeId={tribeId} />
+      <div className="flex flex-col items-center">
+        <PostForm tribeId={tribeId} />
+      </div>
+
       <SectionHeader name="Tribe Posts" />
       <div>
         {tribePosts?.posts?.map(

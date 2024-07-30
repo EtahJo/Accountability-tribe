@@ -19,7 +19,7 @@ const TribeHeader = ({
   return (
     <div
       className="flex bg-purple rounded-3xl p-5 shadow-3xl 
-    w-max gap-3 largePhone:flex-row flex-col largePhone:items-start items-center"
+    w-max gap-3 largePhone:flex-row flex-col largePhone:items-start items-center "
     >
       <div>
         {tribeProfileImage ? (

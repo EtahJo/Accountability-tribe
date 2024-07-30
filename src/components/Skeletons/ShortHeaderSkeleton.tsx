@@ -10,8 +10,8 @@ const ShortHeaderSkeleton = () => {
       >
         <Skeleton className="w-[80px] h-[80px] rounded-full" />
         <div className="gap-y-4 flex flex-col">
-          <Skeleton className="h-7 w-[250px]" />
-          <Skeleton className="h-4 w-[300px]" />
+          <Skeleton className="h-7 md:w-[250px] w-[150px]" />
+          <Skeleton className="h-4 md:w-[300px] w-[200px]" />
         </div>
       </div>
       <div className="flex gap-2 items-center">
