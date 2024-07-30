@@ -24,7 +24,7 @@ const SessionsBody = () => {
   );
   if (isLoading || sessionsData === undefined) {
     return (
-      <div className="flex flex-wrap gap-2 items-center">
+      <div className="flex flex-wrap gap-2 items-center lg:justify-start justify-center">
         {Array.from({ length: 3 }).map((_, index) => (
           <UpcomingSessionSkeleton key={index} />
         ))}

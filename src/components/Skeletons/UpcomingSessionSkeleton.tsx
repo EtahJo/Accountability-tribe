@@ -5,7 +5,7 @@ const UpcomingSessionSkeleton = () => {
   return (
     <div
       className="bg-white p-3 largePhone:w-[400px] rounded-3xl flex items-center gap-2  
-    justify-between move-button cursor-pointer m-4  shadow-3xl w-[290px]"
+    justify-between move-button cursor-pointer m-4  shadow-3xl w-[290px] largePhone:flex-row flex-col"
     >
       <div className="flex  bg-lighterPink  h-[80px] justify-center items-center rounded-3xl px-4 gap-2">
         <Skeleton className=" bg-purple  h-[30px]   w-[30px] rounded-full" />
