@@ -7,6 +7,7 @@ import TribeLastVisitInfo from '@/components/Tribe/TribeSnippet/TribeLastVisitIn
 import { mutate } from 'swr';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 import { formatDateTime } from '@/util/DateTime';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Badge } from '@/components/ui/badge';
@@ -70,7 +71,7 @@ const TribeSnippet = ({
     <div
       className="bg-white flex flex-col items-center 
     justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl
-     m-auto largePhone:w-[300px] relative group/item min-[355px]:w-[200px] w-[170px]"
+     m-auto largePhone:w-[300px] relative group/item min-[355px]:w-[200px] w-[170px] "
     >
       {newPosts && newPosts.length > 0 && (
         <Badge className="bg-purple absolute left-1 top-1 rounded-3xl">
@@ -78,7 +79,7 @@ const TribeSnippet = ({
         </Badge>
       )}
       {manage && (
-        <div className="bg-lighterPink absolute w-full h-full z-50 hidden group-hover/item:block">
+        <div className="bg-lighterPink absolute w-full h-full z-50 hidden group-hover/item:block ">
           <div className="flex justify-center items-center m-auto h-full">
             <Link href={`/tribe-admin-management/${tribeId}`}>
               <Button className="text-2xl font-bold  p-3  move-button shadow-3xl">
@@ -88,16 +89,19 @@ const TribeSnippet = ({
           </div>
         </div>
       )}
-      <TribeLastVisitInfo lastVisit={lastVisit} />
+      <div className={cn(manage ? 'group-hover/item:blur-sm' : '')}>
+        <TribeLastVisitInfo lastVisit={lastVisit} />
 
-      <TribeDetails
-        manage={manage}
-        image={image}
-        name={name}
-        members={members}
-        desc={desc}
-        tribeId={tribeId}
-      />
+        <TribeDetails
+          manage={manage}
+          image={image}
+          name={name}
+          members={members}
+          desc={desc}
+          tribeId={tribeId}
+        />
+      </div>
+
       {!isMember && (
         <Button
           className="my-2 move-button "

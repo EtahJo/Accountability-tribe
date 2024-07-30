@@ -10,17 +10,17 @@ const PostContent = ({ postEditContent, postContent }: PostContentProps) => {
     <div>
       {postEditContent ? (
         postEditContent === postContent ? (
-          <span className="flex items-center">
+          <span className="flex md:items-center md:flex-row flex-col items-start">
             <p>{postContent}</p>
             <p className="italic">{'(No Changes made)'}</p>
           </span>
         ) : (
           <div>
-            <span className="flex items-center gap-2">
+            <span className="flex md:items-center gap-2 md:flex-row flex-col items-start">
               <p>{postContent}</p>
               <Badge className="">Original content</Badge>
             </span>
-            <span className="flex items-center gap-2">
+            <span className="flex md:items-center gap-2 md:flex-row flex-col items-start">
               <p className="">{postEditContent}</p>
               <Badge className="">Edited Content</Badge>
             </span>

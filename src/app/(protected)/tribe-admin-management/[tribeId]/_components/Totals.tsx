@@ -14,9 +14,14 @@ const Totals = ({ total, propertyName, button, id }: TotalsProps) => {
     <div>
       {button ? (
         <Link href={`#${id}`}>
-          <Button className="flex gap-x-2 py-6 move-button">
-            <p className=" p-1 text-purple my-2 text-lg">{total}</p>
-            <p className="text-xl">{propertyName + (total > 1 ? 's' : '')}</p>
+          <Button
+            className="flex gap-x-1 move-button md:flex-row flex-col px-2 w-max"
+            size={'slg'}
+          >
+            <p className="  text-purple  text-lg">{total}</p>
+            <p className="text-lg overflow-ellipsis">
+              {propertyName + (total > 1 ? 's' : '')}
+            </p>
           </Button>
         </Link>
       ) : (

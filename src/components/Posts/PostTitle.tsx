@@ -25,17 +25,17 @@ const PostTitle = ({ postEditTitle, postTitle }: PostTitleProps) => {
         <div>
           {postEditTitle ? (
             postEditTitle === postTitle ? (
-              <span className="flex items-center">
+              <span className="flex md:items-center md:flex-row flex-col items-start ">
                 <Title postTitle={postTitle} />
                 <p className="italic ">{'(No Changes made)'}</p>
               </span>
             ) : (
               <div>
-                <span className="flex items-center gap-2">
+                <span className="flex md:items-center gap-2 md:flex-row flex-col items-start">
                   <Title postTitle={postTitle} />
                   <Badge className="">Original content</Badge>
                 </span>
-                <span className="flex items-center gap-2">
+                <span className="flex md:items-center gap-2 md:flex-row flex-col items-start">
                   <Title postTitle={postEditTitle} />
                   <Badge className="">Edited Content</Badge>
                 </span>

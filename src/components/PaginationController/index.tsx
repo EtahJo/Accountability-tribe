@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
 
 interface PaginationControllerProps {
   hasMore: boolean;
@@ -18,7 +17,6 @@ const PaginationController = ({
   pageNumbers,
   totalPages,
 }: PaginationControllerProps) => {
-  const router = useRouter();
   const isPageOutofRange = page > totalPages;
   const prevPage = page - 1 > 0 ? page - 1 : 1;
   const nextPage = page + 1;

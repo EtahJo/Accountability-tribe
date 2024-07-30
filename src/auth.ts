@@ -36,22 +36,6 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
     error: '/auth/error',
   },
   callbacks: {
-    // async signIn({ account, user }) {
-    //   if (account?.provider !== 'credential') {
-    //     const existingUser = await getUserById(user?.id as string);
-    //     console.log();
-    //     if (existingUser && !existingUser?.username) {
-    //       const username = `${user.name}_${user?.id as string}`;
-    //       await db.user.update({
-    //         where: { id: user.id },
-    //         data: {
-    //           username,
-    //         },
-    //       });
-    //     }
-    //   }
-    //   return true;
-    // },
     async session({ token, session }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;

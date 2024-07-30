@@ -41,8 +41,6 @@ const SessionsBody = () => {
   const getFilteredData = (data: any) => {
     setFilteredData(data);
   };
-  console.log('filter', filter);
-
   return (
     <div className="h-max">
       <div className="flex justify-center items-center flex-col gap-y-3">

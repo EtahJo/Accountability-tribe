@@ -77,7 +77,9 @@ const EditableComponent = ({
     >
       {showEditOption && edit ? (
         <Formsy
-          className="bg-white flex items-center px-2 rounded-2xl gap-x-2"
+          className="bg-white flex items-center px-2 rounded-2xl gap-x-2
+          largePhone:flex-row flex-col 
+          "
           onValidSubmit={onValidSubmit}
         >
           <CustomInput

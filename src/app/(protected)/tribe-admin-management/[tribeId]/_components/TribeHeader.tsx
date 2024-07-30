@@ -19,7 +19,7 @@ const TribeHeader = ({
   return (
     <div
       className="flex bg-purple rounded-3xl p-5 shadow-3xl 
-    w-max gap-3"
+    w-max gap-3 largePhone:flex-row flex-col largePhone:items-start items-center"
     >
       <div>
         {tribeProfileImage ? (
@@ -40,10 +40,10 @@ const TribeHeader = ({
           </div>
         )}
       </div>
-      <div>
+      <div className="flex flex-col largePhone:items-start items-center">
         <EditableComponent
           text={tribeName}
-          textClass="font-bold text-2xl text-white text-start"
+          textClass="font-bold medPhone:text-2xl text-white text-start text-lg"
           divClasses="flex items-center gap-x-2"
           editTrigger={
             <FaPen className="text-lightPink cursor-pointer hover:text-black" />

@@ -54,8 +54,6 @@ const Tribes = ({ asSideBy, presentTribeId }: USerIsAdminProps) => {
       pageNumbers.push(i);
     }
   }
-  console.log('Tribe filtered', showOtherTribeInfo);
-  console.log('Tribe filtered', tribesData);
   return (
     <div className="flex flex-col items-center justify-center">
       <div

@@ -24,7 +24,7 @@ const FullBodyContent = ({ tribeId }: { tribeId: string }) => {
       </div>
     );
   return (
-    <div>
+    <div className="min-[640px]:mt-0 mt-16">
       <TribeInfoSection tribeId={tribeId} postEdits={postEdits} />
       <SectionHeader name="Posts Edits to be Approved" />
       {postEdits.length === 0 ? (
