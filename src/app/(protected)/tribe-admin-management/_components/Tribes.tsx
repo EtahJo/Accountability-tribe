@@ -42,9 +42,9 @@ const Tribes = ({ asSideBy, presentTribeId }: USerIsAdminProps) => {
   return (
     <div className={cn('flex gap-x-2', asSideBy ? 'flex-col' : 'flex-wrap ')}>
       {tribesData.length === 0 ? (
-        <div>
-          <p>You are not admin of any tribe</p>
-          <Button>Create Tribe</Button>
+        <div className="flex flex-col justify-center items-center">
+          <p className="text-xl">You are not admin of any tribe</p>
+          <Button className="move-button">Create Tribe</Button>
         </div>
       ) : (
         tribestoMapThrough?.map(
