@@ -13,11 +13,11 @@ const GotoButton = ({
   ...linkProps
 }: GotoButtonProps & LinkProps & Pick<ButtonProps, 'size'>) => {
   return (
-    <Button className="move-button " size={size}>
-      <Link {...linkProps} href={href}>
+    <Link {...linkProps} href={href}>
+      <Button className="move-button " size={size}>
         {title}
-      </Link>
-    </Button>
+      </Button>
+    </Link>
   );
 };
 

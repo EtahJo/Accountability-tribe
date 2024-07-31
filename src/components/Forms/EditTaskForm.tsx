@@ -104,7 +104,7 @@ const EditTaskForm = ({ presentTask }: EditTaskFormProps) => {
   };
   return (
     <Formsy
-      className="bg-white shadow-3xl rounded-2xl p-10 w-1/2 mt-5"
+      className="bg-white shadow-3xl rounded-2xl min-[613px]:p-10 min-[471px]:w-1/2 mt-5 p-2 w-max"
       onValidSubmit={onValidSubmit}
     >
       <div className="my-5 border-2 border-lightPink rounded-3xl p-3">
@@ -159,7 +159,7 @@ const EditTaskForm = ({ presentTask }: EditTaskFormProps) => {
       </div>
       {error && <FormError message={error} />}
       {success && <FormSuccess message={success} />}
-      <div className="flex flex-col gap-2 mt-3">
+      <div className="flex flex-col gap-2 mt-3  min-[578px]:items-start items-center">
         <Button size={'slg'} className="move-button py-2" type="submit">
           Edit Task
         </Button>

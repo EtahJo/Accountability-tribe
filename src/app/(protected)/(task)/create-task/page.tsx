@@ -11,12 +11,6 @@ import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import { mutate } from 'swr';
 
-interface TaskProps {
-  title: string;
-  description: string;
-  dueDate: Date;
-  priority: number;
-}
 const CreateTask = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState('');
