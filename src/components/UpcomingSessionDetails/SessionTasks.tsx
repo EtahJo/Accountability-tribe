@@ -71,7 +71,7 @@ const SessionTasks = ({
                   trigger={
                     <Button
                       className={cn(
-                        'font-bold hover:text-purple cursor-pointer -ml-2',
+                        'font-bold hover:text-purple -ml-2',
                         isPending ? 'opacity-50' : 'opacity-100'
                       )}
                       size={'sm'}
