@@ -84,16 +84,16 @@ const CreateTask = () => {
     });
   };
   return (
-    <div className="flex justify-center flex-col items-center m-auto h-full mt-20 pb-32">
+    <div className="flex justify-center flex-col items-center m-auto h-full mt-20 pb-32 overflow-hidden">
       <SectionHeader name="Create Task" />
       <Formsy
-        className="bg-white shadow-3xl rounded-2xl p-10 w-1/2 mt-5"
+        className="bg-white shadow-3xl rounded-2xl min-[613px]:p-10 min-[471px]:w-1/2 mt-5 p-2 w-max"
         onValidSubmit={onValidSubmit}
       >
         {tasks.map((task, index) => (
           <div
             key={index}
-            className="my-5 border-2 border-lightPink rounded-3xl p-3"
+            className="my-5 border-2 border-lightPink rounded-3xl p-3 "
           >
             <CustomInput
               name="title"
@@ -145,23 +145,11 @@ const CreateTask = () => {
               }}
               disabled={isPending}
             />
-            {/* <div className="m-auto bg-lighterPink rounded-2xl">
-              <CreateSessionForm
-                error={error}
-                success={success}
-                setError={setError}
-              />
-            </div> */}
-            {/* <div className="flex justify-end">
-              <Button type="button" className="move-button">
-                Create Session
-              </Button>
-            </div> */}
           </div>
         ))}
         {error && <FormError message={error} />}
         {success && <FormSuccess message={success} />}
-        <div className="flex flex-col gap-2 mt-3">
+        <div className="flex flex-col gap-2 mt-3 min-[578px]:items-start items-center">
           <Button
             className="move-button py-2 bg-lightPink"
             type="button"

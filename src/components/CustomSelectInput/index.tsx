@@ -32,7 +32,7 @@ const CustomSelectInput = ({
   value,
 }: InputLabelProps & CustomSelectInputProps) => {
   return (
-    <div>
+    <div className="max-[538px]:w-[200px] ">
       {lable && (
         <InputLabel lable={lable} labelIcon={labelIcon} required={required} />
       )}

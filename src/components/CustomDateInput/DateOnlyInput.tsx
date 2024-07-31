@@ -43,7 +43,7 @@ const DateOnlyInput = ({
         <PopoverTrigger
           disabled={disabled}
           asChild
-          className="shadow-3xl bg-lighterPink rounded-3xl p-2 my-4 flex align-middle border-none placeholder:text-gray-400"
+          className="shadow-3xl bg-lighterPink rounded-3xl p-2 my-4 flex align-middle border-none placeholder:text-gray-400 max-[538px]:w-[200px] "
         >
           <Button
             variant={'outline'}
