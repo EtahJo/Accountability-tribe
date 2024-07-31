@@ -1,6 +1,6 @@
 'use client';
 import * as z from 'zod';
-import { useEffect, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import Formsy from 'formsy-react';
 
 import CustomInput from '@/components/CustomInput/customInput';
@@ -10,27 +10,29 @@ import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import { Button } from '@/components/ui/button';
 import { edit_session } from '@/action/session/edit-session';
+import FormSkeleton from '@/components/Skeletons/FormSkeleton';
 
 import { FaBaseballBall, FaLink, FaCalendar, FaTasks } from 'react-icons/fa';
-import { getDuration } from '@/util/DateTime';
 import { EditSessionSchema } from '@/schemas/index';
-import { addHours, subHours, addMinutes, subMinutes } from 'date-fns';
+import { addHours, addMinutes } from 'date-fns';
 import SelectTasks from '@/components/CustomMultipleSelectInput/SelectTasks';
 import Todo from '@/components/TodoList/Todo';
-import { mutate } from 'swr';
+import useSWR, { mutate } from 'swr';
 import { useCurrentUser } from '@/hooks/use-current-user';
-import { Session } from '@prisma/client';
+import { Session, Task } from '@prisma/client';
 
 interface EditSessionProps {
-  session: Session;
+  session: Session & { tasks: Task[] };
   sessionTasks: {}[];
-  unCompletedTasks: {}[];
 }
-const EditSessionForm = ({
-  session,
-  unCompletedTasks,
-  sessionTasks,
-}: EditSessionProps) => {
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const EditSessionForm = ({ session, sessionTasks }: EditSessionProps) => {
+  const { user }: any = useCurrentUser();
+  const { data: tasks, isLoading } = useSWR(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${user.username}/uncompleted`,
+    fetcher
+  );
   const [isPending, startTransition] = useTransition();
   const [goal, setGoal] = useState(session?.goal || undefined);
   const [startDateTime, setStartDateTime] = useState<Date>(
@@ -46,8 +48,13 @@ const EditSessionForm = ({
   const [minutes, setMinutes] = useState(0);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
-  const { user }: any = useCurrentUser();
-
+  if (isLoading || tasks === undefined) {
+    return <FormSkeleton />;
+  }
+  const goodToAddTasks = tasks.filter(
+    (task: any) => !sessionTasks?.some((task1: any) => task.id === task1.taskId)
+  );
+  const unCompletedTasks = sessionTasks?.length === 0 ? tasks : goodToAddTasks;
   const onValidSubmit = (vals: z.infer<typeof EditSessionSchema>) => {
     startTransition(() => {
       edit_session(vals, session?.id as string)
@@ -147,26 +154,11 @@ const EditSessionForm = ({
                 (e.target as HTMLInputElement).value,
                 10
               );
-              const duration = getDuration(
-                startDateTime.toISOString(),
-                endDateTime.toISOString()
-              ).hm;
               if (isNaN(newHour)) {
                 // setError('Please Enter Number for Duration');
                 return;
               } else {
-                const hours =
-                  typeof duration.hours === 'string'
-                    ? parseInt(duration.hours, 10)
-                    : duration.hours;
-
-                if (newHour >= (duration.hours as number)) {
-                  const hourDifference = newHour - hours;
-                  setEndDateTime(addHours(endDateTime, hourDifference));
-                } else {
-                  const hoursToSubtract = hours - newHour;
-                  setEndDateTime(subHours(endDateTime, hoursToSubtract));
-                }
+                setEndDateTime(addHours(startDateTime, newHour));
               }
             }}
             changeMinutes={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,27 +168,11 @@ const EditSessionForm = ({
                 (e.target as HTMLInputElement).value,
                 10
               );
-              const duration = getDuration(
-                startDateTime.toISOString(),
-                endDateTime.toISOString()
-              ).hm;
-
               if (isNaN(newMinutes)) {
                 // setError('Please Enter Number for Duration');
                 return;
               } else {
-                const minutes =
-                  typeof duration.minutes === 'string'
-                    ? parseInt(duration.minutes, 10)
-                    : duration.minutes;
-
-                if (newMinutes >= (duration.minutes as number)) {
-                  const minutesDifference = newMinutes - minutes;
-                  setEndDateTime(addMinutes(endDateTime, minutesDifference));
-                } else {
-                  const minutesToSubtract = minutes - newMinutes;
-                  setEndDateTime(subMinutes(endDateTime, minutesToSubtract));
-                }
+                setEndDateTime(addMinutes(startDateTime, newMinutes));
               }
             }}
           />

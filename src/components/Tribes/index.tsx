@@ -30,7 +30,6 @@ const Tribes = ({ pageUsername }: TribesProps) => {
   }
 
   const tribesToDisplay = tribesData.tribes.slice(0, 4);
-  console.log('tribes', tribesToDisplay);
 
   return (
     <div className="flex flex-col justify-center">
