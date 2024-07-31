@@ -86,12 +86,18 @@ const CreateTribe = () => {
     });
   };
   return (
-    <div className="h-screen">
+    <div className="h-max min-[640px]:mt-0 mt-16">
       <div className="flex justify-center items-center flex-col gap-y-4  ">
-        <h1 className="text-center text-5xl font-semibold mb-24 text-shadow-lg">
+        <h1
+          className="text-center largePhone:text-5xl font-semibold largePhone:mb-24 mb-14
+         text-shadow-lg text-3xl"
+        >
           Create Tribe
         </h1>
-        <div className="bg-white rounded-3xl shadow-3xl w-[400px] p-10">
+        <div
+          className="bg-white rounded-3xl shadow-3xl largePhone:w-[400px] 
+        largePhone:p-10 w-[280px] p-5 flex flex-col items-center"
+        >
           <Formsy onValidSubmit={onValidSubmit}>
             <UploadImage name="profileImage" />
             <Custominput

@@ -23,8 +23,11 @@ const UploadImage = ({
   };
 
   return (
-    <div className="relative -mt-32 ">
-      <Avatar className=" w-[180px] h-[180px] z-10 items-center flex justify-center m-auto border-4 border-white">
+    <div className="relative largePhone:-mt-32 -mt-16">
+      <Avatar
+        className=" largePhone:w-[180px] largePhone:h-[180px] z-10 items-center flex justify-center 
+      m-auto border-4 border-white w-[100px] h-[100px] shadow-3xl"
+      >
         {!resource && !presentImage ? (
           <AvatarFallback className="bg-black">
             <FaUser className="text-white" size={100} />

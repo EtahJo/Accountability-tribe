@@ -29,11 +29,11 @@ const CustomTagsInput = ({
   };
 
   return (
-    <div className=" flex flex-col gap-y-2">
+    <div className=" flex flex-col gap-y-2 ">
       {lable && (
         <InputLabel lable={lable} labelIcon={labelIcon} required={required} />
       )}
-      <div className=" gap-2 border-2 border-black p-2 rounded-2xl col-start-1 col-end-4 flex flex-wrap">
+      <div className=" gap-2 border-2 border-black p-2 rounded-2xl flex flex-wrap max-[538px]:w-[200px]">
         {availableTags.map((tag, index) => (
           <p
             key={index}
@@ -51,14 +51,14 @@ const CustomTagsInput = ({
         ))}
       </div>
       <Input value={'hello'} className="hidden" />
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1">
         {Array.from(selectedTags).map((tag: any, index) => (
           <div
-            className="bg-purple p-2 rounded-2xl flex items-center gap-1 "
+            className="bg-purple px-2 rounded-2xl flex items-center gap-1 py-1"
             key={index}
           >
             <p
-              className="text-white p-2 rounded-full bg-black cursor-pointer"
+              className="text-white p-1 rounded-full bg-black cursor-pointer text-xs"
               onClick={() => {
                 handleRemove(tag);
                 handleRemoveFxn(tag);
@@ -66,7 +66,7 @@ const CustomTagsInput = ({
             >
               X
             </p>
-            <p className="">{tag}</p>
+            <p className="text-xs">{tag}</p>
           </div>
         ))}
       </div>
