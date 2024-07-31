@@ -42,29 +42,59 @@ export const getAllUserTribes = async (userId: string) => {
     return null;
   }
 };
-export const getAllUserTribesByUsername = async (
-  username: string,
-  currentUserId: string
-) => {
+export const totalUserTribes = async (username: string) => {
   try {
-    const tribes = await db.user.findUnique({
-      where: { username },
-      include: {
-        tribes: {
-          include: {
-            tribe: {
-              include: {
-                tribeVisit: {
-                  where: { userId: currentUserId },
-                },
-                users: true,
-              },
+    const total = await db.tribe.count({
+      where: {
+        users: {
+          some: {
+            user: {
+              username,
             },
           },
         },
       },
     });
-    return tribes?.tribes;
+    return total;
+  } catch (error: any) {
+    console.error('Error getting the total of ll user tribes', error.message);
+  }
+};
+export const getAllUserTribesByUsername = async (
+  username: string,
+  currentUserId: string,
+  pageLimit: number,
+  pageNumber: number
+) => {
+  try {
+    const totalTribes = await totalUserTribes(username);
+    const totalPages = Math.ceil((totalTribes as number) / pageLimit);
+    const tribes = await db.tribe.findMany({
+      where: {
+        users: {
+          some: {
+            user: {
+              username,
+            },
+          },
+        },
+      },
+      include: {
+        users: {
+          include: { user: true },
+        },
+        tribeVisit: {
+          where: {
+            userId: currentUserId,
+          },
+        },
+      },
+      take: pageLimit + 1,
+      skip: pageLimit * (pageNumber - 1),
+    });
+    const hasMore = (tribes.length as any) > pageLimit;
+    const result = hasMore ? tribes.slice(0, pageLimit) : tribes;
+    return { tribes: result, hasMore, totalPages };
   } catch {
     return null;
   }

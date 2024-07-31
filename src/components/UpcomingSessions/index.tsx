@@ -100,7 +100,7 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
         </div>
       )}
       <div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto ">
-        <Link href={`/user/${pageUsername}/sessions?page=1&filter=all`}>
+        <Link href={`/user/${pageUsername}/sessions?page=1&filter=upcoming`}>
           View All Sessions
         </Link>
         <FaArrowRight />

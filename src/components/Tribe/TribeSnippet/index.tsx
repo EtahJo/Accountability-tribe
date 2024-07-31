@@ -74,7 +74,7 @@ const TribeSnippet = ({
      m-auto largePhone:w-[300px] relative group/item min-[355px]:w-[200px] w-[170px] "
     >
       {newPosts && newPosts.length > 0 && (
-        <Badge className="bg-purple absolute left-1 top-1 rounded-3xl">
+        <Badge className="bg-purple absolute left-1 -top-3 rounded-3xl text-xs">
           {newPosts.length} new posts
         </Badge>
       )}

@@ -5,12 +5,6 @@ import useSWR from 'swr';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import UpcomingSession from '@/components/UpcomingSession/index';
 import SessionFilter from '@/app/sessions/_components/SessionFilter';
-import {
-  formatDateTime,
-  getTimeDifference,
-  isToday,
-  checkIsAfter,
-} from '@/util/DateTime';
 import { SessionParticipant } from '@prisma/client';
 import FilterForm from '@/components/Forms/FilterForm';
 import PaginationController from '../PaginationController';
@@ -38,8 +32,6 @@ const GetAllSessions = ({ username }: { username: string }) => {
       </div>
     );
   }
-  const prevPage = page - 1 > 0 ? page - 1 : 1;
-  const nextPage = page + 1;
   const pageNumbers = [];
   const offsetNumber = 3;
   for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {
@@ -53,7 +45,7 @@ const GetAllSessions = ({ username }: { username: string }) => {
   };
 
   return (
-    <div className="h-screen mt-4">
+    <div className="h-max mt-4">
       <div className="flex flex-col gap-y-3 justify-center items-center">
         <div className="flex flex-col justify-center items-center">
           <SessionFilter />
