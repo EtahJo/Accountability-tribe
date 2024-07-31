@@ -1,20 +1,31 @@
-import { getAllUserTribesByUsername } from '@/data/tribe';
+import {
+  getAllUserTribesByUsername,
+  getTribesWithSimilarTags,
+} from '@/data/tribe';
 import { getAllTribeNewPosts, getAllTribePosts } from '@/data/post';
 import { NextResponse, NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest, context: any) {
   const searchParams = req.nextUrl.searchParams;
   const pageString = searchParams.get('page');
+  const filterString = searchParams.get('filter');
   const pageInt = parseInt(pageString as string, 10);
   const pageLimit = 12;
   const { params } = context;
   try {
-    const tribes = await getAllUserTribesByUsername(
-      params.username,
-      params.currentUserId,
-      pageLimit,
-      pageInt
-    );
+    const tribes = filterString
+      ? await getTribesWithSimilarTags(
+          filterString,
+          pageLimit,
+          pageInt,
+          params.currentUserId
+        )
+      : await getAllUserTribesByUsername(
+          params.username,
+          params.currentUserId,
+          pageLimit,
+          pageInt
+        );
     const modifiedData = [];
     if (!tribes) {
       return NextResponse.json([]);
