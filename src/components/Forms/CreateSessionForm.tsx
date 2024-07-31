@@ -12,8 +12,7 @@ import { FaLink, FaCalendar, FaBaseballBall, FaTasks } from 'react-icons/fa';
 import { FormError } from '@/components/Messages/Error';
 import { FormSuccess } from '@/components/Messages/Success';
 import Duration from '@/components/DurationInput/index';
-import { getDuration } from '@/util/DateTime';
-import { addHours, subHours, addMinutes, subMinutes } from 'date-fns';
+import { addHours, addMinutes } from 'date-fns';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import Formsy from 'formsy-react';
 import { Button } from '@/components/ui/button';
@@ -120,26 +119,11 @@ const CreateSessionForm = () => {
                 (e.target as HTMLInputElement).value,
                 10
               );
-              const duration = getDuration(
-                startDateTime.toISOString(),
-                endDateTime.toISOString()
-              ).hm;
               if (isNaN(newHour)) {
                 // setError('Please Enter Number for Duration');
                 return;
               } else {
-                const hours =
-                  typeof duration.hours === 'string'
-                    ? parseInt(duration.hours, 10)
-                    : duration.hours;
-
-                if (newHour >= (duration.hours as number)) {
-                  const hourDifference = newHour - hours;
-                  setEndDateTime(addHours(endDateTime, hourDifference));
-                } else {
-                  const hoursToSubtract = hours - newHour;
-                  setEndDateTime(subHours(endDateTime, hoursToSubtract));
-                }
+                setEndDateTime(addHours(startDateTime, newHour));
               }
             }}
             changeMinutes={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,27 +133,12 @@ const CreateSessionForm = () => {
                 (e.target as HTMLInputElement).value,
                 10
               );
-              const duration = getDuration(
-                startDateTime.toISOString(),
-                endDateTime.toISOString()
-              ).hm;
 
               if (isNaN(newMinutes)) {
                 // setError('Please Enter Number for Duration');
                 return;
               } else {
-                const minutes =
-                  typeof duration.minutes === 'string'
-                    ? parseInt(duration.minutes, 10)
-                    : duration.minutes;
-
-                if (newMinutes >= (duration.minutes as number)) {
-                  const minutesDifference = newMinutes - minutes;
-                  setEndDateTime(addMinutes(endDateTime, minutesDifference));
-                } else {
-                  const minutesToSubtract = minutes - newMinutes;
-                  setEndDateTime(subMinutes(endDateTime, minutesToSubtract));
-                }
+                setEndDateTime(addMinutes(startDateTime, newMinutes));
               }
             }}
           />
