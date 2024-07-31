@@ -10,7 +10,7 @@ interface CountryInputProps {
 
 const CountryInput = ({ selected, onSelect, disabled }: CountryInputProps) => {
   return (
-    <div>
+    <div className="max-[538px]:w-[200px]">
       <ReactFlagsSelect
         selected={selected as string}
         onSelect={onSelect}

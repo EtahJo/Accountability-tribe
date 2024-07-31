@@ -8,7 +8,7 @@ interface PhoneNumberInputProps {
 }
 const PhoneNumberInput = ({ value, onChange }: PhoneNumberInputProps) => {
   return (
-    <div>
+    <div className="max-[538px]:w-[200px]">
       <PhoneInput
         country={'cm'}
         value={value}
