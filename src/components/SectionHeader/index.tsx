@@ -13,6 +13,7 @@ const SectionHeader = ({
   buttonTitle,
   buttonIcon,
   classNames,
+  pageUsername,
 }: SectionHeaderType) => {
   const { user }: any = useCurrentUser();
   const pathname = usePathname();
@@ -36,13 +37,12 @@ const SectionHeader = ({
         {icon && <div>{icon}</div>}
         <div data-testid="section_title">{name}</div>
       </div>
-      {buttonLink &&
-        (pathname.endsWith(user?.username) || !pathname.includes('user')) && (
-          <Button className="move-button flex items-center gap-1">
-            {buttonIcon && buttonIcon}
-            <Link href={buttonLink}>{buttonTitle}</Link>
-          </Button>
-        )}
+      {buttonLink && pageUsername === user.username && (
+        <Button className="move-button flex items-center gap-1">
+          {buttonIcon && buttonIcon}
+          <Link href={buttonLink}>{buttonTitle}</Link>
+        </Button>
+      )}
     </div>
   );
 };
