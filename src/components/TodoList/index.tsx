@@ -16,7 +16,7 @@ import Link from 'next/link';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const TodoList = ({ pageUsername }: { pageUsername: string }) => {
   const { data: tasks, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${pageUsername}/uncompleted`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${pageUsername}/uncompleted?page=1`,
     fetcher
   );
   if (isLoading || tasks === undefined) {
@@ -44,7 +44,7 @@ const TodoList = ({ pageUsername }: { pageUsername: string }) => {
         className="w-full my-5"
       >
         <CarouselContent className="w-full">
-          {tasks?.map((task: any) => (
+          {tasks?.tasks.map((task: any) => (
             <CarouselItem
               key={task.id}
               className="min-[1450px]:basis-1/3 basis-2/2 flex-col "
