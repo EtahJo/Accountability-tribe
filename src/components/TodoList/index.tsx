@@ -68,7 +68,7 @@ const TodoList = ({ pageUsername }: { pageUsername: string }) => {
         <CarouselNext className="w-5 h-5 bg-purple text-white shadow-3xl" />
       </Carousel>
       <div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto ">
-        <Link href={`/user/${pageUsername}/tasklist?page=1&filter=all`}>
+        <Link href={`/user/${pageUsername}/tasks?page=1&filter=all`}>
           View All Tasks
         </Link>
         <FaArrowRight />

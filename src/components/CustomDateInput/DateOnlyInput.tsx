@@ -23,7 +23,7 @@ import { addDays } from 'date-fns';
 interface DateOnlyInputProps {
   date: Date;
   setDate: any;
-  disabled: boolean;
+  disabled?: boolean;
 }
 const DateOnlyInput = ({
   date,

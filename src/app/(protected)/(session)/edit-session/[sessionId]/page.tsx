@@ -16,7 +16,6 @@ const EditSession = ({ params }: { params: { sessionId: string } }) => {
   if (isLoading || session === undefined) {
     return <FormSkeleton />;
   }
-  console.log('Session Data >>', session);
   return (
     <div className=" flex flex-col h-max items-center align-middle m-auto">
       <div className="m-auto">

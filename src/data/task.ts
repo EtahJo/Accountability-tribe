@@ -77,9 +77,32 @@ export const getSessionTaskByTaskIdAndSessionParticipantId = async (
     return SessionTask;
   } catch {}
 };
-
-export const getUserUnCompletedTask = async (userId: string) => {
+const totalUserUncompletedTasks = async (userId: string) => {
   try {
+    const total = await db.task.count({
+      where: {
+        userId,
+        status: {
+          not: Status.COMPLETE,
+        },
+      },
+    });
+    return total;
+  } catch (error: any) {
+    console.error(
+      "Error getting user's total uncompleted tasks",
+      error.message
+    );
+  }
+};
+export const getUserUnCompletedTask = async (
+  userId: string,
+  pageLimit: number,
+  pageNumber: number
+) => {
+  try {
+    const totalItems = await totalUserUncompletedTasks(userId);
+    const totalPages = Math.ceil((totalItems as number) / pageLimit);
     const tasks = await db.task.findMany({
       where: {
         userId,
@@ -100,8 +123,12 @@ export const getUserUnCompletedTask = async (userId: string) => {
       orderBy: {
         priority: 'asc',
       },
+      take: pageLimit + 1,
+      skip: pageLimit * (pageNumber - 1),
     });
-    return tasks;
+    const hasMore = tasks && tasks.length > pageLimit;
+    const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
+    return { tasks: result, hasMore, totalPages };
   } catch {}
 };
 
