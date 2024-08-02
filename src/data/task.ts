@@ -250,7 +250,10 @@ const totalCompletedTasksThisWeek = async (userId: string) => {
 			where: {
 				userId,
 				status: Status.COMPLETE,
-				dateCompleted: {},
+				dateCompleted: {
+          gte: startOfThisWeek,
+					lt: endOfThisWeek,
+        },
 			},
 		});
 		return total;
@@ -262,18 +265,25 @@ const totalCompletedTasksThisWeek = async (userId: string) => {
 	}
 };
 
-export const getUserCompletedTask = async (
+export const getUserCompletedTaskThisWeek = async (
 	userId: string,
 	pageLimit: number,
 	pageNumber: number,
 ) => {
 	try {
-		const totalItems = await totalCompletedTasks(userId);
+    		const now = new Date();
+		const startOfThisWeek = startOfWeek(now, { weekStartsOn: 1 }); // Start of the week (Monday)
+		const endOfThisWeek = endOfWeek(now, { weekStartsOn: 1 }); // End of the week (Sunday)
+		const totalItems = await totalCompletedTasksThisWeek(userId);
 		const totalPages = Math.ceil((totalItems as number) / pageLimit);
 		const tasks = await db.task.findMany({
 			where: {
 				userId,
 				status: Status.COMPLETE,
+        dateCompleted: {
+        gte: startOfThisWeek,
+				lt: endOfThisWeek,
+        },
 			},
 			orderBy: {
 				dateCompleted: "desc",
