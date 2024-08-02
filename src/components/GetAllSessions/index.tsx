@@ -107,6 +107,7 @@ const GetAllSessions = ({ username }: { username: string }) => {
 					pageNumbers={pageNumbers}
 					hasMore={sessionsData.hasMore}
 					totalPages={sessionsData.totalPages}
+					filter={filter}
 				/>
 			</div>
 		</div>

@@ -62,6 +62,7 @@ const UserAchievementsBody = ({ username }: { username: string }) => {
 				hasMore={hasMore}
 				totalPages={totalPages}
 				pageNumbers={pageNumbers}
+				filter={filter}
 			/>
 		</div>
 	);
