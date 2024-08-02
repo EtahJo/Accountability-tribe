@@ -20,9 +20,9 @@ const Achievement = ({ dateCompleted, taskTitle }: AchievementProps) => {
 				<CardTitle className='max-largePhone:text-center whitespace-nowrap'>Completed {taskTitle}</CardTitle>
 				<CardDescription className="flex items-center gap-1 max-largePhone:flex-col">
 					<p className='whitespace-nowrap'>On The</p>
-					<p className="text-lightPink whitespace-nowrap" data-testid="completion_date">
+					<span className="text-lightPink whitespace-nowrap" data-testid="completion_date">
 						{day} of {format(dateCompleted, " MMMM-yyyy")}
-					</p>
+					</span>
 				</CardDescription>
 			</CardHeader>
 		</Card>
