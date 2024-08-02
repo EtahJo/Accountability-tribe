@@ -136,7 +136,7 @@ export const getUserUnCompletedTask = async (
 			take: pageLimit + 1,
 			skip: pageLimit * (pageNumber - 1),
 		});
-		const hasMore = tasks && tasks.length > pageLimit;
+		const hasMore = tasks && tasks.length > pageLimit+1;
 		const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
 		return { tasks: result, hasMore, totalPages };
 	} catch (error: any) {
@@ -180,7 +180,7 @@ export const getUserCompletedTask = async (
 			take: pageLimit + 1,
 			skip: pageLimit * (pageNumber - 1),
 		});
-		const hasMore = tasks && tasks.length > pageLimit;
+		const hasMore = tasks && tasks.length > pageLimit+1;
 		const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
 		return { tasks: result, hasMore, totalPages };
 	} catch (error: any) {
@@ -239,7 +239,7 @@ export const getUserCompletedTaskToday = async (
 			take: pageLimit + 1,
 			skip: pageLimit * (pageNumber - 1),
 		});
-		const hasMore = tasks && tasks.length > pageLimit;
+		const hasMore = tasks && tasks.length > pageLimit+1;
 		const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
 		return { tasks: result, hasMore, totalPages };
 	} catch (error: any) {
@@ -300,7 +300,7 @@ export const getUserCompletedTaskThisWeek = async (
 			take: pageLimit + 1,
 			skip: pageLimit * (pageNumber - 1),
 		});
-		const hasMore = tasks && tasks.length > pageLimit;
+		const hasMore = tasks && tasks.length > pageLimit+1;
 		const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
 		return { tasks: result, hasMore, totalPages };
 	} catch (error: any) {
@@ -358,7 +358,7 @@ export const getUserCompletedTaskThisMonth = async (
 			take: pageLimit + 1,
 			skip: pageLimit * (pageNumber - 1),
 		});
-		const hasMore = tasks && tasks.length > pageLimit;
+		const hasMore = tasks && tasks.length > pageLimit+1;
 		const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
 		return { tasks: result, hasMore, totalPages };
 	} catch (error: any) {
@@ -419,7 +419,7 @@ export const getUserCompletedTaskThisYear = async (
 			take: pageLimit + 1,
 			skip: pageLimit * (pageNumber - 1),
 		});
-		const hasMore = tasks && tasks.length > pageLimit;
+		const hasMore = tasks && tasks.length > pageLimit+1;
 		const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
 		return { tasks: result, hasMore, totalPages };
 	} catch (error: any) {
@@ -482,7 +482,7 @@ export const getUserCompletedTaskSpecificDate = async (
 			take: pageLimit + 1,
 			skip: pageLimit * (pageNumber - 1),
 		});
-		const hasMore = tasks && tasks.length > pageLimit;
+		const hasMore = tasks && tasks.length > pageLimit+1;
 		const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
 		return { tasks: result, hasMore, totalPages };
 	} catch (error: any) {

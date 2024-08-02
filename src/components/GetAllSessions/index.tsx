@@ -32,6 +32,7 @@ const GetAllSessions = ({ username }: { username: string }) => {
 			</div>
 		);
 	}
+	console.log("Check Sessions", sessionsData)
 	const pageNumbers = [];
 	const offsetNumber = 3;
 	for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {

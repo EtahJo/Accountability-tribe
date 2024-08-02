@@ -92,7 +92,7 @@ export const getAllUserTribesByUsername = async (
 			take: pageLimit + 1,
 			skip: pageLimit * (pageNumber - 1),
 		});
-		const hasMore = (tribes.length as any) > pageLimit;
+		const hasMore = (tribes.length as any) > pageLimit+1;
 		const result = hasMore ? tribes.slice(0, pageLimit) : tribes;
 		return { tribes: result, hasMore, totalPages };
 	} catch {
@@ -213,7 +213,7 @@ export const getTribesWithSimilarTags = async (
 			take: pageLimit + 1,
 			skip: pageLimit * (pageNumber - 1),
 		});
-		const hasMore = tribes.length > pageLimit;
+		const hasMore = tribes.length > pageLimit+1;
 		const result = hasMore ? tribes.slice(0, pageLimit) : tribes;
 
 		return { tribes: result, hasMore, totalPages };
@@ -251,7 +251,7 @@ export const getAllTribes = async (
 			take: pageLimit + 1,
 			skip: pageLimit * (pageNumber - 1),
 		});
-		const hasMore = tribes.length > pageLimit;
+		const hasMore = tribes.length > pageLimit+1;
 		const result = hasMore ? tribes.slice(0, pageLimit) : tribes;
 
 		return { tribes: result, hasMore, totalPages };
@@ -372,7 +372,7 @@ export const getAllTribesUserIsAdmin = async (
 			take: pageLimit + 1,
 			skip: pageLimit * (pageNumber - 1),
 		});
-		const hasMore = tribes.length > pageLimit;
+		const hasMore = tribes.length > pageLimit+1;
 		const result = hasMore ? tribes.slice(0, pageLimit) : tribes;
 
 		return { tribes: result, hasMore, totalPages };

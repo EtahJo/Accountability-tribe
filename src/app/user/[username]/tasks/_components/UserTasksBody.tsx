@@ -21,7 +21,7 @@ const UserTasksBody = ({ username }: { username: string }) => {
 	let page = Number.parseInt(searchParams?.get("page") as string, 10);
 	page = !page || page < 1 ? 1 : page;
 	const { data: tasksData, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${username}/unCompleted?page=${page}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${username}/uncompleted?page=${page}`,
 		fetcher,
 	);
 	if (isLoading || tasksData === undefined) {

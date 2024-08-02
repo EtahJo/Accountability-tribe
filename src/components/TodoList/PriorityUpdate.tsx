@@ -46,7 +46,7 @@ const PriorityUpdate = ({ priority, taskId, userId }: PriorityUpdateProps) => {
 						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/high-priority`,
 					);
 					mutate(
-						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/unCompleted?page=${page}`,
+						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/uncompleted?page=${page}`,
 					);
 					mutate(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${user.username}/closest-session`,

@@ -16,7 +16,7 @@ import Link from "next/link";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const TodoList = ({ pageUsername }: { pageUsername: string }) => {
 	const { data: tasks, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${pageUsername}/unCompleted?page=1`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${pageUsername}/uncompleted?page=1`,
 		fetcher,
 	);
 	if (isLoading || tasks === undefined) {
