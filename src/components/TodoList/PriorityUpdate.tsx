@@ -1,5 +1,6 @@
 "use client";
 import { useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import Formsy from "formsy-react";
 import FormsySelectInput from "@/components/CustomSelectInput/FormsySelectInput";
 import { edit_task } from "@/action/task/edit-task";
@@ -20,6 +21,9 @@ interface PriorityUpdateProps {
 const PriorityUpdate = ({ priority, taskId, userId }: PriorityUpdateProps) => {
 	const [isPending, startTransition] = useTransition();
 	const { user }: any = useCurrentUser();
+	const searchParams= useSearchParams();
+	let page = Number.parseInt(searchParams?.get("page") as string, 10);
+	page = !page || page < 1 ? 1 : page;
 	const items = [
 		{
 			title: "First Priority",
@@ -36,19 +40,19 @@ const PriorityUpdate = ({ priority, taskId, userId }: PriorityUpdateProps) => {
 	];
 	const updateTaskPriority = (value: any) => {
 		startTransition(() => {
-			edit_task({ priority: parseInt(value) }, taskId).then((data) => {
+			edit_task({ priority: Number.parseInt(value) }, taskId).then((data) => {
 				if (data.success) {
 					mutate(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/high-priority`,
 					);
 					mutate(
-						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/uncompleted`,
+						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/uncompleted?page=${page}`,
 					);
 					mutate(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${user.username}/closest-session`,
 					);
 					mutate(
-						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`,
+						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${data.creatorUsername}/${user.id}?page=${page}`,
 					);
 				}
 			});

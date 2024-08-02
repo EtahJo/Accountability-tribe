@@ -1,5 +1,6 @@
 "use client";
 import { useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import Formsy from "formsy-react";
 import FormsySelectInput from "@/components/CustomSelectInput/FormsySelectInput";
 import { Status } from "@prisma/client";
@@ -20,6 +21,9 @@ interface StatusUpdateProps {
 const StatusUpdate = ({ status, taskId, userId }: StatusUpdateProps) => {
 	const [isPending, startTransition] = useTransition();
 	const { user }: any = useCurrentUser();
+	const searchParams= useSearchParams();
+	let page = Number.parseInt(searchParams?.get("page") as string, 10);
+	page = !page || page < 1 ? 1 : page;
 	const items = [
 		{
 			title: Status.COMPLETE,
@@ -46,13 +50,13 @@ const StatusUpdate = ({ status, taskId, userId }: StatusUpdateProps) => {
 						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/high-priority`,
 					);
 					mutate(
-						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/uncompleted`,
+						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/uncompleted?page=${page}`,
 					);
 					mutate(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${user.username}/closest-session`,
 					);
 					mutate(
-						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${data.creatorUsername}/${user.id}?page=1`,
+						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${data.creatorUsername}/${user.id}?page=${page}`,
 					);
 					mutate(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${data.creatorUsername}/completed-task`,

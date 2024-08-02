@@ -2,7 +2,7 @@
 import PaginationController from "@/components/PaginationController";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
-import { Task } from "@prisma/client";
+import type { Task } from "@prisma/client";
 import Achievement from "@/components/Achievements/Achievement";
 import AchievementSkeleton from "@/components/Skeletons/AchievementSkeleton";
 import UserAchievementsFilter from "./UserAchievementsFilter";
@@ -10,7 +10,7 @@ import UserAchievementsFilter from "./UserAchievementsFilter";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UserAchievementsBody = ({ username }: { username: string }) => {
 	const searchParams = useSearchParams();
-	let page = parseInt(searchParams?.get("page") as string, 10);
+	let page = Number.parseInt(searchParams?.get("page") as string, 10);
 	page = !page || page < 1 ? 1 : page;
 	const filter = searchParams.get("filter") || "";
 	const { data: completedTasks, isLoading } = useSWR(
