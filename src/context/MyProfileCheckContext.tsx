@@ -1,31 +1,31 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from "react";
 
 interface MyProfileCheckContextProps {
-  myProfile: boolean;
-  myProfileCheck: (currentUsername: string, pageUsername: string) => void;
+	myProfile: boolean;
+	myProfileCheck: (currentUsername: string, pageUsername: string) => void;
 }
 
 export const MyProfileCheckContext = createContext<MyProfileCheckContextProps>({
-  myProfile: false,
-  myProfileCheck(currentUsername, pageUsername) {},
+	myProfile: false,
+	myProfileCheck(currentUsername, pageUsername) {},
 });
 
 const MyProfileCheckContextProvider = ({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) => {
-  const [myProfile, setMyProfile] = useState(false);
-  const myProfileCheck = (currentUsername: string, pageUsername: string) => {
-    setMyProfile(currentUsername === pageUsername);
-  };
-  return (
-    <MyProfileCheckContext.Provider value={{ myProfile, myProfileCheck }}>
-      {children}
-    </MyProfileCheckContext.Provider>
-  );
+	const [myProfile, setMyProfile] = useState(false);
+	const myProfileCheck = (currentUsername: string, pageUsername: string) => {
+		setMyProfile(currentUsername === pageUsername);
+	};
+	return (
+		<MyProfileCheckContext.Provider value={{ myProfile, myProfileCheck }}>
+			{children}
+		</MyProfileCheckContext.Provider>
+	);
 };
 
 export default MyProfileCheckContextProvider;

@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
 const HeroBlob = ({
-  textOne,
-  textTwo,
-  number,
+	textOne,
+	textTwo,
+	number,
 }: {
-  textOne: string;
-  textTwo: string;
-  number: string;
+	textOne: string;
+	textTwo: string;
+	number: string;
 }) => {
-  return (
-    <svg
-      id="visual"
-      viewBox="0 0 900 600"
-      width="600"
-      height="300"
-      xmlns="http://www.w3.org/2000/svg"
-      version="1.1"
-    >
-      <g transform="translate(437.8187436810265 316.85932382033735)">
-        <path fill="#F2ADEF">
-          <animate
-            attributeName="d"
-            dur="10000ms"
-            repeatCount="indefinite"
-            values="M114.2 -220.8C130.5 -188.5 114 -122.4 138.6 -79.9C163.3 
+	return (
+		<svg
+			id="visual"
+			viewBox="0 0 900 600"
+			width="600"
+			height="300"
+			xmlns="http://www.w3.org/2000/svg"
+			version="1.1"
+		>
+			<g transform="translate(437.8187436810265 316.85932382033735)">
+				<path fill="#F2ADEF">
+					<animate
+						attributeName="d"
+						dur="10000ms"
+						repeatCount="indefinite"
+						values="M114.2 -220.8C130.5 -188.5 114 -122.4 138.6 -79.9C163.3 
             -37.5 229.1 -18.8 240 6.3C250.9 31.3 206.9 62.7 168.5 81.4C130.2
              100.2 97.6 106.4 70.5 119.7C43.3 133.1 21.7 153.5 -12.3 174.9C-46.3 196.3 -92.7
               218.5 -130.3 211.3C-168 204 -197 167.3 -200.7 127.1C-204.4 87 -182.7 43.5 -188.3 
@@ -56,50 +56,50 @@ const HeroBlob = ({
 
 
              "
-          ></animate>
-        </path>
-      </g>
+					></animate>
+				</path>
+			</g>
 
-      <text
-        x="50%"
-        y="40%"
-        textAnchor="middle"
-        stroke="#9352E6"
-        strokeWidth="2px"
-        color="white"
-        dy=".3em"
-        fill="white"
-        style={{ backgroundColor: 'white' }}
-        className="uppercase text-6xl font-bold"
-      >
-        {number}
-      </text>
-      <text
-        x="50%"
-        y="50%"
-        textAnchor="middle"
-        stroke="#000"
-        strokeWidth="1px"
-        color="white"
-        dy=".3em"
-        className="uppercase text-4xl font-bold "
-      >
-        {textOne}
-      </text>
-      <text
-        x="50%"
-        y="60%"
-        textAnchor="middle"
-        stroke="#000"
-        strokeWidth="1px"
-        color="white"
-        dy=".3em"
-        className="uppercase text-4xl font-bold "
-      >
-        {textTwo}
-      </text>
-    </svg>
-  );
+			<text
+				x="50%"
+				y="40%"
+				textAnchor="middle"
+				stroke="#9352E6"
+				strokeWidth="2px"
+				color="white"
+				dy=".3em"
+				fill="white"
+				style={{ backgroundColor: "white" }}
+				className="uppercase text-6xl font-bold"
+			>
+				{number}
+			</text>
+			<text
+				x="50%"
+				y="50%"
+				textAnchor="middle"
+				stroke="#000"
+				strokeWidth="1px"
+				color="white"
+				dy=".3em"
+				className="uppercase text-4xl font-bold "
+			>
+				{textOne}
+			</text>
+			<text
+				x="50%"
+				y="60%"
+				textAnchor="middle"
+				stroke="#000"
+				strokeWidth="1px"
+				color="white"
+				dy=".3em"
+				className="uppercase text-4xl font-bold "
+			>
+				{textTwo}
+			</text>
+		</svg>
+	);
 };
 
 export default HeroBlob;

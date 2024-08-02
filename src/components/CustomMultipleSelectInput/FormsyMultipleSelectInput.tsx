@@ -1,24 +1,24 @@
-import React from 'react';
-import { withFormsy, FormsyInjectedProps } from 'formsy-react';
+import React from "react";
+import { withFormsy, FormsyInjectedProps } from "formsy-react";
 import CustomMultipleSelectInput, {
-  OptionType,
-} from '@/components/CustomMultipleSelectInput/index';
+	OptionType,
+} from "@/components/CustomMultipleSelectInput/index";
 
 const FormsyMultipleSelectInput = ({
-  setValue,
-  value,
-  options,
+	setValue,
+	value,
+	options,
 }: FormsyInjectedProps<OptionType> & { options: OptionType[] }) => {
-  const onChange = (selectedOptions: any) => {
-    setValue(selectedOptions);
-  };
-  return (
-    <CustomMultipleSelectInput
-      onChange={onChange}
-      value={value}
-      options={options}
-    />
-  );
+	const onChange = (selectedOptions: any) => {
+		setValue(selectedOptions);
+	};
+	return (
+		<CustomMultipleSelectInput
+			onChange={onChange}
+			value={value}
+			options={options}
+		/>
+	);
 };
 
 export default withFormsy(FormsyMultipleSelectInput);

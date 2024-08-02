@@ -1,14 +1,14 @@
 export const authRoutes = [
-  '/auth/login',
-  '/auth/signup',
-  '/auth/error',
-  '/auth/forgot-password',
-  '/auth/new-password',
+	"/auth/login",
+	"/auth/signup",
+	"/auth/error",
+	"/auth/forgot-password",
+	"/auth/new-password",
 ];
-export const userProfilePrefix = '/user/';
-export const tribeProfilePrefix = '/tribe/';
+export const userProfilePrefix = "/user/";
+export const tribeProfilePrefix = "/tribe/";
 
-export const apiAuthPrefix = '/api/auth';
+export const apiAuthPrefix = "/api/auth";
 
-export const DEFAULT_LOGIN_REDIRECT = '/';
-export const publicRoutes = ['/'];
+export const DEFAULT_LOGIN_REDIRECT = "/";
+export const publicRoutes = ["/"];
