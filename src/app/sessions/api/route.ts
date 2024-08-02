@@ -6,13 +6,13 @@ import {
 	getAllOngoingSessions,
 	getAllEndedSessions,
 } from "@/data/session";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
 	const searchParams = req.nextUrl.searchParams;
 	const pageString = searchParams.get("page");
 	const filterString = searchParams.get("filter");
-	const pageInt = parseInt(pageString as string, 10);
+	const pageInt = Number.parseInt(pageString as string, 10);
 	const pageLimit = 12;
 	try {
 		let sessions;

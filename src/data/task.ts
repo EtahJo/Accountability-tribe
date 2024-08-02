@@ -1,6 +1,15 @@
 import { db } from "@/lib/db";
 import { Status } from "@prisma/client";
-import { startOfWeek, endOfWeek } from "date-fns";
+import { 
+	startOfWeek,
+	endOfWeek, 
+	startOfMonth, 
+	endOfMonth, 
+	startOfYear,
+	endOfYear ,
+	startOfDay,
+	endOfDay,
+} from "date-fns";
 export const getAllUserTasks = async (userId: string) => {
 	try {
 		const tasks = await db.task.findMany({
@@ -251,7 +260,7 @@ const totalCompletedTasksThisWeek = async (userId: string) => {
 				userId,
 				status: Status.COMPLETE,
 				dateCompleted: {
-          gte: startOfThisWeek,
+          			gte: startOfThisWeek,
 					lt: endOfThisWeek,
         },
 			},
@@ -259,7 +268,7 @@ const totalCompletedTasksThisWeek = async (userId: string) => {
 		return total;
 	} catch (error: any) {
 		console.error(
-			"Error getting the total of user's completed tasks",
+			"Error getting the total of user's completed tasks this week",
 			error.message,
 		);
 	}
@@ -271,7 +280,7 @@ export const getUserCompletedTaskThisWeek = async (
 	pageNumber: number,
 ) => {
 	try {
-    		const now = new Date();
+    	const now = new Date();
 		const startOfThisWeek = startOfWeek(now, { weekStartsOn: 1 }); // Start of the week (Monday)
 		const endOfThisWeek = endOfWeek(now, { weekStartsOn: 1 }); // End of the week (Sunday)
 		const totalItems = await totalCompletedTasksThisWeek(userId);
@@ -280,8 +289,8 @@ export const getUserCompletedTaskThisWeek = async (
 			where: {
 				userId,
 				status: Status.COMPLETE,
-        dateCompleted: {
-        gte: startOfThisWeek,
+        		dateCompleted: {
+        		gte: startOfThisWeek,
 				lt: endOfThisWeek,
         },
 			},
@@ -295,6 +304,191 @@ export const getUserCompletedTaskThisWeek = async (
 		const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
 		return { tasks: result, hasMore, totalPages };
 	} catch (error: any) {
-		console.error("Error getting all user completed tasks", error.message);
+		console.error("Error getting all user completed tasks this week", error.message);
+	}
+};
+
+const totalCompletedTasksThisMonth = async (userId: string) => {
+	try {
+		const now = new Date()
+		const startOfThisMonth= startOfMonth(now);
+		const endOfThisMonth= endOfMonth(now)
+		const total = await db.task.count({
+			where: {
+				userId,
+				status: Status.COMPLETE,
+				dateCompleted: {
+					gte: startOfThisMonth,
+					lt: endOfThisMonth,
+				},
+			},
+		});
+		return total;
+	} catch (error: any) {
+		console.error(
+			"Error getting total of tasks completed this month",
+			error.message,
+		);
+	}
+};
+
+export const getUserCompletedTaskThisMonth = async (
+	userId: string,
+	pageLimit: number,
+	pageNumber: number,
+) => {
+	try {
+		const now = new Date()
+		const startOfThisMonth= startOfMonth(now);
+		const endOfThisMonth= endOfMonth(now)
+		const totalItems = await totalCompletedTasksThisMonth(userId);
+		const totalPages = Math.ceil((totalItems as number) / pageLimit);
+		const tasks = await db.task.findMany({
+			where: {
+				userId,
+				status: Status.COMPLETE,
+				dateCompleted: {
+					gte: startOfThisMonth,
+					lt: endOfThisMonth,
+				},
+			},
+			orderBy: {
+				dateCompleted: "desc",
+			},
+			take: pageLimit + 1,
+			skip: pageLimit * (pageNumber - 1),
+		});
+		const hasMore = tasks && tasks.length > pageLimit;
+		const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
+		return { tasks: result, hasMore, totalPages };
+	} catch (error: any) {
+		console.error(
+			"Error getting all user completed tasks this month",
+			error.message,
+		);
+	}
+};
+
+const totalCompletedTasksThisYear = async (userId: string) => {
+	try {
+		const now = new Date()
+		const startOfThisYear= startOfYear(now);
+		const endOfThisYear= endOfYear(now)
+		const total = await db.task.count({
+			where: {
+				userId,
+				status: Status.COMPLETE,
+				dateCompleted: {
+					gte: startOfThisYear,
+					lt: endOfThisYear,
+				},
+			},
+		});
+		return total;
+	} catch (error: any) {
+		console.error(
+			"Error getting total of tasks completed this year",
+			error.message,
+		);
+	}
+};
+
+export const getUserCompletedTaskThisYear = async (
+	userId: string,
+	pageLimit: number,
+	pageNumber: number,
+) => {
+	try {
+		const now = new Date()
+		const startOfThisYear= startOfYear(now);
+		const endOfThisYear= endOfYear(now)
+		const totalItems = await totalCompletedTasksThisYear(userId);
+		const totalPages = Math.ceil((totalItems as number) / pageLimit);
+		const tasks = await db.task.findMany({
+			where: {
+				userId,
+				status: Status.COMPLETE,
+				dateCompleted: {
+					gte: startOfThisYear,
+					lt: endOfThisYear,
+				},
+			},
+			orderBy: {
+				dateCompleted: "desc",
+			},
+			take: pageLimit + 1,
+			skip: pageLimit * (pageNumber - 1),
+		});
+		const hasMore = tasks && tasks.length > pageLimit;
+		const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
+		return { tasks: result, hasMore, totalPages };
+	} catch (error: any) {
+		console.error(
+			"Error getting all user completed tasks this year",
+			error.message,
+		);
+	}
+};
+
+
+const totalCompletedTasksSpecificDate = async (userId: string, specificDate:string) => {
+	try {
+		const day = new Date(specificDate)
+		const startOfTheDay= startOfDay(day);
+		const endOfTheDay = endOfDay(day);
+		const total = await db.task.count({
+			where: {
+				userId,
+				status: Status.COMPLETE,
+				dateCompleted: {
+					gte:startOfTheDay,
+					lt:endOfTheDay
+				}
+			},
+		});
+		return total;
+	} catch (error: any) {
+		console.error(
+			"Error getting total of tasks completed on specific date",
+			error.message,
+		);
+	}
+};
+
+export const getUserCompletedTaskSpecificDate = async (
+	userId: string,
+	pageLimit: number,
+	pageNumber: number,
+	specificDate:string
+) => {
+	try {
+		const day = new Date(specificDate)
+		const startOfTheDay= startOfDay(day);
+		const endOfTheDay = endOfDay(day);
+		const totalItems = await totalCompletedTasksSpecificDate(userId,specificDate);
+		const totalPages = Math.ceil((totalItems as number) / pageLimit);
+		const tasks = await db.task.findMany({
+			where: {
+				userId,
+				status: Status.COMPLETE,
+				dateCompleted: {
+					gte:startOfTheDay,
+					lt:endOfTheDay
+				}
+			},
+			orderBy: {
+				dateCompleted: "desc",
+			},
+			take: pageLimit + 1,
+			skip: pageLimit * (pageNumber - 1),
+		});
+		const hasMore = tasks && tasks.length > pageLimit;
+		const result = hasMore ? tasks.slice(0, pageLimit) : tasks;
+		return { tasks: result, hasMore, totalPages };
+	} catch (error: any) {
+		console.error(
+			"Error getting all user completed tasks on specific date",
+			error.message,
+		);
 	}
 };

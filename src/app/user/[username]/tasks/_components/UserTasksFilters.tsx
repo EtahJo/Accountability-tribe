@@ -53,7 +53,7 @@ const UserTasksFilters = ({
 								filterDate(date.toISOString());
 							}}
 						/>
-						<p
+						<Button variant='ghost'
 							onClick={() => {
 								setDueDate(null);
 								filterDate("");
@@ -61,7 +61,7 @@ const UserTasksFilters = ({
 							className="text-xs font-bold cursor-pointer hover:text-purple"
 						>
 							X
-						</p>
+						</Button>
 					</div>
 				</div>
 				<div className="flex items-start gap-1 flex-col">
@@ -77,7 +77,7 @@ const UserTasksFilters = ({
 							items={periodItems}
 							placeholder={"Choose"}
 						/>
-						<p
+						<Button type='button' variant={'ghost'}
 							onClick={() => {
 								setPeriod("");
 								filterPeriod("");
@@ -85,7 +85,7 @@ const UserTasksFilters = ({
 							className="text-xs font-bold cursor-pointer hover:text-purple"
 						>
 							X
-						</p>
+						</Button>
 					</div>
 				</div>
 				<div className="flex items-start gap-1 flex-col">
@@ -101,7 +101,7 @@ const UserTasksFilters = ({
 							items={statusItems}
 							placeholder={"Choose"}
 						/>
-						<p
+						<Button type='button' variant='ghost'
 							onClick={() => {
 								setStatus("");
 								filterStatus("");
@@ -109,7 +109,7 @@ const UserTasksFilters = ({
 							className="text-xs font-bold cursor-pointer hover:text-purple"
 						>
 							X
-						</p>
+						</Button>
 					</div>
 				</div>
 				<div className="flex items-start gap-1 flex-col">
@@ -125,7 +125,7 @@ const UserTasksFilters = ({
 							items={priorityItems}
 							placeholder={"Choose"}
 						/>
-						<p
+						<Button variant={'ghost'}
 							onClick={() => {
 								setPriority("");
 								filterPriority("");
@@ -133,7 +133,7 @@ const UserTasksFilters = ({
 							className="text-xs font-bold cursor-pointer hover:text-purple"
 						>
 							X
-						</p>
+						</Button>
 					</div>
 				</div>
 				<div className="flex flex-col gap-2">

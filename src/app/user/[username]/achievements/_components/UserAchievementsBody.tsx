@@ -13,8 +13,9 @@ const UserAchievementsBody = ({ username }: { username: string }) => {
 	let page = Number.parseInt(searchParams?.get("page") as string, 10);
 	page = !page || page < 1 ? 1 : page;
 	const filter = searchParams.get("filter") || "";
+	const dateString = searchParams.get('date')||''
 	const { data: completedTasks, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${username}/completed-task?page=${page}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${username}/completed-task?page=${page}&filter=${filter}${dateString?'&date='+dateString:''}`,
 		fetcher,
 	);
 	if (isLoading || completedTasks === undefined) {
@@ -35,8 +36,8 @@ const UserAchievementsBody = ({ username }: { username: string }) => {
 		}
 	}
 	return (
-		<div>
-			<div className="flex gap-4 flex-wrap">
+		<div className='mt-10 flex flex-col max-md:items-center'>
+			<div className="flex gap-4 flex-wrap items-start max-md:flex-col max-md:items-center">
 				<div
 					className="flex items-center gap-1 bg-white p-3 rounded-2xl
          shadow-3xl w-max"
@@ -46,7 +47,7 @@ const UserAchievementsBody = ({ username }: { username: string }) => {
 				</div>
 				<UserAchievementsFilter />
 			</div>
-			<div className="flex flex-wrap gap-2">
+			<div className="flex flex-wrap gap-2 max-md:justify-center">
 				{tasks?.map((task: Task) => (
 					<Achievement
 						key={task.id}

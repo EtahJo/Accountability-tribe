@@ -17,12 +17,12 @@ const Achievement = ({ dateCompleted, taskTitle }: AchievementProps) => {
 	return (
 		<Card className="my-3">
 			<CardHeader>
-				<CardTitle>Completed {taskTitle}</CardTitle>
-				<CardDescription className="flex items-center gap-1">
-					On The
-					<span className="text-lightPink" data-testid="completion_date">
+				<CardTitle className='max-largePhone:text-center whitespace-nowrap'>Completed {taskTitle}</CardTitle>
+				<CardDescription className="flex items-center gap-1 max-largePhone:flex-col">
+					<p className='whitespace-nowrap'>On The</p>
+					<p className="text-lightPink whitespace-nowrap" data-testid="completion_date">
 						{day} of {format(dateCompleted, " MMMM-yyyy")}
-					</span>
+					</p>
 				</CardDescription>
 			</CardHeader>
 		</Card>

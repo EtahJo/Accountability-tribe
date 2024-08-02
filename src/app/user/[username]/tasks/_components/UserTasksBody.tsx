@@ -18,7 +18,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UserTasksBody = ({ username }: { username: string }) => {
 	const [filteredData, setFilteredData] = useState<any>(null);
 	const searchParams = useSearchParams();
-	let page = parseInt(searchParams?.get("page") as string, 10);
+	let page = Number.parseInt(searchParams?.get("page") as string, 10);
 	page = !page || page < 1 ? 1 : page;
 	const { data: tasksData, isLoading } = useSWR(
 		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${username}/unCompleted?page=${page}`,
