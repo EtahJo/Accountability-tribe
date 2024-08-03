@@ -20,7 +20,7 @@ const LoggedOut = () => {
 				</Link>
 			</div>
 
-			<div className="flex items-center largePhone:flex-row flex-col largePhone:gap-y-0 largePhone:mt-10">
+			<div className="flex items-center largePhone:flex-row flex-col largePhone:gap-y-0 largePhone:mt-14">
 				<HeroBlob textOne="Share" textTwo="your story" number={"01"} />
 				<HeroBlob textOne="Start or" textTwo="Join Tribe" number={"02"} />
 				<HeroBlob textOne="Set" textTwo="Daily Tasks" number={"03"} />
