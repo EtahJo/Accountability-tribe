@@ -18,6 +18,8 @@ const SectionHeader = ({
 	const { user }: any = useCurrentUser();
 	const pathname = usePathname();
 
+	const decodedUsername= decodeURIComponent(pageUsername as string)
+
 	return (
 		<div
 			className={cn(
@@ -37,7 +39,7 @@ const SectionHeader = ({
 				{icon && <div>{icon}</div>}
 				<div data-testid="section_title">{name}</div>
 			</div>
-			{buttonLink && pageUsername === user.username && (
+			{buttonLink && decodedUsername === user.username && (
 				<Button className="move-button flex items-center gap-1">
 					{buttonIcon && buttonIcon}
 					<Link href={buttonLink}>{buttonTitle}</Link>

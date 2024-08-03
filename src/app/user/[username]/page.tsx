@@ -11,8 +11,9 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UseProfilePage = ({ params }: { params: { username: string } }) => {
 	const { username } = params;
 	const decodedUsername = decodeURIComponent(username)
+	console.log(username)
 	const { data: user, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/${username}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/${decodedUsername}`,
 		fetcher,
 	);
 	if (isLoading) {

@@ -55,6 +55,7 @@ const SignUpForm = () => {
 				disabled={isPending}
 				value={username}
 				validationError="Field is required"
+				maxLength={15}
 			/>
 
 			<Custominput

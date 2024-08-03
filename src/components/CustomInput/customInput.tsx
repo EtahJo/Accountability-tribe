@@ -32,8 +32,15 @@ const CustomInput = ({
 		if(maxLength){
 		setCharactersLeft(maxLength-e.target.value.length)
 		}
+		if(changeEvent){
+			changeEvent(e)
+		}
 		
 	};
+	const onBlurHandle= (e:any)=>{
+ 		const trimmedValue = e.target.value.trim();
+		setValue(trimmedValue)
+	}
 	return (
 		<div>
 			{lable && (
@@ -50,7 +57,7 @@ const CustomInput = ({
 						name={name}
 						required={required}
 						placeholder={placeholder}
-						onChange={changeEvent || onChange}
+						onChange={onChange}
 						value={value}
 						disabled={disabled}
 						maxLength={maxLength}
@@ -65,7 +72,8 @@ const CustomInput = ({
 						placeholder={placeholder}
 						name={name}
 						required={required}
-						onChange={changeEvent || onChange}
+						onChange={onChange}
+						onBlur={onBlurHandle}
 						value={value}
 						className="bg-transparent border-none"
 						disabled={disabled}

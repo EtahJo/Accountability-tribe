@@ -14,6 +14,7 @@ interface ProfileHeaderProps {
 }
 const ProfileHeader = ({ user }: ProfileHeaderProps) => {
 	const { session }: any = useCurrentUser();
+	console.log("User >> ", user)
 	return (
 		<div className="sm:pt-10 pt-24 mb-10">
 			<div className="bg-purple grid grid-cols-12 justify-between rounded-5xl mx-10 pt-10 ">

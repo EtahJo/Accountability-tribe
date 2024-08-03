@@ -49,7 +49,8 @@ const CreateTask = () => {
 		]);
 	};
 
-	const onValidSubmit = () => {
+	const onValidSubmit = (vals:any) => {
+		console.log("Task object",vals)
 		startTransition(() => {
 			create_task(tasks).then((data) => {
 				if (data.error) {

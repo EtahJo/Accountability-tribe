@@ -49,10 +49,6 @@ const Editprofile = () => {
 					mutate(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/${data.username}`,
 					);
-					// if(vals.username !== user.Username){
-					// 	window.location.reload()
-					// 	router.replace(`/user/${user.username}`,``)
-					// }
 				}
 			});
 		});
@@ -96,9 +92,9 @@ const Editprofile = () => {
 								lable="Username"
 								required
 								placeholder="Username"
-								value={formData.username}
+								value={formData.username.trim()}
 								disabled={isPending}
-								maxLength={20}
+								maxLength={15}
 							/>
 							<Custominput
 								name="email"
@@ -106,7 +102,7 @@ const Editprofile = () => {
 								lable='Email'
 								required
 								placeholder="Email"
-								value={formData.email}
+								value={formData.email.trim()}
 								validations="isEmail"
 								validationError="This is not a valid Email"
 								disabled={isPending}
