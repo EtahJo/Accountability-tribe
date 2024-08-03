@@ -21,7 +21,6 @@ import SectionHeader from "@/components/SectionHeader";
 const Editprofile = () => {
 	const [isPending, startTransition] = useTransition();
 	const { user, phoneNumber }: any = useCurrentUser();
-	const router = useRouter()
 	const [formData, setFormData] = useState({
 		username: user?.username || undefined,
 		email: user?.email || undefined,

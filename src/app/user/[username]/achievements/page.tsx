@@ -6,6 +6,7 @@ const UserAchievements = async ({
 	params,
 }: { params: { username: string } }) => {
 	const { username } = params;
+	const decodedUsername = decodeURIComponent(username)
 	return (
 		<div className="px-20 mt-16 min-[640px]:mt-0 ">
 			<SectionHeader
@@ -13,10 +14,10 @@ const UserAchievements = async ({
 				buttonLink="/create-task"
 				buttonTitle="Create Task"
 				buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
-				pageUsername={username}
+				pageUsername={decodedUsername}
 				classNames="col-start-2 col-end-12"
 			/>
-			<UserAchievementsBody username={username} />
+			<UserAchievementsBody username={decodedUsername} />
 		</div>
 	);
 };

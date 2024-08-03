@@ -10,6 +10,7 @@ import PostSkeleton from "@/components/Skeletons/PostSkeleton";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UseProfilePage = ({ params }: { params: { username: string } }) => {
 	const { username } = params;
+	const decodedUsername = decodeURIComponent(username)
 	const { data: user, isLoading } = useSWR(
 		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/${username}`,
 		fetcher,
@@ -47,7 +48,7 @@ const UseProfilePage = ({ params }: { params: { username: string } }) => {
 		<div>
 			<div>
 				<ProfileHeader user={user} />
-				<UserProfileBody pageUserName={username} />
+				<UserProfileBody pageUserName={decodedUsername} />
 			</div>
 		</div>
 	);

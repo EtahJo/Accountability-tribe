@@ -13,7 +13,6 @@ interface UserProfileBodyProps {
 
 const UserProfileBody = ({ pageUserName }: UserProfileBodyProps) => {
 	const { user }: any = useCurrentUser();
-
 	return (
 		<div className="grid grid-cols-12 pb-24 largePhone:px-20 px-5">
 			<div className="xl:col-start-1 xl:col-end-9 col-start-1 col-end-12 p-10">
