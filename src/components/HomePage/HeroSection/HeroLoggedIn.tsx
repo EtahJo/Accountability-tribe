@@ -4,6 +4,7 @@ import BackgroundSlideShow from "@/components/BackgroundSlidShow/index";
 import { FaEllipsisH } from "react-icons/fa";
 import ToolTip from "@/components/ToolTip/index";
 import UserSnippet from "@/components/UserSnippet/index";
+import UserSkeleton from "@/components/Skeletons/UserSkeleton";
 import { Avatar } from "@/components/ui/avatar";
 import Link from "next/link";
 import { User } from "@prisma/client";
@@ -86,7 +87,19 @@ const HeroLoggedIn = () => {
 						</p>
 					</div>
 					<div className="flex items-center gap-x-2">
-						{highlightedUsers?.map(
+						{isLoading?
+						<div className="flex gap-2 items-center">
+							{
+								Array.from({length:2}).map((_,index)=>(
+									<UserSkeleton classNames="bg-white w-8 h-8" key={index}/>
+								))
+							}
+							
+						</div>
+							:
+							<div className="flex items-center gap-2">
+								{
+						highlightedUsers?.map(
 							({
 								username,
 								country,
@@ -106,12 +119,14 @@ const HeroLoggedIn = () => {
 									/>
 								);
 							},
-						)}
-
+						)
+								}
+								{
+							highlightedUsers?.length !==0 &&
 						<ToolTip
 							trigger={
 								<Link href="/highlighted-users">
-									<Avatar className="bg-purple rounded-full flex justify-center items-center move-button">
+									<Avatar className="bg-purple rounded-full flex justify-center items-center move-button mt-1">
 										<FaEllipsisH className="text-white" />
 									</Avatar>
 								</Link>
@@ -119,6 +134,12 @@ const HeroLoggedIn = () => {
 						>
 							<p>View All Hightlighted users</p>
 						</ToolTip>
+						}
+
+							</div>
+					}
+						
+						
 					</div>
 				</div>
 				<div className="col-start-8 col-end-12 w-full flex justify-center relative">

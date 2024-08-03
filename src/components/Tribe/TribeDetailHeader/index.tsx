@@ -1,7 +1,7 @@
 "use client";
 import useSWR from "swr";
 import { useState, useTransition, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FaPen } from "react-icons/fa";
 import TribeUsers from "@/components/Tribe/TribeUsers/index";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -26,6 +26,9 @@ interface TribeDetailHeaderProps {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 	const [isPending, startTransition] = useTransition();
+	const searchParams= useSearchParams()
+	let page = parseInt(searchParams?.get("page") as string, 10);
+	page = !page || page < 1 ? 1 : page;
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [editTribeModalOpen, setEditTribeModalOpen] = useState(false);
 	const { user }: any = useCurrentUser();
@@ -65,6 +68,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 					mutate(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/${user.id}/${data.tribeId}/similar-tribes`,
 					);
+					mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/tribes/api/${user.id}?page=${page}&filter=''`)
 				}
 			});
 		});

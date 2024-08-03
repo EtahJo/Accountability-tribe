@@ -39,7 +39,15 @@ const PostsModal = ({
 				>
 					X
 				</p>
-				{posts?.map(
+				{
+					posts.length===0 ?
+				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+					<div>
+						<p>No Posts</p>
+					</div>
+				</div>
+				:
+				posts?.map(
 					({
 						id,
 						tribe,

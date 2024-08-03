@@ -43,6 +43,7 @@ export const editProfile = async (
 		where: { id: dbUser.id },
 		data: { ...values },
 	});
+	console.log("Updated user >>", updatedUser)
 	if(user.username !==updatedUser.username){
 permanentRedirect(`/user/${updatedUser.username}`)
 	}

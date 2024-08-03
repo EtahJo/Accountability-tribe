@@ -27,7 +27,14 @@ const SimilarTribes = ({ tribeId }: { tribeId: string }) => {
 		<div>
 			<SectionHeader name="Similar Tribes" />
 			<div>
-				{similarTribes?.map(
+				{ similarTribes.length ===0?
+				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+					<div>
+						<p>No Similar tribes</p>
+					</div>
+				</div>
+				:
+				similarTribes?.map(
 					({
 						description,
 						id,

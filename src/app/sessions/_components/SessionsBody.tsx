@@ -41,6 +41,16 @@ const SessionsBody = () => {
 	const getFilteredData = (data: any) => {
 		setFilteredData(data);
 	};
+	if(sessionsData?.sessions.length===0){
+		return(
+		<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+				<div>
+					<p>No upcoming sessions</p>
+						{/* TODO: add session recommendations */}
+				</div>
+		</div>
+	)
+	}
 	return (
 		<div className="h-max">
 			<div className="flex justify-center items-center flex-col gap-y-3">

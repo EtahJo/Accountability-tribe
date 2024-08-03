@@ -15,6 +15,7 @@ import CountryInput from "@/components/CountryInput/index";
 import PhoneNumberInput from "@/components/PhoneNumberInput/index";
 import TimeZoneInput from "@/components/TimeZoneInput/index";
 import SectionHeader from "@/components/SectionHeader";
+import {toast} from 'sonner';
 
 const Editprofile = () => {
 	const [isPending, startTransition] = useTransition();
@@ -67,8 +68,17 @@ const Editprofile = () => {
 						{user?.image && (
 							<div className="flex justify-center mt-5">
 								<Button
+									type="button"
+									disabled={isPending}
 									onClick={() => {
-										setFormData((prev) => ({ ...prev, image: undefined }));
+									startTransition(()=>{
+											editProfile({image:null}).then((data)=>{
+											if(data.success){
+												toast.success("Profile image removed")
+											}
+										})
+									})
+									
 									}}
 									className=" w-36 place-content-center move-button"
 									size="sm"

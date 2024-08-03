@@ -2,6 +2,7 @@
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { join_tribe } from "@/action/tribe/join-tribe";
+import { useSearchParams } from "next/navigation";
 import TribeDetails from "@/components/Tribe/TribeSnippet/TribeDetails";
 import TribeLastVisitInfo from "@/components/Tribe/TribeSnippet/TribeLastVisitInfo";
 import { mutate } from "swr";
@@ -39,7 +40,9 @@ const TribeSnippet = ({
 }: TribeSnippetProps) => {
 	const { user }: any = useCurrentUser();
 	const [isPending, startTransition] = useTransition();
-
+	const searchParams = useSearchParams();
+	let page = parseInt(searchParams?.get("page") as string, 10);
+	page = !page || page < 1 ? 1 : page;
 	const joinTribe = () => {
 		startTransition(() => {
 			join_tribe(tribeId, userId as string).then((data) => {
@@ -63,6 +66,7 @@ const TribeSnippet = ({
 					mutate(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/recommended-tribes/${user.id}`,
 					);
+					mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/tribes/api/${user.id}?page=${page}&filter=''`)
 				}
 			});
 		});

@@ -37,7 +37,17 @@ const TodoList = ({ pageUsername }: { pageUsername: string }) => {
 				buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
 				pageUsername={pageUsername}
 			/>
-			<Carousel
+			{
+				tasks.tasks.length===0?
+				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+					<div>
+						<p>You Have No Tasks</p>
+						{/* TODO: add session recommendations */}
+					</div>
+				</div>
+				:
+				<div>
+					<Carousel
 				opts={{
 					align: "start",
 				}}
@@ -71,6 +81,9 @@ const TodoList = ({ pageUsername }: { pageUsername: string }) => {
 				<Link href={`/user/${pageUsername}/tasks?page=1`}>View All Tasks</Link>
 				<FaArrowRight />
 			</div>
+				</div>
+			}
+			
 		</div>
 	);
 };

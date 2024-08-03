@@ -21,7 +21,6 @@ import {
 
 const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
 	const { user ,session}: any = useCurrentUser();
-	console.log(" user Session", session)
 	const router = useRouter();
 	const onLogoutClick = () => {
 		logout().then(() => {

@@ -28,6 +28,15 @@ const TribesBody = () => {
 			</div>
 		);
 	}
+	if(tribesData.tribes.length===0){
+		return (
+				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+					<div>
+						<p>No Tribes</p>
+					</div>
+				</div>
+		)
+	}
 	const pageNumbers = [];
 	const offsetNumber = 3;
 	for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {

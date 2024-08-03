@@ -42,7 +42,17 @@ const Tribes = ({ pageUsername }: TribesProps) => {
 				buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
 			/>
 			<div>
-				{tribesToDisplay?.map(
+				{
+				tribesToDisplay.length===0 ?
+				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+					<div>
+						<p>No Tribes</p>
+					</div>
+				</div>
+			:(
+				<div>
+					{
+					tribesToDisplay?.map(
 					({
 						description,
 						id,
@@ -77,14 +87,19 @@ const Tribes = ({ pageUsername }: TribesProps) => {
 							/>
 						);
 					},
-				)}
-			</div>
-			<div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto ">
+				)
+					}
+				<div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto ">
 				<Link href={`/user/${pageUsername}/tribes?page=1`}>
 					View All Tribes
 				</Link>
 				<FaArrowRight />
 			</div>
+				</div>
+			)
+			}
+			</div>
+			
 		</div>
 	);
 };

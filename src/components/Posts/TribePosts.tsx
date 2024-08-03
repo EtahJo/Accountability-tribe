@@ -28,6 +28,13 @@ const TribePosts = ({ tribeId }: { tribeId: string }) => {
 			</div>
 		);
 	}
+	if(tribePosts.length ===0){
+		<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+			<div>
+				<p>No Tribe Posts</p>
+			</div>
+		</div>
+	}
 	return (
 		<div>
 			<div className="flex flex-col items-center">

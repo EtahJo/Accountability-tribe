@@ -29,25 +29,19 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
 	if (isLoading || userPosts === undefined) {
 		return <PostSkeleton />;
 	}
-
-	if (userPosts?.length === 0 && pathname.startsWith("/tribe")) {
-		return (
-			<div className="bg-white p-2 rounded-3xl shadow-3xl">
-				<p className="font-bold text-2xl text-center">
-					Be the first to post in tribe
-				</p>
-			</div>
-		);
-	} else if (userPosts?.length === 0 && !pathname.startsWith("/tribe")) {
-		return null;
-	}
 	return (
 		<div>
 			<SectionHeader
 				name="Shared Experiences and Lots More"
 				pageUsername={pageUsername}
 			/>
-
+			{userPosts?.length === 0?
+			<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+					<div>
+						<p>No Posts</p>
+					</div>
+			</div>
+			:
 			<Carousel
 				opts={{
 					align: "center",
@@ -104,6 +98,7 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
 				<CarouselPrevious className="w-5 h-5 bg-purple text-white shadow-3xl" />
 				<CarouselNext className="w-5 h-5 bg-purple text-white shadow-3xl" />
 			</Carousel>
+			}
 		</div>
 	);
 };

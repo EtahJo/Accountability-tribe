@@ -29,6 +29,14 @@ const Achievements = ({ pageUsername }: AchievementsProps) => {
 	return (
 		<div>
 			<SectionHeader name="Achievements" />
+			{
+				showAchievements.length===0?<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+					<div>
+						<p>No Achievements</p>
+					</div>
+			</div>:
+			
+			<div>
 			<div>
 				{showAchievements?.map((task: Task) => (
 					<Achievement
@@ -47,6 +55,8 @@ const Achievements = ({ pageUsername }: AchievementsProps) => {
 				</Link>
 				<FaArrowRight />
 			</div>
+			</div>
+}
 		</div>
 	);
 };
