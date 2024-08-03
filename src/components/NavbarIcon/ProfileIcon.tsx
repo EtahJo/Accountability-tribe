@@ -48,9 +48,6 @@ const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
 									sizes="100vw"
 									className="rounded-full shadow-3xl"
 								/>}
-								<AvatarFallback className="rounded-full bg-lightPink p-1.5 cursor-pointer shadow-3xl">
-									<FaUser size={20} className="text-white" />
-								</AvatarFallback>
 							</Avatar>
 						) : (
 							<div className="rounded-full bg-lightPink p-1.5 cursor-pointer shadow-3xl ">
