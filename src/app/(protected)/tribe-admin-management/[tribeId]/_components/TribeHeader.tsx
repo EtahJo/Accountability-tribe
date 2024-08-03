@@ -54,6 +54,7 @@ const TribeHeader = ({
 					showEditOption={true}
 					tribeId={tribeId}
 					name="name"
+					maxLength={30}
 				/>
 				<EditableComponent
 					text={tribeDescription}
@@ -67,6 +68,7 @@ const TribeHeader = ({
 					tribeId={tribeId}
 					divClasses="flex items-center gap-x-2"
 					name="description"
+					maxLength={100}
 				/>
 			</div>
 		</div>

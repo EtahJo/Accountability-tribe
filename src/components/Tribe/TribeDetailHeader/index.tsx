@@ -211,6 +211,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 							}
 							textClass="md:text-4xl font-bold text-center text-xl"
 							showEditOption={isAdmin}
+							maxLength={30}
 						/>
 
 						<p
@@ -236,6 +237,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 						}
 						textClass="md:text-lg  text-center text-sm"
 						showEditOption={isAdmin}
+						maxLength={100}
 					/>
 
 					{isAdmin && (

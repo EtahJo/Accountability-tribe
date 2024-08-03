@@ -21,6 +21,7 @@ interface EditableComponentProps {
 	tribeId: string;
 	textArea?: boolean;
 	divClasses?: string;
+	maxLength?:number;
 }
 
 const EditableComponent = ({
@@ -33,6 +34,7 @@ const EditableComponent = ({
 	tribeId,
 	textArea,
 	divClasses,
+	maxLength
 }: EditableComponentProps) => {
 	const { user }: any = useCurrentUser();
 	const [edit, setEdit] = useState(false);
@@ -87,6 +89,7 @@ const EditableComponent = ({
 						value={text}
 						disabled={isPending}
 						textArea={textArea}
+						maxLength={maxLength}
 					/>
 					<Button type="submit" disabled={isPending}>
 						Edit

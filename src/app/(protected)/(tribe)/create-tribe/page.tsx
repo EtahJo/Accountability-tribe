@@ -107,6 +107,7 @@ const CreateTribe = () => {
 							disabled={isPending}
 							placeholder="Add Tribe Name"
 							value={name}
+							maxLength={30}
 						/>
 						<Custominput
 							lable="Tribe Description"
@@ -115,6 +116,7 @@ const CreateTribe = () => {
 							name="description"
 							placeholder="Tell people what the tribe is about"
 							value={description}
+							maxLength={100}
 						/>
 						<CustomTagsInput
 							name="tags"

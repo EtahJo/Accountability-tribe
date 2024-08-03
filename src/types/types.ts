@@ -32,6 +32,7 @@ export type CustomInputTypes = FormsyInjectedProps<any> & {
 	lable?: string;
 	labelIcon?: React.ReactNode;
 	inputClassNames?: string;
+	maxLength?:number;
 };
 
 export type CustomCheckboxProps = {

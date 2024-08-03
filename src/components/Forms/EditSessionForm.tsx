@@ -131,6 +131,7 @@ const EditSessionForm = ({
 					required
 					textArea
 					disabled={isPending}
+					maxLength={30}
 					placeholder="What is the goal for this session ?"
 				/>
 				<CustomInput

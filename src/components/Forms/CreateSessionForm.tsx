@@ -6,6 +6,7 @@ import * as z from "zod";
 
 import CustomInput from "@/components/CustomInput/customInput";
 import CustomDateInput from "@/components/CustomDateInput/index";
+import FormSkeleton from "../Skeletons/FormSkeleton";
 import { create_session } from "@/action/session/create-session";
 import { CreateSessionSchema } from "@/schemas/index";
 import { FaLink, FaCalendar, FaBaseballBall, FaTasks } from "react-icons/fa";
@@ -23,8 +24,8 @@ import SelectTasks from "@/components/CustomMultipleSelectInput/SelectTasks";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const CreateSessionForm = () => {
 	const { user }: any = useCurrentUser();
-	const { data: tasks } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${user.username}/uncompleted`,
+	const { data: tasks,isLoading } = useSWR(
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${user.username}/uncompleted?page=1`,
 		fetcher,
 	);
 
@@ -37,6 +38,9 @@ const CreateSessionForm = () => {
 	const [minutes, setMinutes] = useState(0);
 	const [success, setSuccess] = useState("");
 	const [error, setError] = useState("");
+	if(isLoading|| tasks===undefined){
+		return (<FormSkeleton/>)
+	}
 
 	const onValidSubmit = async (vals: z.infer<typeof CreateSessionSchema>) => {
 		startTransition(async () => {
@@ -80,9 +84,9 @@ const CreateSessionForm = () => {
 					name="goal"
 					value={goal}
 					required
-					textArea
 					disabled={isPending}
 					placeholder="What is the session Title ?"
+					maxLength={30}
 				/>
 				<CustomInput
 					lable="Link to Scheduled Meeting"
@@ -98,7 +102,7 @@ const CreateSessionForm = () => {
 					lable="Add Tasks to work on"
 					labelIcon={<FaTasks className="text-purple" />}
 					name="taskIds"
-					options={tasks as { id: string; title: string }[]}
+					options={tasks.tasks as { id: string; title: string }[]}
 				/>
 			</div>
 			<div

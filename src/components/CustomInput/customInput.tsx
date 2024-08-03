@@ -1,4 +1,4 @@
-import React from "react";
+import {useState} from "react";
 import { CustomInputTypes } from "@/types/types";
 import { withFormsy } from "formsy-react";
 import { Input } from "@/components/ui/input";
@@ -23,10 +23,16 @@ const CustomInput = ({
 	className,
 	inputClassNames,
 	labelIcon,
+	maxLength,
 	setValue,
 }: CustomInputTypes & InputLabelProps) => {
+	const [charactersLeft, setCharactersLeft] = useState(maxLength as number-value.length)
 	const onChange = (e: any) => {
 		setValue(e.target.value);
+		if(maxLength){
+		setCharactersLeft(maxLength-e.target.value.length)
+		}
+		
 	};
 	return (
 		<div>
@@ -47,6 +53,7 @@ const CustomInput = ({
 						onChange={changeEvent || onChange}
 						value={value}
 						disabled={disabled}
+						maxLength={maxLength}
 						className={cn(
 							"bg-transparent px-5 py-2 w-full placeholder:text-gray-400 focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0 border-none ",
 							className,
@@ -62,12 +69,16 @@ const CustomInput = ({
 						value={value}
 						className="bg-transparent border-none"
 						disabled={disabled}
+						maxLength={maxLength}
 					/>
 				)}
 				{Icon && (
 					<div className="place-content-center cursor-pointer">{Icon}</div>
 				)}
 			</div>
+			{
+				maxLength&& <p className="-mt-3 mb-4 ml-2 text-lightPink text-sm">You have {charactersLeft} characters left</p>
+			}
 			{isFormSubmitted && !isValid && (
 				<p className="text-red-500 font-bold">{errorMessage}</p>
 			)}

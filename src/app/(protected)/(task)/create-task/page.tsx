@@ -101,6 +101,7 @@ const CreateTask = () => {
 							lable="Task Title"
 							required
 							disabled={isPending}
+							maxLength={30}
 						/>
 						<CustomInput
 							textArea
@@ -114,6 +115,7 @@ const CreateTask = () => {
 								setTasks(updatedTasks);
 							}}
 							disabled={isPending}
+							maxLength={100}
 						/>
 						<FormsySelectInput
 							placeholder="Select Priority Level"

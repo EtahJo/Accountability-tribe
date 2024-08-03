@@ -114,6 +114,7 @@ const EditTaskForm = ({ presentTask }: EditTaskFormProps) => {
 					placeholder="Finish Chapter"
 					lable="Task Title"
 					required
+					maxLength={30}
 					disabled={isPending}
 				/>
 				<CustomInput
@@ -123,6 +124,7 @@ const EditTaskForm = ({ presentTask }: EditTaskFormProps) => {
 					value={description}
 					lable="Task Description"
 					disabled={isPending}
+					maxLength={100}
 				/>
 				<FormsySelectInput
 					placeholder="Select Priority Level"

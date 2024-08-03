@@ -128,6 +128,7 @@ const EditTribeModalForm = ({
 					disabled={isPending}
 					placeholder="Add Tribe Name"
 					value={tribeName}
+					maxLength={30}
 				/>
 				<CustomInput
 					lable="Tribe Description"
@@ -136,6 +137,7 @@ const EditTribeModalForm = ({
 					name="description"
 					placeholder="Tell people what the tribe is about"
 					value={tribeDescription}
+					maxLength={100}
 				/>
 				<CustomTagsInput
 					name="tags"
