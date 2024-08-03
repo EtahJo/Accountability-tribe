@@ -1,6 +1,6 @@
 import {useState} from "react";
 import { CustomInputTypes } from "@/types/types";
-import { withFormsy } from "formsy-react";
+import { withFormsy} from "formsy-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import InputLabel, { InputLabelProps } from "@/components/InputLabel/index";
@@ -26,7 +26,7 @@ const CustomInput = ({
 	maxLength,
 	setValue,
 }: CustomInputTypes & InputLabelProps) => {
-	const [charactersLeft, setCharactersLeft] = useState(maxLength as number-value.length)
+	const [charactersLeft, setCharactersLeft] = useState((maxLength as number)-value?.length)
 	const onChange = (e: any) => {
 		setValue(e.target.value);
 		if(maxLength){

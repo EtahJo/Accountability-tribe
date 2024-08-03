@@ -3,6 +3,7 @@ import * as z from "zod";
 import { EditProfileSchema } from "@/schemas/index";
 import { currentUser } from "@/lib/authentication";
 import { getUserByEmail, getUserById } from "@/data/user";
+import { permanentRedirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 
@@ -42,5 +43,9 @@ export const editProfile = async (
 		where: { id: dbUser.id },
 		data: { ...values },
 	});
+	if(user.username !==updatedUser.username){
+permanentRedirect(`/user/${updatedUser.username}`)
+	}
+	
 	return { success: "User Data Updated", username: updatedUser.username };
 };

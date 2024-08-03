@@ -1,6 +1,7 @@
 "use client";
 import { useState, useTransition } from "react";
 import Formsy from "formsy-react";
+import { useRouter } from "next/navigation";
 import Custominput from "@/components/CustomInput/customInput";
 import CustomCheckbox from "@/components/CustomCheckbox/index";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ import SectionHeader from "@/components/SectionHeader";
 const Editprofile = () => {
 	const [isPending, startTransition] = useTransition();
 	const { user, phoneNumber }: any = useCurrentUser();
+	const router = useRouter()
 	const [formData, setFormData] = useState({
 		username: user?.username || undefined,
 		email: user?.email || undefined,
@@ -48,6 +50,10 @@ const Editprofile = () => {
 					mutate(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/${data.username}`,
 					);
+					// if(vals.username !== user.Username){
+					// 	window.location.reload()
+					// 	router.replace(`/user/${user.username}`,``)
+					// }
 				}
 			});
 		});
@@ -59,7 +65,7 @@ const Editprofile = () => {
 			</div>
 
 			<Formsy
-				className="h-max items-center flex mt-28  "
+				className="h-max items-center flex mt-28"
 				onValidSubmit={onSubmit}
 			>
 				<div className="bg-white rounded-5xl p-5 m-auto w-3/4 shadow-3xl relative">
@@ -88,27 +94,20 @@ const Editprofile = () => {
 							<Custominput
 								name="username"
 								type="text"
+								lable="Username"
+								required
 								placeholder="Username"
 								value={formData.username}
-								changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-									setFormData((prev) => ({
-										...prev,
-										username: (e.target as HTMLInputElement).value,
-									}));
-								}}
 								disabled={isPending}
+								maxLength={20}
 							/>
 							<Custominput
 								name="email"
 								type="email"
+								lable='Email'
+								required
 								placeholder="Email"
 								value={formData.email}
-								changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-									setFormData((prev) => ({
-										...prev,
-										email: (e.target as HTMLInputElement).value,
-									}));
-								}}
 								validations="isEmail"
 								validationError="This is not a valid Email"
 								disabled={isPending}
@@ -117,13 +116,8 @@ const Editprofile = () => {
 								name="password"
 								type="text"
 								placeholder="Password"
+								lable="Password"
 								value={formData.password}
-								changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-									setFormData((prev: any) => ({
-										...prev,
-										password: (e.target as HTMLInputElement).value,
-									}));
-								}}
 								validationError=""
 								disabled={isPending}
 							/>
@@ -131,19 +125,15 @@ const Editprofile = () => {
 								name="newPassword"
 								type="text"
 								placeholder="New Password"
+								lable="Confirm Password"
 								value={formData.newPassword}
-								changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-									setFormData((prev: any) => ({
-										...prev,
-										newPassword: (e.target as HTMLInputElement).value,
-									}));
-								}}
 								validationError=""
 								disabled={isPending}
 							/>
 							<CountryInput
 								disabled={isPending}
 								name="country"
+								lable='Country'
 								value={formData.country}
 								selected={formData.country}
 								onSelect={(code) => {
@@ -156,6 +146,7 @@ const Editprofile = () => {
 						</div>
 						<div className="w-full mx-3 md:my-0 my-4 max-[538px]:w-max">
 							<PhoneNumberInput
+								lable="Phone Number"
 								name="number"
 								value={formData.number}
 								onChange={(phone, country) => {
@@ -171,46 +162,32 @@ const Editprofile = () => {
 							<Custominput
 								name="linkedIn"
 								type="url"
+								lable="LinkedIn Profile"
 								placeholder="LinkedIn Profile "
 								value={formData.linkedIn}
-								changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-									setFormData((prev) => ({
-										...prev,
-										linkedIn: (e.target as HTMLInputElement).value,
-									}));
-								}}
 								validationError=""
 								disabled={isPending}
 							/>
 							<Custominput
 								name="facebook"
+								lable="FaceBook Profile"
 								type="url"
 								placeholder="Facebook Profile"
 								value={formData.facebook}
-								changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-									setFormData((prev) => ({
-										...prev,
-										facebook: (e.target as HTMLInputElement).value,
-									}));
-								}}
 								validationError=""
 								disabled={isPending}
 							/>
 							<Custominput
 								name="X"
 								type="url"
+								lable="X Profile"
 								placeholder="X Profile "
 								value={formData.X}
-								changeEvent={(e: React.ChangeEvent<HTMLInputElement>) => {
-									setFormData((prev) => ({
-										...prev,
-										X: (e.target as HTMLInputElement).value,
-									}));
-								}}
 								validationError=""
 								disabled={isPending}
 							/>
 							<TimeZoneInput
+							lable="Timezone"
 								name="timezone"
 								value={formData.timezone}
 								onChange={(timezone) =>
