@@ -47,10 +47,11 @@ const UploadImage = ({
 			<CldUploadWidget
 				signatureEndpoint={"/api/sign-image"}
 				onSuccess={(result: any, { widget }) => {
+					console.log("Image result",result)
 					setResource(result?.info);
-					onSuccess(result?.info.path);
+					onSuccess(result?.info.url);
 					if (submitUrl) {
-						submitUrl(result?.info.path);
+						submitUrl(result?.info.url);
 					}
 				}}
 			>

@@ -1,9 +1,7 @@
 "use client";
 import { useState, useTransition } from "react";
 import Formsy from "formsy-react";
-import { useRouter } from "next/navigation";
 import Custominput from "@/components/CustomInput/customInput";
-import CustomCheckbox from "@/components/CustomCheckbox/index";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { EditProfileSchema } from "@/schemas/index";
@@ -54,7 +52,7 @@ const Editprofile = () => {
 		});
 	};
 	return (
-		<div className="flex flex-col m-auto">
+		<div className="flex flex-col m-auto h-max">
 			<div className="min-[640px]:mt-0 mt-16 flex justify-center">
 				<SectionHeader name="Edit Profile" />
 			</div>

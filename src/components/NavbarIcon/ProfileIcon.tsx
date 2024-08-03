@@ -3,7 +3,7 @@ import React, { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import NavbarIcon from "@/components/NavbarIcon/index";
 import { CldImage } from "next-cloudinary";
-import { Avatar } from "@radix-ui/react-avatar";
+import { Avatar , AvatarImage,AvatarFallback} from "@radix-ui/react-avatar";
 import { logout } from "@/action/auth/logout";
 import { delete_user } from "@/action/auth/delete-user";
 import { FaCog, FaUser } from "react-icons/fa";
@@ -20,7 +20,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
-	const { user }: any = useCurrentUser();
+	const { user ,session}: any = useCurrentUser();
+	console.log(" user Session", session)
 	const router = useRouter();
 	const onLogoutClick = () => {
 		logout().then(() => {
@@ -35,6 +36,10 @@ const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
 					<div>
 						{user?.image ? (
 							<Avatar>
+								
+								{session.data.user.isOAuth ?
+									<AvatarImage src={user?.image} className='rounded-full shadow-3xl w-12 h-12'/>
+								:
 								<CldImage
 									src={user?.image}
 									width="50"
@@ -43,7 +48,10 @@ const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
 									alt="User Profile"
 									sizes="100vw"
 									className="rounded-full shadow-3xl"
-								/>
+								/>}
+								<AvatarFallback className="rounded-full bg-lightPink p-1.5 cursor-pointer shadow-3xl">
+									<FaUser size={20} className="text-white" />
+								</AvatarFallback>
 							</Avatar>
 						) : (
 							<div className="rounded-full bg-lightPink p-1.5 cursor-pointer shadow-3xl ">
@@ -54,7 +62,7 @@ const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
 				}
 			>
 				{" "}
-				<p className="font-semibold my-5 text-center">
+				<p className="font-semibold my-5 text-center text-sm">
 					{" "}
 					Hello, {user?.username}
 				</p>

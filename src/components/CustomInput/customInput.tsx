@@ -60,6 +60,7 @@ const CustomInput = ({
 						onChange={onChange}
 						value={value}
 						disabled={disabled}
+						onBlur={onBlurHandle}
 						maxLength={maxLength}
 						className={cn(
 							"bg-transparent px-5 py-2 w-full placeholder:text-gray-400 focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0 border-none ",

@@ -70,7 +70,8 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
 			const existingAccount = await getAccountByUserId(existingUser.id);
 			if (existingAccount && account?.provider !== "credential") {
 				if (!existingUser?.username) {
-					const username = `${existingUser.name}_${existingUser?.id as string}`;
+					const idFragment= existingUser.id.substring(0,4)
+					const username = `${existingUser.name}_${idFragment}`;
 					await db.user.update({
 						where: { id: existingUser.id },
 						data: {
