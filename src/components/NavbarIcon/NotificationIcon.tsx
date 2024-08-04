@@ -35,8 +35,8 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
 					<NavbarItem
 						icon={<FaBell size={25} className="text-white text-shadow-lg" />}
 						number={
-							unReadNotifications.length !== 0
-								? unReadNotifications.length
+							unReadNotifications?.length !== 0
+								? unReadNotifications?.length
 								: null
 						}
 					/>

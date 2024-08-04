@@ -12,7 +12,7 @@ import FilterForm from "@/components/Forms/FilterForm";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const SessionsBody = () => {
-	const [filteredData, setFilteredData] = useState(null);
+	const [filteredData, setFilteredData] = useState<[] | null>(null);
 	const { user }: any = useCurrentUser();
 	const searchParams = useSearchParams();
 	let page = parseInt(searchParams?.get("page") as string, 10);
@@ -41,16 +41,6 @@ const SessionsBody = () => {
 	const getFilteredData = (data: any) => {
 		setFilteredData(data);
 	};
-	if(sessionsData?.sessions.length===0){
-		return(
-		<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
-				<div>
-					<p>No upcoming sessions</p>
-						{/* TODO: add session recommendations */}
-				</div>
-		</div>
-	)
-	}
 	return (
 		<div className="h-max">
 			<div className="flex justify-center items-center flex-col gap-y-3">
@@ -62,8 +52,16 @@ const SessionsBody = () => {
 				/>
 			</div>
 
-			<div className="flex items-center flex-wrap lg:justify-between justify-center">
-				{(filteredData ? filteredData : sessionsData?.sessions)?.map(
+			<div className="flex items-center flex-wrap lg:justify-between justify-center ">
+				{ (filteredData && filteredData.length ===0)|| (!filteredData && sessionsData.sessions.length===0)?	
+				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10 m-auto">
+				<div>
+					<p>No upcoming sessions</p>
+						{/* TODO: add session recommendations */}
+				</div>
+				</div>
+		:
+		(filteredData ? filteredData : sessionsData?.sessions)?.map(
 					(session: any) => {
 						const checkUser = session.users.filter(
 							(sessionsParticipant: SessionParticipant) =>
