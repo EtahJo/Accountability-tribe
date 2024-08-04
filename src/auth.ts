@@ -96,7 +96,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
 			token.sessions = existingUser.sessions;
 			token.tasks = existingUser.tasks;
 			token.streak = existingUser.streak;
-			token.notifications = existingUser.notifications;
+			token.notifications = existingUser?.notifications;
 
 			return token;
 		},
