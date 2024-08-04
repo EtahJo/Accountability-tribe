@@ -100,7 +100,9 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
 
 			return token;
 		},
+	
 	},
+	
 
 	adapter: PrismaAdapter(db),
 	session: { strategy: "jwt" },

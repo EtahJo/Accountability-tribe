@@ -83,7 +83,7 @@ const Navbar = () => {
 					>
 						Sessions
 					</Link>
-					{session.status === "authenticated" && (
+					{user && (
 						<Link
 							href={"/tribe-admin-management?page=1"}
 							className={cn(
@@ -99,7 +99,7 @@ const Navbar = () => {
 				{openDropdown && (
 					<MobileView closeDropdown={() => setOpenDropdown(false)} />
 				)}{" "}
-				{session.status === "authenticated" ? (
+				{user ? (
 					<div className="flex justify-between items-center gap-x-4">
 						<FaBars
 							size={25}
