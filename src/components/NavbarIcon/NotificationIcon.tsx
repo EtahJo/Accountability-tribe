@@ -21,7 +21,7 @@ interface NotificationIconProps {
 	notifications: Notification[];
 }
 const NotificationIcon = ({ notifications }: NotificationIconProps) => {
-	const unReadNotifications = notifications.filter(
+	const unReadNotifications = notifications?.filter(
 		(notification) => !notification.read,
 	);
 	const onNotificationClick = (notificationId: string) => {
