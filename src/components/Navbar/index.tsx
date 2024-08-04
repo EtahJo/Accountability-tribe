@@ -108,7 +108,7 @@ const Navbar = () => {
 						/>
 						<div className="relative lg:flex items-center gap-4 hidden">
 							<StreakIcon count={user?.streak?.count} />
-							<NotificationIcon notifications={user.notifications} />
+							<NotificationIcon notifications={user?.notifications} />
 						</div>
 						<ProfileIcon
 							deleteUser={
