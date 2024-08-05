@@ -38,7 +38,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 	);
 	const router = useRouter();
 
-	const isAdmin = tribeInfo?.adminsUsername?.includes(user?.username);
+	const isAdmin = tribeInfo?.adminsUserIds?.includes(user?.id);
 	useEffect(() => {
 		router.prefetch(`/user/${user.username}`);
 	}, []);

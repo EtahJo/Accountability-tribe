@@ -16,13 +16,13 @@ interface TribeUserProps {
 	name: string;
 	profileImage: string;
 	isAdmin: boolean;
-	adminsUsername?: string[];
+	adminsUserIds?: string[];
 	userId?: string;
 	tribeId?: string;
 	users?: {
 		user: { username: string; image: string };
 		userRole: string;
-		adminsUsername: string[];
+		adminsUserIds: string[];
 		userId: string;
 	}[];
 }
@@ -30,7 +30,7 @@ const TribeUser = ({
 	name,
 	profileImage,
 	isAdmin,
-	adminsUsername,
+	adminsUserIds,
 	userId,
 	tribeId,
 	users,
@@ -38,14 +38,14 @@ const TribeUser = ({
 	const [isPending, startTransition] = useTransition();
 	const { user }: any = useCurrentUser();
 	const canLeaveTribe =
-		user.username === name &&
-		(!adminsUsername?.includes(name) ||
-			(adminsUsername.length > 1 && adminsUsername.includes(name)));
-	const isAdminLoggedIn = adminsUsername?.includes(user.username);
+		user.id === userId &&
+		(!adminsUserIds?.includes(userId as string) ||
+			(adminsUserIds.length > 1 && adminsUserIds.includes(userId as string)));
+	const isAdminLoggedIn = adminsUserIds?.includes(user.id);
 	const canAdminleaveTribe = isAdminLoggedIn && users?.length === 1;
-	const canMakeAdmin = !adminsUsername?.includes(name);
+	const canMakeAdmin = !adminsUserIds?.includes(userId as string);
 
-	const canUnMakeAdmin = adminsUsername ? adminsUsername.length > 1 : null;
+	const canUnMakeAdmin = adminsUserIds ? adminsUserIds.length > 1 : null;
 	const makeAdmin = () => {
 		startTransition(() => {
 			if (tribeId && userId)

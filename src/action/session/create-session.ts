@@ -41,7 +41,7 @@ export const create_session = async (
 			endDateTime: startEndDateTime.endDateTime,
 			meetingLink,
 			duration,
-			adminUsername: dbUser.username,
+			adminUserId: dbUser.id,
 		},
 	});
 	const sessionParticipant = await db.sessionParticipant.create({
@@ -50,7 +50,7 @@ export const create_session = async (
 			session: { connect: { id: session.id } },
 			userRole: "ADMIN",
 			goal,
-			adminUsername: dbUser.username,
+			adminUserId: dbUser.id,
 		},
 	});
 	await db.session.update({

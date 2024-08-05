@@ -133,7 +133,7 @@ model Tribe{
   name         String
   description  String?
   profileImage   String?
-  adminsUsername String[]
+  adminsUserIds String[]
   tags           String[]
   posts         Post[]
   users        TribeUser[] 
@@ -146,7 +146,7 @@ model TribeUser{
     userId      String @db.ObjectId
     tribeId     String @db.ObjectId
     userRole   UserRole
-    adminsUsername  String[]
+    adminsUserIds  String[]
     tribe    Tribe @relation(fields: [tribeId],references: [id])
     user     User @relation(fields: [userId],references: [id],onDelete:Cascade)
      @@unique([userId, tribeId])
@@ -159,7 +159,7 @@ model SessionParticipant{
   userRole  UserRole
   goal      String?
   tasks     SessionTask[]
-  adminUsername  String?
+  adminUserId  String?
   user      User @relation(fields: [userId],references: [id],onDelete:Cascade)
   session Session @relation(fields: [sessionId],references: [id], onDelete:Cascade)
   @@unique([userId,sessionId])
@@ -170,7 +170,7 @@ model Session{
    goal   String
    startDateTime DateTime
    endDateTime   DateTime?
-   adminUsername String?
+   adminUserId String?
    meetingLink   String
    duration    String?
    participants Int? @default(0)

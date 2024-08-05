@@ -29,7 +29,7 @@ export const join_tribe = async (tribeId: string, userId: string) => {
 			user: { connect: { id: dbUser.id } },
 			tribe: { connect: { id: tribeId } },
 			userRole: "USER",
-			adminsUsername: tribe?.adminsUsername,
+			adminsUserIds: tribe?.adminsUserIds,
 		},
 	});
 	const allTribeAdmins = await getAllTribeAdmins(tribeId);

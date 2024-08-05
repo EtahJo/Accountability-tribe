@@ -36,23 +36,23 @@ export const make_tribe_admin = async (tribeId: string, userId: string) => {
 			userRole: "ADMIN",
 		},
 	});
-	if (!isUserMember.adminsUsername.includes(doesUserExist.username as string)) {
+	if (!isUserMember.adminsUserIds.includes(doesUserExist.id as string)) {
 		await db.tribeUser.updateMany({
 			where: { tribeId },
 			data: {
-				adminsUsername: {
-					push: doesUserExist.username as string,
+				adminsUserIds: {
+					push: doesUserExist.id as string,
 				},
 			},
 		});
 	}
 	const tribe = await getTribeById(tribeId, dbUser.id);
-	if (!tribe?.adminsUsername.includes(doesUserExist.username as string)) {
+	if (!tribe?.adminsUserIds.includes(doesUserExist.id as string)) {
 		await db.tribe.update({
 			where: { id: tribeId },
 			data: {
-				adminsUsername: {
-					push: doesUserExist.username as string,
+				adminsUserIds: {
+					push: doesUserExist.id as string,
 				},
 			},
 		});

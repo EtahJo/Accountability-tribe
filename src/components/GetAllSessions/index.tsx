@@ -63,7 +63,7 @@ const GetAllSessions = ({ username }: { username: string }) => {
 						({
 							session,
 							goal,
-							adminUsername,
+							adminUserId,
 							userId,
 							tasks,
 							sessionParticipantId,
@@ -75,14 +75,14 @@ const GetAllSessions = ({ username }: { username: string }) => {
 										goal={goal || session.goal}
 										duration={JSON.parse(session.duration)}
 										meetingLink={session.meetingLink}
-										isAdmin={adminUsername === user.username}
+										isAdmin={adminUserId === user.id}
 										sessionId={session.id}
 										isMember={session.users?.some(
 											(sessionParticipant: SessionParticipant) =>
 												sessionParticipant.userId === user.id,
 										)}
 										members={session.participants}
-										admin={adminUsername}
+										admin={adminUserId}
 										userId={userId}
 										endDateTime={session.endDateTime}
 										tasks={tasks}

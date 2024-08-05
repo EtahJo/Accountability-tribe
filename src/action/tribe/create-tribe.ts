@@ -28,7 +28,7 @@ export const create_tribe = async (
 			description,
 			profileImage,
 			tags,
-			adminsUsername: [dbUser.username as string],
+			adminsUserIds: [dbUser.id as string],
 		},
 	});
 	await db.tribeUser.create({
@@ -36,12 +36,12 @@ export const create_tribe = async (
 			user: { connect: { id: dbUser.id } },
 			tribe: { connect: { id: tribe.id } },
 			userRole: "ADMIN",
-			adminsUsername: [dbUser.username as string],
+			adminsUserIds: [dbUser.id as string],
 		},
 	});
 	return {
 		success: "Tribe Successfully Created",
 		tribeId: tribe.id,
-		creatorUsername: dbUser.username,
+		creatorUsername: dbUser.id,
 	};
 };

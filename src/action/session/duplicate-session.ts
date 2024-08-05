@@ -48,7 +48,7 @@ export const duplicate_session = async (
 			session: { connect: { id: sessionDuplicate.id } },
 			userRole: "ADMIN",
 			goal,
-			adminUsername: dbUser.username,
+			adminUserId: dbUser.id,
 		},
 	});
 	await db.session.update({

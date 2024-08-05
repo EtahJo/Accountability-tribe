@@ -35,7 +35,7 @@ const TribeInfoSection = ({
 				))}
 			</div>
 		);
-	if (!tribeDetails.tribeInfo.adminsUsername?.includes(user?.username)) {
+	if (!tribeDetails.tribeInfo.adminsUserIds?.includes(user?.id)) {
 		return (
 			<div>
 				<p>Not Authorised </p>
@@ -43,7 +43,7 @@ const TribeInfoSection = ({
 		);
 	}
 	const { tribeInfo, tribeTotalPosts } = tribeDetails;
-	const { name, description, profileImage, adminsUsername, users, posts, id } =
+	const { name, description, profileImage, adminsUserIds, users, posts, id } =
 		tribeInfo;
 	return (
 		<div className="flex flex-col gap-y-5 mb-5 ">
@@ -59,7 +59,7 @@ const TribeInfoSection = ({
 			<div className="flex flex-wrap items-center justify-start gap-5">
 				<Totals total={users.length} propertyName="Member" />
 				<Totals total={tribeTotalPosts} propertyName="Post" />
-				<Totals total={adminsUsername.length} propertyName="Admin" />
+				<Totals total={adminsUserIds.length} propertyName="Admin" />
 				<div className="flex lg:items-center gap-2 lg:flex-row flex-col items-start">
 					<Totals
 						total={posts.length}
@@ -111,7 +111,7 @@ const TribeInfoSection = ({
 									comments={comments as any}
 									likes={likes as any}
 									createdAt={createdAt as any}
-									isAdmin={adminsUsername.includes(author.username)}
+									isAdmin={adminsUserIds.includes(author.id)}
 									postId={id}
 									tribe={tribe as any}
 									postTitle={title as string}

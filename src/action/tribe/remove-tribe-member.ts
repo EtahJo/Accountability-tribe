@@ -28,8 +28,8 @@ export const remove_tribe_user = async (tribeId: string, userId: string) => {
 	}
 	const tribeAdmin = await getSpecificTribeAdmin(tribeId, dbUser.id);
 	if (
-		tribe.adminsUsername.includes(userToDelete.username as string) &&
-		tribe.adminsUsername.length === 1 &&
+		tribe.adminsUserIds.includes(userToDelete.id as string) &&
+		tribe.adminsUserIds.length === 1 &&
 		tribe.users.length > 1
 	) {
 		// if the admin want to leave and there is no other admin

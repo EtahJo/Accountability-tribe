@@ -63,7 +63,7 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
 					>
 						<CarouselContent className="w-full">
 							{sessions?.sessions?.sessions.map(
-								({ session, goal, tasks, adminUsername, id, userId }: any) => {
+								({ session, goal, tasks, adminUserId, id, userId }: any) => {
 									return (
 										<CarouselItem
 											key={session.id}
@@ -78,13 +78,13 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
 												duration={JSON.parse(session.duration)}
 												meetingLink={session.meetingLink}
 												sessionId={session.id}
-												isAdmin={adminUsername === currentUser.username}
+												isAdmin={adminUserId === currentUser.id}
 												isMember={session.users.some(
 													(sessionUser: SessionParticipant) =>
 														sessionUser.userId === currentUser.id,
 												)}
 												members={session.participants}
-												admin={adminUsername}
+												admin={adminUserId}
 												userId={userId}
 												endDateTime={session.endDateTime}
 												sessionParticipantId={id}

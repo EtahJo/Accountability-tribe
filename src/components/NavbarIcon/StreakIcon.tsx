@@ -23,7 +23,7 @@ const StreakIcon = ({ count }: StreakIconProps) => {
 						className="flex flex-col justify-center items-center
            rounded-3xl bg-lighterPink px-4 py-1"
 					>
-						<p className="font-bold text-xl text-purple">{count}</p>
+						<p className="font-bold text-xl text-purple">{count||0}</p>
 						<p className="opacity-45">Current Streak</p>
 					</span>
 
@@ -31,13 +31,13 @@ const StreakIcon = ({ count }: StreakIconProps) => {
 						className="flex flex-col justify-center items-center
             rounded-3xl bg-lighterPink px-4 py-1"
 					>
-						<p className="font-bold text-xl text-purple">{count}</p>
+						<p className="font-bold text-xl text-purple">{count||0}</p>
 						<p className="opacity-45">Longest Streak</p>
 					</span>
 				</div>
 				<span className="flex whitespace-nowrap justify-center font-bold">
 					<p>Total Active Days:</p>
-					<p>{count}</p>
+					<p>{count||0}</p>
 				</span>
 			</NavbarIcon>
 		</div>

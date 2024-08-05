@@ -24,7 +24,7 @@ export const remove_as_admin = async (tribeId: string, userId: string) => {
 		return { error: "User is not admin" };
 	}
 	const tribe = await getTribeById(tribeId, dbUser.id);
-	if (tribe?.adminsUsername.length === 1) {
+	if (tribe?.adminsUserIds.length === 1) {
 		return { error: "You can not remove the only admin" };
 	}
 
@@ -36,21 +36,21 @@ export const remove_as_admin = async (tribeId: string, userId: string) => {
 			userRole: "USER",
 		},
 	});
-	const updatedAdmins = tribe?.adminsUsername.filter(
-		(adminUsername) => adminUsername !== userToRemove?.username,
+	const updatedAdmins = tribe?.adminsUserIds.filter(
+		(adminUserId) => adminUserId !== userToRemove?.id,
 	);
 
 	await db.tribe.update({
 		where: { id: tribe?.id },
 		data: {
-			adminsUsername: updatedAdmins,
+			adminsUserIds: updatedAdmins,
 		},
 	});
 
 	await db.tribeUser.updateMany({
 		where: { tribeId },
 		data: {
-			adminsUsername: updatedAdmins,
+			adminsUserIds: updatedAdmins,
 		},
 	});
 	await db.notification.create({

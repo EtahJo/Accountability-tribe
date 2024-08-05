@@ -340,12 +340,12 @@ export const totalTribePostUnApproved = async (tribeId: string) => {
 	}
 };
 
-export const totalTribeUserIsAdmin = async (username: string) => {
+export const totalTribeUserIsAdmin = async (userId: string) => {
 	try {
 		const total = await db.tribe.count({
 			where: {
-				adminsUsername: {
-					has: username,
+				adminsUserIds: {
+					has: userId,
 				},
 			},
 		});
@@ -356,17 +356,17 @@ export const totalTribeUserIsAdmin = async (username: string) => {
 };
 
 export const getAllTribesUserIsAdmin = async (
-	username: string,
+	userId: string,
 	pageLimit: number,
 	pageNumber: number,
 ) => {
 	try {
-		const totalTribes = await totalTribeUserIsAdmin(username);
+		const totalTribes = await totalTribeUserIsAdmin(userId);
 		const totalPages = Math.ceil((totalTribes as number) / pageLimit);
 		const tribes = await db.tribe.findMany({
 			where: {
-				adminsUsername: {
-					has: username,
+				adminsUserIds: {
+					has: userId,
 				},
 			},
 			include: {

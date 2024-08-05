@@ -58,9 +58,9 @@ const SessionModal = ({
 							meetingLink={sessionParticipant.session.meetingLink}
 							sessionId={sessionParticipant.session.id}
 							isMember={true}
-							isAdmin={user?.username === sessionParticipant.adminUsername}
+							isAdmin={user?.id === sessionParticipant.adminUserId}
 							members={sessionParticipant.session.participants}
-							admin={sessionParticipant.adminUsername}
+							admin={sessionParticipant.adminUserId}
 							endDateTime={sessionParticipant.session.endDateTime}
 							userId={sessionParticipant.userId}
 							sessionParticipantId={sessionParticipant.id}

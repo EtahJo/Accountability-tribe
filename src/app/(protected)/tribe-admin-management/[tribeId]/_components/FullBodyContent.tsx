@@ -33,8 +33,8 @@ const FullBodyContent = ({ tribeId }: { tribeId: string }) => {
 						No posts edits pending review for this tribe
 					</p>
 				</div>
-			) : !postEdits[0].post.tribe.adminsUsername.includes(
-					user.username,
+			) : !postEdits[0].post.tribe.adminsUserIds.includes(
+					user.id,
 				) ? null : (
 				postEdits.map(
 					({
@@ -58,8 +58,8 @@ const FullBodyContent = ({ tribeId }: { tribeId: string }) => {
 								comments={post.comments as any}
 								likes={post.likes as any}
 								createdAt={post.createdAt as any}
-								isAdmin={post.tribe.adminsUsername.includes(
-									post.author.username as string,
+								isAdmin={post.tribe.adminsUserIds.includes(
+									post.author.id as string,
 								)}
 								postId={post.id}
 								tribe={post.tribe as any}

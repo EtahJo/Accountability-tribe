@@ -42,7 +42,10 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
 					/>
 				}
 			>
-				{notifications?.map((notification) => (
+				{notifications.length===0?
+				<div className="p-10">
+					<p>No Notification</p>
+				</div>:notifications?.map((notification) => (
 					<DropdownMenuItem
 						key={notification.id}
 						className="w-[300px] cursor-pointer border-b"

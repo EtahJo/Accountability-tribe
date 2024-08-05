@@ -14,8 +14,8 @@ export const delete_tribe = async (tribeId: string) => {
 	if (!tribe) {
 		return { error: "Tribe does not exist" };
 	}
-	const isTribeAdmin = tribe.adminsUsername.includes(
-		dbUser?.username as string,
+	const isTribeAdmin = tribe.adminsUserIds.includes(
+		dbUser?.id as string,
 	);
 	if (!isTribeAdmin) {
 		return { error: "You are not allowed to delete tribe" };

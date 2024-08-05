@@ -70,8 +70,8 @@ const TribePosts = ({ tribeId }: { tribeId: string }) => {
 								comments={comments as any}
 								likes={likes as any}
 								createdAt={createdAt as any}
-								isAdmin={tribe.adminsUsername.includes(
-									author?.username as string,
+								isAdmin={tribe.adminsUserIds.includes(
+									author?.id as string,
 								)}
 								postId={id}
 								hasLiked={likes.some((like: any) => like.user.id === user?.id)}

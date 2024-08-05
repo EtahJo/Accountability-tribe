@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
 	const pageString = searchParams.get("page");
 	const filterString = searchParams.get("filter");
 	const pageInt = Number.parseInt(pageString as string, 10);
-	const pageLimit = 8;
+	const pageLimit = 9;
 	try {
 		let sessions;
 		switch (filterString) {

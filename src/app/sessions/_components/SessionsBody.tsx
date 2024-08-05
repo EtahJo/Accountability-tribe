@@ -78,14 +78,14 @@ const SessionsBody = () => {
 								goal={sessionParticipant?.goal || session.goal}
 								duration={JSON.parse(session.duration)}
 								meetingLink={session.meetingLink}
-								isAdmin={session.adminUsername === user.username}
+								isAdmin={session.adminUserId === user.id}
 								sessionId={session.id}
 								isMember={session.users.some(
 									(sessionParticipant: SessionParticipant) =>
 										sessionParticipant?.userId === user?.id,
 								)}
 								members={session.users.length}
-								admin={session.adminUsername}
+								admin={session.adminUserId}
 								userId={sessionParticipant?.userId}
 								endDateTime={session.endDateTime}
 								tasks={tasks}

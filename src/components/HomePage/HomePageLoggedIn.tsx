@@ -66,13 +66,13 @@ const HomeLoggedIn = () => {
 							goal={session?.goal}
 							duration={JSON.parse(session.session.duration)}
 							meetingLink={session.session.meetingLink}
-							isAdmin={session.adminUsername === user.username}
+							isAdmin={session.adminUserId === user.userId}
 							sessionId={session.session.id}
 							isMember={session.session.users.some(
 								(participant: any) => participant.userId === user.id,
 							)}
 							members={session.session.participants as number}
-							admin={session.adminUsername}
+							admin={session.adminUserId}
 							userId={session.userId} // the id of th user with the session
 							endDateTime={session.session.endDateTime}
 							tasks={session.tasks}
