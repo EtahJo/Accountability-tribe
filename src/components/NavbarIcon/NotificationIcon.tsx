@@ -79,6 +79,13 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
 								{!notification.pageId && !notification.locationId && (
 									<p>{notification.message}</p>
 								)}
+								{
+									(notification.type==='APPROVAL' && notification.pageId && !notification.locationId)&&(
+										<Link href={`/tribe/${notification.pageId}`}>
+											{notification.message}
+										</Link>
+									)
+								}
 							</span>
 						</div>
 					</DropdownMenuItem>
