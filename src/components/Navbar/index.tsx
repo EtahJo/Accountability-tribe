@@ -54,21 +54,21 @@ const Navbar = () => {
 				isSticky ? "mt-0 top-0 py-0 px-2" : "mt-4 py-2 px-2",
 			)}
 		>
-			<div className="bg-purple rounded-full justify-between items-center flex w-[96%] mx-2 p-2">
+			<div className="bg-purple dark:bg-dark-primary rounded-full justify-between items-center flex w-[96%] mx-2 p-2">
 				<Link
 					className="md:text-3xl font-semibold text-white p-2 text-lg sm:text-2xl cursor-pointer flex"
 					href={"/"}
 				>
-					<p className="text-lightPink">Accountability </p>
+					<p className="text-lightPink dark:text-dark-background">Accountability </p>
 					Tribe
 				</Link>
 				<div className=" rounded-2xl p-2 lg:flex gap-2 items-center hidden">
 					<Link
 						href={"/tribes?page=1"}
 						className={cn(
-							"bg-lightPink rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl group",
+							"bg-lightPink dark:bg-dark-background rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl group dark:text-dark-text dark:hover:text-dark-primary",
 							pathname.startsWith("/tribes") &&
-								"bg-black text-white shadow-none",
+								"bg-black dark:bg-white dark:text-black shadow-none text-white",
 						)}
 					>
 						<p className="w-full group-hover:text-white">Tribes</p>
@@ -76,9 +76,9 @@ const Navbar = () => {
 					<Link
 						href={"/sessions?page=1&filter=upcoming"}
 						className={cn(
-							"bg-lightPink rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl",
+							"bg-lightPink dark:bg-dark-background rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl dark:text-dark-text dark:hover:text-dark-primary",
 							pathname.startsWith("/sessions") &&
-								"bg-black text-white shadow-none",
+								"bg-black dark:bg-white dark:text-black shadow-none tetx-white",
 						)}
 					>
 						Sessions
@@ -87,9 +87,9 @@ const Navbar = () => {
 						<Link
 							href={"/tribe-admin-management?page=1"}
 							className={cn(
-								"bg-lightPink rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl",
+								"bg-lightPink dark:bg-dark-background rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl dark:text-dark-text dark:hover:text-dark-primary",
 								pathname.startsWith("/tribe-admin-management") &&
-									"bg-black text-white shadow-none",
+									"bg-black text-white shadow-none dark:bg-white dark:text-black",
 							)}
 						>
 							Manage Tribes

@@ -26,7 +26,7 @@ export default async function RootLayout({
 		<SessionProvider session={session}>
 			<html lang="en">
 				<body className={inter.className}>
-					<div className="bg-lightPink relative h-max pb-32 ">
+					<div className="bg-lightPink relative h-max pb-32 dark:bg-dark-background ">
 						<Navbar />
 						<div className="sm:pt-28 pt-10 min-h-screen">{children}</div>
 						<Footer />

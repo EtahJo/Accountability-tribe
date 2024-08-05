@@ -48,7 +48,7 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
 				</div>:notifications?.map((notification) => (
 					<DropdownMenuItem
 						key={notification.id}
-						className="w-[300px] cursor-pointer border-b"
+						className="w-[300px] cursor-pointer border-b "
 						onClick={() => onNotificationClick(notification.id)}
 					>
 						<div className="flex items-center gap-2 text-lightPink group">
@@ -62,7 +62,7 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
 							{notification.type === "COMMENT" && <FaComment />}
 							<span
 								className={cn(
-									"text-black group-hover:text-purple",
+									"text-black group-hover:text-purple dark:text-dark-text",
 									notification.read ? "font-normal" : "font-bold",
 								)}
 							>

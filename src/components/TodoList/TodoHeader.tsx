@@ -48,7 +48,7 @@ const TodoHeader = ({
 		<div className="flex gap-x-2 items-center">
 			{user?.id === userId ? (
 				<div
-					className="h-4 w-4 bg-transparent border-lightPink border-2 rounded-full flex items-center justify-center cursor-pointer "
+					className="h-5 w-5 bg-transparent border-lightPink border-2 rounded-full flex items-center justify-center cursor-pointer p-2 "
 					onClick={() => {
 						setCompleted((prev) => !prev);
 						if (status === "COMPLETE") {

@@ -32,7 +32,7 @@ const SectionHeader = ({
 		>
 			<div
 				className={cn(
-					"lg:text-3xl font-bold text-shadow-lg xl:whitespace-nowrap largePhone:text-2xl text-xl text-center xl:text-start",
+					"lg:text-3xl font-bold text-shadow-lg xl:whitespace-nowrap largePhone:text-2xl text-xl text-center xl:text-start dark:text-dark-text",
 				)}
 			>
 				{" "}

@@ -29,6 +29,12 @@ const config = {
         lightPink: '#F2ADEF',
         purple: '#9352E6',
         lighterPink: 'rgba(242,173,239,0.3)',
+          dark: {
+          background: '#090809',
+          text: '#EEE5E9',
+          primary: '#B87333',
+          secondary: '#03dac6',
+        },
       },
       boxShadow: {
         '3xl': '0px 4px 4px 0px #00000040',

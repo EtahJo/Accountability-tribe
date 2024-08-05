@@ -11,6 +11,7 @@ import Link from "next/link";
 import { ExitIcon } from "@radix-ui/react-icons";
 import NavbarItem from "@/components/ProfileIconItem/index";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import ThemeToggle from "@/components/ThemeToggle/index";
 import {
 	DropdownMenuItem,
 	DropdownMenuSub,
@@ -19,7 +20,7 @@ import {
 	DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
 
-const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
+const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode;}) => {
 	const { user ,session}: any = useCurrentUser();
 	const router = useRouter();
 	const onLogoutClick = () => {
@@ -76,7 +77,9 @@ const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
 					</DropdownMenuSubTrigger>
 					<DropdownMenuPortal>
 						<DropdownMenuSubContent sideOffset={-120}>
-							<DropdownMenuItem>Change Theme</DropdownMenuItem>
+							<DropdownMenuItem>
+								<ThemeToggle/>
+							</DropdownMenuItem>
 
 							<DropdownMenuItem>{deleteUser}</DropdownMenuItem>
 						</DropdownMenuSubContent>
