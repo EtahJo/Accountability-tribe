@@ -1,7 +1,7 @@
 "use client";
 import { useTransition } from "react";
 import { CldImage } from "next-cloudinary";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { Button } from "@/components/ui/button";
 import { remove_tribe_user } from "@/action/tribe/remove-tribe-member";
@@ -122,6 +122,11 @@ const TribeUser = ({
 							<FaUser className="text-white" size={100} />
 						</AvatarFallback>
 					) : (
+						user.isOAuth?
+						<AvatarImage 
+						src={profileImage} 
+						className='rounded-full shadow-3xl w-44 h-44 object-contain'/>
+						:
 						<CldImage
 							width="180"
 							height="180"

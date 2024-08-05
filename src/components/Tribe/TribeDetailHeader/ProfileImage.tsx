@@ -1,7 +1,7 @@
 "use client";
 import UploadImage from "@/components/UploadImage/index";
 import { CldImage } from "next-cloudinary";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback , AvatarImage} from "@/components/ui/avatar";
 import { FaUser } from "react-icons/fa";
 import { mutate } from "swr";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -20,7 +20,7 @@ const ProfileImage = ({
 	profileImage,
 	tribeId,
 }: ProfileImageProps) => {
-	const { user }: any = useCurrentUser();
+	const { user }:any = useCurrentUser();
 	const onValidSubmit = (profileImage: string) => {
 		const inputInfo = { profileImage };
 		edit_tribe(inputInfo, tribeId).then((data) => {
@@ -71,6 +71,9 @@ border-white -mt-24 shadow-3xl relative"
 							<FaUser className="text-white" size={100} />
 						</AvatarFallback>
 					) : (
+						user.isOAuth?
+						<AvatarImage src={profileImage} className='rounded-full shadow-3xl w-44 h-44 object-contain'/>
+						:
 						<CldImage
 							width="180"
 							height="180"

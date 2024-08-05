@@ -1,3 +1,4 @@
+"use client"
 import {
 	Tooltip,
 	TooltipContent,
@@ -7,10 +8,11 @@ import {
 import Link from "next/link";
 import { FaUser, FaBolt } from "react-icons/fa";
 import { CldImage } from "next-cloudinary";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CountryFlag from "@/components/CountryFlag/index";
 import { Button } from "@/components/ui/button";
 import ToolTip from "@/components/ToolTip/index";
+import {useCurrentUser} from "@/hooks/use-current-user"
 
 interface UserSnippetProps {
 	username: string | null;
@@ -26,6 +28,7 @@ const UserSnippet = ({
 	userCountry,
 	streak,
 }: UserSnippetProps) => {
+	const {user}=useCurrentUser()
 	return (
 		<TooltipProvider>
 			<Tooltip>
@@ -33,6 +36,9 @@ const UserSnippet = ({
 					<Link href={`/user/${username}`} className="relative">
 						<Avatar className="border-purple border move-button">
 							{userImage ? (
+								user?.isOAuth?
+							<AvatarImage src={userImage} className='rounded-full shadow-3xl w-24 h-24 object-contain'/>:
+
 								<CldImage
 									width="180"
 									height="180"

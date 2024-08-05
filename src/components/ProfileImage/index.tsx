@@ -1,7 +1,9 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+"use client"
+import { Avatar, AvatarFallback , AvatarImage} from "@/components/ui/avatar";
 import { CldImage } from "next-cloudinary";
 import { cn } from "@/lib/utils";
-import { FaUsers } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface ProfileImageProps {
 	image?: string | null;
@@ -10,6 +12,7 @@ interface ProfileImageProps {
 }
 
 const ProfileImage = ({ image, alt, dimensions }: ProfileImageProps) => {
+	const {user}= useCurrentUser()
 	return (
 		<Avatar
 			className={cn(
@@ -18,6 +21,8 @@ const ProfileImage = ({ image, alt, dimensions }: ProfileImageProps) => {
 			)}
 		>
 			{image ? (
+				user?.isOAuth?
+				<AvatarImage src={image} className='rounded-full shadow-3xl w-24 h-24 object-contain'/>:
 				<CldImage
 					width={"100"}
 					height="100"
@@ -28,7 +33,7 @@ const ProfileImage = ({ image, alt, dimensions }: ProfileImageProps) => {
 				/>
 			) : (
 				<AvatarFallback className="bg-black">
-					<FaUsers className="text-white" size={100} />
+					<FaUser className="text-white" size={100} />
 				</AvatarFallback>
 			)}
 		</Avatar>

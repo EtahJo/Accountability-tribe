@@ -37,7 +37,7 @@ const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode }) => {
 							<Avatar>
 								
 								{session.data.user.isOAuth ?
-									<AvatarImage src={user?.image} className='rounded-full shadow-3xl w-12 h-12'/>
+									<AvatarImage src={user?.image} className='rounded-full shadow-3xl w-12 h-12 object-contain'/>
 								:
 								<CldImage
 									src={user?.image}
