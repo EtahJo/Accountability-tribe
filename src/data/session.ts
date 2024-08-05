@@ -59,7 +59,7 @@ export const getAllUserSessions = async (
 				},
 			},
 		});
-		const hasMore = sessions?.length > pageLimit+1;
+		const hasMore = sessions?.length > pageLimit;
 		const result = hasMore ? sessions.slice(0, pageLimit) : sessions;
 
 		return { sessions: result, hasMore, totalPages };
@@ -235,7 +235,7 @@ export const getAllOngoingUserSessions = async (
 				},
 			},
 		});
-		const hasMore = sessions && sessions?.sessions.length > pageLimit+1;
+		const hasMore = sessions && sessions?.sessions.length > pageLimit;
 		const result = hasMore
 			? sessions?.sessions.slice(0, pageLimit)
 			: sessions?.sessions;
@@ -311,7 +311,7 @@ export const getAllEndedUserSessions = async (
 				},
 			},
 		});
-		const hasMore = sessions && sessions?.sessions.length > pageLimit+1;
+		const hasMore = sessions && sessions?.sessions.length > pageLimit;
 		const result = hasMore
 			? sessions?.sessions.slice(0, pageLimit)
 			: sessions?.sessions;
@@ -399,7 +399,7 @@ export const getAllUserSessionsToday = async (
 				},
 			},
 		});
-		const hasMore = sessions && sessions?.sessions.length > pageLimit+1;
+		const hasMore = sessions && sessions?.sessions.length > pageLimit;
 		const result = hasMore
 			? sessions?.sessions.slice(0, pageLimit)
 			: sessions?.sessions;
@@ -484,7 +484,7 @@ export const getAllUserSessionsThisWeek = async (
 				},
 			},
 		});
-		const hasMore = sessions && sessions?.sessions.length > pageLimit+1;
+		const hasMore = sessions && sessions?.sessions.length > pageLimit;
 		const result = hasMore
 			? sessions?.sessions.slice(0, pageLimit)
 			: sessions?.sessions;
@@ -566,7 +566,7 @@ export const getAllUserSessionsTomorrow = async (
 				},
 			},
 		});
-		const hasMore = sessions && sessions?.sessions.length > pageLimit+1;
+		const hasMore = sessions && sessions?.sessions.length > pageLimit;
 		const result = hasMore
 			? sessions?.sessions.slice(0, pageLimit)
 			: sessions?.sessions;
@@ -700,7 +700,7 @@ export const getAllSessions = async (pageLimit: number, pageNumber: number) => {
 				startDateTime: "asc",
 			},
 		});
-		const hasMore = sessions?.length > pageLimit+1;
+		const hasMore = sessions?.length > pageLimit;
 	
 		const result = hasMore ? sessions.slice(0, pageLimit) : sessions;
 		return { sessions: result, hasMore, totalPages };
@@ -773,7 +773,7 @@ export const getAllTomorrowSessions = async (
 				startDateTime: "asc",
 			},
 		});
-		const hasMore = sessions?.length > pageLimit+1;
+		const hasMore = sessions?.length > pageLimit;
 		const result = hasMore ? sessions.slice(0, pageLimit) : sessions;
 		return { sessions: result, hasMore, totalPages };
 	} catch (error: any) {
@@ -848,7 +848,7 @@ export const getAllThisWeekSessions = async (
 				startDateTime: "asc",
 			},
 		});
-		const hasMore = sessions?.length > pageLimit+1;
+		const hasMore = sessions?.length > pageLimit;
 		const result = hasMore ? sessions.slice(0, pageLimit) : sessions;
 		return { sessions: result, hasMore, totalPages };
 	} catch (error: any) {
@@ -926,7 +926,7 @@ export const getAllTodaySessions = async (
 				startDateTime: "asc",
 			},
 		});
-		const hasMore = sessions?.length > pageLimit+1;
+		const hasMore = sessions?.length > pageLimit;
 		const result = hasMore ? sessions.slice(0, pageLimit) : sessions;
 		return { sessions: result, hasMore, totalPages };
 	} catch (error: any) {
@@ -999,7 +999,7 @@ export const getAllOngoingSessions = async (
 				startDateTime: "asc",
 			},
 		});
-		const hasMore = sessions?.length > pageLimit+1;
+		const hasMore = sessions?.length > pageLimit;
 		const result = hasMore ? sessions.slice(0, pageLimit) : sessions;
 		return { sessions: result, hasMore, totalPages };
 	} catch (error: any) {
@@ -1066,7 +1066,7 @@ export const getAllEndedSessions = async (
 				startDateTime: "asc",
 			},
 		});
-		const hasMore = sessions?.length > pageLimit+1;
+		const hasMore = sessions?.length > pageLimit;
 		const result = hasMore ? sessions.slice(0, pageLimit) : sessions;
 		return { sessions: result, hasMore, totalPages };
 	} catch (error: any) {
