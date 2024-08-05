@@ -11,6 +11,7 @@ export async function GET(req: Request, context: any) {
 			6,
 			1,
 			params.currentUserId,
+			params.tribeId
 		);
 		return NextResponse.json(similarTribes);
 	} catch (error) {

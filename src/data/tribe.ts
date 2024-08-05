@@ -190,6 +190,7 @@ export const getTribesWithSimilarTags = async (
 	pageLimit: number,
 	pageNumber: number,
 	currentUserId?: string,
+	tribeId?:string
 ) => {
 	try {
 		const tagsArray = tags.split(",");
@@ -200,6 +201,9 @@ export const getTribesWithSimilarTags = async (
 				tags: {
 					hasSome: tagsArray,
 				},
+				id:{
+					not:tribeId
+				}
 			},
 			include: {
 				users: { include: { user: true } },
