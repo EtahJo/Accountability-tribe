@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 interface PaginationControllerProps {
 	hasMore: boolean;
 	page: number;
-	pageNumbers: number[];
+	// pageNumbers: number[];
 	totalPages: number;
 	filter?: string | null;
 }
@@ -14,12 +14,19 @@ const PaginationController = ({
 	hasMore,
 	page,
 	filter,
-	pageNumbers,
+	// pageNumbers,
 	totalPages,
 }: PaginationControllerProps) => {
 	const isPageOutofRange = page > totalPages;
 	const prevPage = page - 1 > 0 ? page - 1 : 1;
 	const nextPage = page + 1;
+	const pageNumbers = [];
+	const offsetNumber = 3;
+	for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {
+		if (i >= 1 && i <= totalPages) {
+			pageNumbers.push(i);
+		}
+	}
 
 	return (
 		<div>

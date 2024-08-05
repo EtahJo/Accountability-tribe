@@ -37,13 +37,6 @@ const TribesBody = () => {
 				</div>
 		)
 	}
-	const pageNumbers = [];
-	const offsetNumber = 3;
-	for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {
-		if (i >= 1 && i <= tribesData?.totalPages) {
-			pageNumbers.push(i);
-		}
-	}
 	const tags = new Set();
 
 	tribesData?.tribes?.forEach((item: any) => {
@@ -90,7 +83,6 @@ const TribesBody = () => {
 				page={page}
 				hasMore={tribesData.hasMore}
 				totalPages={tribesData.totalPages}
-				pageNumbers={pageNumbers}
 				filter={filter}
 			/>
 		</div>

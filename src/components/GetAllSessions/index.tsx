@@ -11,7 +11,6 @@ import PaginationController from "../PaginationController";
 import UpcomingSessionSkeleton from "../Skeletons/UpcomingSessionSkeleton";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 const GetAllSessions = ({ username }: { username: string }) => {
 	const [filteredData, setFilteredData] = useState(null);
 	const searchParams = useSearchParams();
@@ -32,13 +31,6 @@ const GetAllSessions = ({ username }: { username: string }) => {
 			</div>
 		);
 	}
-	const pageNumbers = [];
-	const offsetNumber = 3;
-	for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {
-		if (i >= 1 && i <= sessionsData?.totalPages) {
-			pageNumbers.push(i);
-		}
-	}
 
 	const getFilteredData = (data: any) => {
 		setFilteredData(data);
@@ -56,7 +48,18 @@ const GetAllSessions = ({ username }: { username: string }) => {
 				</div>
 
 				<div className="flex flex-wrap justify-center gap-4 my-5">
-					{(filteredData ? filteredData : sessionsData.sessions.sessions).map(
+					{
+						filteredData && (filteredData as []).length ===0 && (
+							<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+					<div>
+						<p>No sessions</p>
+						{/* TODO: add session recommendations */}
+					</div>
+				</div>
+						)
+					}
+					{
+					(filteredData ? filteredData : sessionsData.sessions.sessions).map(
 						({
 							session,
 							goal,
@@ -104,7 +107,6 @@ const GetAllSessions = ({ username }: { username: string }) => {
 				)}
 				<PaginationController
 					page={page}
-					pageNumbers={pageNumbers}
 					hasMore={sessionsData.hasMore}
 					totalPages={sessionsData.totalPages}
 					filter={filter}

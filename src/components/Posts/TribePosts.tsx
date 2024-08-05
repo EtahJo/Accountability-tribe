@@ -28,13 +28,6 @@ const TribePosts = ({ tribeId }: { tribeId: string }) => {
 			</div>
 		);
 	}
-	if(tribePosts.length ===0){
-		<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
-			<div>
-				<p>No Tribe Posts</p>
-			</div>
-		</div>
-	}
 	return (
 		<div>
 			<div className="flex flex-col items-center">
@@ -43,7 +36,15 @@ const TribePosts = ({ tribeId }: { tribeId: string }) => {
 
 			<SectionHeader name="Tribe Posts" />
 			<div>
-				{tribePosts?.posts?.map(
+			{
+			tribePosts?.posts.length ===0?
+			<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+			<div>
+				<p>Be the first to post in tribe</p>
+			</div>
+			</div>
+			:
+				tribePosts?.posts?.map(
 					({
 						id,
 						tribe,

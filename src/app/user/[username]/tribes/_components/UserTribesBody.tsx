@@ -30,24 +30,25 @@ const UserTribesBody = ({ pageUsername }: { pageUsername: string }) => {
 		);
 	}
 	const tags = new Set();
+	const {tribes, totalPages,hasMore} = tribesData
+	if(tribes.length===0){
+		<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+			<div>
+				<p>{`${pageUsername} belongs to no tribes`}</p>
+			</div>
+		</div>
+	}
 
-	tribesData?.tribes?.forEach((item: any) => {
+	tribes?.forEach((item: any) => {
 		item.tags.forEach((tag: string) => {
 			tags.add(tag);
 		});
 	});
-	const pageNumbers = [];
-	const offsetNumber = 3;
-	for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {
-		if (i >= 1 && i <= tribesData?.totalPages) {
-			pageNumbers.push(i);
-		}
-	}
 	return (
 		<div className="flex flex-col  h-max">
 			<TribesFilter tags={Array.from(tags)} page={page} />
 			<div className="flex flex-wrap items-center justify-start">
-				{tribesData.tribes?.map(
+				{tribes?.map(
 					({
 						description,
 						id,
@@ -83,9 +84,8 @@ const UserTribesBody = ({ pageUsername }: { pageUsername: string }) => {
 			</div>
 			<PaginationController
 				page={page}
-				hasMore={tribesData.hasMore}
-				totalPages={tribesData.totalPages}
-				pageNumbers={pageNumbers}
+				hasMore={hasMore}
+				totalPages={totalPages}
 				filter={filter}
 			/>
 		</div>

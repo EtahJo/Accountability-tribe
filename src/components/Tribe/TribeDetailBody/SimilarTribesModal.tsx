@@ -48,7 +48,14 @@ const SimilarTribesModal = ({ tribeId }: { tribeId: string }) => {
 						X
 					</p>
 					<div>
-						{similarTribes?.tribes?.map(
+						{
+				similarTribes?.tribes?.length ===0?
+				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+					<div>
+						<p>No Similar tribes</p>
+					</div>
+				</div>:
+					similarTribes?.tribes?.map(
 							({
 								description,
 								id,

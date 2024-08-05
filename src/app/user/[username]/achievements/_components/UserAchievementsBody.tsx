@@ -28,15 +28,17 @@ const UserAchievementsBody = ({ username }: { username: string }) => {
 		);
 	}
 	const { tasks, hasMore, totalPages } = completedTasks;
-	const pageNumbers = [];
-	const offsetNumber = 3;
-	for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {
-		if (i >= 1 && i <= totalPages) {
-			pageNumbers.push(i);
-		}
-	}
 	return (
-		<div className='mt-10 flex flex-col max-md:items-center'>
+		<div>
+			{
+				tasks?.length===0?
+				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+					<div>
+						<p>No Achievements</p>
+					</div>
+				</div>
+				:
+			<div className='mt-10 flex flex-col max-md:items-center'>
 			<div className="flex gap-4 flex-wrap items-start max-md:flex-col max-md:items-center">
 				<div
 					className="flex items-center gap-1 bg-white p-3 rounded-2xl
@@ -61,10 +63,12 @@ const UserAchievementsBody = ({ username }: { username: string }) => {
 				page={page}
 				hasMore={hasMore}
 				totalPages={totalPages}
-				pageNumbers={pageNumbers}
 				filter={filter}
 			/>
 		</div>
+			}
+		</div>
+		
 	);
 };
 

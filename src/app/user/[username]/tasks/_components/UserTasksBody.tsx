@@ -34,14 +34,6 @@ const UserTasksBody = ({ username }: { username: string }) => {
 		);
 	}
 	const { tasks, hasMore, totalPages } = tasksData;
-	const pageNumbers = [];
-	const offsetNumber = 3;
-	for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {
-		if (i >= 1 && i <= totalPages) {
-			pageNumbers.push(i);
-		}
-	}
-
 	return (
 		<div className="flex flex-col justify-start items-center">
 			<UserTasksFilters
@@ -57,6 +49,14 @@ const UserTasksBody = ({ username }: { username: string }) => {
 				className="flex flex-wrap lg:justify-start  gap-2 justify-center 
 "
 			>
+				{
+					filteredData && filteredData.length ===0 &&(	
+				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+					<div>
+						<p>No tasks</p>
+					</div>
+				</div>)
+				}
 				{(filteredData || tasks)?.map((task: any) => (
 					<div key={task.id} className="min-[1450px]:basis-1/4 basis-2/2 ">
 						<Todo
@@ -74,11 +74,18 @@ const UserTasksBody = ({ username }: { username: string }) => {
 					</div>
 				))}
 			</div>
+			{totalPages === 0 && (
+					<div className="m-auto flex justify-center  h-screen">
+						<p className="bg-white rounded-xl p-2 h-10">
+							{" "}
+							No tasks{" "}
+						</p>
+					</div>
+				)}
 			<PaginationController
 				page={page}
 				hasMore={hasMore}
 				totalPages={totalPages}
-				pageNumbers={pageNumbers}
 			/>
 		</div>
 	);

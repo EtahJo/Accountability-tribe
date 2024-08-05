@@ -22,15 +22,6 @@ const SessionsBody = () => {
 		`${process.env.NEXT_PUBLIC_BASE_URL}/sessions/api?page=${page}&filter=${filter}`,
 		fetcher,
 	);
-	if (isLoading || sessionsData === undefined) {
-		return (
-			<div className="flex flex-wrap gap-2 items-center lg:justify-start justify-center">
-				{Array.from({ length: 3 }).map((_, index) => (
-					<UpcomingSessionSkeleton key={index} />
-				))}
-			</div>
-		);
-	}
 	const pageNumbers = [];
 	const offsetNumber = 3;
 	for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {
@@ -51,17 +42,26 @@ const SessionsBody = () => {
 					getFilteredData={getFilteredData}
 				/>
 			</div>
-
-			<div className="flex items-center flex-wrap lg:justify-between justify-center ">
+			{isLoading || sessionsData === undefined?
+			<div className="flex flex-wrap gap-2 items-center  justify-center">
+				{Array.from({ length: 3 }).map((_, index) => (
+					<UpcomingSessionSkeleton key={index} />
+				))}
+			</div>:
+					
+				
+			<div>
+				
+		<div className="flex items-center flex-wrap lg:justify-between justify-center ">
 				{ (filteredData && filteredData.length ===0)|| (!filteredData && sessionsData.sessions.length===0)?	
 				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10 m-auto">
 				<div>
-					<p>No upcoming sessions</p>
+					<p>No sessions {filter==='thisweek'?'this week':filter}</p>
 						{/* TODO: add session recommendations */}
 				</div>
 				</div>
-		:
-		(filteredData ? filteredData : sessionsData?.sessions)?.map(
+				:
+			(filteredData ? filteredData : sessionsData?.sessions)?.map(
 					(session: any) => {
 						const checkUser = session.users.filter(
 							(sessionsParticipant: SessionParticipant) =>
@@ -98,12 +98,13 @@ const SessionsBody = () => {
 				)}
 			</div>
 			<PaginationController
-				pageNumbers={pageNumbers}
 				hasMore={sessionsData.hasMore}
 				page={page}
 				totalPages={sessionsData.totalPages}
 				filter={filter}
 			/>
+			</div>
+}
 		</div>
 	);
 };

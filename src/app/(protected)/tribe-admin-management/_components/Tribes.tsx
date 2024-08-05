@@ -47,13 +47,6 @@ const Tribes = ({ asSideBy, presentTribeId }: USerIsAdminProps) => {
 	const tribestoMapThrough = asSideBy
 		? showOtherTribeInfo.slice(0, 6)
 		: tribesData.tribes;
-	const pageNumbers = [];
-	const offsetNumber = 3;
-	for (let i = page - offsetNumber; i <= page + offsetNumber; i++) {
-		if (i >= 1 && i <= tribesData?.totalPages) {
-			pageNumbers.push(i);
-		}
-	}
 	return (
 		<div className="flex flex-col items-center justify-center">
 			<div
@@ -62,13 +55,21 @@ const Tribes = ({ asSideBy, presentTribeId }: USerIsAdminProps) => {
 					asSideBy ? "flex-col items-center justify-center" : "flex-wrap ",
 				)}
 			>
-				{tribesData.length === 0 ? (
-					<div className="flex flex-col justify-center items-center">
-						<p className="text-xl">You are not admin of any tribe</p>
+				{tribestoMapThrough.length === 0 ? (
+					<div className="flex flex-col justify-center items-center gay-2 bg-white rounded-3xl p-5 my-4">
+						{
+							asSideBy?
+							<p className="text-lg">You are not admin of any other tribe</p>:
+							<p className="text-lg">You are not admin of any tribe</p>
+						}
 						<Button className="move-button">Create Tribe</Button>
 					</div>
 				) : (
-					tribestoMapThrough?.map(
+					<div>
+				<h2 className="text-2xl bg-white p-2 rounded-3xl my-3">
+					Select tribe to manage
+				</h2>
+				{	tribestoMapThrough?.map(
 						({
 							id,
 							description,
@@ -92,7 +93,8 @@ const Tribes = ({ asSideBy, presentTribeId }: USerIsAdminProps) => {
 								manage
 							/>
 						),
-					)
+					)}
+				</div>
 				)}
 			</div>
 			{asSideBy ? (
@@ -103,7 +105,6 @@ const Tribes = ({ asSideBy, presentTribeId }: USerIsAdminProps) => {
 				</Link>
 			) : (
 				<PaginationController
-					pageNumbers={pageNumbers}
 					page={page}
 					hasMore={tribesData.hasMore}
 					totalPages={tribesData.totalPages}
