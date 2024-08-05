@@ -29,7 +29,7 @@ export const leave_session = async (sessionId: string) => {
 	if (!sessionParticipant) {
 		return { error: "You are not a member of this session" };
 	}
-	if (sessionParticipant.adminUsername === dbUser.username) {
+	if (sessionParticipant.adminUserId === dbUser.id) {
 		const allSessionUsers = await getSessionUsers(sessionId);
 		const filteredUsers = allSessionUsers?.filter(
 			(user) => user.userId !== dbUser.id,
@@ -50,7 +50,7 @@ export const leave_session = async (sessionId: string) => {
 		await db.sessionParticipant.updateMany({
 			where: { sessionId },
 			data: {
-				adminUsername: firstParticipant?.username,
+				adminUserId: firstParticipant?.id,
 			},
 		});
 
