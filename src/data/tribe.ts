@@ -57,7 +57,7 @@ export const totalUserTribes = async (username: string) => {
 		});
 		return total;
 	} catch (error: any) {
-		console.error("Error getting the total of ll user tribes", error.message);
+		console.error("Error getting the total of all user tribes", error.message);
 	}
 };
 export const getAllUserTribesByUsername = async (

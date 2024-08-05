@@ -1,11 +1,11 @@
 "use client";
-import { useTransition } from "react";
+import { useState,useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { join_tribe } from "@/action/tribe/join-tribe";
 import { useSearchParams } from "next/navigation";
 import TribeDetails from "@/components/Tribe/TribeSnippet/TribeDetails";
 import TribeLastVisitInfo from "@/components/Tribe/TribeSnippet/TribeLastVisitInfo";
-import { mutate } from "swr";
+import useSWR,{ mutate } from "swr";
 import Link from "next/link";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -22,10 +22,9 @@ export interface TribeSnippetProps {
 	isMember: boolean;
 	members: number | undefined;
 	lastVisit?: string;
-	newPosts?: {}[];
 	manage?: boolean;
 }
-
+const fetcher = (url:string)=>fetch(url).then((res)=>res.json())
 const TribeSnippet = ({
 	name,
 	image,
@@ -35,11 +34,13 @@ const TribeSnippet = ({
 	members,
 	userId,
 	lastVisit,
-	newPosts,
 	manage,
 }: TribeSnippetProps) => {
 	const { user }: any = useCurrentUser();
 	const [isPending, startTransition] = useTransition();
+	const [isMemberState, setIsMemberState] = useState(false);
+	const [membersState, setMembersState] = useState(members);
+	const{data:newPosts,isLoading}=useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/${user.id}/${tribeId}/new-posts`,fetcher)
 	const searchParams = useSearchParams();
 	let page = parseInt(searchParams?.get("page") as string, 10);
 	page = !page || page < 1 ? 1 : page;
@@ -51,6 +52,8 @@ const TribeSnippet = ({
 				}
 				if (data.success) {
 					toast.success(data.success);
+					setIsMemberState(true);
+					setMembersState((prev)=>prev as number+1)
 					mutate(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/${user.id}/${data.tribeId}`,
 					);
@@ -71,13 +74,14 @@ const TribeSnippet = ({
 			});
 		});
 	};
+	
 	return (
 		<div
 			className="bg-white flex flex-col items-center 
     justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl
      m-auto largePhone:w-[300px] relative group/item min-[355px]:w-[200px] w-[170px] "
 		>
-			{newPosts && newPosts.length > 0 && (
+			{!isLoading && newPosts && newPosts.length > 0 && (
 				<Badge className="bg-purple absolute left-1 -top-3 rounded-3xl text-xs">
 					{newPosts.length} new posts
 				</Badge>
@@ -100,13 +104,13 @@ const TribeSnippet = ({
 					manage={manage}
 					image={image}
 					name={name}
-					members={members}
+					members={membersState}
 					desc={desc}
 					tribeId={tribeId}
 				/>
 			</div>
 
-			{!isMember && (
+			{(!isMember && !isMemberState) && (
 				<Button
 					className="my-2 move-button "
 					size={"slg"}

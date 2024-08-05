@@ -73,7 +73,6 @@ const RecommendedTribesCarousel = ({ userId }: RecommendedTribesProps) => {
 							profileImage,
 							users,
 							tribeVisit,
-							newPosts,
 						}: any) => (
 							<CarouselItem
 								key={id}
@@ -89,7 +88,6 @@ const RecommendedTribesCarousel = ({ userId }: RecommendedTribesProps) => {
 									members={users.length}
 									image={profileImage}
 									lastVisit={tribeVisit[0]?.lastVisit as any}
-									newPosts={newPosts}
 								/>
 							</CarouselItem>
 						),

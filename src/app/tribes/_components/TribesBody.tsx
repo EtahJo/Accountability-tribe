@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import PaginationController from "@/components/PaginationController";
 import TribeSnippet from "@/components/Tribe/TribeSnippet";
 import TribeSkeleton from "@/components/Skeletons/TribeSkeleton";
-import { Post, TribeUser, TribeVisit, Tribe } from "@prisma/client";
+import { TribeUser, TribeVisit, Tribe } from "@prisma/client";
 import TribesFilter from "./TribesFilter";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -61,12 +61,10 @@ const TribesBody = () => {
 						description,
 						id,
 						name,
-						newPosts,
 						profileImage,
 						users,
 						tribeVisit,
 					}: Tribe & {
-						newPosts: Post[];
 						users: TribeUser[];
 						tribeVisit: TribeVisit[];
 					}) => (
@@ -82,7 +80,6 @@ const TribesBody = () => {
 							lastVisit={
 								tribeVisit.length > 0 ? (tribeVisit[0]?.lastVisit as any) : null
 							}
-							newPosts={newPosts}
 							tribeId={id}
 							userId={user.id}
 						/>

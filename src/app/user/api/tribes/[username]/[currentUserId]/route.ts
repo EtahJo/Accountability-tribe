@@ -2,7 +2,6 @@ import {
 	getAllUserTribesByUsername,
 	getTribesWithSimilarTags,
 } from "@/data/tribe";
-import { getAllTribeNewPosts, getAllTribePosts } from "@/data/post";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(req: NextRequest, context: any) {
@@ -26,27 +25,11 @@ export async function GET(req: NextRequest, context: any) {
 					pageLimit,
 					pageInt,
 				);
-		const modifiedData = [];
 		if (!tribes) {
 			return NextResponse.json([]);
 		}
-		for (const tribe of tribes.tribes) {
-			const newPosts =
-				tribe.tribeVisit.length === 1
-					? await getAllTribeNewPosts(tribe.id, tribe.tribeVisit[0]?.lastVisit)
-					: await getAllTribePosts(tribe.id, params.currentUserId);
-			modifiedData.push({
-				...tribe,
-				newPosts,
-			});
-		}
-		const returnValue = {
-			tribes: modifiedData,
-			hasMore: tribes.hasMore,
-			totalPages: tribes.totalPages,
-		};
 
-		return NextResponse.json(returnValue);
+		return NextResponse.json(tribes);
 	} catch (error) {
 		console.error("Tribes Error is>>", error);
 	}

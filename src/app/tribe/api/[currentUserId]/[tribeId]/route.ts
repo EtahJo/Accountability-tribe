@@ -7,6 +7,6 @@ export async function GET(req: Request, context: any) {
 		const tribe = await getTribeById(params.tribeId, params.currentUserId);
 		return NextResponse.json(tribe);
 	} catch {
-		// NextResponse.status(500).json({ error: 'Internal Server Error' });
+		NextResponse.error()
 	}
 }

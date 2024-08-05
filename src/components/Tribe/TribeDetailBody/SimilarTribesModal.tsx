@@ -6,7 +6,7 @@ import TribeSnippet from "@/components/Tribe/TribeSnippet/index";
 import useSWR from "swr";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { TribeUser, TribeVisit, Tribe, Post } from "@prisma/client";
+import { TribeUser, TribeVisit, Tribe} from "@prisma/client";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const SimilarTribesModal = ({ tribeId }: { tribeId: string }) => {
@@ -48,17 +48,15 @@ const SimilarTribesModal = ({ tribeId }: { tribeId: string }) => {
 						X
 					</p>
 					<div>
-						{similarTribes?.map(
+						{similarTribes?.tribes?.map(
 							({
 								description,
 								id,
 								name,
-								newPosts,
 								profileImage,
 								users,
 								tribeVisit,
 							}: Tribe & {
-								newPosts: Post[];
 								users: TribeUser[];
 								tribeVisit: TribeVisit[];
 							}) => (
@@ -76,7 +74,6 @@ const SimilarTribesModal = ({ tribeId }: { tribeId: string }) => {
 												? (tribeVisit[0]?.lastVisit as any)
 												: null
 										}
-										newPosts={newPosts}
 										tribeId={id}
 										userId={user.id}
 									/>

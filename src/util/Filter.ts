@@ -80,3 +80,5 @@ export const completedTasksFilter = (tasks: Task[], filterString: string) => {
 	});
 	return filteredData;
 };
+
+

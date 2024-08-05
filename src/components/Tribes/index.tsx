@@ -6,7 +6,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import TribeSnippet from "@/components/Tribe/TribeSnippet/index";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
-import { Post, TribeUser, TribeVisit, Tribe } from "@prisma/client";
+import {TribeUser, TribeVisit, Tribe } from "@prisma/client";
 import TribeSkeleton from "../Skeletons/TribeSkeleton";
 
 interface TribesProps {
@@ -29,7 +29,7 @@ const Tribes = ({ pageUsername }: TribesProps) => {
 		);
 	}
 
-	const tribesToDisplay = tribesData.tribes.slice(0, 4);
+	const tribesToDisplay = tribesData?.tribes?.slice(0, 4);
 
 	return (
 		<div className="flex flex-col justify-center">
@@ -57,12 +57,10 @@ const Tribes = ({ pageUsername }: TribesProps) => {
 						description,
 						id,
 						name,
-						newPosts,
 						profileImage,
 						users,
 						tribeVisit,
 					}: Tribe & {
-						newPosts: Post[];
 						users: TribeUser[];
 						tribeVisit: TribeVisit[];
 					}) => {
@@ -83,7 +81,6 @@ const Tribes = ({ pageUsername }: TribesProps) => {
 										? (tribeVisit[0]?.lastVisit as any)
 										: null
 								}
-								newPosts={newPosts}
 							/>
 						);
 					},

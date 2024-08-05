@@ -52,12 +52,10 @@ const UserTribesBody = ({ pageUsername }: { pageUsername: string }) => {
 						description,
 						id,
 						name,
-						newPosts,
 						profileImage,
 						users,
 						tribeVisit,
 					}: Tribe & {
-						newPosts: Post[];
 						users: TribeUser[];
 						tribeVisit: TribeVisit[];
 					}) => {
@@ -78,7 +76,6 @@ const UserTribesBody = ({ pageUsername }: { pageUsername: string }) => {
 										? (tribeVisit[0]?.lastVisit as any)
 										: null
 								}
-								newPosts={newPosts}
 							/>
 						);
 					},

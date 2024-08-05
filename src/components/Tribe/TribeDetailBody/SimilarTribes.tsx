@@ -4,7 +4,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import TribeSnippet from "@/components/Tribe/TribeSnippet/index";
 import SectionHeader from "@/components/SectionHeader";
 import TribeSkeleton from "@/components/Skeletons/TribeSkeleton";
-import { TribeUser, TribeVisit, Tribe, Post } from "@prisma/client";
+import { TribeUser, TribeVisit, Tribe} from "@prisma/client";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -27,24 +27,22 @@ const SimilarTribes = ({ tribeId }: { tribeId: string }) => {
 		<div>
 			<SectionHeader name="Similar Tribes" />
 			<div>
-				{ similarTribes.length ===0?
+				{ similarTribes?.tribes?.length ===0?
 				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
 					<div>
 						<p>No Similar tribes</p>
 					</div>
 				</div>
 				:
-				similarTribes?.map(
+				similarTribes?.tribes?.map(
 					({
 						description,
 						id,
 						name,
-						newPosts,
 						profileImage,
 						users,
 						tribeVisit,
 					}: Tribe & {
-						newPosts: Post[];
 						users: TribeUser[];
 						tribeVisit: TribeVisit[];
 					}) => (
@@ -62,7 +60,6 @@ const SimilarTribes = ({ tribeId }: { tribeId: string }) => {
 										? (tribeVisit[0]?.lastVisit as any)
 										: null
 								}
-								newPosts={newPosts}
 								tribeId={id}
 								userId={user.id}
 							/>
