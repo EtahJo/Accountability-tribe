@@ -19,7 +19,15 @@ export const getAllUserTasks = async (userId: string) => {
 				sessionParticipants: {
 					include: {
 						sessionParticipant: {
-							include: { session: true },
+							include: { session: {
+								include:{
+									users:{
+										include:{
+											user:true
+										}
+									}
+								}
+							}},
 						},
 					},
 				},
@@ -49,7 +57,11 @@ export const getHighPriorityTasks = async (userId: string) => {
 							include: {
 								session: {
 									include: {
-										users: true,
+										users: {
+											include:{
+												user:true
+											}
+										},
 									},
 								},
 							},
@@ -125,7 +137,15 @@ export const getUserUnCompletedTask = async (
 				sessionParticipants: {
 					include: {
 						sessionParticipant: {
-							include: { session: true },
+							include: { session: {
+								include:{
+									users:{
+										include:{
+											user:true
+										}
+									}
+								}
+							} },
 						},
 					},
 				},

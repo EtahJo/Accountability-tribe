@@ -64,6 +64,7 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
 						<CarouselContent className="w-full">
 							{sessions?.sessions?.sessions.map(
 								({ session, goal, tasks, adminUserId, id, userId }: any) => {
+									const sessionAdmin = session.users.filter((user:SessionParticipant)=>user.userRole==='ADMIN')
 									return (
 										<CarouselItem
 											key={session.id}
@@ -84,7 +85,7 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
 														sessionUser.userId === currentUser.id,
 												)}
 												members={session.participants}
-												admin={adminUserId}
+												admin={sessionAdmin[0].user.username}
 												userId={userId}
 												endDateTime={session.endDateTime}
 												sessionParticipantId={id}

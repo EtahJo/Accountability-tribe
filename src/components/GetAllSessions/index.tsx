@@ -68,7 +68,10 @@ const GetAllSessions = ({ username }: { username: string }) => {
 							tasks,
 							sessionParticipantId,
 							user,
-						}: any) => {
+						}: any) => {		
+						const sessionAdmin= session.users.filter((sessionParticipant:SessionParticipant)=>
+							sessionParticipant.userRole ==='ADMIN'
+								)
 							return (
 								<div key={session.id}>
 									<UpcomingSession
@@ -82,7 +85,7 @@ const GetAllSessions = ({ username }: { username: string }) => {
 												sessionParticipant.userId === user.id,
 										)}
 										members={session.participants}
-										admin={adminUserId}
+										admin={sessionAdmin[0].user.username}
 										userId={userId}
 										endDateTime={session.endDateTime}
 										tasks={tasks}

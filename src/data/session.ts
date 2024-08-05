@@ -29,7 +29,11 @@ export const getAllUserSessions = async (
 			include: {
 				session: {
 					include: {
-						users: true,
+						users: {
+							include:{
+								user:true
+							}
+						},
 					},
 				},
 				user: {
@@ -202,10 +206,19 @@ export const getAllOngoingUserSessions = async (
 								lte: new Date(),
 							},
 						},
+					
 					},
 
 					include: {
-						session: true,
+						session: {
+							include:{
+								users:{
+									include:{
+										user:true
+									}
+								}
+							}
+						},
 						user: {
 							include: {
 								tasks: { where: { status: { not: Status.COMPLETE } } },
@@ -281,7 +294,15 @@ export const getAllEndedUserSessions = async (
 						},
 					},
 					include: {
-						session: true,
+						session: {
+							include:{
+								users:{
+									include:{
+										user:true
+									}
+								}
+							}
+						},
 						user: {
 							include: {
 								tasks: { where: { status: { not: Status.COMPLETE } } },
@@ -369,7 +390,15 @@ export const getAllUserSessionsToday = async (
 						},
 					},
 					include: {
-						session: true,
+						session: {
+							include:{
+								users:{
+									include:{
+										user:true
+									}
+								}
+							}
+						},
 						user: {
 							include: {
 								tasks: { where: { status: { not: Status.COMPLETE } } },
@@ -454,7 +483,15 @@ export const getAllUserSessionsThisWeek = async (
 						},
 					},
 					include: {
-						session: true,
+						session: {
+							include:{
+								users:{
+									include:{
+										user:true
+									}
+								}
+							}
+						},
 						user: {
 							include: {
 								tasks: { where: { status: { not: Status.COMPLETE } } },
@@ -536,7 +573,15 @@ export const getAllUserSessionsTomorrow = async (
 						},
 					},
 					include: {
-						session: true,
+						session: {
+							include:{
+								users:{
+									include:{
+										user:true
+									}
+								}
+							}
+						},
 						user: {
 							include: {
 								tasks: { where: { status: { not: Status.COMPLETE } } },
@@ -603,7 +648,11 @@ export const getUserClosestSession = async (userId: string) => {
 			include: {
 				session: {
 					include: {
-						users: true,
+						users: {
+							include:{
+								user:true
+							}
+						},
 					},
 				},
 				user: {

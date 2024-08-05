@@ -9,6 +9,7 @@ import ToolTip from "@/components/ToolTip/index";
 import DeleteConfirmation from "@/components/Confirmations/DeleteConfirmation";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
+import { SessionParticipant } from "@prisma/client";
 
 interface SessionModalProps {
 	sessionParticipants: {}[];
@@ -45,7 +46,11 @@ const SessionModal = ({
 		>
 			<div className="flex flex-col justify-center items-center bg-white rounded-3xl shadow-3xl relative">
 				<h1 className="font-bold text-2xl ">Task Sessions</h1>
-				{sessionParticipants?.map(({ sessionParticipant }: any) => (
+				{sessionParticipants?.map(({ sessionParticipant }: any) =>{
+					console.log("Participants", sessionParticipant)
+					const sessionAdmin= sessionParticipant.session?.users?.filter(
+						(user:SessionParticipant)=>user.userRole==='ADMIN')[0]
+					return (
 					<div
 						className="flex items-center gap-1 relative"
 						key={sessionParticipant.id}
@@ -60,7 +65,7 @@ const SessionModal = ({
 							isMember={true}
 							isAdmin={user?.id === sessionParticipant.adminUserId}
 							members={sessionParticipant.session.participants}
-							admin={sessionParticipant.adminUserId}
+							admin={sessionAdmin?.user.username}
 							endDateTime={sessionParticipant.session.endDateTime}
 							userId={sessionParticipant.userId}
 							sessionParticipantId={sessionParticipant.id}
@@ -96,7 +101,7 @@ const SessionModal = ({
 							/>
 						</div>
 					</div>
-				))}
+				)})}
 			</div>
 		</ModalWrapper>
 	);

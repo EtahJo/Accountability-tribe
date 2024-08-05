@@ -20,6 +20,7 @@ interface UserSnippetProps {
 	numberOfTribes: number;
 	userCountry?: string | null;
 	streak: number;
+	accounts:{}[];
 }
 const UserSnippet = ({
 	username,
@@ -27,8 +28,8 @@ const UserSnippet = ({
 	numberOfTribes,
 	userCountry,
 	streak,
+	accounts
 }: UserSnippetProps) => {
-	const {user}=useCurrentUser()
 	return (
 		<TooltipProvider>
 			<Tooltip>
@@ -36,7 +37,7 @@ const UserSnippet = ({
 					<Link href={`/user/${username}`} className="relative">
 						<Avatar className="border-purple border move-button">
 							{userImage ? (
-								user?.isOAuth?
+								accounts?.length>0?
 							<AvatarImage src={userImage} className='rounded-full shadow-3xl w-24 h-24 object-contain'/>:
 
 								<CldImage

@@ -7,12 +7,12 @@ import UserSnippet from "@/components/UserSnippet/index";
 import UserSkeleton from "@/components/Skeletons/UserSkeleton";
 import { Avatar } from "@/components/ui/avatar";
 import Link from "next/link";
-import { User } from "@prisma/client";
+import { User , Account} from "@prisma/client";
 
 export type highlightedUsersType = Pick<
 	User,
 	"id" | "username" | "country" | "image"
-> & { streak: { count: number }; tribes: {}[] };
+> & { streak: { count: number }; tribes: {}[] ; accounts:Account[]};
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HeroLoggedIn = () => {
 	const { data: highlightedUsers, isLoading } = useSWR(
@@ -107,6 +107,7 @@ const HeroLoggedIn = () => {
 								id,
 								streak,
 								tribes,
+								accounts
 							}: highlightedUsersType) => {
 								return (
 									<UserSnippet
@@ -116,6 +117,7 @@ const HeroLoggedIn = () => {
 										userCountry={country}
 										streak={streak?.count}
 										userImage={image}
+										accounts={accounts}
 									/>
 								);
 							},

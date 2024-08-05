@@ -1,20 +1,17 @@
 "use client";
 import useSWR from "swr";
-import SectionHeader from "@/components/SectionHeader/index";
 import HeroLoggedIn from "@/components/HomePage/HeroSection/HeroLoggedIn";
 import UpcomingSessionDetail from "@/components/UpcomingSessionDetails/index";
-import { getTimeDifference } from "@/util/DateTime";
 import UpcomingSessionDetailSkeleton from "../Skeletons/UpcomingSessionDetailSkeleton";
 
 import ContactSection from "@/components/ContactSection/ContactSection";
-import { formatDateTime, isToday, checkIsAfter } from "@/util/DateTime";
-import { User } from "@prisma/client";
 import TasksCarousel from "./RecommendedTasksCarousel";
 import RecommendedTribesCarousel from "@/components/HomePage/RecommendedTribesCarousel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { SessionParticipant } from "@prisma/client";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HomeLoggedIn = () => {
@@ -23,11 +20,9 @@ const HomeLoggedIn = () => {
 		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${user.username}/closest-session`,
 		fetcher,
 	);
-
 	return (
 		<div className="pb-48 largePhone:px-20 px-5">
 			<HeroLoggedIn />
-			{/* <SectionHeader name="Take Note" /> */}
 			<div
 				className={cn(
 					"flex gap-2 xl:flex-row flex-col mt-14 min-[640px]:mt-0 justify-center items-start",
@@ -66,13 +61,13 @@ const HomeLoggedIn = () => {
 							goal={session?.goal}
 							duration={JSON.parse(session.session.duration)}
 							meetingLink={session.session.meetingLink}
-							isAdmin={session.adminUserId === user.userId}
+							isAdmin={session.adminUserId === user.id}
 							sessionId={session.session.id}
 							isMember={session.session.users.some(
 								(participant: any) => participant.userId === user.id,
 							)}
 							members={session.session.participants as number}
-							admin={session.adminUserId}
+							admin={session.session.users.filter((user:SessionParticipant)=>user.userRole==='ADMIN')[0].user.username}
 							userId={session.userId} // the id of th user with the session
 							endDateTime={session.session.endDateTime}
 							tasks={session.tasks}

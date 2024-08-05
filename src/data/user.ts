@@ -71,6 +71,7 @@ export const getHiglightedUsers = async () => {
 					},
 				},
 				streak: true,
+				accounts:true
 			},
 		});
 		return users;
