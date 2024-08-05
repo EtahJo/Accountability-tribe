@@ -54,6 +54,7 @@ const PostForm = ({ tribeId }: { tribeId: string }) => {
 					required
 					disabled={isPending}
 					value={title}
+					maxLength={30}
 				/>
 				<CustomInput
 					lable="What's on your mind?"

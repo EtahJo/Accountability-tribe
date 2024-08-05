@@ -78,6 +78,7 @@ const PostEditModal = ({
 					required
 					lable="What's your post about?"
 					disabled={isPending}
+					maxLength={30}
 				/>
 				<CustomInput
 					lable="What's on your mind?"
