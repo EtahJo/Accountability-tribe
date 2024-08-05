@@ -22,7 +22,7 @@ const ProfileImage = ({ image, alt, dimensions }: ProfileImageProps) => {
 		>
 			{image ? (
 				user?.isOAuth?
-				<AvatarImage src={image} className='rounded-full shadow-3xl w-24 h-24 object-contain'/>:
+				<AvatarImage src={image} className='rounded-full shadow-3xl  object-contain'/>:
 				<CldImage
 					width={"100"}
 					height="100"

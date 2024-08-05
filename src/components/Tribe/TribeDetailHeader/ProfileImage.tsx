@@ -2,7 +2,7 @@
 import UploadImage from "@/components/UploadImage/index";
 import { CldImage } from "next-cloudinary";
 import { Avatar, AvatarFallback , AvatarImage} from "@/components/ui/avatar";
-import { FaUser } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 import { mutate } from "swr";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { edit_tribe } from "@/action/tribe/edit-tribe";
@@ -68,7 +68,7 @@ border-white -mt-24 shadow-3xl relative"
 				>
 					{!profileImage ? (
 						<AvatarFallback className="bg-black">
-							<FaUser className="text-white" size={100} />
+							<FaUsers className="text-white" size={100} />
 						</AvatarFallback>
 					) : (
 						user.isOAuth?

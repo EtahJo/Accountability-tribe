@@ -28,6 +28,8 @@ const PostForm = ({ tribeId }: { tribeId: string }) => {
 				if (data.success) {
 					setError("");
 					setSuccess(data.success);
+					setTitle('')
+					setContent('')
 					if (data.approved) {
 						mutate(
 							`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${data.postAuthorUsername}/${user?.id}`,
