@@ -18,7 +18,7 @@ const AuthMessage = ({
 	const router = useRouter();
 	return (
 		<div className="relative place-content-center h-full">
-			<div className="before:block before:absolute before:bg-purple before:skew-y-12 before:rounded-full before:shadow-buttonInner inline-block p-12 before:inset-1 relative ">
+			<div className="before:block before:absolute before:bg-purple dark:before:bg-dark-primary before:skew-y-12 before:rounded-full before:shadow-buttonInner inline-block p-12 before:inset-1 relative ">
 				<span className="text-white  phone:text-5xl text-3xl relative text-center place-content-center">
 					<p className="phone:w-72 w-48 p-5 font-bold ">
 						{" "}
@@ -28,10 +28,10 @@ const AuthMessage = ({
 			</div>
 			<div className="mt-10 relative block">
 				<div className=" bg-white rounded-full shadow-buttonInner p-2 phone:w-96 text-xl w-max m-auto justify-center flex">
-					<span className="font-bold ml-10">
+					<span className="font-bold ml-10 dark:text-black">
 						{questionText}
 						<span
-							className="text-purple ml-2 hover:underline cursor-pointer"
+							className="text-purple dark:text-dark-primary ml-2 hover:underline cursor-pointer"
 							onClick={() => {
 								router.push(`${linkTo}`);
 							}}

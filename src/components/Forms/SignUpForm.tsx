@@ -82,14 +82,14 @@ const SignUpForm = () => {
 				Icon={
 					vissible ? (
 						<AiFillEyeInvisible
-							color="purple"
+							className="text-purple dark:text-dark-primary"
 							onClick={() => {
 								setVissible(false);
 							}}
 						/>
 					) : (
 						<AiFillEye
-							color="purple"
+							className="text-purple dark:text-dark-primary"
 							onClick={() => {
 								setVissible(true);
 							}}
@@ -106,14 +106,14 @@ const SignUpForm = () => {
 				Icon={
 					vissible ? (
 						<AiFillEyeInvisible
-							color="purple"
+							className="text-purple dark:text-dark-primary"
 							onClick={() => {
 								setVissible(false);
 							}}
 						/>
 					) : (
 						<AiFillEye
-							color="purple"
+							className="text-purple dark:text-dark-primary"
 							onClick={() => {
 								setVissible(true);
 							}}

@@ -11,7 +11,7 @@ const GoogleLoginButton = () => {
 	};
 	return (
 		<Button
-			className="flex items-center gap-x-2 rounded-2xl move-button"
+			className="flex items-center gap-x-2 rounded-2xl move-button dark:border"
 			size={"slg"}
 			onClick={onClick}
 			type="button"

@@ -13,7 +13,7 @@ const page = () => {
 			/>
 			<div className="justify-center relative lg:w-3/4 w-full ">
 				<div className="bg-white rounded-3xl p-10 shadow-buttonInner phone:w-96 relative">
-					<h1 className="bg-lightPink rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-2xl">
+					<h1 className="bg-lightPink rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-2xl dark:bg-dark-primary">
 						Sign Up Here
 					</h1>
 					<SignUpForm />

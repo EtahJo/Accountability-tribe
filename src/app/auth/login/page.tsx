@@ -18,7 +18,6 @@ import { FormError } from "@/components/Messages/Error";
 const Login = () => {
 	const searchParams = useSearchParams();
 	const callbackUrl = searchParams.get("callbackUrl");
-	const [remember, setRemember] = useState<boolean>(false);
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const [vissible, setVissible] = useState<boolean>(false);
@@ -52,7 +51,7 @@ const Login = () => {
 			/>
 			<div className="justify-center relative lg:w-3/4 w-full ">
 				<div className="bg-white rounded-3xl p-10 shadow-buttonInner phone:w-96 relative flex-col gap-y-4">
-					<h1 className="bg-lightPink rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-2xl">
+					<h1 className="bg-lightPink dark:bg-dark-background rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-2xl">
 						Login Here
 					</h1>
 					<Formsy autoComplete="off" onValidSubmit={onSubmit} className="mb-3">
@@ -75,14 +74,14 @@ const Login = () => {
 							Icon={
 								vissible ? (
 									<AiFillEyeInvisible
-										color="purple"
+										className="text-purple dark:text-dark-primary"
 										onClick={() => {
 											setVissible(false);
 										}}
 									/>
 								) : (
 									<AiFillEye
-										color="purple"
+										className="text-purple dark:text-dark-primary"
 										onClick={() => {
 											setVissible(true);
 										}}
@@ -90,19 +89,10 @@ const Login = () => {
 								)
 							}
 						/>
-						{/* <CustomCheckbox
-              name="remember"
-              value={remember}
-              checked={remember}
-              onChange={() => {
-                setRemember((prev) => !prev);
-              }}
-              label="Remember Me"
-            /> */}
 						<div className="my-3">
 							<Link
 								href="/auth/forgot-password"
-								className="text-lightPink font-bold my-5"
+								className="text-lightPink font-bold my-5 dark:text-dark-background"
 							>
 								Forgot Password?
 							</Link>
