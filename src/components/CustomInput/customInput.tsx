@@ -48,7 +48,7 @@ const CustomInput = ({
 			)}
 			<div
 				className={cn(
-					"shadow-3xl bg-lighterPink rounded-3xl p-px my-4 flex align-middle max-[538px]:w-[200px] ",
+					"shadow-3xl bg-lighterPink dark:bg-dark-lightBackground rounded-3xl p-px my-4 flex align-middle max-[538px]:w-[200px] ",
 					inputClassNames,
 				)}
 			>
@@ -63,7 +63,7 @@ const CustomInput = ({
 						onBlur={onBlurHandle}
 						maxLength={maxLength}
 						className={cn(
-							"bg-transparent px-5 py-2 w-full placeholder:text-gray-400 focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0 border-none ",
+							"bg-transparent px-5 py-2 w-full placeholder:text-gray-400 dark:placeholder:text-white focus-visible:bg-transparent focus-visible:outline-none focus-visible:ring-0 border-none ",
 							className,
 						)}
 					/>
@@ -76,7 +76,7 @@ const CustomInput = ({
 						onChange={onChange}
 						onBlur={onBlurHandle}
 						value={value}
-						className="bg-transparent border-none"
+						className="bg-transparent border-none placeholder:text-gray-400 dark:placeholder:text-white "
 						disabled={disabled}
 						maxLength={maxLength}
 					/>
@@ -86,7 +86,7 @@ const CustomInput = ({
 				)}
 			</div>
 			{
-				maxLength&& <p className="-mt-3 mb-4 ml-2 text-lightPink text-sm">You have {charactersLeft} characters left</p>
+				maxLength&& <p className="-mt-3 mb-4 ml-2 text-lightPink dark:text-dark-background text-sm">You have {charactersLeft} characters left</p>
 			}
 			{isFormSubmitted && !isValid && (
 				<p className="text-red-500 font-bold">{errorMessage}</p>

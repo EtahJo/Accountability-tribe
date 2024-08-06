@@ -1,18 +1,15 @@
 "use client";
-import React, {useEffect,useState, useTransition,useContext } from "react";
 import { useRouter } from "next/navigation";
 import NavbarIcon from "@/components/NavbarIcon/index";
 import { CldImage } from "next-cloudinary";
 import { Avatar , AvatarImage,AvatarFallback} from "@radix-ui/react-avatar";
 import { logout } from "@/action/auth/logout";
-import { delete_user } from "@/action/auth/delete-user";
 import { FaCog, FaUser } from "react-icons/fa";
 import Link from "next/link";
 import { ExitIcon } from "@radix-ui/react-icons";
 import NavbarItem from "@/components/ProfileIconItem/index";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import ThemeToggle from "@/components/ThemeToggle/index";
-import { ThemeContext } from "@/context/ThemeContext";
+import { useTheme } from "next-themes";
 import {
 	DropdownMenuItem,
 	DropdownMenuSub,
@@ -27,7 +24,7 @@ interface ProfileIconProps{
 
 const ProfileIcon = ({ deleteUser }:ProfileIconProps) => {
 	const { user ,session}: any = useCurrentUser();
-	const {isDark,toggleTheme}= useContext(ThemeContext)
+	const { setTheme } = useTheme()
 	const router = useRouter();
 	const onLogoutClick = () => {
 		logout().then(() => {
@@ -82,10 +79,15 @@ const ProfileIcon = ({ deleteUser }:ProfileIconProps) => {
 					</DropdownMenuSubTrigger>
 					<DropdownMenuPortal>
 						<DropdownMenuSubContent sideOffset={-120}>
-							<DropdownMenuItem>
-								<ThemeToggle toggleTheme={toggleTheme} isDark={isDark}/>
+							<DropdownMenuItem onClick={() => setTheme("light")}>
+								Light Mode
 							</DropdownMenuItem>
-
+							<DropdownMenuItem onClick={() => setTheme("dark")}>
+								Dark Mode
+							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => setTheme("system")}>
+								System Mode
+							</DropdownMenuItem>
 							<DropdownMenuItem>{deleteUser}</DropdownMenuItem>
 						</DropdownMenuSubContent>
 					</DropdownMenuPortal>

@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar/index";
 import Footer from "@/components/Footer/index";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner";
-import ThemeProvider from "@/context/ThemeContext";
+import { ThemeProvider } from '@/components/ThemesProvider/index'
 
 import { auth } from "@/auth";
 import "./globals.css";
@@ -24,20 +24,28 @@ export default async function RootLayout({
 }>) {
 	const session = await auth();
 	return (
+		
 		<SessionProvider session={session}>
-			<ThemeProvider>
+			
 			<html lang="en">
 				<body>
-					<div className="bg-lightPink relative h-max pb-32 dark:bg-dark-background ">
-						<Navbar/>
-						<div className="sm:pt-28 pt-10 min-h-screen">{children}</div>
-						<Footer />
-						<Toaster />
-					</div>
+					<ThemeProvider
+						attribute="class"
+        				defaultTheme="system"
+        				enableSystem
+        				disableTransitionOnChange
+						>
+							<div className="bg-lightPink relative h-max pb-32 dark:bg-dark-background ">
+								<Navbar/>
+								<div className="sm:pt-28 pt-10 min-h-screen">{children}</div>
+								<Footer />
+								<Toaster />
+							</div>
+					</ThemeProvider>
 				</body>
 			</html>
-			</ThemeProvider>
-		
+			
 		</SessionProvider>
+	
 	);
 }

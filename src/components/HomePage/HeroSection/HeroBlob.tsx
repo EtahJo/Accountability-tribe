@@ -1,4 +1,5 @@
 "use client";
+import {useTheme} from 'next-themes'
 
 const HeroBlob = ({
 	textOne,
@@ -9,6 +10,7 @@ const HeroBlob = ({
 	textTwo: string;
 	number: string;
 }) => {
+	const {theme,systemTheme} =useTheme();
 	return (
 		<svg
 			id="visual"
@@ -19,7 +21,7 @@ const HeroBlob = ({
 			version="1.1"
 		>
 			<g transform="translate(437.8187436810265 316.85932382033735)">
-				<path fill="#F2ADEF">
+				<path fill={theme==='light'|| (theme==='system' && systemTheme==='light')?'#F2ADEF':'#090809'}>
 					<animate
 						attributeName="d"
 						dur="10000ms"
@@ -64,13 +66,13 @@ const HeroBlob = ({
 				x="50%"
 				y="40%"
 				textAnchor="middle"
-				stroke="#9352E6"
+				stroke={theme==='light'|| (theme==='system' && systemTheme==='light')?'#9352E6':'#B87333'}
 				strokeWidth="2px"
-				color="white"
+				color={"white"}
 				dy=".3em"
 				fill="white"
 				style={{ backgroundColor: "white" }}
-				className="uppercase text-6xl font-bold"
+				className="uppercase text-6xl font-bold text-white"
 			>
 				{number}
 			</text>
@@ -81,6 +83,7 @@ const HeroBlob = ({
 				stroke="#000"
 				strokeWidth="1px"
 				color="white"
+				fill={theme==='light'|| (theme==='system' && systemTheme==='light')?'#000':'#EEE5E9'}
 				dy=".3em"
 				className="uppercase text-4xl font-bold "
 			>
@@ -92,6 +95,7 @@ const HeroBlob = ({
 				textAnchor="middle"
 				stroke="#000"
 				strokeWidth="1px"
+				fill={theme==='light'|| (theme==='system' && systemTheme==='light')?'#000':'#EEE5E9'}
 				color="white"
 				dy=".3em"
 				className="uppercase text-4xl font-bold "

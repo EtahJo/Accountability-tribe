@@ -20,7 +20,6 @@ const Navbar = () => {
 	const { user }: any = useCurrentUser();
 	const [isPending, startTransition] = useTransition();
 	const [openDropdown, setOpenDropdown] = useState(false);
-	const [isDark, setIsDark] = useState(false);
 	const [openDeleteUserModal, setOpenDeleteUserModal] = useState(false);
 	const [isSticky, setSticky] = useState(false);
 	const pathname = usePathname();

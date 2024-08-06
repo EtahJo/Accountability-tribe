@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config = {
-  darkMode: ['class'],
+  darkMode: 'class',
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -23,7 +23,9 @@ const config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'home-bg-image': "url('/stacked-waves-haikei.svg')",
+        'home-bg-dark': 'url("/stacked-waves-dark.svg")',
         'home-bg-image-phone': "url('/wave-haikei.svg')",
+        'home-bg-phone-dark':"url('/wave-haikei-dark.svg')"
       },
       colors: {
         lightPink: '#F2ADEF',

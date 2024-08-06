@@ -21,7 +21,7 @@ const buttonVariants = cva(
 					"hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50",
 				link: "text-slate-900 underline-offset-4 hover:underline dark:text-slate-50",
 				primary:
-					"uppercase text-white font-bold text-center text-xl bg-purple rounded-2xl p-2 py-4 hover:bg-black cursor-pointer shadow-buttonInner move-button ",
+					"uppercase text-white font-bold text-center text-xl bg-purple dark:bg-dark-primary rounded-2xl p-2 py-4 hover:bg-black cursor-pointer shadow-buttonInner move-button ",
 			},
 			size: {
 				default: "h-9 px-4 py-2",

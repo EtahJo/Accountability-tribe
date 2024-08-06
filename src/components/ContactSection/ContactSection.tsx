@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import CustomInput from "../CustomInput/customInput";
 import Formsy from "formsy-react";
 import MainButton from "../Button/MainButton";
+import { Button } from "@/components/ui/button";
 const ContactSection = () => {
 	const [email, setEmail] = useState<string>("");
 	const [message, setMessage] = useState<string>("");
@@ -35,7 +36,9 @@ const ContactSection = () => {
 						validationError="Please add message"
 					/>
 					<div className="flex justify-center">
-						<MainButton text="Send Message" type="submit" />
+						<Button type="submit" variant={'primary'}>
+							Send Message
+						</Button>
 					</div>
 				</Formsy>
 			</div>
