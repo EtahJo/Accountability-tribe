@@ -49,12 +49,12 @@ const Login = () => {
 				questionText="First Time Here ?"
 				tagline="The Journey Begins when you"
 			/>
-			<div className="justify-center relative lg:w-3/4 w-full ">
-				<div className="bg-white rounded-3xl p-10 shadow-buttonInner phone:w-96 relative flex-col gap-y-4">
-					<h1 className="bg-lightPink dark:bg-dark-background rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-2xl">
+			<div className="relative lg:w-3/4 w-full ">
+				<div className="bg-white rounded-3xl p-10 shadow-buttonInner  relative min-[538px]:w-max">
+					<h1 className="bg-lightPink dark:bg-dark-background rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-xl">
 						Login Here
 					</h1>
-					<Formsy autoComplete="off" onValidSubmit={onSubmit} className="mb-3">
+					<Formsy autoComplete="off" onValidSubmit={onSubmit} className="mb-3 m-auto w-max">
 						<Custominput
 							name="email"
 							type="text"
@@ -102,9 +102,10 @@ const Login = () => {
 							<Button size={"slg"} variant="primary" disabled={isPending}>
 								Login
 							</Button>
+							<GoogleLoginButton />
 						</div>
 					</Formsy>
-					<GoogleLoginButton />
+					
 				</div>
 			</div>
 		</>

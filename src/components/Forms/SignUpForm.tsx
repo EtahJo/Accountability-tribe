@@ -46,7 +46,7 @@ const SignUpForm = () => {
 		});
 	};
 	return (
-		<Formsy autoComplete="off" onValidSubmit={onSubmit}>
+		<Formsy autoComplete="off" onValidSubmit={onSubmit} className='m-auto w-max'>
 			<Custominput
 				name="username"
 				type="text"
@@ -125,7 +125,7 @@ const SignUpForm = () => {
 				{error && <FormError message={error} />}
 				{success && <FormSuccess message={success} />}
 			</div>
-			<div className="w-full place-content-center m-auto flex flex-col gap-y-3">
+			<div className="w-full place-content-center m-auto flex flex-col gap-y-3 items-center">
 				<Button size={"slg"} variant="primary" disabled={isPending}>
 					Sign Up
 				</Button>

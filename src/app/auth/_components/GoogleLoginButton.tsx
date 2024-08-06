@@ -11,13 +11,13 @@ const GoogleLoginButton = () => {
 	};
 	return (
 		<Button
-			className="flex items-center gap-x-2 rounded-2xl move-button dark:border"
+			className="flex items-center gap-x-2 rounded-2xl move-button dark:border justify-center largePhone:flex-row flex-col"
 			size={"slg"}
 			onClick={onClick}
 			type="button"
 		>
 			<FcGoogle size={25} />
-			<p className="text-xl">Login with Google</p>
+			<p className="largePhone:text-xl text-lg text-center">Login with Google</p>
 		</Button>
 	);
 };
