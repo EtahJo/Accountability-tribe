@@ -47,7 +47,6 @@ const SessionModal = ({
 			<div className="flex flex-col justify-center items-center bg-white rounded-3xl shadow-3xl relative">
 				<h1 className="font-bold text-2xl ">Task Sessions</h1>
 				{sessionParticipants?.map(({ sessionParticipant }: any) =>{
-					console.log("Participants", sessionParticipant)
 					const sessionAdmin= sessionParticipant.session?.users?.filter(
 						(user:SessionParticipant)=>user.userRole==='ADMIN')[0]
 					return (

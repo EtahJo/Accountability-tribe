@@ -1,5 +1,5 @@
 "use client";
-import React, { useTransition } from "react";
+import React, {useEffect,useState, useTransition,useContext } from "react";
 import { useRouter } from "next/navigation";
 import NavbarIcon from "@/components/NavbarIcon/index";
 import { CldImage } from "next-cloudinary";
@@ -12,6 +12,7 @@ import { ExitIcon } from "@radix-ui/react-icons";
 import NavbarItem from "@/components/ProfileIconItem/index";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import ThemeToggle from "@/components/ThemeToggle/index";
+import { ThemeContext } from "@/context/ThemeContext";
 import {
 	DropdownMenuItem,
 	DropdownMenuSub,
@@ -20,15 +21,19 @@ import {
 	DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
 
-const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode;}) => {
+interface ProfileIconProps{
+	deleteUser:React.ReactNode;
+}
+
+const ProfileIcon = ({ deleteUser }:ProfileIconProps) => {
 	const { user ,session}: any = useCurrentUser();
+	const {isDark,toggleTheme}= useContext(ThemeContext)
 	const router = useRouter();
 	const onLogoutClick = () => {
 		logout().then(() => {
 			router.push("/auth/login");
 		});
 	};
-
 	return (
 		<div>
 			<NavbarIcon
@@ -78,7 +83,7 @@ const ProfileIcon = ({ deleteUser }: { deleteUser: React.ReactNode;}) => {
 					<DropdownMenuPortal>
 						<DropdownMenuSubContent sideOffset={-120}>
 							<DropdownMenuItem>
-								<ThemeToggle/>
+								<ThemeToggle toggleTheme={toggleTheme} isDark={isDark}/>
 							</DropdownMenuItem>
 
 							<DropdownMenuItem>{deleteUser}</DropdownMenuItem>

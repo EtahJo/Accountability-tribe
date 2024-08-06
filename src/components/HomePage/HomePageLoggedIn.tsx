@@ -29,7 +29,7 @@ const HomeLoggedIn = () => {
 				)}
 			>
 				<div className="xl:w-3/4 w-full">
-					<div className="bg-purple p-10 rounded-5xl my-5 flex flex-col w-full">
+					<div className="bg-purple p-10 rounded-5xl my-5 flex flex-col w-full dark:bg-dark-primary">
 						<h1 className="largePhone:text-2xl font-bold text-white uppercase mb-3 text-lg largePhone:text-start text-center">
 							{" "}
 							Some High Priority Task
@@ -38,7 +38,7 @@ const HomeLoggedIn = () => {
 						<TasksCarousel />
 					</div>
 
-					<div className="bg-purple p-5 rounded-5xl my-5 flex flex-col w-full ">
+					<div className="bg-purple p-5 rounded-5xl my-5 flex flex-col w-full dark:bg-dark-primary">
 						<h1 className="largePhone:text-2xl font-bold text-white uppercase mb-3 text-lg largePhone:text-start text-center ,l-5">
 							{" "}
 							Some Tribes to Visit
@@ -47,7 +47,7 @@ const HomeLoggedIn = () => {
 					</div>
 				</div>
 
-				<div className="bg-purple p-5 rounded-5xl my-5 flex flex-col  xl:w-[450px] w-full">
+				<div className="bg-purple p-5 rounded-5xl my-5 flex flex-col  xl:w-[450px] w-full dark:bg-dark-primary">
 					<h1 className="largePhone:text-2xl font-bold text-white uppercase mb-3 text-lg largePhone:text-start text-center">
 						{" "}
 						Your Next Session

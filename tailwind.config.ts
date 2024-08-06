@@ -31,9 +31,11 @@ const config = {
         lighterPink: 'rgba(242,173,239,0.3)',
           dark: {
           background: '#090809',
+          lightBackground:'rgba(9,8,9,0.5)',
           text: '#EEE5E9',
           primary: '#B87333',
           secondary: '#03dac6',
+
         },
       },
       boxShadow: {

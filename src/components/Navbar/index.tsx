@@ -17,9 +17,10 @@ import { FaBars } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 
 const Navbar = () => {
-	const { session, user }: any = useCurrentUser();
+	const { user }: any = useCurrentUser();
 	const [isPending, startTransition] = useTransition();
 	const [openDropdown, setOpenDropdown] = useState(false);
+	const [isDark, setIsDark] = useState(false);
 	const [openDeleteUserModal, setOpenDeleteUserModal] = useState(false);
 	const [isSticky, setSticky] = useState(false);
 	const pathname = usePathname();
@@ -33,6 +34,7 @@ const Navbar = () => {
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
 		};
+		
 	}, []);
 	const deleteAccount = () => {
 		startTransition(() => {

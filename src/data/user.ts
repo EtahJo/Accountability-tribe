@@ -57,7 +57,7 @@ export const getHiglightedUsers = async () => {
 	try {
 		const users = await db.user.findMany({
 			where: {
-				hightlighted: true,
+				// hightlighted: true,
 				streak: {
 					count: {
 						gte: 1,

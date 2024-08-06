@@ -33,7 +33,7 @@ const BackgroundSlideShow = ({
 				{slides.map((slide, index) => (
 					<div
 						key={index}
-						className={cn(" relative bg-lightPink bg-blend-normal", className)}
+						className={cn(" relative bg-lightPink bg-blend-normal dark:bg-dark-background", className)}
 					>
 						<CldImage
 							src={slide.src}
@@ -45,7 +45,7 @@ const BackgroundSlideShow = ({
 								imageClass,
 							)}
 						/>
-						<div className="bg-lightPink mix-blend-overlay absolute inset-0" />
+						<div className="bg-lightPink mix-blend-overlay absolute inset-0 dark:bg-dark-background dark:mix-blend-screen" />
 					</div>
 				))}
 			</Slider>
