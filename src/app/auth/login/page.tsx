@@ -50,11 +50,11 @@ const Login = () => {
 				tagline="The Journey Begins when you"
 			/>
 			<div className="relative lg:w-3/4 w-full ">
-				<div className="bg-white rounded-3xl p-10 shadow-buttonInner  relative min-[538px]:w-max">
+				<div className="bg-white rounded-3xl p-10 shadow-buttonInner  relative min-[538px]:w-full w-max">
 					<h1 className="bg-lightPink dark:bg-dark-background rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-xl">
 						Login Here
 					</h1>
-					<Formsy autoComplete="off" onValidSubmit={onSubmit} className="mb-3 m-auto w-max">
+					<Formsy autoComplete="off" onValidSubmit={onSubmit} className="mb-3 m-auto min-[538px]:w-full w-max">
 						<Custominput
 							name="email"
 							type="text"

@@ -60,7 +60,7 @@ const UpcomingSession = ({
 
 	return (
 		<div
-			className="bg-white p-3 largePhone:w-[380px]  rounded-3xl flex items-center gap-2  largePhone:justify-between move-button cursor-pointer m-4 
+			className="bg-white dark:bg-dark-background p-3 largePhone:w-[380px]  rounded-3xl flex items-center gap-2  largePhone:justify-between move-button cursor-pointer m-4 
      shadow-3xl justify-center largePhone:flex-row flex-col medPhone:w-[250px] min-[350px]:w-[180px] w-[150px]"
 		>
 			<div

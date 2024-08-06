@@ -82,12 +82,12 @@ const TribeSnippet = ({
      m-auto largePhone:w-[300px] relative group/item min-[355px]:w-[200px] w-[170px] "
 		>
 			{!isLoading && newPosts && newPosts.length > 0 && (
-				<Badge className="bg-purple absolute left-1 -top-3 rounded-3xl text-xs">
+				<Badge className="bg-purple dark:bg-dark-primary absolute left-1 -top-3 rounded-3xl text-xs">
 					{newPosts.length} new posts
 				</Badge>
 			)}
 			{manage && (
-				<div className="bg-lighterPink absolute w-full h-full z-50 hidden group-hover/item:block ">
+				<div className="bg-lighterPink dark:bg-dark-lightBackground absolute w-full h-full z-50 hidden group-hover/item:block ">
 					<div className="flex justify-center items-center m-auto h-full">
 						<Link href={`/tribe-admin-management/${tribeId}`}>
 							<Button className="text-2xl font-bold  p-3  move-button shadow-3xl">
