@@ -70,7 +70,7 @@ const StatusUpdate = ({ status, taskId, userId }: StatusUpdateProps) => {
 			{user?.id === userId ? (
 				<Popover>
 					<PopoverTrigger asChild>
-						<p className="rounded-xl border-lightPink border-2 px-2 py-px text-xs hover:bg-lightPink shadow-3xl ">
+						<p className="rounded-xl border-lightPink dark:border-dark-background border-2 px-2 py-px text-xs hover:bg-lightPink shadow-3xl dark:hover:bg-dark-background  dark:text-white">
 							{status === "NOTSTARTED" ? "NOT STARTED" : status}
 						</p>
 					</PopoverTrigger>
@@ -87,7 +87,7 @@ const StatusUpdate = ({ status, taskId, userId }: StatusUpdateProps) => {
 					</PopoverContent>
 				</Popover>
 			) : (
-				<p className="rounded-xl border-lightPink border-2 px-2 py-px text-xs hover:bg-lightPink shadow-3xl ">
+				<p className="rounded-xl border-lightPink border-2 px-2 py-px text-xs hover:bg-lightPink shadow-3xl dark:border-dark-background dark:hover:bg-dark-background dark:text-white ">
 					{status === "NOTSTARTED" ? "NOT STARTED" : status}
 				</p>
 			)}

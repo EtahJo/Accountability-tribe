@@ -48,7 +48,7 @@ const TodoHeader = ({
 		<div className="flex gap-x-2 items-center">
 			{user?.id === userId ? (
 				<div
-					className="h-5 w-5 bg-transparent border-lightPink border-2 rounded-full flex items-center justify-center cursor-pointer p-2 "
+					className="h-5 w-5 bg-transparent border-lightPink border-2 rounded-full flex items-center justify-center cursor-pointer p-2 dark:border-dark-background "
 					onClick={() => {
 						setCompleted((prev) => !prev);
 						if (status === "COMPLETE") {
@@ -60,7 +60,7 @@ const TodoHeader = ({
 				>
 					<FaCheck
 						className={cn(
-							"text-purple m-auto",
+							"text-purple m-auto dark:text-dark-primary",
 							status === "COMPLETE" || completed ? "block" : "hidden",
 						)}
 						size={20}
