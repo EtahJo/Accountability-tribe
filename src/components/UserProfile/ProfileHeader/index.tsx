@@ -22,8 +22,8 @@ const ProfileHeader = ({ user }: ProfileHeaderProps) => {
 						className="flex items-center border-b-[1px] border-b-black md:justify-between 
           pb-2 my-5 justify-center md:flex-row flex-col md:gap-y-0 gap-y-3"
 					>
-						<span className="flex items-center font-semibold md:text-2xl text-lg w-[230px] ">
-							<p className=" text-white whitespace-nowrap max-largePhone:truncate md:text-center"> {user?.username}</p>
+						<span className="font-semibold md:text-2xl text-lg w-[230px] ">
+							<p className=" text-white whitespace-nowrap max-largePhone:truncate text-center"> {user?.username}</p>
 						</span>
 
 						{session && user?.id === session?.data?.user.id && (
