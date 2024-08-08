@@ -3,14 +3,14 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FaEdit } from "react-icons/fa";
-import { User } from "@prisma/client";
+import { User, Account } from "@prisma/client";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import SocialMedia from "@/components/UserProfile/ProfileHeader/SocialMedia";
 import ContactInfo from "@/components/UserProfile/ProfileHeader/ContactInfo";
 import UserProfileImage from "@/components/UserProfile/ProfileHeader/UserProfileImage";
 
 interface ProfileHeaderProps {
-	user: User;
+	user: User & {accounts:Account[]};
 }
 const ProfileHeader = ({ user }: ProfileHeaderProps) => {
 	const { session }: any = useCurrentUser();

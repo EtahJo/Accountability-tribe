@@ -45,6 +45,7 @@ export const getUserByUsername = async (username: string) => {
 			where: { username },
 			include: {
 				sessions: true,
+				accounts:true,
 			},
 		});
 		return user;
