@@ -23,7 +23,7 @@ const ProfileHeader = ({ user }: ProfileHeaderProps) => {
           pb-2 my-5 justify-center md:flex-row flex-col md:gap-y-0 gap-y-3"
 					>
 						<span className="font-semibold md:text-2xl text-lg w-[230px] ">
-							<p className=" text-white whitespace-nowrap max-largePhone:truncate text-center"> {user?.username}</p>
+							<p className=" text-white whitespace-nowrap max-largePhone:truncate max-md:text-center"> {user?.username}</p>
 						</span>
 
 						{session && user?.id === session?.data?.user.id && (
