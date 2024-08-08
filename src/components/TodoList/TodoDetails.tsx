@@ -21,7 +21,7 @@ const TodoDetails = ({
 	return (
 		<div
 			className={cn(
-				"bg-lighterPink mt-3 rounded-2xl p-2 flex items-center largePhone:justify-between largePhone:flex-row flex-col justify-center",
+				"bg-lighterPink mt-3 rounded-2xl p-2 flex items-center largePhone:justify-between largePhone:flex-row flex-col justify-center dark:bg-dark-lightPrimary",
 			)}
 		>
 			<div className=" flex flex-col gap-1">
@@ -33,7 +33,7 @@ const TodoDetails = ({
 
 				<span className="flex">
 					<p>Due: </p>
-					<p className="text-purple font-bold">
+					<p className="text-purple font-bold dark:text-black">
 						{formatDateTime(dueDate as any, user?.timezone).date}
 					</p>
 				</span>

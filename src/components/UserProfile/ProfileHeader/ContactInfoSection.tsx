@@ -9,7 +9,7 @@ const ContactInfoSection = ({ title, detail }: ContactInfoSectionProps) => {
 			<p className="text-white mr-1.5 whitespace-nowrap phone:text-base text-xs ">
 				{title}
 			</p>
-			<p className="text-lightPink whitespace-nowrap phone:text-base text-xs">
+			<p className="text-lightPink whitespace-nowrap phone:text-base text-xs dark:text-black">
 				{detail}
 			</p>
 		</span>

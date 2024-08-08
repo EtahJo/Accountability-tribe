@@ -16,17 +16,17 @@ const AboutSession = ({
 }: AboutSessionProps) => {
 	return (
 		<div className="flex gap-x-1 flex-wrap -mt-5 ml-2 text-xs min-[434px]:text-sm largePhone:justify-start justify-center">
-			<p className="whitespace-nowrap">This Session with </p>
+			<p className="whitespace-nowrap dark:text-black">This Session with </p>
 			{/* TODO:Add link to user profile */}
-			<Link href={`/user/${admin}`} className="text-lightPink">
+			<Link href={`/user/${admin}`} className="text-lightPink dark:text-dark-primary">
 				{isAdmin ? "you" : admin}
 			</Link>
 
-			<p className="whitespace-nowrap">
+			<p className="whitespace-nowrap dark:text-black">
 				as admin has {members}{" "}
-				{members > 1 ? " participants," : " participant,"}
+				{members > 1 ? " participants" : " participant"}
 			</p>
-			<p className="font-bold"> {isMember && !isAdmin && "including you"}</p>
+			<p className="font-bold dark:text-black"> {isMember && !isAdmin && ",including you"}</p>
 		</div>
 	);
 };

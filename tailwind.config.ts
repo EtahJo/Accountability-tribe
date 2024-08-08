@@ -33,10 +33,11 @@ const config = {
         lighterPink: 'rgba(242,173,239,0.3)',
           dark: {
           background: '#090809',
-          lightBackground:'rgba(9,8,9,0.5)',
+          lightBackground:'rgba(2,6,23,1)',
           text: '#EEE5E9',
           primary: '#B87333',
           secondary: '#03dac6',
+          lightPrimary:'rgba(184, 115, 51,0.5)'
 
         },
       },

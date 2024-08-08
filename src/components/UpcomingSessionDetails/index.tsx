@@ -76,7 +76,7 @@ const UpcomingSessionDetail = ({
 			/>
 			<div className="flex items-center gap-4 flex-wrap justify-center">
 				<div>
-					<div className="flex flex-col gap-y-6  border-purple border-2 rounded-3xl my-2 min-[586px]:p-4 p-1">
+					<div className="flex flex-col gap-y-6  border-purple dark:border-dark-primary border-2 rounded-3xl my-2 min-[586px]:p-4 p-1">
 						<TimeDurationDetails
 							startDate={startDate}
 							startTime={startTime}
@@ -86,7 +86,7 @@ const UpcomingSessionDetail = ({
 						/>
 
 						<div
-							className="bg-lighterPink min-[434px]:p-5 rounded-2xl flex largePhone:justify-between justify-center min-[434px]:gap-y-0 gap-y-2
+							className="bg-lighterPink dark:bg-dark-lightBackground min-[434px]:p-5 rounded-2xl flex largePhone:justify-between justify-center min-[434px]:gap-y-0 gap-y-2
              items-center p-0 py-2 min-[434px]:flex-row flex-col"
 						>
 							<div>
@@ -119,7 +119,7 @@ const UpcomingSessionDetail = ({
 									}}
 									type="button"
 								>
-									<FaPen className="text-lightPink" />
+									<FaPen className="text-lightPink dark:text-dark-primary" />
 								</Button>
 							)}
 						</div>

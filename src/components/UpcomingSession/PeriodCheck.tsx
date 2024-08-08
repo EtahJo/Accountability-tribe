@@ -46,12 +46,12 @@ const PeriodCheck = ({
 					(checkIfAfter && (
 						<span>
 							<span className="flex items-center gap-x-2">
-								<FaCalendar className="text-purple" />
+								<FaCalendar className="text-purple dark:text-dark-primary" />
 								<p>{startDate}</p>
 							</span>
 
 							<span className="flex items-center gap-x-2">
-								<FaClock className="text-purple" />
+								<FaClock className="text-purple dark:text-dark-primary" />
 								<p> {startTime}</p>
 							</span>
 						</span>
