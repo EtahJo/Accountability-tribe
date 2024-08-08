@@ -6,7 +6,7 @@ const ShortHeaderSkeleton = () => {
 		<div className="flex flex-col gap-y-5">
 			<div
 				className="flex bg-purple rounded-3xl p-5 shadow-3xl 
-    w-max gap-3 items-center"
+    w-max gap-3 items-center dark:bg-dark-primary"
 			>
 				<Skeleton className="w-[80px] h-[80px] rounded-full" />
 				<div className="gap-y-4 flex flex-col">
@@ -18,7 +18,7 @@ const ShortHeaderSkeleton = () => {
 				{Array.from({ length: 3 }).map((_, index) => (
 					<div
 						className="bg-white rounded-3xl flex 
-          items-center gap-2 p-5 justify-center"
+          items-center gap-2 p-5 justify-center dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 						key={index}
 					>
 						<Skeleton className="h-6 w-6" />

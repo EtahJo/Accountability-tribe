@@ -4,6 +4,7 @@ import CustomInput from "@/components/CustomInput/customInput";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { edit_tribe } from "@/action/tribe/edit-tribe";
+import { FaPen } from "react-icons/fa";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { mutate } from "swr";
 import { toast } from "sonner";
@@ -13,10 +14,8 @@ import * as z from "zod";
 
 interface EditableComponentProps {
 	text: string;
-	editTrigger: React.ReactNode;
 	name: string;
 	textClass?: string;
-	cancelTrigger: React.ReactNode;
 	showEditOption?: boolean;
 	tribeId: string;
 	textArea?: boolean;
@@ -26,9 +25,7 @@ interface EditableComponentProps {
 
 const EditableComponent = ({
 	text,
-	editTrigger,
 	name,
-	cancelTrigger,
 	showEditOption,
 	textClass,
 	tribeId,
@@ -74,7 +71,7 @@ const EditableComponent = ({
 			className={cn(
 				divClasses
 					? divClasses
-					: "flex items-center m-auto gap-x-2 justify-center",
+					: "flex items-center m-auto gap-x-2 justify-center w-full",
 			)}
 		>
 			{showEditOption && edit ? (
@@ -100,7 +97,7 @@ const EditableComponent = ({
 			)}
 			{showEditOption && (
 				<div onClick={() => setEdit(!edit)}>
-					{edit ? cancelTrigger : editTrigger}
+					{edit ? <p className="text-lightPink font-bold cursor-pointer hover:text-black dark:text-black dark:hover:text-white">X</p>: <FaPen className="text-lightPink cursor-pointer hover:text-black dark:text-black dark:hover:text-white" />}
 				</div>
 			)}
 		</div>

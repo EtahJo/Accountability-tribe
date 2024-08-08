@@ -9,6 +9,7 @@ import UpcomingSessionSkeleton from "@/components/Skeletons/UpcomingSessionSkele
 import { SessionParticipant } from "@prisma/client";
 import SessionFilter from "./SessionFilter";
 import FilterForm from "@/components/Forms/FilterForm";
+import NoData from "@/components/NoData";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const SessionsBody = () => {
@@ -54,12 +55,7 @@ const SessionsBody = () => {
 				
 		<div className="flex items-center flex-wrap lg:justify-between justify-center ">
 				{ (filteredData && filteredData.length ===0)|| (!filteredData && sessionsData.sessions.length===0)?	
-				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10 m-auto">
-				<div>
-					<p>No sessions {filter==='thisweek'?'this week':filter}</p>
-						{/* TODO: add session recommendations */}
-				</div>
-				</div>
+				<NoData message={`No sessions ${filter==='thisWeek'? 'THIS WEEK': filter?.toUpperCase()}`}/>
 				:
 			(filteredData ? filteredData : sessionsData?.sessions)?.map(
 					(session: any) => {

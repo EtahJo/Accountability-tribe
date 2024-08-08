@@ -56,7 +56,8 @@ const Tribes = ({ asSideBy, presentTribeId }: USerIsAdminProps) => {
 				)}
 			>
 				{tribestoMapThrough.length === 0 ? (
-					<div className="flex flex-col justify-center items-center gay-2 bg-white rounded-3xl p-5 my-4">
+					<div className="flex flex-col justify-center items-center gay-2 bg-white rounded-3xl p-5 my-4
+					 dark:bg-dark-lightBackground dark:border dark:border-slate-800">
 						{
 							asSideBy?
 							<p className="text-lg">You are not admin of any other tribe</p>:
@@ -66,7 +67,7 @@ const Tribes = ({ asSideBy, presentTribeId }: USerIsAdminProps) => {
 					</div>
 				) : (
 					<div>
-				<h2 className="text-2xl bg-white p-2 rounded-3xl my-3">
+				<h2 className="text-2xl bg-white p-2 rounded-3xl my-3 dark:bg-dark-lightBackground dark:border dark:border-slate-800">
 					Select tribe to manage
 				</h2>
 				{	tribestoMapThrough?.map(

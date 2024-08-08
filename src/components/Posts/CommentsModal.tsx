@@ -51,7 +51,7 @@ const CommentsModal = ({
 			onRequestClose={onRequestClose}
 			className=" w-max"
 		>
-			<div className="bg-white p-5 rounded-3xl shadow-3xl">
+			<div className="bg-white p-5 rounded-3xl shadow-3xl dark:bg-dark-lightBackground dark:border dark:border-slate-800">
 				{comments?.map(
 					(comment) =>
 						!comment.parentId && (

@@ -18,7 +18,7 @@ const TribeHeader = ({
 }: TribeHeaderProps) => {
 	return (
 		<div
-			className="flex bg-purple rounded-3xl p-5 shadow-3xl 
+			className="flex bg-purple rounded-3xl p-5 shadow-3xl dark:bg-dark-primary
     w-max gap-3 largePhone:flex-row flex-col largePhone:items-start items-center "
 		>
 			<div>
@@ -35,7 +35,7 @@ const TribeHeader = ({
 						/>
 					</Avatar>
 				) : (
-					<div className="rounded-full bg-lightPink p-1.5 cursor-pointer shadow-3xl ">
+					<div className="rounded-full bg-lightPink p-1.5 cursor-pointer shadow-3xl dark:bg-dark-background">
 						<FaUser size={20} className="text-white" />
 					</div>
 				)}
@@ -45,12 +45,6 @@ const TribeHeader = ({
 					text={tribeName}
 					textClass="font-bold medPhone:text-2xl text-white text-start text-lg"
 					divClasses="flex items-center gap-x-2"
-					editTrigger={
-						<FaPen className="text-lightPink cursor-pointer hover:text-black" />
-					}
-					cancelTrigger={
-						<p className="text-lightPink font-bold cursor-pointer">X</p>
-					}
 					showEditOption={true}
 					tribeId={tribeId}
 					name="name"
@@ -58,12 +52,6 @@ const TribeHeader = ({
 				/>
 				<EditableComponent
 					text={tribeDescription}
-					editTrigger={
-						<FaPen className="text-lightPink cursor-pointer hover:text-black" />
-					}
-					cancelTrigger={
-						<p className="text-lightPink font-bold cursor-pointer">X</p>
-					}
 					showEditOption={true}
 					tribeId={tribeId}
 					divClasses="flex items-center gap-x-2"

@@ -38,7 +38,8 @@ const UserTasksFilters = ({
 	return (
 		<div className="my-5">
 			<Formsy
-				className="flex flex-wrap gap-4 bg-white rounded-3xl shadow-3xl p-5 max-largePhone:justify-center "
+				className="flex flex-wrap gap-4 bg-white rounded-3xl shadow-3xl p-5 max-largePhone:justify-center
+				 dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 				onValidSubmit={onValidSubmit}
 			>
 				<div className="flex items-start gap-1 flex-col ">

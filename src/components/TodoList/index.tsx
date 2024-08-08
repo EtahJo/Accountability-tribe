@@ -12,6 +12,7 @@ import { FaArrowRight } from "react-icons/fa";
 import TaskSkeleton from "../Skeletons/TaskSkeleton";
 import Todo from "@/components/TodoList/Todo";
 import Link from "next/link";
+import NoData from "../NoData";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const TodoList = ({ pageUsername }: { pageUsername: string }) => {
@@ -38,12 +39,7 @@ const TodoList = ({ pageUsername }: { pageUsername: string }) => {
 			/>
 			{
 				tasks.tasks.length===0?
-				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
-					<div>
-						<p>You Have No Tasks</p>
-						{/* TODO: add session recommendations */}
-					</div>
-				</div>
+				<NoData message="You Have No Tasks"/>
 				:
 				<div>
 					<Carousel
@@ -73,10 +69,10 @@ const TodoList = ({ pageUsername }: { pageUsername: string }) => {
 						</CarouselItem>
 					))}
 				</CarouselContent>
-				<CarouselPrevious className="w-5 h-5 bg-purple text-white shadow-3xl" />
-				<CarouselNext className="w-5 h-5 bg-purple text-white shadow-3xl" />
+				<CarouselPrevious className="w-5 h-5 bg-purple text-white shadow-3xl dark:bg-dark-primary" />
+				<CarouselNext className="w-5 h-5 bg-purple text-white shadow-3xl dark:bg-dark-primary" />
 			</Carousel>
-			<div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto ">
+			<div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto dark:text-dark-primary">
 				<Link href={`/user/${pageUsername}/tasks?page=1`}>View All Tasks</Link>
 				<FaArrowRight />
 			</div>

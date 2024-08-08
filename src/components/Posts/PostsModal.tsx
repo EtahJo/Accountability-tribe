@@ -4,6 +4,7 @@ import { Props } from "react-modal";
 import PostSnippet from "@/components/Posts/Post";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { TribeUser, Tribe, User, Like, Comment, Post } from "@prisma/client";
+import NoData from "../NoData";
 
 type SinglePost = Post & {
 	tribe: Tribe & { users: TribeUser[] };
@@ -32,7 +33,7 @@ const PostsModal = ({
 			className="w-max"
 			modalHeader="Shared experiences and lots more"
 		>
-			<div className="bg-purple p-3 rounded-3xl shadow-3xl w-[320px] relative">
+			<div className="bg-purple p-3 rounded-3xl shadow-3xl w-[320px] relative dark:bg-dark-background">
 				<p
 					className="absolute top-0 right-3 font-bold m-2 "
 					onClick={onRequestClose}
@@ -41,11 +42,7 @@ const PostsModal = ({
 				</p>
 				{
 					posts.length===0 ?
-				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
-					<div>
-						<p>No Posts</p>
-					</div>
-				</div>
+				<NoData message="No Posts"/>
 				:
 				posts?.map(
 					({

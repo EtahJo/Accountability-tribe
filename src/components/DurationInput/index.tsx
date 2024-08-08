@@ -51,7 +51,7 @@ const DurationInput = ({
 			</div>
 			<div className="flex items-center gap-4 justify-center">
 				<div
-					className="flex bg-purple rounded-2xl p-2 flex-col 
+					className="flex bg-purple dark:bg-dark-primary rounded-2xl p-2 flex-col 
      text-white font-bold shadow-3xl align-middle my-4 w-[150px] appearance-none"
 				>
 					<Input
@@ -67,7 +67,7 @@ const DurationInput = ({
 					<p className="text-xl ml-3 font-normal ">Hours</p>
 				</div>
 				<div
-					className="flex bg-lightPink rounded-2xl p-2 flex-col 
+					className="flex bg-lightPink  dark:bg-white rounded-2xl p-2 flex-col 
      text-black font-bold shadow-3xl align-middle my-4 w-[150px]"
 				>
 					<Input

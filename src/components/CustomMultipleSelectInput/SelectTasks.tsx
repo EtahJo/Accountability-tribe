@@ -1,7 +1,6 @@
 "use client";
 import CustomMultipleSelectInput from "@/components/CustomMultipleSelectInput/index";
 import { withFormsy, FormsyInjectedProps } from "formsy-react";
-import { cn } from "@/lib/utils";
 import InputLabel, { InputLabelProps } from "@/components/InputLabel/index";
 interface OptionType {
 	id: string;
@@ -13,7 +12,6 @@ const SelectTasks = ({
 	value,
 	labelIcon,
 	lable,
-	inputClass,
 	required,
 	options, // a list of  all user tasks that are not yet added to session
 }: FormsyInjectedProps<OptionType> & {

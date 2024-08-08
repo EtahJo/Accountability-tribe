@@ -26,7 +26,7 @@ const TribeDetails = ({
 			href={!manage ? `/tribe/${tribeId}` : ""}
 		>
 			<ProfileImage image={image} alt="tribe profile image" />
-			<p className="font-bold text-purple largePhone:text-xl whitespace-nowrap text-lg">
+			<p className="font-bold text-purple largePhone:text-xl whitespace-nowrap text-lg dark:text-dark-primary">
 				{name}
 			</p>
 			{members && (
@@ -36,7 +36,7 @@ const TribeDetails = ({
 			)}
 
 			{desc && (
-				<div className="bg-lighterPink largePhone:mx-2 rounded-xl p-2 ">
+				<div className="bg-lighterPink largePhone:mx-2 rounded-xl p-2 dark:bg-dark-lightPrimary">
 					<FullTextOnHover
 						text={desc}
 						className="largePhone:w-[200px] text-center w-[150px]"

@@ -4,7 +4,6 @@ import PostsModal from "@/components/Posts/PostsModal";
 import PostSkeleton from "@/components/Skeletons/PostSkeleton";
 import useSWR from "swr";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { Props } from "react-modal";
 import { Button } from "@/components/ui/button";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -23,7 +22,7 @@ const UserPostsModal = ({ pageUsername }: { pageUsername: string }) => {
 	return (
 		<div>
 			<Button
-				className="min-[508px]:hidden block m-auto my-5 text-lightPink shadow-3xl"
+				className="min-[508px]:hidden block m-auto my-5 text-lightPink shadow-3xl dark:text-dark-primary"
 				variant={"outline"}
 				onClick={() => setOpenPostsModal(true)}
 			>

@@ -13,6 +13,7 @@ import {
 	filteredDate,
 	onValidSubmit,
 } from "../_utils/filterFunctions";
+import NoData from "@/components/NoData";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UserTasksBody = ({ username }: { username: string }) => {
@@ -51,11 +52,8 @@ const UserTasksBody = ({ username }: { username: string }) => {
 			>
 				{
 					filteredData && filteredData.length ===0 &&(	
-				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
-					<div>
-						<p>No tasks</p>
-					</div>
-				</div>)
+				<NoData message="No tasks"/>
+				)
 				}
 				{(filteredData || tasks)?.map((task: any) => (
 					<div key={task.id} className="min-[1450px]:basis-1/4 basis-2/2 ">
@@ -75,12 +73,7 @@ const UserTasksBody = ({ username }: { username: string }) => {
 				))}
 			</div>
 			{totalPages === 0 && (
-					<div className="m-auto flex justify-center  h-screen">
-						<p className="bg-white rounded-xl p-2 h-10">
-							{" "}
-							No tasks{" "}
-						</p>
-					</div>
+					<NoData message="No tasks"/>
 				)}
 			<PaginationController
 				page={page}

@@ -17,7 +17,7 @@ const LikeModal = ({
 			onRequestClose={onRequestClose}
 			className="w-max"
 		>
-			<div className="bg-white p-3 rounded-3xl shadow-3xl">
+			<div className="bg-white p-3 rounded-3xl shadow-3xl dark:bg-dark-background">
 				{likes?.map((like, index) => (
 					<TribeUser
 						key={index}

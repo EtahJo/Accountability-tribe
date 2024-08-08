@@ -21,7 +21,7 @@ const CommentReplies = ({
 					className="peer relative"
 					onClick={() => setResponding((prev: boolean) => !prev)}
 				>
-					<FaComment className="text-lightPink" size={15} />
+					<FaComment className="text-lightPink dark:text-dark-primary" size={15} />
 				</Button>
 				<p
 					className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-5

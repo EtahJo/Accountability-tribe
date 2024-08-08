@@ -67,7 +67,7 @@ const DuplicateSession = ({
 		<Popover>
 			<PopoverTrigger asChild>
 				<Button
-					className="move-button  bg-lightPink whitespace-pre-wrap dark:bg-dark-background"
+					className="move-button  bg-lightPink whitespace-pre-wrap dark:bg-dark-lightBackground dark:text-dark-text dark:hover:bg-dark-primary"
 					size={"slg"}
 				>
 					Duplicate Session For Tomorrow

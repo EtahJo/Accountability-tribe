@@ -79,7 +79,7 @@ const PostSnippet = ({
 					: theDuration.weeks.weeks + "w";
 	return (
 		<div
-			className="bg-white rounded-2xl largePhone:p-5  my-5 relative w-full p-2 "
+			className="bg-white rounded-2xl largePhone:p-5  my-5 relative w-full p-2 dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 			id={postId}
 		>
 			<PostHeaderSection
@@ -96,7 +96,7 @@ const PostSnippet = ({
 			/>
 			{showNewPostConditionOne ? (
 				<Badge
-					className="absolute top-0 right-0 bg-purple rounded-2xl
+					className="absolute top-0 right-0 bg-purple rounded-2xl dark:bg-dark-primary
         largePhone:text-[8px] text-[6px] mb-2 "
 				>
 					New Post
@@ -104,7 +104,7 @@ const PostSnippet = ({
 			) : (
 				showNewPostConditionTwo && (
 					<Badge
-						className="absolute top-0 right-0 bg-purple rounded-2xl
+						className="absolute top-0 right-0 bg-purple rounded-2xl dark:bg-dark-primary
          "
 					>
 						New to Tribe
@@ -114,7 +114,7 @@ const PostSnippet = ({
 
 			<div
 				className=" bg-lighterPink rounded-2xl largePhone:p-5 mt-6 mb-4
-      flex flex-col w-full gap-y-2 p-2"
+      flex flex-col w-full gap-y-2 p-2 dark:bg-dark-lightPrimary"
 			>
 				<PostTitle postEditTitle={postEditTitle} postTitle={postTitle} />
 
@@ -128,7 +128,7 @@ const PostSnippet = ({
 
 				{comments.length > 0 && (
 					<p
-						className="text-lightPink cursor-pointer largePhone:text-base text-xs hover:underline"
+						className="text-lightPink cursor-pointer largePhone:text-base text-xs hover:underline dark:text-dark-primary"
 						onClick={() => setOpenCommentModal(true)}
 					>
 						{comments.length} {comments.length > 1 ? "comments" : "comment"}

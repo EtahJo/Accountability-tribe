@@ -20,7 +20,7 @@ const UseProfilePage = ({ params }: { params: { username: string } }) => {
 			<div className="mx-16">
 				<LongHeaderSkeleton
 					classNames="bg-purple flex justify-between items-center 
-         mt-16 w-full py-10 px-32 largePhone:flex-row flex-col "
+         mt-16 w-full py-10 px-32 largePhone:flex-row flex-col dark:bg-dark-primary "
 				>
 					<div className="flex flex-col gap-y-2 p-3">
 						<Skeleton className="h-12 w-[250px]" />
@@ -28,7 +28,7 @@ const UseProfilePage = ({ params }: { params: { username: string } }) => {
 							{Array.from({ length: 3 }).map((_, index) => (
 								<div key={index} className="flex items-center gap-2">
 									<Skeleton className="h-5 w-12 " />
-									<Skeleton className="h-5 w-[120px] bg-lightPink" />
+									<Skeleton className="h-5 w-[120px] bg-lightPink dark:bg-dark-background" />
 								</div>
 							))}
 						</div>

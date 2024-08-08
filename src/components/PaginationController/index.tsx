@@ -41,7 +41,7 @@ const PaginationController = ({
 				>
 					{page === 1 ? (
 						<div
-							className="opacity-50 bg-purple rounded-2xl shadow-3xl  p-2 move-button"
+							className="opacity-50 bg-purple rounded-2xl shadow-3xl  p-2 move-button dark:bg-dark-primary"
 							aria-disabled={true}
 						>
 							Previous
@@ -54,7 +54,7 @@ const PaginationController = ({
 									: `?page=${prevPage}&filter=${filter}`
 							}
 							className="cursor-pointer
-           bg-purple rounded-xl shadow-3xl  p-2 move-button"
+           bg-purple rounded-xl shadow-3xl  p-2 move-button dark:bg-dark-primary"
 							aria-label="Previous page"
 						>
 							Previous
@@ -69,8 +69,8 @@ const PaginationController = ({
 									: `?page=${pageNumber}&filter=${filter}`
 							}
 							className={cn(
-								"cursor-pointer bg-purple rounded-xl shadow-3xl  p-2 move-button",
-								pageNumber === page && "bg-black",
+								"cursor-pointer bg-purple rounded-xl shadow-3xl  p-2 move-button dark:bg-dark-primary",
+								pageNumber === page && "bg-black dark:bg-dark-lightBackground dark:border dark:border-slate-800",
 							)}
 							aria-label="Previous page"
 						>
@@ -86,7 +86,7 @@ const PaginationController = ({
 									: `?page=${nextPage}&filter=${filter}`
 							}
 							className={cn(
-								"cursor-pointer move-button bg-purple rounded-xl shadow-3xl  p-2",
+								"cursor-pointer move-button bg-purple rounded-xl shadow-3xl  p-2 dark:bg-dark-primary",
 							)}
 							aria-label="Next page"
 						>
@@ -94,7 +94,7 @@ const PaginationController = ({
 						</Link>
 					) : (
 						<div
-							className="opacity-50 bg-purple rounded-xl shadow-3xl  p-2 move-button"
+							className="opacity-50 bg-purple rounded-xl shadow-3xl  p-2 move-button dark:bg-dark-primary"
 							aria-disabled={true}
 						>
 							Next

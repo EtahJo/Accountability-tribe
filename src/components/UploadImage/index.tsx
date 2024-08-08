@@ -65,10 +65,10 @@ const UploadImage = ({
 							className="flex w-full justify-center -mt-8 ml-10"
 						>
 							<div
-								className="bg-purple rounded-full p-2  z-10
+								className="bg-purple rounded-full p-2  z-10 dark:bg-dark-primary
             hover:bg-white hover:shadow-3xl cursor-pointer  w-10 h-10 transition duration-1000 hover:-translate-y-1 transform hover:duration-300 "
 							>
-								<AiFillCamera className="text-lightPink " size={25} />
+								<AiFillCamera className="text-lightPink dark:text-dark-background" size={25} />
 							</div>
 						</div>
 					);

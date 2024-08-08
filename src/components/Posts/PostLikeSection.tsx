@@ -76,9 +76,9 @@ const PostLikeSection = ({ likes, hasLiked, postId }: PostLikeSectionProps) => {
 			>
 				{like ? (
 					<div>
-						<FaThumbsUp className="text-purple cursor-pointer peer" size={15} />
+						<FaThumbsUp className="text-purple cursor-pointer peer dark:text-dark-primary" size={15} />
 						<p
-							className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
+							className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3 dark:bg-dark-lightPrimary
          left-3 hidden peer peer-hover:block text-black"
 						>
 							Liked
@@ -87,12 +87,12 @@ const PostLikeSection = ({ likes, hasLiked, postId }: PostLikeSectionProps) => {
 				) : (
 					<div className="relative">
 						<FaRegThumbsUp
-							className="text-purple cursor-pointer peer"
+							className="text-purple cursor-pointer peer dark:text-dark-primary"
 							size={15}
 						/>
 						<p
-							className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
-         left-3 hidden peer peer-hover:block text-black"
+							className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3 dark:bg-dark-lightPrimary
+         left-3 hidden peer peer-hover:block text-black dark:text-dark-text"
 						>
 							Like
 						</p>
@@ -102,7 +102,7 @@ const PostLikeSection = ({ likes, hasLiked, postId }: PostLikeSectionProps) => {
 
 			{likes.length > 0 && (
 				<p
-					className="text-purple cursor-pointer hover:underline largePhone:text-base text-xs"
+					className="text-purple cursor-pointer hover:underline largePhone:text-base text-xs dark:text-dark-primary"
 					onClick={() => setOpenLikeModal(true)}
 				>
 					{likes.length} {likes.length > 1 ? "Likes" : "Like"}

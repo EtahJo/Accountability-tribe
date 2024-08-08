@@ -7,7 +7,7 @@ interface PostTitleProps {
 
 const Title = ({ postTitle }: { postTitle: string }) => {
 	return (
-		<div className="bg-purple p-2   shadow-3xl rounded-sm ">
+		<div className="bg-purple p-2 shadow-3xl rounded-sm dark:bg-dark-primary">
 			<h2
 				className="font-bold largePhone:text-xl text-white phone:text-lg 
       largePhone:text-start text-center text-base"

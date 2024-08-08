@@ -25,7 +25,7 @@ const PeriodCheck = ({
 					{timeLeft > 0 ? (
 						<div className="flex gap-1 flex-nowrap">
 							<p className="text-sm whitespace-nowrap">Starts in </p>{" "}
-							<p className="text-purple font-bold text-sm whitespace-nowrap">
+							<p className="text-purple font-bold text-sm whitespace-nowrap dark:text-dark-primary">
 								{timeLeft} Mins
 							</p>
 						</div>

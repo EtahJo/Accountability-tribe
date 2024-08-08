@@ -78,10 +78,10 @@ const CommentLikeSection = ({
 			>
 				{like ? (
 					<div>
-						<FaThumbsUp className="text-purple cursor-pointer peer" size={15} />
+						<FaThumbsUp className="text-purple cursor-pointer peer dark:text-dark-primary" size={15} />
 						<p
 							className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
-     left-3 hidden peer peer-hover:block text-black"
+     left-3 hidden peer peer-hover:block text-black dark:bg-dark-lightPrimary dark:text-white"
 						>
 							Liked
 						</p>
@@ -89,12 +89,12 @@ const CommentLikeSection = ({
 				) : (
 					<div className="relative">
 						<FaRegThumbsUp
-							className="text-purple cursor-pointer peer"
+							className="text-purple cursor-pointer peer dark:text-dark-primary"
 							size={15}
 						/>
 						<p
 							className="bg-lighterPink px-2 py-px rounded-2xl mt-2 absolute top-3
-     left-3 hidden peer peer-hover:block text-black"
+     left-3 hidden peer peer-hover:block text-black dark:bg-dark-lightPrimary dark:text-white"
 						>
 							Like
 						</p>
@@ -103,7 +103,7 @@ const CommentLikeSection = ({
 			</Button>
 			{commentLikes?.length > 0 && (
 				<p
-					className="text-purple cursor-pointer whitespace-nowrap largePhone:text-base text-xs"
+					className="text-purple cursor-pointer whitespace-nowrap largePhone:text-base text-xs dark:text-dark-primary"
 					onClick={() => setOpenLikeModal(true)}
 				>
 					{commentLikes.length} {commentLikes.length > 1 ? "Likes" : "Like"}

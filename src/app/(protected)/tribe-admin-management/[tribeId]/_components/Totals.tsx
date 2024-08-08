@@ -18,7 +18,7 @@ const Totals = ({ total, propertyName, button, id }: TotalsProps) => {
 						className="flex gap-x-1 move-button md:flex-row flex-col px-2 w-max"
 						size={"slg"}
 					>
-						<p className="  text-purple  text-lg">{total}</p>
+						<p className="  text-purple  text-lg dark:text-dark-primary">{total}</p>
 						<p className="text-lg overflow-ellipsis">
 							{propertyName + (total > 1 ? "s" : "")}
 						</p>
@@ -27,15 +27,14 @@ const Totals = ({ total, propertyName, button, id }: TotalsProps) => {
 			) : (
 				<div
 					className="flex  bg-white rounded-3xl p-5 h-max 
-    items-center justify-center shadow-3xl gap-2"
+    items-center justify-center shadow-3xl gap-2 dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 				>
 					<p
-						className="font-bold bg-lighterPink p-2 text-2xl 
-      rounded-md"
+						className="font-bold bg-lighterPink p-2 text-2xl rounded-md dark:bg-dark-primary"
 					>
 						{total}
 					</p>
-					<p className="text-xl opacity-60 font-bold text-purple">
+					<p className="text-xl opacity-60 font-bold text-purple dark:text-dark-primary">
 						{propertyName + (total > 1 ? "s" : "")}
 					</p>
 				</div>

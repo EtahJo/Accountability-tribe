@@ -77,7 +77,7 @@ const TribeSnippet = ({
 	
 	return (
 		<div
-			className="bg-white flex flex-col items-center 
+			className="bg-white flex flex-col items-center dark:bg-dark-lightBackground dark:border dark:border-slate-800
     justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl
      m-auto largePhone:w-[300px] relative group/item min-[355px]:w-[200px] w-[170px] "
 		>
@@ -87,7 +87,7 @@ const TribeSnippet = ({
 				</Badge>
 			)}
 			{manage && (
-				<div className="bg-lighterPink dark:bg-dark-lightBackground absolute w-full h-full z-50 hidden group-hover/item:block ">
+				<div className="bg-lighterPink dark:bg-dark-lightPrimary absolute w-full h-full z-50 hidden group-hover/item:block rounded-3xl">
 					<div className="flex justify-center items-center m-auto h-full">
 						<Link href={`/tribe-admin-management/${tribeId}`}>
 							<Button className="text-2xl font-bold  p-3  move-button shadow-3xl">

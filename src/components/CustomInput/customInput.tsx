@@ -48,7 +48,7 @@ const CustomInput = ({
 			)}
 			<div
 				className={cn(
-					"shadow-3xl bg-lighterPink dark:bg-dark-lightBackground rounded-3xl p-px my-4 flex align-middle max-[538px]:w-[200px] ",
+					"shadow-3xl bg-lighterPink dark:bg-dark-lightPrimary rounded-3xl p-px my-4 flex align-middle max-[538px]:w-[200px] ",
 					inputClassNames,
 				)}
 			>
@@ -86,7 +86,7 @@ const CustomInput = ({
 				)}
 			</div>
 			{
-				maxLength&& <p className="-mt-3 mb-4 ml-2 text-lightPink dark:text-dark-background text-sm">You have {charactersLeft} characters left</p>
+				maxLength&& <p className="-mt-3 mb-4 ml-2 text-lightPink dark:text-dark-primary text-sm">You have {charactersLeft} characters left</p>
 			}
 			{isFormSubmitted && !isValid && (
 				<p className="text-red-500 font-bold">{errorMessage}</p>

@@ -33,7 +33,7 @@ const UserAchievementsFilter = () => {
 ];
 	return( 
 	<Formsy className='bg-white rounded-2xl p-5 flex items-start
-	 gap-2 max-md:flex-col max-md:items-center'>
+	 gap-2 max-md:flex-col max-md:items-center dark:bg-dark-lightBackground dark:border dark:border-slate-800'>
 		<FormsySelectInput
 			lable='Period'
 			name="period"

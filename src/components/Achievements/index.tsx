@@ -6,6 +6,7 @@ import { Task } from "@prisma/client";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import AchievementSkeleton from "@/components/Skeletons/AchievementSkeleton";
+import NoData from "../NoData";
 
 interface AchievementsProps {
 	pageUsername: string;
@@ -30,11 +31,9 @@ const Achievements = ({ pageUsername }: AchievementsProps) => {
 		<div>
 			<SectionHeader name="Achievements" />
 			{
-				showAchievements.length===0?<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
-					<div>
-						<p>No Achievements</p>
-					</div>
-			</div>:
+				showAchievements.length===0?
+					<NoData message="No Achievements"/>
+			:
 			
 			<div>
 			<div>
@@ -46,7 +45,7 @@ const Achievements = ({ pageUsername }: AchievementsProps) => {
 					/>
 				))}
 			</div>
-			<div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline mx-auto ">
+			<div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline mx-auto dark:text-dark-primary">
 				<Link
 					href={`/user/${pageUsername}/achievements?page=1&filter=all`}
 					className="whitespace-nowrap"

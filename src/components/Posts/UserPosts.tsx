@@ -10,7 +10,6 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
-import { usePathname } from "next/navigation";
 import { Tribe, TribeUser, Post, Like, User, Comment } from "@prisma/client";
 import PostSkeleton from "@/components/Skeletons/PostSkeleton";
 import NoData from "../NoData";
@@ -26,7 +25,6 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
 		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${pageUsername}/${user?.id}`,
 		fetcher,
 	);
-	const pathname = usePathname();
 	if (isLoading || userPosts === undefined) {
 		return <PostSkeleton />;
 	}
@@ -92,8 +90,8 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
 						},
 					)}
 				</CarouselContent>
-				<CarouselPrevious className="w-5 h-5 bg-purple text-white shadow-3xl" />
-				<CarouselNext className="w-5 h-5 bg-purple text-white shadow-3xl" />
+				<CarouselPrevious className="w-5 h-5 bg-purple text-white shadow-3xl dark:bg-dark-primary" />
+				<CarouselNext className="w-5 h-5 bg-purple text-white shadow-3xl dark:bg-dark-primary" />
 			</Carousel>
 			}
 		</div>

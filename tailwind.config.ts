@@ -37,7 +37,7 @@ const config = {
           text: '#EEE5E9',
           primary: '#B87333',
           secondary: '#03dac6',
-          lightPrimary:'rgba(184, 115, 51,0.5)'
+          lightPrimary:'rgba(184, 115, 51,0.3)'
 
         },
       },

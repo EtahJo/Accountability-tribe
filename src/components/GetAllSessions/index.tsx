@@ -9,6 +9,7 @@ import { SessionParticipant } from "@prisma/client";
 import FilterForm from "@/components/Forms/FilterForm";
 import PaginationController from "../PaginationController";
 import UpcomingSessionSkeleton from "../Skeletons/UpcomingSessionSkeleton";
+import NoData from "../NoData";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const GetAllSessions = ({ username }: { username: string }) => {
@@ -50,12 +51,7 @@ const GetAllSessions = ({ username }: { username: string }) => {
 				<div className="flex flex-wrap justify-center gap-4 my-5">
 					{
 						filteredData && (filteredData as []).length ===0 && (
-							<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
-					<div>
-						<p>No sessions</p>
-						{/* TODO: add session recommendations */}
-					</div>
-				</div>
+							<NoData message="No sessions"/>
 						)
 					}
 					{
@@ -100,13 +96,7 @@ const GetAllSessions = ({ username }: { username: string }) => {
 					)}
 				</div>
 				{sessionsData.totalPages === 0 && (
-					<div className="m-auto flex justify-center  h-screen">
-						<p className="bg-white rounded-xl p-2 h-10">
-							{" "}
-							No sessions{" "}
-							{filter === "thisWeek" ? "THIS WEEK" : filter?.toUpperCase()}
-						</p>
-					</div>
+					<NoData message={`No sessions ${filter==='thisWeek'? 'THIS WEEK': filter?.toUpperCase()}`}/>
 				)}
 				<PaginationController
 					page={page}

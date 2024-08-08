@@ -23,7 +23,7 @@ const FilterForm = ({ data, getFilteredData }: FilterFormProps) => {
 	return (
 		<Formsy
 			onValidSubmit={onValidSubmit}
-			className="bg-white w-max p-5 rounded-3xl my-3"
+			className="bg-white w-max p-5 rounded-3xl my-3 dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 		>
 			<div className="flex gap-x-3 largePhone:flex-row flex-col">
 				<div>

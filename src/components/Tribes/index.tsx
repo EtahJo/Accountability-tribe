@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import {TribeUser, TribeVisit, Tribe } from "@prisma/client";
 import TribeSkeleton from "../Skeletons/TribeSkeleton";
+import NoData from "../NoData";
 
 interface TribesProps {
 	pageUsername: string;
@@ -43,11 +44,7 @@ const Tribes = ({ pageUsername }: TribesProps) => {
 			<div>
 				{
 				tribesToDisplay.length===0 ?
-				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
-					<div>
-						<p>No Tribes</p>
-					</div>
-				</div>
+				<NoData message="No Tribes"/>
 			:(
 				<div>
 					{
@@ -85,7 +82,7 @@ const Tribes = ({ pageUsername }: TribesProps) => {
 					},
 				)
 					}
-				<div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto ">
+				<div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto dark:text-dark-primary ">
 				<Link href={`/user/${pageUsername}/tribes?page=1`}>
 					View All Tribes
 				</Link>

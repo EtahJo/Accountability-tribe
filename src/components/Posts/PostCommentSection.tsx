@@ -33,7 +33,7 @@ const PostCommentSection = ({
 			</div>
 
 			{comments.length > 0 && (
-				<div className="bg-gray-100 p-3 rounded-2xl ">
+				<div className="bg-gray-100 p-3 rounded-2xl dark:bg-dark-lightPrimary">
 					{firstFiveComments.map(
 						(comment) =>
 							!comment.parentId && (

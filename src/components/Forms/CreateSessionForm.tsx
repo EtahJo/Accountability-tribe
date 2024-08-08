@@ -77,10 +77,10 @@ const CreateSessionForm = () => {
 			className="flex justify-center flex-col items-center"
 			onValidSubmit={onValidSubmit}
 		>
-			<div className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-10  md:w-[600px] w-[310px] ">
+			<div className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-10  md:w-[600px] w-[310px] dark:bg-dark-lightBackground dark:border dark:border-slate-900 ">
 				<CustomInput
 					lable="Session Title"
-					labelIcon={<FaBaseballBall className="text-purple" />}
+					labelIcon={<FaBaseballBall className="text-purple dark:text-dark-primary" />}
 					name="goal"
 					value={goal}
 					required
@@ -90,7 +90,7 @@ const CreateSessionForm = () => {
 				/>
 				<CustomInput
 					lable="Link to Scheduled Meeting"
-					labelIcon={<FaLink className="text-purple" />}
+					labelIcon={<FaLink className="text-purple dark:text-dark-primary" />}
 					name="meetingLink"
 					value={meetingLink}
 					required
@@ -100,14 +100,14 @@ const CreateSessionForm = () => {
 
 				<SelectTasks
 					lable="Add Tasks to work on"
-					labelIcon={<FaTasks className="text-purple" />}
+					labelIcon={<FaTasks className="text-purple dark:text-dark-primary" />}
 					name="taskIds"
 					options={tasks.tasks as { id: string; title: string }[]}
 				/>
 			</div>
 			<div
 				className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-5 relative  flex justify-center 
-           md:w-[600px] w-[310px] flex-col gap-5 "
+           md:w-[600px] w-[310px] flex-col gap-5  dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 			>
 				{endDateTime && startDateTime && (
 					<Duration
@@ -124,7 +124,6 @@ const CreateSessionForm = () => {
 								10,
 							);
 							if (isNaN(newHour)) {
-								// setError('Please Enter Number for Duration');
 								return;
 							} else {
 								setEndDateTime(addHours(startDateTime, newHour));
@@ -139,7 +138,6 @@ const CreateSessionForm = () => {
 							);
 
 							if (isNaN(newMinutes)) {
-								// setError('Please Enter Number for Duration');
 								return;
 							} else {
 								setEndDateTime(addMinutes(startDateTime, newMinutes));
@@ -150,7 +148,7 @@ const CreateSessionForm = () => {
 
 				<CustomDateInput
 					lable="Start and End Date and Time"
-					labelIcon={<FaCalendar className="text-purple" />}
+					labelIcon={<FaCalendar className="text-purple dark:text-dark-primary" />}
 					className="w-[250px]"
 					required
 					name="startEndDateTime"

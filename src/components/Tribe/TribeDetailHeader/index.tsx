@@ -128,10 +128,10 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 				<UserSkeleton classNames="w-[180px] h-[180px]" />
 				<div
 					className="w-full bg-purple flex flex-col space-y-3 
-        rounded-2xl justify-center items-center py-3"
+        rounded-2xl justify-center items-center py-3 dark:bg-dark-primary"
 				>
 					<Skeleton className="w-[250px] h-12" />
-					<Skeleton className="w-[100px] h-6 bg-lightPink" />
+					<Skeleton className="w-[100px] h-6 bg-lightPink dark:bg-dark-lightPrimary" />
 				</div>
 				<Skeleton className="w-[250px] h-5" />
 			</LongHeaderSkeleton>
@@ -147,7 +147,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 					<div className="flex items-center">
 						<div
 							className="w-[100px] h-[100px] rounded-full 
-     bg-lightPink justify-center items-center shadow-buttonInner
+     bg-lightPink justify-center items-center shadow-buttonInner dark:bg-dark-background
       p-2 -mt-24 relative min-[814px]:flex hidden"
 						>
 							<p
@@ -159,7 +159,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 						</div>
 						<div
 							className="w-[100px] h-[100px] rounded-full  
-     bg-lightPink  justify-center items-center shadow-buttonInner p-2 min-[814px]:flex hidden"
+     bg-lightPink  justify-center items-center shadow-buttonInner p-2 min-[814px]:flex hidden dark:bg-dark-background"
 						>
 							<p
 								className="text-shadow-xl text-center whitespace-normal 
@@ -178,7 +178,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 					<div className="flex items-center">
 						<div
 							className="w-[100px] h-[100px] rounded-full 
-     bg-lightPink justify-center items-center shadow-buttonInner p-2 min-[814px]:flex hidden"
+     bg-lightPink justify-center items-center shadow-buttonInner p-2 min-[814px]:flex hidden dark:bg-dark-background"
 						>
 							<p
 								className="text-shadow-xl text-center 
@@ -189,7 +189,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 						</div>
 						<div
 							className="w-[100px] h-[100px] rounded-full  bg-lightPink
-            justify-center items-center shadow-buttonInner p-2 -mt-24 min-[814px]:flex hidden"
+            justify-center items-center shadow-buttonInner p-2 -mt-24 min-[814px]:flex hidden dark:bg-dark-background"
 						>
 							<p
 								className="text-shadow-xl text-center whitespace-normal
@@ -202,24 +202,18 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 				</div>
 
 				<div className="flex justify-center flex-col gap-3 mt-5">
-					<div className="bg-purple px-3 py-2 rounded-xl ">
+					<div className="bg-purple px-3 py-2 rounded-xl dark:bg-dark-primary">
 						<EditableComponent
 							tribeId={tribeId}
 							text={tribeInfo.name}
 							name="name"
-							editTrigger={
-								<FaPen className="text-lightPink cursor-pointer hover:text-black" />
-							}
-							cancelTrigger={
-								<p className="text-lightPink font-bold cursor-pointer">X</p>
-							}
 							textClass="md:text-4xl font-bold text-center text-xl"
 							showEditOption={isAdmin}
 							maxLength={30}
 						/>
 
 						<p
-							className="text-center text-lightPink cursor-pointer hover:underline"
+							className="text-center text-lightPink cursor-pointer hover:underline dark:text-dark-background"
 							onClick={() => {
 								setModalIsOpen(true);
 							}}
@@ -233,13 +227,7 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 						text={tribeInfo?.description}
 						textArea
 						name="description"
-						editTrigger={
-							<FaPen className="text-purple cursor-pointer hover:text-black" />
-						}
-						cancelTrigger={
-							<p className="text-lightPink font-bold cursor-pointer">X</p>
-						}
-						textClass="md:text-lg  text-center text-sm"
+						textClass="md:text-lg  text-center text-sm dark:text-black"
 						showEditOption={isAdmin}
 						maxLength={100}
 					/>

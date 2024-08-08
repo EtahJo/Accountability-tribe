@@ -59,7 +59,7 @@ const CustomDateTimeInput = ({
 					dateFormat={"Pp"}
 					calendarClassName=" !flex !flex-nowrap !border-2 !border-purple !shadow-3xl"
 					className={cn(
-						"p-2 bg-lighterPink rounded-5xl my-2 mr-2 placeholder:text-black placeholder:text-sm shadow-3xl",
+						"p-2 bg-lighterPink rounded-5xl my-2 mr-2 placeholder:text-black placeholder:text-sm shadow-3xl dark:bg-dark-lightPrimary",
 						className,
 					)}
 					placeholderText="Start Date and Time"
@@ -82,7 +82,7 @@ const CustomDateTimeInput = ({
 					dateFormat="Pp"
 					calendarClassName=" !flex !flex-nowrap !border-2 !border-purple !shadow-3xl select:bg-purple"
 					className={cn(
-						"p-2 bg-lighterPink rounded-5xl my-2  placeholder:text-black placeholder:text-sm shadow-3xl ",
+						"p-2 bg-lighterPink rounded-5xl my-2  placeholder:text-black placeholder:text-sm shadow-3xl dark:bg-dark-lightPrimary ",
 						className,
 					)}
 					placeholderText="End Date and Time"

@@ -37,7 +37,7 @@ const CustomSelectInput = ({
 				<InputLabel lable={lable} labelIcon={labelIcon} required={required} />
 			)}
 			<Select onValueChange={onValueChange} disabled={disabled} value={value}>
-				<SelectTrigger className="shadow-3xl bg-lighterPink rounded-3xl p-2 my-4 flex align-middle border-none placeholder:text-gray-400">
+				<SelectTrigger className="shadow-3xl bg-lighterPink rounded-3xl p-2 my-4 flex align-middle border-none placeholder:text-gray-400 dark:bg-dark-lightPrimary">
 					<SelectValue
 						placeholder={placeholder}
 						className="placeholder:text-gray-400"

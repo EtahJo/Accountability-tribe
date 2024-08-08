@@ -4,7 +4,7 @@ const FormSkeleton = () => {
 	return (
 		<div
 			className="w-[300px] rounded-3xl shadow-3xl p-10 m-auto
-     bg-white flex flex-col items-center gap-y-5 justify-center min-[640px]:mt-0 mt-16"
+     bg-white flex flex-col items-center gap-y-5 justify-center min-[640px]:mt-0 mt-16 dark:bg-dark-lightBackground dark:border dark:border-border-slate-800"
 		>
 			{Array.from({ length: 3 }).map((_, index) => (
 				<div key={index} className="flex flex-col gap-y-2">

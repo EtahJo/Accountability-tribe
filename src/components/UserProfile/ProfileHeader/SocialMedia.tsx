@@ -8,16 +8,16 @@ const SocialMedia = ({ user }: { user: User }) => {
 		<div className="flex items-center gap-x-2">
 			{user?.facebook && (
 				<SocialMediaIcon
-					icon={<FaFacebook size={40} />}
+					icon={<FaFacebook size={40} className='dark:text-dark-background'/>}
 					link={user?.facebook}
 				/>
 			)}
 			{user?.X && (
-				<SocialMediaIcon icon={<FaTwitter size={35} />} link={user?.X} />
+				<SocialMediaIcon icon={<FaTwitter size={35} className='dark:text-dark-background' />} link={user?.X} />
 			)}
 			{user?.linkedIn && (
 				<SocialMediaIcon
-					icon={<FaLinkedin size={35} />}
+					icon={<FaLinkedin size={35} className='dark:text-dark-background' />}
 					link={user?.linkedIn}
 				/>
 			)}

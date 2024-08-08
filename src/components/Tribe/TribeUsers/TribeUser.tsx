@@ -114,9 +114,9 @@ const TribeUser = ({
 	};
 
 	return (
-		<div className="flex items-center gap-x-3 rounded-sm hover:shadow-3xl hover:bg-lighterPink p-2 w-full justify-between">
+		<div className="flex items-center gap-x-3 rounded-sm hover:shadow-3xl hover:bg-lighterPink p-2 w-full justify-between dark:hover:bg-dark-lightPrimary">
 			<Link href={`/user/${name}`} className=" flex items-center gap-x-2">
-				<Avatar className=" w-[40px] h-[40px] z-10 items-center border-2 border-lightPink  shadow-3xl">
+				<Avatar className=" w-[40px] h-[40px] z-10 items-center border-2 border-lightPink  shadow-3xl dark:border-dark-primary">
 					{!profileImage ? (
 						<AvatarFallback className="bg-black">
 							<FaUser className="text-white" size={100} />

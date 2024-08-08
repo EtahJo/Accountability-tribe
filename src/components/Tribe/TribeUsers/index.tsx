@@ -28,10 +28,10 @@ const TribeUsers = ({
 			contentLabel="Tribe Users"
 			className={"w-max"}
 		>
-			<div className="m-2 bg-white rounded-3xl shadow-3xl">
+			<div className="m-2 bg-white rounded-3xl shadow-3xl dark:bg-dark-lightBackground dark:border dark:border-slate-800">
 				<h1
 					className="text-xl w-full text-center font-bold
-         bg-purple p-2 rounded-2xl shadow-3xl mb-3 text-white "
+         bg-purple p-2 rounded-2xl shadow-3xl mb-3 text-white dark:bg-dark-primary"
 				>
 					{tribeName} Members
 				</h1>

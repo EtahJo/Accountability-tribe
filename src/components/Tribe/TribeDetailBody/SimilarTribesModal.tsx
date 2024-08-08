@@ -7,6 +7,7 @@ import useSWR from "swr";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { TribeUser, TribeVisit, Tribe} from "@prisma/client";
+import NoData from "@/components/NoData";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const SimilarTribesModal = ({ tribeId }: { tribeId: string }) => {
@@ -50,11 +51,8 @@ const SimilarTribesModal = ({ tribeId }: { tribeId: string }) => {
 					<div>
 						{
 				similarTribes?.tribes?.length ===0?
-				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
-					<div>
-						<p>No Similar tribes</p>
-					</div>
-				</div>:
+				<NoData message="No Similar tribes"/>
+				:
 					similarTribes?.tribes?.map(
 							({
 								description,

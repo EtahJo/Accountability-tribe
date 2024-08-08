@@ -6,6 +6,7 @@ import type { Task } from "@prisma/client";
 import Achievement from "@/components/Achievements/Achievement";
 import AchievementSkeleton from "@/components/Skeletons/AchievementSkeleton";
 import UserAchievementsFilter from "./UserAchievementsFilter";
+import NoData from "@/components/NoData";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UserAchievementsBody = ({ username }: { username: string }) => {
@@ -32,19 +33,15 @@ const UserAchievementsBody = ({ username }: { username: string }) => {
 		<div>
 			{
 				tasks?.length===0?
-				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
-					<div>
-						<p>No Achievements</p>
-					</div>
-				</div>
+				<NoData message="No Achievements"/>
 				:
 			<div className='mt-10 flex flex-col max-md:items-center'>
 			<div className="flex gap-4 flex-wrap items-start max-md:flex-col max-md:items-center">
 				<div
-					className="flex items-center gap-1 bg-white p-3 rounded-2xl
+					className="flex items-center gap-1 bg-white p-3 rounded-2xl dark:bg-dark-lightBackground dark:border dark:border-slate-800
          shadow-3xl w-max"
 				>
-					<p className="uppercase text-lightPink">Total:</p>
+					<p className="uppercase text-lightPink dark:text-dark-primary">Total:</p>
 					<p className="font-bold">{tasks.length}</p>
 				</div>
 				<UserAchievementsFilter />

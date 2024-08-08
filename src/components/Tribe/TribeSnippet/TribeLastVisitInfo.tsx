@@ -6,7 +6,7 @@ const TribeLastVisitInfo = ({ lastVisit }: { lastVisit?: string }) => {
 	const { user }: any = useCurrentUser();
 	return (
 		<div className="flex justify-end   w-max absolute right-1 top-1">
-			<div className="text-gray-500 largePhone:text-[10px] bg-lighterPink rounded-3xl px-2  flex flex-col items-center justify-center text-[8px]">
+			<div className="text-gray-500 dark:text-dark-text largePhone:text-[10px] bg-lighterPink dark:bg-dark-lightPrimary rounded-3xl px-2  flex flex-col items-center justify-center text-[8px]">
 				{lastVisit ? (
 					<>
 						{" "}

@@ -100,7 +100,7 @@ const PostHeaderSection = ({
 					<span className="flex items-end  lg:gap-x-1 lg:flex-row flex-col text-xs -mt-3">
 						<p className="">Posted In</p>
 						<Link href={`/tribe/${tribe.id}`}>
-							<p className="font-bold text-lightPink mx-0 px-0 whitespace-nowrap">
+							<p className="font-bold text-lightPink mx-0 px-0 whitespace-nowrap dark:text-dark-lightPrimary">
 								{tribe.name}
 							</p>
 						</Link>
