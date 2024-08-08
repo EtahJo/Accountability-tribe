@@ -13,6 +13,7 @@ import {
 import { usePathname } from "next/navigation";
 import { Tribe, TribeUser, Post, Like, User, Comment } from "@prisma/client";
 import PostSkeleton from "@/components/Skeletons/PostSkeleton";
+import NoData from "../NoData";
 
 interface PostProps {
 	pageUsername?: string;
@@ -36,11 +37,7 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
 				pageUsername={pageUsername}
 			/>
 			{userPosts?.length === 0?
-			<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
-					<div>
-						<p>No Posts</p>
-					</div>
-			</div>
+			<NoData message="No Posts"/>
 			:
 			<Carousel
 				opts={{

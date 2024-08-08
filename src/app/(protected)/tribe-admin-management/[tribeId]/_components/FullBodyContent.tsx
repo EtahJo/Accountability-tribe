@@ -7,6 +7,7 @@ import PostSkeleton from "@/components/Skeletons/PostSkeleton";
 import ApproveDecline from "./ApproveDecline";
 import { User, Like, Comment, Post, Tribe } from "@prisma/client";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import NoData from "@/components/NoData";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const FullBodyContent = ({ tribeId }: { tribeId: string }) => {
@@ -28,11 +29,7 @@ const FullBodyContent = ({ tribeId }: { tribeId: string }) => {
 			<TribeInfoSection tribeId={tribeId} postEdits={postEdits} />
 			<SectionHeader name="Posts Edits to be Approved" />
 			{postEdits.length === 0 ? (
-				<div className="bg-white rounded-3xl p-10 shadow-3xl">
-					<p className="text-2xl font-bold text-center">
-						No posts edits pending review for this tribe
-					</p>
-				</div>
+				<NoData message="No posts edits pending review for this tribe"/>
 			) : !postEdits[0].post.tribe.adminsUserIds.includes(
 					user.id,
 				) ? null : (

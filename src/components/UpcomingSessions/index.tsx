@@ -5,7 +5,8 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import UpcomingSession from "@/components/UpcomingSession/index";
 import UpcomingSessionSkeleton from "@/components/Skeletons/UpcomingSessionSkeleton";
 import { SessionParticipant } from "@prisma/client";
-import { FaPlusCircle, FaArrowRight } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
+import NoData from "@/components/NoData/index";
 import {
 	Carousel,
 	CarouselContent,
@@ -46,12 +47,7 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
 			/>
 
 			{sessions?.sessions?.sessions.length === 0 ? (
-				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10 dark:bg-dark-lightBackground dark:border dark:border-slate-800">
-					<div>
-						<p>No upcoming sessions</p>
-						{/* TODO: add session recommendations */}
-					</div>
-				</div>
+				<NoData message="No Upcoming Sessions"/>
 			) : (
 				<div>
 					<Carousel

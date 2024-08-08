@@ -10,6 +10,7 @@ import ShortHeaderSkeleton from "@/components/Skeletons/ShortHeaderSkeleton";
 import { Tribe, Like, Comment, User, Post } from "@prisma/client";
 import ApproveDecline from "./ApproveDecline";
 import PostForm from "@/components/Forms/PostForm";
+import NoData from "@/components/NoData";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -79,11 +80,7 @@ const TribeInfoSection = ({
 				<PostForm tribeId={id} />
 				<SectionHeader name="Posts to be Approved" />
 				{posts.length === 0 ? (
-					<div className="bg-white rounded-3xl p-10 shadow-3xl">
-						<p className="text-2xl font-bold text-center">
-							No posts pending review for this tribe
-						</p>
-					</div>
+					<NoData message="No posts pending review for this tribe"/>
 				) : (
 					posts.map(
 						({
