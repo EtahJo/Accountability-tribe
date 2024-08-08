@@ -23,15 +23,6 @@ const GetAllSessions = ({ username }: { username: string }) => {
 		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${username}/${user.id}?page=1&filter=${filter}`,
 		fetcher,
 	);
-	if (isLoading || sessionsData === undefined) {
-		return (
-			<div className="flex flex-wrap gap-2 items-center">
-				{Array.from({ length: 3 }).map((_, index) => (
-					<UpcomingSessionSkeleton key={index} />
-				))}
-			</div>
-		);
-	}
 
 	const getFilteredData = (data: any) => {
 		setFilteredData(data);
@@ -43,17 +34,25 @@ const GetAllSessions = ({ username }: { username: string }) => {
 				<div className="flex flex-col justify-center items-center">
 					<SessionFilter />
 					<FilterForm
-						data={sessionsData.sessions.sessions}
+						data={sessionsData?.sessions.sessions}
 						getFilteredData={getFilteredData}
 					/>
 				</div>
 
+				<div className="">
+			{isLoading || sessionsData === undefined? <div className="flex flex-wrap gap-2 items-center">
+				{Array.from({ length: 3 }).map((_, index) => (
+					<UpcomingSessionSkeleton key={index} />
+				))}
+			</div>
+			:
+			<div>
+				{
+				filteredData && (filteredData as []).length ===0 
+				?
+				<NoData message="No sessions"/>
+				:
 				<div className="flex flex-wrap justify-center gap-4 my-5">
-					{
-						filteredData && (filteredData as []).length ===0 && (
-							<NoData message="No sessions"/>
-						)
-					}
 					{
 					(filteredData ? filteredData : sessionsData.sessions.sessions).map(
 						({
@@ -93,8 +92,12 @@ const GetAllSessions = ({ username }: { username: string }) => {
 								</div>
 							);
 						},
-					)}
+					)
+					}
+			
 				</div>
+			
+				}
 				{sessionsData.totalPages === 0 && (
 					<NoData message={`No sessions ${filter==='thisWeek'? 'THIS WEEK': filter?.toUpperCase()}`}/>
 				)}
@@ -104,6 +107,10 @@ const GetAllSessions = ({ username }: { username: string }) => {
 					totalPages={sessionsData.totalPages}
 					filter={filter}
 				/>
+			</div>
+			}	
+				</div>
+				
 			</div>
 		</div>
 	);

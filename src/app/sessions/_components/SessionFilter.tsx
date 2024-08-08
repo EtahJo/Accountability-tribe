@@ -49,7 +49,7 @@ const SessionFilter = () => {
 							setSelectedFilter(filter);
 						}}
 						className={cn(
-							selectedFilter === filter ? "bg-purple" : "bg-black",
+							selectedFilter === filter ? "bg-purple dark:bg-dark-primary" : "bg-black",
 							"transition-all",
 						)}
 					>
