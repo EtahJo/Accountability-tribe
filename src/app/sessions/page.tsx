@@ -1,5 +1,4 @@
 import SectionHeader from "@/components/SectionHeader";
-import { FaPlusCircle } from "react-icons/fa";
 import SessionsBody from "./_components/SessionsBody";
 
 const SessionHomePage = async () => {
@@ -9,7 +8,6 @@ const SessionHomePage = async () => {
 				name="All Available Sessions"
 				buttonLink="/create-session"
 				buttonTitle="Create Session"
-				buttonIcon={<FaPlusCircle />}
 			/>
 			<SessionsBody />
 		</div>

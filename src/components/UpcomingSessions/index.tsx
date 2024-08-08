@@ -43,11 +43,10 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
 				buttonLink="/create-session"
 				buttonTitle="Create Session"
 				pageUsername={pageUsername as string}
-				buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
 			/>
 
 			{sessions?.sessions?.sessions.length === 0 ? (
-				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10">
+				<div className="bg-white rounded-3xl shadow-3xl p-5 flex justify-center my-10 dark:bg-dark-lightBackground dark:border dark:border-slate-800">
 					<div>
 						<p>No upcoming sessions</p>
 						{/* TODO: add session recommendations */}
@@ -95,10 +94,10 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
 								},
 							)}
 						</CarouselContent>
-						<CarouselPrevious className="w-5 h-5 bg-purple text-white shadow-3xl" />
-						<CarouselNext className="w-5 h-5 bg-purple text-white shadow-3xl" />
+						<CarouselPrevious className="w-5 h-5 bg-purple text-white shadow-3xl dark:bg-dark-primary" />
+						<CarouselNext className="w-5 h-5 bg-purple text-white shadow-3xl dark:bg-dark-primary" />
 					</Carousel>
-			<div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto ">
+			<div className="flex justify-center items-center text-purple gap-1 cursor-pointer hover:underline w-44 mx-auto dark:text-dark-primary ">
 				<Link href={`/user/${pageUsername}/sessions?page=1&filter=upcoming`}>
 					View All Sessions
 				</Link>

@@ -8,7 +8,7 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
-import { FaPlusCircle, FaArrowRight } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import TaskSkeleton from "../Skeletons/TaskSkeleton";
 import Todo from "@/components/TodoList/Todo";
 import Link from "next/link";
@@ -34,7 +34,6 @@ const TodoList = ({ pageUsername }: { pageUsername: string }) => {
 				name="Your Todo List"
 				buttonLink="/create-task"
 				buttonTitle="Create Task"
-				buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
 				pageUsername={pageUsername}
 			/>
 			{

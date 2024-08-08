@@ -16,7 +16,6 @@ const UserTasks = async ({ params }: { params: { username: string } }) => {
 				name={`${decodedUsername}'s Uncompleted Tasks`}
 				buttonLink="/create-task"
 				buttonTitle="Create Task"
-				buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
 				pageUsername={decodedUsername}
 				classNames="col-start-2 col-end-12"
 			/>

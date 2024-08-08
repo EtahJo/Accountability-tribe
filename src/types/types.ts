@@ -67,7 +67,6 @@ export type SectionHeaderType = {
 	icon?: React.ReactElement;
 	buttonTitle?: string;
 	buttonLink?: string;
-	buttonIcon?: React.ReactNode;
 	classNames?: string;
 	pageUsername?: string;
 };

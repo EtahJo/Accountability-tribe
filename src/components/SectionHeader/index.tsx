@@ -2,6 +2,7 @@
 import { SectionHeaderType } from "@/types/types";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { FaPlusCircle } from "react-icons/fa";
 import Link from "next/link";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { cn } from "@/lib/utils";
@@ -11,7 +12,6 @@ const SectionHeader = ({
 	icon,
 	buttonLink,
 	buttonTitle,
-	buttonIcon,
 	classNames,
 	pageUsername,
 }: SectionHeaderType) => {
@@ -41,7 +41,7 @@ const SectionHeader = ({
 			</div>
 			{buttonLink && decodedUsername === user.username && (
 				<Button className="move-button flex items-center gap-1">
-					{buttonIcon && buttonIcon}
+					<FaPlusCircle size={20} className="text-lightPink dark:text-dark-lightPrimary"/>
 					<Link href={buttonLink}>{buttonTitle}</Link>
 				</Button>
 			)}

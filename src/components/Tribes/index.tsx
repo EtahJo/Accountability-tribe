@@ -39,7 +39,6 @@ const Tribes = ({ pageUsername }: TribesProps) => {
 				buttonTitle="Create Tribe"
 				pageUsername={pageUsername}
 				buttonLink="/create-tribe"
-				buttonIcon={<FaPlusCircle size={20} className="text-lightPink" />}
 			/>
 			<div>
 				{
