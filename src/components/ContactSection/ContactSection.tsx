@@ -13,7 +13,7 @@ const ContactSection = () => {
 			<p className="font-bold phone:text-6xl lg:col-start-2 lg:col-end-5 place-content-center col-start-2 col-end-11 mb-10 lg:mb-0 text-5xl">
 				Contact Us, Give Us Your Feedback, We are Here for You
 			</p>
-			<div className="bg-white rounded-3xl lg:col-start-7 lg:col-end-11 col-start-2 col-end-11 max-h-72 place-content-center">
+			<div className="bg-white rounded-3xl lg:col-start-7 lg:col-end-11 col-start-2 col-end-11 max-h-72 place-content-center dark:bg-dark-lightBackground dark:border dark:border-slate-800">
 				<Formsy
 					onValidSubmit={submitHandler}
 					className="p-5 w-full place-content-center"

@@ -11,6 +11,8 @@ import TribeSkeleton from "@/components/Skeletons/TribeSkeleton";
 import TribeSnippet from "@/components/Tribe/TribeSnippet/index";
 import {Button} from '@/components/ui/button';
 import Link from 'next/link'
+import GotoButton from "../GoTo";
+import NoData from "../NoData";
 
 interface RecommendedTribesProps {
 	userId: string;
@@ -44,15 +46,7 @@ const RecommendedTribesCarousel = ({ userId }: RecommendedTribesProps) => {
 	}
 	if (recommendedTribes?.length === 0) {
 		return (
-			<div
-				className="bg-white w-full flex justify-center 
-      rounded-3xl flex-col items-center p-5 gap-y-2"
-			>
-				<p className="text-xl ">No Recommended tribes</p>
-				<Button className="move-button">
-					<Link href="/create-tribe">Create Tribe</Link>
-				</Button>
-			</div>
+	<NoData message="No Recommended Tribes" linkTo="/create-tribe" buttonTitle="Create Tribe"/>
 		);
 	}
 

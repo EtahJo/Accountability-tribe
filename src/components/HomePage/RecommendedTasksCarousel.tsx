@@ -6,21 +6,12 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Task, SessionParticipant } from "@prisma/client";
 import TaskSkeleton from "@/components/Skeletons/TaskSkeleton";
 import Todo from "@/components/TodoList/Todo";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import useSWR from "swr";
-
-type SelectedTaskProps = Pick<
-	Task,
-	"dueDate" | "title" | "description" | "status" | "id" | "userId" | "priority"
-> & { sessionParticipants: SessionParticipant[] };
-interface TaskCarouselProps {
-	// highPriorityTasks: SelectedTaskProps[];
-}
+import GotoButton from "@/components/GoTo/index";
+import NoData from "../NoData";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const RecommendedTasksCarousel = () => {
@@ -52,15 +43,7 @@ const RecommendedTasksCarousel = () => {
 	}
 	if (highPriorityTasks?.length === 0) {
 		return (
-			<div
-				className="bg-white w-full flex justify-center 
-      rounded-3xl flex-col items-center p-5 gap-y-2"
-			>
-				<p className="text-xl ">No High priority task</p>
-				<Button className="move-button">
-					<Link href="/create-task">Create Task</Link>
-				</Button>
-			</div>
+		<NoData message="No High Priority tasks" linkTo="/create-task" buttonTitle="Create Task"/>
 		);
 	}
 	return (

@@ -12,6 +12,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { SessionParticipant } from "@prisma/client";
+import NoData from "../NoData";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HomeLoggedIn = () => {
@@ -75,17 +76,11 @@ const HomeLoggedIn = () => {
 							sessionParticipantId={session.id}
 						/>
 					) : (
-						<div
-							className="bg-white mx-10 w-3/4 p-5 flex flex-col 
-            items-center justify-center rounded-2xl gap-4 "
-						>
-							<p className="whitespace-nowrap largePhone:text-xl text-base">
-								No Upcoming Session
-							</p>
-							<Link href={"/create-session"}>
-								<Button className="move-button">Create Session</Button>
-							</Link>
-						</div>
+						<NoData 
+						message="No Upcoming Session" 
+						linkTo="/create-session"
+						buttonTitle="Create Session"
+						/>
 					)}
 				</div>
 			</div>

@@ -51,7 +51,7 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
 						className="w-[300px] cursor-pointer border-b "
 						onClick={() => onNotificationClick(notification.id)}
 					>
-						<div className="flex items-center gap-2 text-lightPink group">
+						<div className="flex items-center gap-2 text-lightPink group dark:text-dark-primary dark:hover:text-dark-text">
 							{notification.type === "WARNING" && <FaExclamationCircle />}
 							{notification.type === "APPROVAL" && <FaCheckCircle />}
 							{notification.type === "ADMINTASK" && <FaTasks />}
@@ -62,7 +62,7 @@ const NotificationIcon = ({ notifications }: NotificationIconProps) => {
 							{notification.type === "COMMENT" && <FaComment />}
 							<span
 								className={cn(
-									"text-black group-hover:text-purple dark:text-dark-text",
+									"text-black group-hover:text-purple dark:text-dark-text dark:group-hover:text-dark-primary",
 									notification.read ? "font-normal" : "font-bold",
 								)}
 							>
