@@ -104,10 +104,10 @@ const EditTaskForm = ({ presentTask }: EditTaskFormProps) => {
 	};
 	return (
 		<Formsy
-			className="bg-white shadow-3xl rounded-2xl min-[613px]:p-10 min-[471px]:w-1/2 mt-5 p-2 w-max"
+			className="bg-white shadow-3xl rounded-2xl min-[613px]:p-10 min-[471px]:w-1/2 mt-5 p-2 w-max dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 			onValidSubmit={onValidSubmit}
 		>
-			<div className="my-5 border-2 border-lightPink rounded-3xl p-3">
+			<div className="my-5 border-2 border-lightPink rounded-3xl p-3 dark:border-dark-primary">
 				<CustomInput
 					name="title"
 					value={title}

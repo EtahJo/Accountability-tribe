@@ -36,7 +36,7 @@ const DeleteConfirmation = ({
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					<AlertDialogCancel>Cancel</AlertDialogCancel>
-					<AlertDialogAction className="bg-transparent shadow-none hover:bg-transparent">
+					<AlertDialogAction className="bg-transparent shadow-none hover:bg-transparent dark:bg-transparent">
 						{action}
 					</AlertDialogAction>
 				</AlertDialogFooter>

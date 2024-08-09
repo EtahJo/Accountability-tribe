@@ -62,12 +62,12 @@ const PostEditModal = ({
 	return (
 		<ModalWrapper isOpen={isOpen} onRequestClose={onRequestClose}>
 			<Formsy
-				className="bg-white rounded-3xl shadow-3xl p-5 "
+				className="bg-white rounded-3xl shadow-3xl p-5 dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 				onValidSubmit={onValidSubmit}
 			>
 				<h2
 					className="text-center text-xl font-bold
-         bg-purple rounded-md p-2 text-white my-2"
+         bg-purple rounded-md p-2 text-white my-2 dark:bg-dark-primary"
 				>
 					Edit Post
 				</h2>
@@ -99,7 +99,7 @@ const PostEditModal = ({
 					<Button
 						type="button"
 						className="move-button"
-						variant="destructive"
+						variant='secondary'
 						disabled={isPending}
 						onClick={onRequestClose}
 					>

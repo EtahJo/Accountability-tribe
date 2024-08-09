@@ -77,7 +77,7 @@ const EditableComponent = ({
 			{showEditOption && edit ? (
 				<Formsy
 					className="bg-white flex items-center px-2 rounded-2xl gap-x-2
-          largePhone:flex-row flex-col 
+          largePhone:flex-row flex-col dark:bg-dark-lightBackground dark:border dark:border-slate-800
           "
 					onValidSubmit={onValidSubmit}
 				>
@@ -97,7 +97,9 @@ const EditableComponent = ({
 			)}
 			{showEditOption && (
 				<div onClick={() => setEdit(!edit)}>
-					{edit ? <p className="text-lightPink font-bold cursor-pointer hover:text-black dark:text-black dark:hover:text-white">X</p>: <FaPen className="text-lightPink cursor-pointer hover:text-black dark:text-black dark:hover:text-white" />}
+					{edit ? 
+					<p className="text-lightPink font-bold cursor-pointer hover:text-black dark:text-black dark:hover:text-dark-text dark:hover:text-shadow-sm">X</p>:
+					<FaPen className="text-lightPink cursor-pointer hover:text-black dark:text-black dark:hover:text-white dark:hover:text-shadow-sm" />}
 				</div>
 			)}
 		</div>

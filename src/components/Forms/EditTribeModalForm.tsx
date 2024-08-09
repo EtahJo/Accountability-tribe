@@ -117,7 +117,7 @@ const EditTribeModalForm = ({
 	return (
 		<ModalWrapper isOpen={isOpen} onRequestClose={onRequestClose}>
 			<Formsy
-				className="bg-white rounded-3xl shadow-3xl p-5 mt-44"
+				className="bg-white rounded-3xl shadow-3xl p-5 mt-44 dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 				onValidSubmit={onValidSubmit}
 			>
 				<UploadImage name="profileImage" presentImage={profileImage} />
@@ -156,7 +156,8 @@ const EditTribeModalForm = ({
 					</Button>
 					<Button
 						type="button"
-						className="move-button bg-gray-400 hover:bg-gray-600"
+						className="move-button"
+						variant={'secondary'}
 						onClick={onRequestClose}
 					>
 						Discard Changes

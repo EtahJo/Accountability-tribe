@@ -38,8 +38,8 @@ const CustomTagsInput = ({
 					<p
 						key={index}
 						className={cn(
-							"bg-lighterPink p-2 rounded-2xl cursor-pointer",
-							selectedTags.has(tag) ? "bg-lightPink" : "bg-lighterPink",
+							"p-2 rounded-2xl cursor-pointer",
+							selectedTags.has(tag) ? "bg-lightPink dark:bg-dark-primary" : "bg-lighterPink dark:bg-dark-lightPrimary",
 						)}
 						onClick={() => {
 							setSelectedTags(new Set(selectedTags).add(tag.text || tag.title));
@@ -54,7 +54,7 @@ const CustomTagsInput = ({
 			<div className="flex flex-wrap gap-1">
 				{Array.from(selectedTags).map((tag: any, index) => (
 					<div
-						className="bg-purple px-2 rounded-2xl flex items-center gap-1 py-1"
+						className="bg-purple px-2 rounded-2xl flex items-center gap-1 py-1 dark:bg-dark-primary"
 						key={index}
 					>
 						<p

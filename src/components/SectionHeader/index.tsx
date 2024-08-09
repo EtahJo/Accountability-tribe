@@ -17,9 +17,7 @@ const SectionHeader = ({
 }: SectionHeaderType) => {
 	const { user }: any = useCurrentUser();
 	const pathname = usePathname();
-
 	const decodedUsername= decodeURIComponent(pageUsername as string)
-
 	return (
 		<div
 			className={cn(
@@ -40,8 +38,8 @@ const SectionHeader = ({
 				<div data-testid="section_title">{name}</div>
 			</div>
 			{buttonLink && decodedUsername === user.username && (
-				<Button className="move-button flex items-center gap-1">
-					<FaPlusCircle size={20} className="text-lightPink dark:text-dark-lightPrimary"/>
+				<Button className="move-button flex items-center gap-1 group">
+					<FaPlusCircle size={20} className="text-lightPink dark:text-dark-lightPrimary group-hover:text-white"/>
 					<Link href={buttonLink}>{buttonTitle}</Link>
 				</Button>
 			)}

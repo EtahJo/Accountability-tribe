@@ -48,9 +48,8 @@ const SessionsBody = () => {
 				{Array.from({ length: 3 }).map((_, index) => (
 					<UpcomingSessionSkeleton key={index} />
 				))}
-			</div>:
-					
-				
+			</div>
+			:	
 			<div>
 				
 		<div className="flex items-center flex-wrap lg:justify-between justify-center ">

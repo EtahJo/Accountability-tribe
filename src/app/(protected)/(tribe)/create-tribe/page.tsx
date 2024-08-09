@@ -96,7 +96,7 @@ const CreateTribe = () => {
 				</h1>
 				<div
 					className="bg-white rounded-3xl shadow-3xl largePhone:w-[400px] 
-        largePhone:p-10 w-[280px] p-5 flex flex-col items-center"
+        largePhone:p-10 w-[280px] p-5 flex flex-col items-center dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 				>
 					<Formsy onValidSubmit={onValidSubmit}>
 						<UploadImage name="profileImage" />

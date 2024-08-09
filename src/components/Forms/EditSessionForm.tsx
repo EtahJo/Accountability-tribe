@@ -39,7 +39,7 @@ const EditSessionForm = ({
 }: EditSessionProps) => {
 	const { user }: any = useCurrentUser();
 	const { data: tasks, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${user.username}/uncompleted`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tasks/${user.username}/uncompleted?page=1`,
 		fetcher,
 	);
 	const [isPending, startTransition] = useTransition();
@@ -60,11 +60,11 @@ const EditSessionForm = ({
 	if (isLoading || tasks === undefined) {
 		return <FormSkeleton />;
 	}
-	const goodToAddTasks = tasks.filter(
+	const goodToAddTasks = tasks.tasks?.filter(
 		(task: any) =>
 			!sessionTasks?.some((task1: any) => task.id === task1.taskId),
 	);
-	const unCompletedTasks = sessionTasks?.length === 0 ? tasks : goodToAddTasks;
+	const unCompletedTasks = sessionTasks?.length === 0 ? tasks.tasks : goodToAddTasks;
 	const removeTaskFromSession = (taskId: string) => {
 		startTransition(() => {
 			remove_task_from_session(taskId, sessionParticipantId).then((data) => {
@@ -122,21 +122,21 @@ const EditSessionForm = ({
 			onValidSubmit={onValidSubmit}
 			className="flex justify-center flex-col items-center"
 		>
-			<div className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-10  md:w-[600px] w-[310px] ">
+			<div className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-10  md:w-[600px] w-[310px]
+			dark:bg-dark-lightBackground dark:border dark:border-slate-800 ">
 				<CustomInput
 					lable="Session Goal"
-					labelIcon={<FaBaseballBall className="text-purple" />}
+					labelIcon={<FaBaseballBall className="text-purple dark:text-dark-primary" />}
 					name="goal"
 					value={goal}
 					required
-					textArea
 					disabled={isPending}
 					maxLength={30}
 					placeholder="What is the goal for this session ?"
 				/>
 				<CustomInput
 					lable="Link to Scheduled Meeting"
-					labelIcon={<FaLink className="text-purple" />}
+					labelIcon={<FaLink className="text-purple dark:text-dark-primary" />}
 					name="meetingLink"
 					value={meetingLink}
 					required
@@ -184,7 +184,7 @@ const EditSessionForm = ({
 				</div>
 				<SelectTasks
 					lable="Add Tasks to work on"
-					labelIcon={<FaTasks className="text-purple" />}
+					labelIcon={<FaTasks className="text-purple dark:text-dark-primary" />}
 					name="taskIds"
 					options={unCompletedTasks as { id: string; title: string }[]}
 				/>
@@ -192,7 +192,7 @@ const EditSessionForm = ({
 
 			<div
 				className=" bg-white rounded-5xl px-10 py-10 shadow-3xl my-5 relative  flex justify-center 
-   md:w-[600px] w-[310px] flex-col gap-5 "
+   md:w-[600px] w-[310px] flex-col gap-5 dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 			>
 				{endDateTime && startDateTime && (
 					<DurationInput
@@ -234,7 +234,7 @@ const EditSessionForm = ({
 
 				<CustomDateInput
 					lable="Start and End Date and Time"
-					labelIcon={<FaCalendar className="text-purple" />}
+					labelIcon={<FaCalendar className="text-purple dark:text-dark-primary" />}
 					className="w-[250px]"
 					required
 					name="startEndDateTime"

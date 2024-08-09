@@ -23,7 +23,7 @@ const ModalWrapper = ({
 			onRequestClose={onRequestClose}
 			contentLabel={contentLabel}
 			className={cn(
-				"flex justify-center items-center place-content-center w-full h-full mx-auto ",
+				"flex justify-center items-center place-content-center w-full h-full mx-auto z-[300]",
 				className,
 			)}
 			closeTimeoutMS={100}

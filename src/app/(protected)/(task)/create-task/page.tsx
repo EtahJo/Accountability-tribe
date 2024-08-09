@@ -81,13 +81,14 @@ const CreateTask = () => {
 		<div className="flex justify-center flex-col items-center m-auto h-full mt-20 pb-32 overflow-hidden">
 			<SectionHeader name="Create Task" />
 			<Formsy
-				className="bg-white shadow-3xl rounded-2xl min-[613px]:p-10 min-[471px]:w-1/2 mt-5 p-2 w-max"
+				className="bg-white shadow-3xl rounded-2xl min-[613px]:p-10 min-[471px]:w-1/2 mt-5 p-2 w-max
+				 dark:bg-dark-lightBackground dark:border dark:border-slate-800"
 				onValidSubmit={onValidSubmit}
 			>
 				{tasks.map((task, index) => (
 					<div
 						key={index}
-						className="my-5 border-2 border-lightPink rounded-3xl p-3 "
+						className="my-5 border-2 border-lightPink rounded-3xl p-3 dark:border-dark-primary"
 					>
 						<CustomInput
 							name="title"
