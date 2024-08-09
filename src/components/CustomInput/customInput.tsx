@@ -82,7 +82,7 @@ const CustomInput = ({
 					/>
 				)}
 				{Icon && (
-					<div className="place-content-center cursor-pointer">{Icon}</div>
+					<div className="place-content-center cursor-pointer my-auto p-1">{Icon}</div>
 				)}
 			</div>
 			{
