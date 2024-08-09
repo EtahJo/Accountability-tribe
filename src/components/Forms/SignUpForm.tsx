@@ -46,7 +46,7 @@ const SignUpForm = () => {
 		});
 	};
 	return (
-		<Formsy autoComplete="off" onValidSubmit={onSubmit} className='m-auto w-max'>
+		<Formsy autoComplete="off" onValidSubmit={onSubmit} className='m-auto min-[538px]:w-full w-max'>
 			<Custominput
 				name="username"
 				type="text"

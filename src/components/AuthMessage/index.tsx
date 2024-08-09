@@ -27,7 +27,7 @@ const AuthMessage = ({
 				</span>
 			</div>
 			<div className="mt-10 relative block">
-				<div className=" bg-white rounded-full shadow-buttonInner p-2 phone:w-96 text-xl w-max m-auto justify-center flex">
+				<div className=" bg-white rounded-full shadow-buttonInner p-2 phone:w-96 text-lg w-max m-auto justify-center flex">
 					<span className="font-bold ml-10 dark:text-black">
 						{questionText}
 						<span

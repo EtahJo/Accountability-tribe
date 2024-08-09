@@ -49,8 +49,8 @@ const Login = () => {
 				questionText="First Time Here ?"
 				tagline="The Journey Begins when you"
 			/>
-			<div className="relative lg:w-3/4 w-full ">
-				<div className="bg-white rounded-3xl p-10 shadow-buttonInner  relative min-[538px]:w-full w-max">
+			<div className="relative">
+				<div className="bg-white rounded-3xl p-10 shadow-buttonInner  relative ">
 					<h1 className="bg-lightPink dark:bg-dark-background rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-xl">
 						Login Here
 					</h1>

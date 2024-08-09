@@ -129,7 +129,7 @@ const Navbar = () => {
 							className="text-lightPink block lg:hidden  dark:text-black "
 							onClick={() => setOpenDropdown((prev) => !prev)}
 						/>
-						<div className="largePhone:flex hidden gap-2">
+						<div className="lg:flex hidden gap-2">
 							<Link
 								className="font-thin hover:font-bold cursor-pointer"
 								href={"/auth/login"}

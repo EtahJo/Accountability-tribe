@@ -11,9 +11,10 @@ const page = () => {
 				questionText="Already have an account?"
 				tagline="Begin your journey"
 			/>
-			<div className="justify-center relative lg:w-3/4 w-full ">
-				<div className="bg-white rounded-3xl p-10 shadow-buttonInner relative min-[538px]:w-max">
-					<h1 className="bg-lightPink rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-xl dark:bg-dark-primary">
+			<div className="relative ">
+				<div className="bg-white rounded-3xl p-7 shadow-buttonInner relative">
+					<h1 className="bg-lightPink dark:bg-dark-background rounded-full 
+					shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-xl w-max m-auto">
 						Sign Up Here
 					</h1>
 					<SignUpForm />
