@@ -12,20 +12,23 @@ interface CountryInputProps {
 
 const CountryInput = ({ selected, onSelect, disabled,labelIcon,lable,required }: CountryInputProps & InputLabelProps) => {
 	return (
-		<div className="max-[538px]:w-[200px]">
+		<div className="max-[538px]:w-[200px] ">
 				{lable && (
 				<InputLabel lable={lable} labelIcon={labelIcon} required={required} />
 			)}
+			
 			<ReactFlagsSelect
 				selected={selected as string}
 				onSelect={onSelect}
 				disabled={disabled}
 				selectButtonClassName="!border-none !text-black !text-sm !-py-2"
 				placeholder="Select Country"
-				className="shadow-3xl bg-lighterPink  rounded-5xl !placeholder:text-sm"
+				className="shadow-3xl bg-lighterPink  rounded-5xl !placeholder:text-sm dark:bg-dark-lightPrimary dark:!text-black"
 				searchable
 				searchPlaceholder="Search Country"
 			/>
+			
+			
 		</div>
 	);
 };

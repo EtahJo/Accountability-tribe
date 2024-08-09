@@ -62,7 +62,7 @@ const Editprofile = () => {
 				className="h-max items-center flex mt-28"
 				onValidSubmit={onSubmit}
 			>
-				<div className="bg-white rounded-5xl p-5 m-auto w-3/4 shadow-3xl relative">
+				<div className="bg-white rounded-5xl p-5 m-auto w-3/4 shadow-3xl relative dark:bg-dark-lightBackground dark:border dark:border-slate-900">
 					<div className="flex flex-col ">
 						<UploadImage name="image" presentImage={user?.image} />
 						{user?.image && (

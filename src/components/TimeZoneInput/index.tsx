@@ -31,7 +31,7 @@ const TimeZoneInput = ({ value, onChange,lable,labelIcon,required }: TimeZoneInp
 				<InputLabel lable={lable} labelIcon={labelIcon} required={required} />
 			)}
 				<Select onValueChange={(e) => onChange(e)} defaultValue={value}>
-			<SelectTrigger className="shadow-3xl bg-lighterPink dark:bg-dark-lightBackground  mt-5 rounded-5xl border-none py-5 max-[538px]:w-[200px]">
+			<SelectTrigger className="shadow-3xl bg-lighterPink dark:bg-dark-lightPrimary  mt-5 rounded-5xl border-none py-5 max-[538px]:w-[200px]">
 				<SelectValue placeholder="Please Select your Timezone" />
 			</SelectTrigger>
 			<SelectContent className="w-[300px]">

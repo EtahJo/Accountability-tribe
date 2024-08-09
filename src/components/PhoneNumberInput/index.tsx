@@ -20,9 +20,9 @@ const PhoneNumberInput = ({ value, onChange,required,labelIcon,lable }: PhoneNum
 				value={value}
 				onChange={onChange}
 				inputClass={
-					"!w-full !bg-lighterPink !rounded-5xl !border-none !shadow-3xl"
+					"!w-full !bg-lighterPink !rounded-5xl !border-none !shadow-3xl dark:!bg-dark-lightPrimary"
 				}
-				buttonClass={"!bg-lightPink !border-none !rounded-l-5xl"}
+				buttonClass={"!bg-lightPink !border-none !rounded-l-5xl dark:!bg-dark-primary !hover:bg-lightPink !hover:rounded-l-5xl dark:!text-black"}
 				containerClass={"md:my-4 "}
 			/>
 		</div>
