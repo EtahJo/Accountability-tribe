@@ -14,7 +14,6 @@ const PaginationController = ({
 	hasMore,
 	page,
 	filter,
-	// pageNumbers,
 	totalPages,
 }: PaginationControllerProps) => {
 	const isPageOutofRange = page > totalPages;
@@ -27,6 +26,7 @@ const PaginationController = ({
 			pageNumbers.push(i);
 		}
 	}
+	if (totalPages ===0) return null;
 
 	return (
 		<div>
