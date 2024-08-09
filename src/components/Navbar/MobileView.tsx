@@ -16,7 +16,7 @@ const MobileView = ({ closeDropdown }: MobileViewProps) => {
 	const pathname = usePathname();
 	return (
 		<div className="absolute top-0 w-full h-screen right-0 left-0 block lg:hidden">
-			<div className="bg-purple  w-full p-10 ">
+			<div className="bg-purple  w-full p-10 dark:bg-dark-primary ">
 				<p
 					onClick={closeDropdown}
 					className="absolute right-5 font-bold hover:text-white cursor-auto"
@@ -54,10 +54,13 @@ const MobileView = ({ closeDropdown }: MobileViewProps) => {
 					</div>
 				)}
 				<div className="flex flex-col gap-y-2">
-					<Link
+					
+					{user && (
+						<>
+						<Link
 						href={"/tribes?page=1"}
 						className={cn(
-							"bg-lightPink  p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black  group my-0",
+							"bg-lightPink  p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black  group my-0 dark:bg-dark-background dark:text-dark-text dark:hover:bg-dark-text dark:hover:text-black",
 							pathname.startsWith("/tribes") && "bg-black text-white ",
 						)}
 					>
@@ -66,23 +69,24 @@ const MobileView = ({ closeDropdown }: MobileViewProps) => {
 					<Link
 						href={"/sessions?page=1&filter=all"}
 						className={cn(
-							"bg-lightPink  p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black ",
+							"bg-lightPink  p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black  group my-0 dark:bg-dark-background dark:text-dark-text dark:hover:bg-dark-text dark:hover:text-black",
 							pathname.startsWith("/sessions") && "bg-black text-white ",
 						)}
 					>
 						Sessions
 					</Link>
-					{user && (
-						<Link
+					<Link
 							href={"/tribe-admin-management"}
 							className={cn(
-								"bg-lightPink  p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black ",
+								"bg-lightPink  p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black  group my-0 dark:bg-dark-background dark:text-dark-text dark:hover:bg-dark-text dark:hover:text-black ",
 								pathname.startsWith("/tribe-admin-management") &&
 									"bg-black text-white ",
 							)}
 						>
 							Manage Tribes
 						</Link>
+						</>
+						
 					)}
 				</div>
 			</div>

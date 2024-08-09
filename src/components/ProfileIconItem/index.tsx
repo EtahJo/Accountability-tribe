@@ -17,7 +17,7 @@ const ProfileIconItem = ({
 			<div className="relative">
 				{icon}
 				{number && (
-					<p className="absolute -top-2 z-10 text-white font-bold -right-2  bg-lightPink dark:bg-dark-background rounded-full px-2 py-px text-sm">
+					<p className="absolute -top-2 z-10 text-white font-bold -right-2  bg-lightPink dark:bg-dark-background rounded-full px-2 py-px text-sm ">
 						{number}
 					</p>
 				)}

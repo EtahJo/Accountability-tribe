@@ -104,7 +104,7 @@ const Navbar = () => {
 					<div className="flex justify-between items-center gap-x-4">
 						<FaBars
 							size={25}
-							className="text-lightPink block lg:hidden "
+							className="text-lightPink block lg:hidden dark:text-black "
 							onClick={() => setOpenDropdown((prev) => !prev)}
 						/>
 						<div className="relative lg:flex items-center gap-4 hidden">
@@ -126,7 +126,7 @@ const Navbar = () => {
 					<div>
 						<FaBars
 							size={25}
-							className="text-lightPink block lg:hidden "
+							className="text-lightPink block lg:hidden  dark:text-black "
 							onClick={() => setOpenDropdown((prev) => !prev)}
 						/>
 						<div className="largePhone:flex hidden gap-2">
