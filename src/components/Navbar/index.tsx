@@ -64,6 +64,9 @@ const Navbar = () => {
 					Tribe
 				</Link>
 				<div className=" rounded-2xl p-2 lg:flex gap-2 items-center hidden">
+					
+					{user && (
+					<>
 					<Link
 						href={"/tribes?page=1"}
 						className={cn(
@@ -84,8 +87,7 @@ const Navbar = () => {
 					>
 						Sessions
 					</Link>
-					{user && (
-						<Link
+					<Link
 							href={"/tribe-admin-management?page=1"}
 							className={cn(
 								"bg-lightPink dark:bg-dark-background rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl dark:text-dark-text dark:hover:text-dark-primary",
@@ -95,6 +97,8 @@ const Navbar = () => {
 						>
 							Manage Tribes
 						</Link>
+					</>
+						
 					)}
 				</div>
 				{openDropdown && (
