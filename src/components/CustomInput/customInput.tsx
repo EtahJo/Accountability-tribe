@@ -48,7 +48,7 @@ const CustomInput = ({
 			)}
 			<div
 				className={cn(
-					"shadow-3xl bg-lighterPink dark:bg-dark-lightPrimary rounded-3xl p-px my-4 flex align-middle max-[538px]:w-[200px] ",
+					"shadow-3xl bg-lighterPink dark:bg-dark-lightPrimary rounded-3xl p-px my-4 flex align-middle min-[538px]:w-[300px] w-[200px]",
 					inputClassNames,
 				)}
 			>

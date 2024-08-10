@@ -59,6 +59,7 @@
     "react-slick": "^0.30.2",
     "react-tag-input": "^6.10.2",
     "react-timezone-select": "^3.2.5",
+    "resend": "^3.5.0",
     "slick-carousel": "^1.8.1",
     "sonner": "^1.5.0",
     "swr": "^2.2.5",

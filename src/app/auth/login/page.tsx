@@ -50,7 +50,7 @@ const Login = () => {
 				tagline="The Journey Begins when you"
 			/>
 			<div className="relative">
-				<div className="bg-white rounded-3xl p-10 shadow-buttonInner  relative ">
+				<div className="bg-white rounded-3xl p-10 shadow-buttonInner  relative dark:bg-dark-lightBackground dark:border dark:border-slate-800">
 					<h1 className="bg-lightPink dark:bg-dark-background rounded-full shadow-buttonInner p-4 font-bold phone:text-3xl text-center text-xl">
 						Login Here
 					</h1>
@@ -92,7 +92,7 @@ const Login = () => {
 						<div className="my-3">
 							<Link
 								href="/auth/forgot-password"
-								className="text-lightPink font-bold my-5 dark:text-dark-background"
+								className="text-lightPink font-bold my-5 dark:text-dark-text hover:underline"
 							>
 								Forgot Password?
 							</Link>

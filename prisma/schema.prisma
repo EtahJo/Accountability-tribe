@@ -89,6 +89,13 @@ model Account {
   @@unique([provider, providerAccountId])
   @@map("accounts")
 }
+ model PasswordResetToken{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  email String
+  expires DateTime
+  token String @unique
+  @@unique([email,token])
+ }
 
 model Streak {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
