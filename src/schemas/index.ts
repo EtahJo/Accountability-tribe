@@ -10,6 +10,18 @@ export const LoginSchema = z.object({
 export const ResetSchema = z.object({
 	email:z.string().email({message:"Email is required"})
 })
+export const NewPasswordSchema= z.object({
+	password:z.string().min(6, { message: "Password must be more than 6 characters" }),
+	confirmPassword: z.string().min(6),
+})
+.refine(
+	(data)=>{
+		if(data.password !== data.confirmPassword){
+			return false;
+		}
+		return true
+	}
+)
 export const RegisterSchema = z
 	.object({
 		username: z
@@ -24,7 +36,7 @@ export const RegisterSchema = z
 	})
 	.refine(
 		(data) => {
-			if (data.password != data.confirmPassword) {
+			if (data.password !== data.confirmPassword) {
 				return false;
 			}
 			return true;
