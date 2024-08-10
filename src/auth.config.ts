@@ -5,7 +5,6 @@ import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/data/user";
- ");
 
 export default {
 	providers: [
