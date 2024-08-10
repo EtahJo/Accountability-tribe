@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import CustomInput from "../CustomInput/customInput";
 import Formsy from "formsy-react";
-import MainButton from "../Button/MainButton";
 import { Button } from "@/components/ui/button";
 const ContactSection = () => {
 	const [email, setEmail] = useState<string>("");
@@ -17,7 +16,7 @@ const ContactSection = () => {
 			max-h-72 ">
 				<Formsy
 					onValidSubmit={submitHandler}
-					className="p-5 w-[300px] place-content-center flex flex-col items-center dark:bg-dark-lightBackground dark:border
+					className="p-5  place-content-center flex flex-col items-center dark:bg-dark-lightBackground dark:border
 					bg-white rounded-3xl dark:border-slate-800"
 				>
 					<CustomInput
