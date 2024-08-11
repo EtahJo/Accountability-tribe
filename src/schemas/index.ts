@@ -28,7 +28,7 @@ export const RegisterSchema = z
 			.string()
 			.min(4, { message: "Username must be longer than 4 characters" }),
 		email: z.string().email({ message: "Email is required" }),
-		timezone: z.string().min(1, { message: "Please select timezone" }),
+		timezone: z.optional(z.string().min(1, { message: "Please select timezone" })),
 		password: z
 			.string()
 			.min(6, { message: "Password must be more than 6 characters" }),

@@ -9,7 +9,6 @@ import useSWR,{ mutate } from "swr";
 import Link from "next/link";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { formatDateTime } from "@/util/DateTime";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { Badge } from "@/components/ui/badge";
 
@@ -37,10 +36,11 @@ const TribeSnippet = ({
 	manage,
 }: TribeSnippetProps) => {
 	const { user }: any = useCurrentUser();
+	const currentUserId = user?.id|| process.env.NEXT_PUBLIC_GUEST_USER_ID;
 	const [isPending, startTransition] = useTransition();
 	const [isMemberState, setIsMemberState] = useState(false);
 	const [membersState, setMembersState] = useState(members);
-	const{data:newPosts,isLoading}=useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/${user.id}/${tribeId}/new-posts`,fetcher)
+	const{data:newPosts,isLoading}=useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/${currentUserId}/${tribeId}/new-posts`,fetcher)
 	const searchParams = useSearchParams();
 	let page = parseInt(searchParams?.get("page") as string, 10);
 	page = !page || page < 1 ? 1 : page;
@@ -54,6 +54,7 @@ const TribeSnippet = ({
 					toast.success(data.success);
 					setIsMemberState(true);
 					setMembersState((prev)=>prev as number+1)
+					if(user){
 					mutate(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/${user.id}/${data.tribeId}`,
 					);
@@ -70,6 +71,8 @@ const TribeSnippet = ({
 						`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/recommended-tribes/${user.id}`,
 					);
 					mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/tribes/api/${user.id}?page=${page}&filter=''`)
+					}
+					
 				}
 			});
 		});

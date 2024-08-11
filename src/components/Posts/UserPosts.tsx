@@ -21,8 +21,10 @@ interface PostProps {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
 	const { user }: any = useCurrentUser();
+	const currentUserId = user?.id|| process.env.NEXT_PUBLIC_GUEST_USER_ID;
+	
 	const { data: userPosts, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${pageUsername}/${user?.id}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/posts/${pageUsername}/${currentUserId}`,
 		fetcher,
 	);
 	if (isLoading || userPosts === undefined) {

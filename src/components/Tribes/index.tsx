@@ -16,8 +16,9 @@ interface TribesProps {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const Tribes = ({ pageUsername }: TribesProps) => {
 	const { user }: any = useCurrentUser();
+	const currentUserId = user?.id|| process.env.NEXT_PUBLIC_GUEST_USER_ID;
 	const { data: tribesData, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${pageUsername}/${user.id}?page=1`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${pageUsername}/${currentUserId}?page=1`,
 		fetcher,
 	);
 	if (isLoading || tribesData === undefined) {
@@ -43,7 +44,7 @@ const Tribes = ({ pageUsername }: TribesProps) => {
 			/>
 			<div>
 				{
-				tribesToDisplay.length===0 ?
+				tribesToDisplay?.length===0 ?
 				<NoData message="No Tribes"/>
 			:(
 				<div>
@@ -68,9 +69,9 @@ const Tribes = ({ pageUsername }: TribesProps) => {
 								tribeId={id}
 								members={users.length}
 								isMember={users?.some(
-									(tribeUser: TribeUser) => tribeUser.userId === user.id,
+									(tribeUser: TribeUser) => tribeUser.userId === currentUserId,
 								)}
-								userId={user?.id as string}
+								userId={currentUserId as string}
 								image={profileImage}
 								lastVisit={
 									tribeVisit.length > 0

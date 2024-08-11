@@ -25,7 +25,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
 	const { user: currentUser }: any = useCurrentUser();
 	const { data: sessions, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${pageUsername}/${currentUser.id}?page=1`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${pageUsername}?page=1`,
 		fetcher,
 	);
 	if (isLoading || sessions === undefined) {

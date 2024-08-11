@@ -37,7 +37,7 @@ const SectionHeader = ({
 				{icon && <div>{icon}</div>}
 				<div data-testid="section_title">{name}</div>
 			</div>
-			{buttonLink && decodedUsername === user.username && (
+			{buttonLink && decodedUsername === user?.username && (
 				<Button className="move-button flex items-center gap-1 group">
 					<FaPlusCircle size={20} className="text-lightPink dark:text-dark-lightPrimary group-hover:text-white"/>
 					<Link href={buttonLink}>{buttonTitle}</Link>

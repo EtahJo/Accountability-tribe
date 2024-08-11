@@ -1,5 +1,6 @@
 "use client";
 import { useTransition, useState, useEffect } from "react";
+import { getOrSetDeviceId } from '@/util/device';
 import Link from "next/link";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import ProfileIcon from "@/components/NavbarIcon/ProfileIcon";
@@ -29,6 +30,7 @@ const Navbar = () => {
 	};
 
 	useEffect(() => {
+		getOrSetDeviceId()
 		window.addEventListener("scroll", handleScroll);
 		return () => {
 			window.removeEventListener("scroll", handleScroll);

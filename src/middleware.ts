@@ -35,8 +35,8 @@ export default auth(
 		}
 		if (
 			!isLoggedIn &&
-			!isPublicRoute
-			// !isUserProfileRoute &&
+			!isPublicRoute &&
+			!isUserProfileRoute 
 			// !isTribeProfileRoute
 		) {
 			let callbackUrl = nextUrl.pathname;
