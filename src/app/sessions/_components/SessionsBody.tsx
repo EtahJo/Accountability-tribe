@@ -65,7 +65,7 @@ const SessionsBody = () => {
 						const tasks = checkUser.length === 1 ? checkUser[0].tasks : null;
 						const sessionParticipant =
 							checkUser.length === 1 ? checkUser[0] : null;
-						const sessionAdmin= session.users.filter((sessionParticipant:SessionParticipant)=>
+						const sessionAdmin= session.users?.filter((sessionParticipant:SessionParticipant)=>
 							sessionParticipant.userRole ==='ADMIN'
 						)
 						return (
@@ -82,7 +82,7 @@ const SessionsBody = () => {
 										sessionParticipant?.userId === user?.id,
 								)}
 								members={session.users.length}
-								admin={sessionAdmin[0].user.username}
+								admin={sessionAdmin[0]?.user.username}
 								userId={sessionParticipant?.userId}
 								endDateTime={session.endDateTime}
 								tasks={tasks}
