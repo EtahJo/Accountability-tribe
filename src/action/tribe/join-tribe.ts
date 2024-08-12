@@ -10,7 +10,7 @@ import {
 import { currentUser } from "@/lib/authentication";
 
 export const join_tribe = async (tribeId: string, userId: string) => {
-	const user = currentUser();
+	const user = await currentUser();
 	if (!user) {
 		return { error: "Login to join tribe" };
 	}
