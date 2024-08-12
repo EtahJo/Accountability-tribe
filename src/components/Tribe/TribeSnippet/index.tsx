@@ -84,7 +84,7 @@ const TribeSnippet = ({
     justify-center px-5 py-3 rounded-3xl my-5 gap-y-1 shadow-2xl
      m-auto largePhone:w-[300px] relative group/item min-[355px]:w-[200px] w-[170px] "
 		>
-			{!isLoading && newPosts && newPosts.length > 0 && (
+			{!isLoading && newPosts && newPosts.length > 0 && user && (
 				<Badge className="bg-purple dark:bg-dark-primary absolute left-1 -top-3 rounded-3xl text-xs">
 					{newPosts.length} new posts
 				</Badge>
@@ -101,8 +101,7 @@ const TribeSnippet = ({
 				</div>
 			)}
 			<div className={cn(manage ? "group-hover/item:blur-sm" : "")}>
-				<TribeLastVisitInfo lastVisit={lastVisit} />
-
+				{user&&<TribeLastVisitInfo lastVisit={lastVisit} />}
 				<TribeDetails
 					manage={manage}
 					image={image}

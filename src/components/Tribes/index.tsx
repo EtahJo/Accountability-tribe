@@ -69,9 +69,9 @@ const Tribes = ({ pageUsername }: TribesProps) => {
 								tribeId={id}
 								members={users.length}
 								isMember={users?.some(
-									(tribeUser: TribeUser) => tribeUser.userId === currentUserId,
+									(tribeUser: TribeUser) => tribeUser.userId === user?.id,
 								)}
-								userId={currentUserId as string}
+								userId={user?.id as string}
 								image={profileImage}
 								lastVisit={
 									tribeVisit.length > 0

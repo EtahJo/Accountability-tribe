@@ -84,7 +84,7 @@ const Navbar = () => {
 						className={cn(
 							"bg-lightPink dark:bg-dark-background rounded-2xl p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black shadow-3xl dark:text-dark-text dark:hover:text-dark-primary",
 							pathname.startsWith("/sessions") &&
-								"bg-black dark:bg-white dark:text-black shadow-none tetx-white",
+								"bg-black dark:bg-white dark:text-black shadow-none text-white",
 						)}
 					>
 						Sessions
