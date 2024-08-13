@@ -66,9 +66,6 @@ const Navbar = () => {
 					Tribe
 				</Link>
 				<div className=" rounded-2xl p-2 lg:flex gap-2 items-center hidden">
-					
-					{user && (
-					<>
 					<Link
 						href={"/tribes?page=1"}
 						className={cn(
@@ -89,6 +86,10 @@ const Navbar = () => {
 					>
 						Sessions
 					</Link>
+					
+					{user && (
+					<>
+					
 					<Link
 							href={"/tribe-admin-management?page=1"}
 							className={cn(

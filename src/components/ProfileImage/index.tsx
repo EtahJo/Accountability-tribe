@@ -2,16 +2,17 @@
 import { Avatar, AvatarFallback , AvatarImage} from "@/components/ui/avatar";
 import { CldImage } from "next-cloudinary";
 import { cn } from "@/lib/utils";
-import { FaUser } from "react-icons/fa";
+import { FaUser,FaUsers } from "react-icons/fa";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface ProfileImageProps {
 	image?: string | null;
 	alt: string;
+	group?:boolean;
 	dimensions?: string;
 }
 
-const ProfileImage = ({ image, alt, dimensions }: ProfileImageProps) => {
+const ProfileImage = ({ image, alt, dimensions ,group}: ProfileImageProps) => {
 	const {user}= useCurrentUser()
 	return (
 		<Avatar
@@ -33,7 +34,7 @@ const ProfileImage = ({ image, alt, dimensions }: ProfileImageProps) => {
 				/>
 			) : (
 				<AvatarFallback className="bg-black">
-					<FaUser className="text-white" size={100} />
+					{group?<FaUsers className="text-white" size={100}/>:<FaUser className="text-white" size={100} />}
 				</AvatarFallback>
 			)}
 		</Avatar>

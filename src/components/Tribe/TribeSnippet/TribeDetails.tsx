@@ -25,7 +25,7 @@ const TribeDetails = ({
 			className="move-button  flex flex-col items-center"
 			href={!manage ? `/tribe/${tribeId}` : ""}
 		>
-			<ProfileImage image={image} alt="tribe profile image" />
+			<ProfileImage image={image} alt="tribe profile image" group/>
 			<p className="font-bold text-purple largePhone:text-xl whitespace-nowrap text-lg dark:text-dark-primary">
 				{name}
 			</p>

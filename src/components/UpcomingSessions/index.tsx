@@ -74,10 +74,10 @@ const UpcomingSessions = ({ pageUsername }: UpcomingSessionsProps) => {
 												duration={JSON.parse(session.duration)}
 												meetingLink={session.meetingLink}
 												sessionId={session.id}
-												isAdmin={adminUserId === currentUser.id}
+												isAdmin={adminUserId === currentUser?.id}
 												isMember={session.users.some(
 													(sessionUser: SessionParticipant) =>
-														sessionUser.userId === currentUser.id,
+														sessionUser.userId === currentUser?.id,
 												)}
 												members={session.participants}
 												admin={sessionAdmin[0].user.username}

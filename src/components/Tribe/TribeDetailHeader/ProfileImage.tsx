@@ -59,6 +59,7 @@ const ProfileImage = ({
 						name="profileImage"
 						presentImage={profileImage}
 						submitUrl={onValidSubmit}
+						group
 					/>
 				</Formsy>
 			) : (
@@ -70,9 +71,7 @@ border-white -mt-24 shadow-3xl relative"
 						<AvatarFallback className="bg-black">
 							<FaUsers className="text-white" size={100} />
 						</AvatarFallback>
-					) : (
-						user.isOAuth?
-						<AvatarImage src={profileImage} className='rounded-full shadow-3xl w-44 h-44 object-contain'/>
+					) 
 						:
 						<CldImage
 							width="180"
@@ -82,7 +81,7 @@ border-white -mt-24 shadow-3xl relative"
 							sizes="100vw"
 							alt="Tribe profile"
 						/>
-					)}
+				}
 				</Avatar>
 			)}
 		</div>

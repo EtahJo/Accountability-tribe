@@ -3,17 +3,19 @@ import { useState } from "react";
 import { AiFillCamera } from "react-icons/ai";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { FaUser } from "react-icons/fa";
+import { FaUser,FaUsers } from "react-icons/fa";
 import { withFormsy, FormsyInjectedProps } from "formsy-react";
 
 interface UploadImageProps {
 	presentImage?: string | null | undefined;
 	submitUrl?: (val: string) => void;
 	onSuccess?: () => void;
+	group?:boolean;
 }
 
 const UploadImage = ({
 	presentImage,
+	group,
 	submitUrl,
 	setValue,
 }: UploadImageProps & FormsyInjectedProps<any>) => {
@@ -30,7 +32,7 @@ const UploadImage = ({
 			>
 				{!resource && !presentImage ? (
 					<AvatarFallback className="bg-black">
-						<FaUser className="text-white" size={100} />
+						{group?<FaUsers className="text-white" size={100} />:<FaUser className="text-white" size={100} />}
 					</AvatarFallback>
 				) : (
 					<CldImage
