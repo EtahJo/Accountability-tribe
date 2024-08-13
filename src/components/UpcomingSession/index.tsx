@@ -10,6 +10,7 @@ import Link from "next/link";
 import GotoButton from "@/components/GoTo/index";
 import SessionDuration from "@/components/UpcomingSession/SessionDuration";
 import PeriodCheck from "@/components/UpcomingSession/PeriodCheck";
+import { cn } from "@/lib/utils";
 export interface UpcomingSessionProps {
 	goal: string;
 	duration: { hours: string; minutes: string };
@@ -72,7 +73,7 @@ const UpcomingSession = ({
 					className="flex flex-col
         largePhone:justify-start justify-center items-center largePhone:items-start"
 				>
-					<FullTextOnHover text={goal} isAfter={checkIfAfter} />
+					<FullTextOnHover text={goal} className={cn(checkIfAfter?'w-52':'w-32')} />
 					<PeriodCheck
 						isTodayCheck={isTodayCheck}
 						timeLeft={timeLeft}

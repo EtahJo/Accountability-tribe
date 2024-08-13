@@ -27,7 +27,6 @@ const TodoDetails = ({
 			<div className=" flex flex-col gap-1">
 				<FullTextOnHover
 					text={description as string}
-					textClassName="top-0"
 					className="largePhone:w-52 w-32"
 				/>
 

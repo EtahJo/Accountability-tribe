@@ -36,12 +36,11 @@ const TribeDetails = ({
 			)}
 
 			{desc && (
-				<div className="bg-lighterPink largePhone:mx-2 rounded-xl p-2 dark:bg-dark-lightPrimary">
 					<FullTextOnHover
 						text={desc}
 						className="largePhone:w-[200px] text-center w-[150px]"
 					/>
-				</div>
+ 
 			)}
 		</Link>
 	);

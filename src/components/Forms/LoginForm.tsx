@@ -35,7 +35,7 @@ const LoginForm = () => {
 						});
 					}
 				})
-				.catch(() => setError("Something went wrong"));
+				.catch((error) => setError(error.message));
 		});
 	};
   return (
