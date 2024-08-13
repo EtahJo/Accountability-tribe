@@ -2,7 +2,6 @@
 import ToolTip from "@/components/ToolTip/index";
 import { cn } from "@/lib/utils";
 
-
 interface FullTextOnHoverProps {
 	text: string;
 	className?: string;

@@ -20,7 +20,7 @@ const PeriodCheck = ({
 }: PeriodCheckProps) => {
 	return (
 		<div>
-			{isTodayCheck && (
+			{isTodayCheck &&(
 				<div className="flex ">
 					{timeLeft > 0 ? (
 						<div className="flex gap-1 flex-nowrap">
@@ -36,14 +36,15 @@ const PeriodCheck = ({
 					)}
 				</div>
 			)}
+			
 			<div className="flex items-start gap-2 largePhone:flex-row flex-col">
 				{checkIfAfter && (
 					<p className="text-normal font-bold whitespace-nowrap text-xs">
 						Past on
 					</p>
 				)}
-				{isBefore ||
-					(checkIfAfter && (
+				{(isBefore || !isTodayCheck || checkIfAfter)
+					 && (
 						<span>
 							<span className="flex items-center gap-x-2">
 								<FaCalendar className="text-purple dark:text-dark-primary" />
@@ -55,43 +56,8 @@ const PeriodCheck = ({
 								<p> {startTime}</p>
 							</span>
 						</span>
-					))}
+					)}
 			</div>
-
-			{/* {!isTodayCheck && !checkIfAfter && (
-        <div className="flex items-center gap-1">
-          <span className="font-bold whitespace-nowrap text-xs">
-            <>
-              {checkIfAfter ? (
-                <p className="text-normal">Past</p>
-              ) : (
-                <>
-                  {' '}
-                  {isTodayCheck ? (
-                    timeLeft < 0 ? (
-                      'Started Today'
-                    ) : (
-                      'Today'
-                    )
-                  ) : (
-                    <span>
-                      <span className="flex items-center gap-x-2">
-                        <FaCalendar className="text-purple" />
-                        <p>{startDate}</p>
-                      </span>
-
-                      <span className="flex items-center gap-x-2">
-                        <FaClock className="text-purple" />
-                        <p> {startTime}</p>
-                      </span>
-                    </span>
-                  )}
-                </>
-              )}
-            </>
-          </span>
-        </div>
-      )} */}
 		</div>
 	);
 };
