@@ -7,7 +7,7 @@
 }
 
 .react-datepicker__header {
-  @apply bg-purple border-b-2 border-b-black rounded-tl-3xl text-white;
+  @apply bg-purple border-b-2 border-b-black rounded-tl-3xl text-white dark:bg-dark-primary dark:text-dark-background;
 }
 .react-datepicker__header:not(.react-datepicker__header--has-time-select) {
   @apply rounded-tr-3xl;
@@ -23,7 +23,7 @@
 }
 
 .react-datepicker__navigation-icon {
-  @apply text-lightPink;
+  @apply text-lightPink dark:text-dark-background;
 }
 
 .react-datepicker__time-container {
@@ -48,7 +48,7 @@
   .react-datepicker__time-box
   ul.react-datepicker__time-list
   li.react-datepicker__time-list-item--selected:hover {
-  @apply bg-lightPink;
+  @apply bg-lightPink dark:bg-dark-background dark:hover:text-dark-text;
 }
 
 .react-datepicker__time-container
@@ -56,11 +56,11 @@
   .react-datepicker__time-box
   ul.react-datepicker__time-list
   li.react-datepicker__time-list-item--disabled {
-  @apply text-black;
+  @apply text-black ;
 }
 .react-datepicker__day-name,
 .react-datepicker__time-name {
-  @apply text-lightPink;
+  @apply text-lightPink dark:text-dark-background;
 }
 .react-datepicker__day-name,
 .react-datepicker__day,
@@ -71,26 +71,26 @@
 .react-datepicker__month-text:hover,
 .react-datepicker__quarter-text:hover,
 .react-datepicker__year-text:hover {
-  @apply bg-lightPink rounded-full;
+  @apply bg-lightPink rounded-full dark:bg-dark-background ;
 }
 .react-datepicker__day--highlighted,
 .react-datepicker__month-text--highlighted,
 .react-datepicker__quarter-text--highlighted,
 .react-datepicker__year-text--highlighted {
-  @apply rounded-full bg-lightPink;
+  @apply rounded-full bg-lightPink dark:bg-dark-background dark:text-dark-text;
 }
 .react-datepicker__day--highlighted:hover,
 .react-datepicker__month-text--highlighted:hover,
 .react-datepicker__quarter-text--highlighted:hover,
 .react-datepicker__year-text--highlighted:hover {
-  @apply bg-lightPink;
+  @apply bg-lightPink dark:bg-dark-background dark:text-dark-text;
 }
 
 .react-datepicker__day--holidays,
 .react-datepicker__month-text--holidays,
 .react-datepicker__quarter-text--holidays,
 .react-datepicker__year-text--holidays {
-  @apply text-white bg-lightPink;
+  @apply text-white bg-lightPink dark:bg-dark-background ;
 }
 
 .react-datepicker__day--selected,
@@ -105,7 +105,7 @@
 .react-datepicker__year-text--selected,
 .react-datepicker__year-text--in-selecting-range,
 .react-datepicker__year-text--in-range {
-  @apply rounded-full bg-lightPink;
+  @apply rounded-full bg-lightPink dark:bg-dark-background dark:text-dark-text;
 }
 react-datepicker__day--selected:hover,
 .react-datepicker__day--in-selecting-range:hover,
@@ -119,7 +119,7 @@ react-datepicker__day--selected:hover,
 .react-datepicker__year-text--selected:hover,
 .react-datepicker__year-text--in-selecting-range:hover,
 .react-datepicker__year-text--in-range:hover {
-  @apply bg-lighterPink;
+  @apply bg-lighterPink dark:bg-dark-lightPrimary dark:text-dark-background;
 }
 .react-datepicker__day--keyboard-selected,
 .react-datepicker__month-text--keyboard-selected,
@@ -129,7 +129,7 @@ react-datepicker__day--selected:hover,
 .react-datepicker__month-text--keyboard-selected:hover,
 .react-datepicker__quarter-text--keyboard-selected:hover,
 .react-datepicker__year-text--keyboard-selected:hover {
-  @apply bg-lightPink;
+  @apply bg-lightPink dark:bg-dark-primary;
 }
 .react-datepicker__day--in-selecting-range:not(
     .react-datepicker__day--in-range,
@@ -155,7 +155,7 @@ react-datepicker__day--selected:hover,
     .react-datepicker__quarter-text--in-range,
     .react-datepicker__year-text--in-range
   ) {
-  @apply bg-lighterPink;
+  @apply bg-lighterPink dark:bg-dark-lightPrimary dark:text-dark-background  dark:hover:text-dark-background;
 }
 .react-datepicker__year-read-view:hover
   .react-datepicker__year-read-view--down-arrow,
@@ -169,5 +169,5 @@ react-datepicker__day--selected:hover,
   .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-year-read-view:hover
   .react-datepicker__month-read-view--down-arrow {
-  @apply border-t-lightPink text-lightPink bg-lightPink;
+  @apply border-t-lightPink text-lightPink bg-lightPink dark:border-t-dark-background dark:text-dark-background dark:bg-dark-primary;
 }

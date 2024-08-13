@@ -59,7 +59,7 @@ const CustomDateTimeInput = ({
 					dateFormat={"Pp"}
 					calendarClassName=" !flex !flex-nowrap !border-2 !border-purple !shadow-3xl"
 					className={cn(
-						"p-2 bg-lighterPink rounded-5xl my-2 mr-2 placeholder:text-black placeholder:text-sm shadow-3xl dark:bg-dark-lightPrimary",
+						"p-2 bg-lighterPink rounded-5xl my-2 mr-2 placeholder:text-black placeholder:text-sm shadow-3xl dark:bg-dark-lightPrimary dark:placeholder:text-dark-text",
 						className,
 					)}
 					placeholderText="Start Date and Time"
@@ -69,7 +69,7 @@ const CustomDateTimeInput = ({
 					onChange={onChangeEnd}
 					selectsEnd
 					required={required}
-					disabled={disabled}
+					disabled={disabled || !startDateTime}
 					value={endDateTime}
 					minTime={startDateTime}
 					maxTime={maxTime}
@@ -77,12 +77,11 @@ const CustomDateTimeInput = ({
 					endDate={endDateTime}
 					minDate={startDateTime}
 					showTimeSelect
-					// onBlur={onInputBlur}
 					onSelect={onInputBlur}
 					dateFormat="Pp"
 					calendarClassName=" !flex !flex-nowrap !border-2 !border-purple !shadow-3xl select:bg-purple"
 					className={cn(
-						"p-2 bg-lighterPink rounded-5xl my-2  placeholder:text-black placeholder:text-sm shadow-3xl dark:bg-dark-lightPrimary ",
+						"p-2 bg-lighterPink rounded-5xl my-2  placeholder:text-black placeholder:text-sm shadow-3xl dark:bg-dark-lightPrimary dark:placeholder:text-dark-text ",
 						className,
 					)}
 					placeholderText="End Date and Time"
