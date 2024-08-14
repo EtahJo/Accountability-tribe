@@ -12,12 +12,13 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const UserTribesBody = ({ pageUsername }: { pageUsername: string }) => {
 	const { user }: any = useCurrentUser();
+	const currentUserId = user?.id|| process.env.NEXT_PUBLIC_GUEST_USER_ID;
 	const searchParams = useSearchParams();
 	let page = parseInt(searchParams?.get("page") as string, 10);
 	page = !page || page < 1 ? 1 : page;
 	const filter = searchParams.get("filter") || "";
 	const { data: tribesData, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${pageUsername}/${user.id}?page=${page}&filter=${filter}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/tribes/${pageUsername}/${currentUserId}?page=${page}&filter=${filter}`,
 		fetcher,
 	);
 	if (isLoading || tribesData === undefined) {
@@ -68,7 +69,7 @@ const UserTribesBody = ({ pageUsername }: { pageUsername: string }) => {
 								tribeId={id}
 								members={users.length}
 								isMember={users?.some(
-									(tribeUser: TribeUser) => tribeUser.userId === user.id,
+									(tribeUser: TribeUser) => tribeUser.userId === user?.id,
 								)}
 								userId={user?.id as string}
 								image={profileImage}

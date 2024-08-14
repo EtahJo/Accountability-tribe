@@ -54,10 +54,7 @@ const MobileView = ({ closeDropdown }: MobileViewProps) => {
 					</div>
 				)}
 				<div className="flex flex-col gap-y-2">
-					
-					{user && (
-						<>
-						<Link
+					<Link
 						href={"/tribes?page=1"}
 						className={cn(
 							"bg-lightPink  p-2 text-center text-xl uppercase hover:bg-black hover:text-white move-button text-black  group my-0 dark:bg-dark-background dark:text-dark-text dark:hover:bg-dark-text dark:hover:text-black",
@@ -75,6 +72,10 @@ const MobileView = ({ closeDropdown }: MobileViewProps) => {
 					>
 						Sessions
 					</Link>
+					
+					{user && (
+						<>
+					
 					<Link
 							href={"/tribe-admin-management"}
 							className={cn(

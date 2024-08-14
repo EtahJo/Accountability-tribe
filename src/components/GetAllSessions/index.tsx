@@ -18,7 +18,7 @@ const GetAllSessions = ({ username }: { username: string }) => {
 	let page = parseInt(searchParams?.get("page") as string, 10);
 	page = !page || page < 1 ? 1 : page;
 	const filter = searchParams.get("filter");
-	const { user }: any = useCurrentUser();
+	const { user:currentUser }: any = useCurrentUser();
 	const { data: sessionsData, isLoading } = useSWR(
 		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/sessions/${username}/?page=1&filter=${filter}`,
 		fetcher,
@@ -61,30 +61,30 @@ const GetAllSessions = ({ username }: { username: string }) => {
 							adminUserId,
 							userId,
 							tasks,
-							sessionParticipantId,
-							user,
+							sessionParticipantId
 						}: any) => {		
 						const sessionAdmin= session.users.filter((sessionParticipant:SessionParticipant)=>
 							sessionParticipant.userRole ==='ADMIN'
 								)
+								console.log(sessionAdmin)
 							return (
 								<div key={session.id}>
 									<UpcomingSession
 										goal={goal || session.goal}
 										duration={JSON.parse(session.duration)}
 										meetingLink={session.meetingLink}
-										isAdmin={adminUserId === user.id}
+										isAdmin={adminUserId === currentUser?.id}
 										sessionId={session.id}
 										isMember={session.users?.some(
 											(sessionParticipant: SessionParticipant) =>
-												sessionParticipant.userId === user.id,
+												sessionParticipant.userId === currentUser?.id,
 										)}
 										members={session.participants}
-										admin={sessionAdmin[0].user.username}
+										admin={sessionAdmin[0]?.user?.username}
 										userId={userId}
 										endDateTime={session.endDateTime}
 										tasks={tasks}
-										pageUser={user}
+										pageUser={currentUser}
 										pageUsername={username}
 										startDateTime={session.startDateTime}
 										sessionParticipantId={sessionParticipantId}
