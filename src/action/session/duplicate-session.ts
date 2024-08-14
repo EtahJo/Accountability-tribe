@@ -14,7 +14,7 @@ export const duplicate_session = async (
 	const { goal, meetingLink, taskIds } = values;
 	const user = await currentUser();
 	if (!user) {
-		return { error: "Unauthorised access" };
+		return { error: "Login or sign up to join session" };
 	}
 	const dbUser = await getUserById(user?.id as string);
 	if (!dbUser) {

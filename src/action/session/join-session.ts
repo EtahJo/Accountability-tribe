@@ -1,5 +1,6 @@
 "use server";
 import { db } from "@/lib/db";
+import { currentUser } from "@/lib/authentication";
 import { getSessionUserBySessionUserId, getSessionAdmin } from "@/data/session";
 import { getUserById } from "@/data/user";
 
@@ -8,6 +9,10 @@ export const join_session = async (
 	sessionId: string,
 	userId: string,
 ) => {
+	const user = await currentUser();
+	if(!user){
+		return { error:"Login or sign up to join session"}
+	}
 	const dbUser = await getUserById(userId as string);
 	if (!dbUser) {
 		return { error: "Unauthorised User" };

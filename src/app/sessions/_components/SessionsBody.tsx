@@ -60,7 +60,7 @@ const SessionsBody = () => {
 					(session: any) => {
 						const checkUser = session.users.filter(
 							(sessionsParticipant: SessionParticipant) =>
-								sessionsParticipant.userId === user.id,
+								sessionsParticipant.userId === user?.id,
 						);
 						const tasks = checkUser.length === 1 ? checkUser[0].tasks : null;
 						const sessionParticipant =
@@ -75,7 +75,7 @@ const SessionsBody = () => {
 								goal={sessionParticipant?.goal || session.goal}
 								duration={JSON.parse(session.duration)}
 								meetingLink={session.meetingLink}
-								isAdmin={session.adminUserId === user.id}
+								isAdmin={session.adminUserId === user?.id}
 								sessionId={session.id}
 								isMember={session.users.some(
 									(sessionParticipant: SessionParticipant) =>
@@ -87,7 +87,7 @@ const SessionsBody = () => {
 								endDateTime={session.endDateTime}
 								tasks={tasks}
 								pageUser={user}
-								pageUsername={user.username}
+								pageUsername={user?.username}
 								sessionParticipantId={sessionParticipant?.id}
 							/>
 						);

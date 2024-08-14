@@ -8,6 +8,7 @@ export const authRoutes = [
 export const userProfilePrefix = "/user/";
 export const tribeProfilePrefix = "/tribe/";
 export const tribesPrefix = '/tribes/';
+export const sessionsPrefix = '/sessions/'
 
 export const apiAuthPrefix = "/api/auth";
 
