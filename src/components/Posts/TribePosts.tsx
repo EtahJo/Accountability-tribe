@@ -12,8 +12,9 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const TribePosts = ({ tribeId }: { tribeId: string }) => {
 	const [currentNewPosts, setCurrentNewPosts] = useState<Post[]>([]);
 	const { user }: any = useCurrentUser();
+	const currentUserId = user?.id|| process.env.NEXT_PUBLIC_GUEST_USER_ID;
 	const { data: tribePosts, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${tribeId}/${user.id}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/posts/${tribeId}/${currentUserId}`,
 		fetcher,
 	);
 	useEffect(() => {

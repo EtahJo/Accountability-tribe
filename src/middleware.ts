@@ -8,6 +8,7 @@ import {
 	publicRoutes,
 	userProfilePrefix,
 	tribeProfilePrefix,
+	tribesPrefix
 } from "./routes";
 
 export const { auth } = NextAuth(authConfig);
@@ -20,6 +21,7 @@ export default auth(
 		const isApiRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
 		const isUserProfileRoute = nextUrl.pathname.startsWith(userProfilePrefix);
 		const isTribeProfileRoute = nextUrl.pathname.startsWith(tribeProfilePrefix);
+		const tribesRoute = nextUrl.pathname.startsWith(tribesPrefix)
 
 		if (isApiRoute) return;
 		if (isAuthRoute) {
@@ -36,8 +38,9 @@ export default auth(
 		if (
 			!isLoggedIn &&
 			!isPublicRoute &&
-			!isUserProfileRoute 
-			// !isTribeProfileRoute
+			!isUserProfileRoute &&
+			!isTribeProfileRoute&&
+			!tribesRoute
 		) {
 			let callbackUrl = nextUrl.pathname;
 			if (nextUrl.search) {

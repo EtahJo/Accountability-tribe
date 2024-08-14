@@ -2,7 +2,6 @@
 import useSWR from "swr";
 import { useState, useTransition, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FaPen } from "react-icons/fa";
 import TribeUsers from "@/components/Tribe/TribeUsers/index";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { join_tribe } from "@/action/tribe/join-tribe";
@@ -32,15 +31,16 @@ const TribeDetailHeader = ({ tribeId }: TribeDetailHeaderProps) => {
 	const [modalIsOpen, setModalIsOpen] = useState(false);
 	const [editTribeModalOpen, setEditTribeModalOpen] = useState(false);
 	const { user }: any = useCurrentUser();
+	const currentUserId = user?.id|| process.env.NEXT_PUBLIC_GUEST_USER_ID;
 	const { data: tribeInfo, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/${user.id}/${tribeId}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/${currentUserId}/${tribeId}`,
 		fetcher,
 	);
 	const router = useRouter();
 
 	const isAdmin = tribeInfo?.adminsUserIds?.includes(user?.id);
 	useEffect(() => {
-		router.prefetch(`/user/${user.username}`);
+		router.prefetch(`/user/${user?.username}`);
 	}, []);
 	const joinTribe = () => {
 		startTransition(() => {

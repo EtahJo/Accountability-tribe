@@ -11,14 +11,16 @@ import TribesFilter from "./TribesFilter";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const TribesBody = () => {
 	const { user }: any = useCurrentUser();
+	const currentUserId = user?.id|| process.env.NEXT_PUBLIC_GUEST_USER_ID;
 	const searchParams = useSearchParams();
 	let page = parseInt(searchParams?.get("page") as string, 10);
 	page = !page || page < 1 ? 1 : page;
 	const filter = searchParams.get("filter") || "";
 	const { data: tribesData, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/tribes/api/${user.id}?page=${page}&filter=${filter}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/tribes/api/${currentUserId}?page=${page}&filter=${filter}`,
 		fetcher,
 	);
+	console.log(tribesData,isLoading,process.env.NEXT_PUBLIC_GUEST_USER_ID,`${process.env.NEXT_PUBLIC_BASE_URL}/tribes/api/${currentUserId}?page=${page}&filter=${filter}` )
 	if (isLoading || tribesData === undefined) {
 		return (
 			<div className="flex flex-wrap gap-2 items-center">
@@ -74,7 +76,7 @@ const TribesBody = () => {
 								tribeVisit.length > 0 ? (tribeVisit[0]?.lastVisit as any) : null
 							}
 							tribeId={id}
-							userId={user.id}
+							userId={user?.id}
 						/>
 					),
 				)}

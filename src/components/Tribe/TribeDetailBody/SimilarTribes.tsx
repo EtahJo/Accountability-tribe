@@ -11,8 +11,9 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const SimilarTribes = ({ tribeId }: { tribeId: string }) => {
 	const { user }: any = useCurrentUser();
+	const currentUserId = user?.id|| process.env.NEXT_PUBLIC_GUEST_USER_ID;
 	const { data: similarTribes, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/${user.id}/${tribeId}/similar-tribes`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/tribe/api/${currentUserId}/${tribeId}/similar-tribes`,
 		fetcher,
 	);
 	if (isLoading || similarTribes === undefined)
@@ -58,7 +59,7 @@ const SimilarTribes = ({ tribeId }: { tribeId: string }) => {
 										: null
 								}
 								tribeId={id}
-								userId={user.id}
+								userId={user?.id}
 							/>
 						</div>
 					),
