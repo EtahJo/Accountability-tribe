@@ -43,7 +43,7 @@ export default auth(
 			!isUserProfileRoute &&
 			!isTribeProfileRoute&&
 			!tribesRoute&&
-			!sessionsPrefix
+			!sessionsRoute
 		) {
 			let callbackUrl = nextUrl.pathname;
 			if (nextUrl.search) {
