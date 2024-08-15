@@ -66,7 +66,6 @@ const GetAllSessions = ({ username }: { username: string }) => {
 						const sessionAdmin= session.users.filter((sessionParticipant:SessionParticipant)=>
 							sessionParticipant.userRole ==='ADMIN'
 								)
-								console.log(sessionAdmin)
 							return (
 								<div key={session.id}>
 									<UpcomingSession

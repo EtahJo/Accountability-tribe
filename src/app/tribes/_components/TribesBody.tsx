@@ -20,7 +20,6 @@ const TribesBody = () => {
 		`${process.env.NEXT_PUBLIC_BASE_URL}/tribes/api/${currentUserId}?page=${page}&filter=${filter}`,
 		fetcher,
 	);
-	console.log(tribesData,isLoading,process.env.NEXT_PUBLIC_GUEST_USER_ID,`${process.env.NEXT_PUBLIC_BASE_URL}/tribes/api/${currentUserId}?page=${page}&filter=${filter}` )
 	if (isLoading || tribesData === undefined) {
 		return (
 			<div className="flex flex-wrap gap-2 items-center">

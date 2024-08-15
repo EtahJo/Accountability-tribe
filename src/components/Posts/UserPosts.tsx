@@ -30,7 +30,6 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
 	if (isLoading || userPosts === undefined) {
 		return <PostSkeleton />;
 	}
-	console.log("Posts", userPosts)
 	return (
 		<div>
 			<SectionHeader

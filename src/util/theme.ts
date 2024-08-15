@@ -1,7 +1,6 @@
 export const getInitialTheme = () => {
   if (typeof window !== 'undefined') {
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    console.log("device theme", prefersDarkScheme.matches)
     return prefersDarkScheme.matches ? 'dark' : 'light';
   }
 
