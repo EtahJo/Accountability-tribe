@@ -85,7 +85,7 @@ const UserSnippet = ({
 					</div>
 
 					<Link href={`/user/${username}`}>
-						<Button variant={"link"} className="text-white dark:text-dark-primary">
+						<Button variant={"link"} className="text-white dark:text-dark-background">
 							Visit Profile
 						</Button>
 					</Link>
