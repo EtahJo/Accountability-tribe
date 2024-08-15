@@ -16,7 +16,7 @@ export type highlightedUsersType = Pick<
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HeroLoggedIn = () => {
 	const { data: highlightedUsers, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/highlighted-users`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/highlighted-users?page=1`,
 		fetcher,
 	);
 
@@ -102,7 +102,7 @@ const HeroLoggedIn = () => {
 							:
 							<div className="flex items-center gap-2">
 								{
-						highlightedUsers?.map(
+						highlightedUsers?.users?.map(
 							({
 								username,
 								country,
@@ -130,7 +130,7 @@ const HeroLoggedIn = () => {
 							highlightedUsers?.length !==0 &&
 						<ToolTip
 							trigger={
-								<Link href="/highlighted-users">
+								<Link href="/highlighted-users?page=1">
 									<Avatar className="bg-purple dark:bg-dark-primary rounded-full flex justify-center items-center move-button mt-1">
 										<FaEllipsisH className="text-white" />
 									</Avatar>

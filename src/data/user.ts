@@ -53,9 +53,28 @@ export const getUserByUsername = async (username: string) => {
 		return null;
 	}
 };
+const totalHighlightedUsers = async()=>{
+	try{
+		const total = await db.user.count({
+			where:{
+				streak:{
+					count:{
+						gte:1
+					}
+				}
+			}
+		});
+	return total;
 
-export const getHiglightedUsers = async () => {
+	}catch(error:any){
+		console.error("Error getting total of highlighted users",error.message)
+	}
+}
+
+export const getHiglightedUsers = async (pageLimit:number,pageNumber:number) => {
 	try {
+		const totalItems= await totalHighlightedUsers();
+		const totalPages = Math.ceil(totalItems as number/ pageLimit);
 		const users = await db.user.findMany({
 			where: {
 				// hightlighted: true,
@@ -74,8 +93,12 @@ export const getHiglightedUsers = async () => {
 				streak: true,
 				accounts:true
 			},
+		take:pageLimit+1,
+		skip:pageLimit*(pageNumber-1),
 		});
-		return users;
+		const hasMore = users.length>pageLimit;
+		const result = hasMore? users.slice(0,pageLimit):users;
+		return {users:result,hasMore,totalPages};
 	} catch {
 		return null;
 	}

@@ -12,6 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import CountryFlag from "@/components/CountryFlag/index";
+import PaginationController from '@/components/PaginationController';
+import { useSearchParams } from 'next/navigation';
 import ThreeDots from '@/components/Skeletons/ThreeDots';
 import { highlightedUsersType } from '@/components/HomePage/HeroSection/HeroLoggedIn';
 import ProfileImage from '@/components/ProfileImage';
@@ -20,8 +22,11 @@ import { Button } from '@/components/ui/button';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const HighlightedUsersBody = () => {
+const searchParams = useSearchParams();
+let page = parseInt(searchParams?.get("page") as string, 10);
+page = !page || page < 1 ? 1 : page;
 const { data: highlightedUsers, isLoading } = useSWR(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/highlighted-users`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/user/api/highlighted-users?page=${page}`,
 		fetcher
 	);
   return (
@@ -57,7 +62,7 @@ const { data: highlightedUsers, isLoading } = useSWR(
               </TableCell>
             </TableRow>
           ):(
-            highlightedUsers.map(({
+            highlightedUsers?.users.map(({
               username,
               country,
               image,
@@ -99,6 +104,16 @@ const { data: highlightedUsers, isLoading } = useSWR(
         }
       </TableBody>
     </Table>
+    {
+      !isLoading && highlightedUsers !== undefined &&
+       <PaginationController
+       hasMore={highlightedUsers.hasMore}
+       page={page}
+       totalPages={highlightedUsers.totalPages}
+
+    />
+    }
+   
     </div>
    
   )
