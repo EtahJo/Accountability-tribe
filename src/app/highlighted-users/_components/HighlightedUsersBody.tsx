@@ -11,8 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import CountryFlag from "@/components/CountryFlag/index";
 import ThreeDots from '@/components/Skeletons/ThreeDots';
 import { highlightedUsersType } from '@/components/HomePage/HeroSection/HeroLoggedIn';
+import ProfileImage from '@/components/ProfileImage';
+import { Button } from '@/components/ui/button';
 
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -22,7 +25,7 @@ const { data: highlightedUsers, isLoading } = useSWR(
 		fetcher
 	);
   return (
-    <div className='mx-10 mt-12'>
+    <div className='mx-10 min-[639px]:mt-12 mt-24'>
  <Table className='bg-purple dark:bg-dark-primary 
     rounded-3xl shadow-3xl'>
       <TableCaption>A list of highlighted users</TableCaption>
@@ -65,17 +68,29 @@ const { data: highlightedUsers, isLoading } = useSWR(
             }:highlightedUsersType)=>(
               <TableRow key={id}>
                 <TableCell>
-
+                  <ProfileImage
+                  image={image}
+                  alt="highlighted user profile image"
+                  dimensions='largePhone:w-[50px] largePhone:h-[50px] w-[30px] h-[30px]'
+                  isOAuth={accounts.length>0}
+                  />
                 </TableCell>
                 <TableCell>
-                  {username}
+                  <Link href={`/user/${username}`}>
+                    <Button variant={'link'}>
+                      {country && <CountryFlag countryCode={country}/>}
+                       {username}
+                    </Button>
+                  </Link>  
                 </TableCell>
                 <TableCell>
                   {streak.count}
                 </TableCell>
                 <TableCell>
                   <Link href={`/user/${username}?page=1`}>
-                    {tribes.length}
+                    <Button className='move-button'>
+                      {tribes.length}
+                    </Button>
                   </Link>
                 </TableCell>
               </TableRow>
