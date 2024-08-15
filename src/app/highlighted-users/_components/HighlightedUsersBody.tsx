@@ -15,7 +15,7 @@ import CountryFlag from "@/components/CountryFlag/index";
 import PaginationController from '@/components/PaginationController';
 import { useSearchParams } from 'next/navigation';
 import ThreeDots from '@/components/Skeletons/ThreeDots';
-import { highlightedUsersType } from '@/components/HomePage/HeroSection/HeroLoggedIn';
+import { highlightedUsersType } from '@/components/HomePage/HeroSection/HighlightedUsers';
 import ProfileImage from '@/components/ProfileImage';
 import { Button } from '@/components/ui/button';
 

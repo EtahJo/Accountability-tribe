@@ -2,6 +2,8 @@
 import HeroBlob from "@/components/HomePage/HeroSection/HeroBlob";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import HighlightedUsers from "./HighlightedUsers";
+
 
 const LoggedOut = () => {
 	return (
@@ -14,6 +16,7 @@ const LoggedOut = () => {
 				>
 					follow our five step path
 				</p>
+				<HighlightedUsers/>
 				<Link className="w-48" href={"/auth/login"}>
 					<Button className="move-button" size={"slg"}>
 						Get Started

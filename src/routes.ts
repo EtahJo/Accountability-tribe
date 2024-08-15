@@ -13,5 +13,5 @@ export const sessionsPrefix = '/sessions/'
 export const apiAuthPrefix = "/api/auth";
 
 export const DEFAULT_LOGIN_REDIRECT = "/";
-export const publicRoutes = ["/",'/tribes','/sessions'];
+export const publicRoutes = ["/",'/tribes','/sessions','/highlighted-users'];
 
