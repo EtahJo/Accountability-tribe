@@ -28,7 +28,7 @@ jobs:
 
       - id: lint
         run: |
-          npm
+          npm install
           npm lint
           npm build
 
