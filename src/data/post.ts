@@ -8,20 +8,36 @@ export const getAllTribePosts = async (
 		const posts = await db.post.findMany({
 			where: { tribeId, approved: true },
 			include: {
-				author: true,
+				author: {
+					include:{
+						accounts:true
+					}
+				},
 				comments: {
 					orderBy: {
 						createdAt: "desc",
 					},
 					include: {
-						author: true,
+						author: {
+							include:{
+								accounts:true
+							}
+						},
 						likes: { include: { user: true } },
 						replies: {
 							include: {
-								author: true,
+								author:{
+									include:{
+										accounts:true
+									}
+								},
 								likes: { include: { user: true } },
 								replies: {
-									include: { author: true, likes: { include: { user: true } } },
+									include: { author: {
+										include:{
+											accounts:true
+										}
+									}, likes: { include: { user: true } } },
 								},
 							},
 						},
@@ -52,21 +68,37 @@ export const getAllUserPosts = async (
 		const posts = await db.post.findMany({
 			where: { authorId, approved: true },
 			include: {
-				author: true,
+				author: {
+					include:{
+						accounts:true
+					}
+				},
 				comments: {
 					orderBy: {
 						createdAt: "desc",
 					},
 					include: {
-						author: true,
+						author: {
+							include:{
+								accounts:true
+							}
+						},
 
 						likes: { include: { user: true } },
 						replies: {
 							include: {
-								author: true,
+								author: {
+									include:{
+										accounts:true
+									}
+								},
 								likes: { include: { user: true } },
 								replies: {
-									include: { author: true, likes: { include: { user: true } } },
+									include: { author:{
+										include:{
+											accounts:true
+										}
+									}, likes: { include: { user: true } } },
 								},
 							},
 						},

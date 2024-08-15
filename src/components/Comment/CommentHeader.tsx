@@ -15,6 +15,7 @@ interface CommentHeaderProps {
 	authorId: string;
 	commentId: string;
 	duration: string;
+	isOAuth?:boolean;
 	showEditFunction: () => void;
 }
 
@@ -25,6 +26,7 @@ const CommentHeader = ({
 	authorId,
 	commentId,
 	duration,
+	isOAuth,
 	showEditFunction,
 }: CommentHeaderProps) => {
 	const [isPending, startTransition] = useTransition();
@@ -59,6 +61,7 @@ const CommentHeader = ({
 				className="flex items-center gap-x-2 cursor-pointer"
 			>
 				<ProfileImage
+					isOAuth={isOAuth}
 					image={profileImage}
 					alt="Comment author profile image"
 					dimensions="largePhone:w-[30px] largePhone:h-[30px] w-[20px] h-[20px]"

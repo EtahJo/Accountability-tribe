@@ -5,7 +5,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import PostSnippet from "@/components/Posts/Post";
 import PostSkeleton from "../Skeletons/PostSkeleton";
 import PostForm from "@/components/Forms/PostForm";
-import { Tribe, TribeUser, Post, Like, User, Comment } from "@prisma/client";
+import { Tribe, TribeUser, Post, Like, User, Comment, Account } from "@prisma/client";
 import SectionHeader from "@/components/SectionHeader/index";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -59,7 +59,7 @@ const TribePosts = ({ tribeId }: { tribeId: string }) => {
 						edited,
 					}: Post & {
 						tribe: Tribe & { users: TribeUser[] };
-						author: User;
+						author: User & {accounts:Account[]};
 						likes: Like[];
 						comments: Comment[];
 					}) => (
@@ -81,6 +81,7 @@ const TribePosts = ({ tribeId }: { tribeId: string }) => {
 								newPosts={currentNewPosts}
 								postAuthorId={authorId}
 								edited={edited}
+								isOAuth={author.accounts.length>0}
 							/>
 						</div>
 					),

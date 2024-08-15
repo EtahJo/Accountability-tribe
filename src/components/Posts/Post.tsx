@@ -24,6 +24,7 @@ type OneCommentProps = Pick<
 
 interface PostProps {
 	postId: string;
+	isOAuth?:boolean;
 	profileImage: string;
 	username: string;
 	isAdmin: boolean;
@@ -57,6 +58,7 @@ const PostSnippet = ({
 	edited,
 	postEditTitle,
 	postEditContent,
+	isOAuth
 }: PostProps) => {
 	const [openCommentModal, setOpenCommentModal] = useState(false);
 	const pathname = usePathname();
@@ -77,6 +79,7 @@ const PostSnippet = ({
 				: Math.floor(theDuration.days) < 30
 					? Math.floor(theDuration.days) + " days"
 					: theDuration.weeks.weeks + "w";
+	
 	return (
 		<div
 			className="bg-white rounded-2xl largePhone:p-5  my-5 relative w-full p-2 dark:bg-dark-lightBackground dark:border dark:border-slate-800"
@@ -93,6 +96,7 @@ const PostSnippet = ({
 				postContent={postContent}
 				postTitle={postTitle}
 				tribe={tribe}
+				isOAuth={isOAuth}
 			/>
 			{showNewPostConditionOne ? (
 				<Badge
@@ -139,12 +143,14 @@ const PostSnippet = ({
 				comments={comments}
 				isAdmin={isAdmin}
 				postId={postId}
+				isOAuth={isOAuth}
 			/>
 			<CommentsModal
 				isOpen={openCommentModal}
 				onRequestClose={() => setOpenCommentModal(false)}
 				comments={comments as any}
 				isAdmin={isAdmin}
+				isOAuth={isOAuth}
 			/>
 		</div>
 	);

@@ -75,8 +75,8 @@ const UserSnippet = ({
 
 						<span className="flex gap-x-1 items-center -mb-2">
 							<p>Belongs to</p>
-							<Link href={`/tribes/${username}`}>
-								<Button variant={"link"} className="text-purple m-0 p-0 dark:text-dark-primary">
+							<Link href={`/user/${username}?page=1`}>
+								<Button variant={"link"} className="text-lightPink m-0 p-0 dark:text-dark-primary">
 									{numberOfTribes}
 								</Button>
 							</Link>{" "}
@@ -85,7 +85,7 @@ const UserSnippet = ({
 					</div>
 
 					<Link href={`/user/${username}`}>
-						<Button variant={"link"} className="text-purple dark:text-dark-primary">
+						<Button variant={"link"} className="text-white dark:text-dark-primary">
 							Visit Profile
 						</Button>
 					</Link>

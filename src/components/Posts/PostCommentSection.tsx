@@ -17,12 +17,14 @@ interface PostCommentSectionProps {
 	comments: OneCommentProps[];
 	isAdmin: boolean;
 	postId: string;
+	isOAuth?:boolean;
 }
 
 const PostCommentSection = ({
 	comments,
 	isAdmin,
 	postId,
+	isOAuth
 }: PostCommentSectionProps) => {
 	const { user }: any = useCurrentUser();
 	const firstFiveComments = comments.slice(0, 2);
@@ -52,6 +54,8 @@ const PostCommentSection = ({
 									edited={comment.edited}
 									authorId={comment.authorId}
 									isAdmin={isAdmin}
+									isOAuth={isOAuth}
+									
 								/>
 							),
 					)}

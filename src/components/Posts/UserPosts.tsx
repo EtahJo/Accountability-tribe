@@ -10,7 +10,7 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Tribe, TribeUser, Post, Like, User, Comment } from "@prisma/client";
+import { Tribe, TribeUser, Post, Like, User, Comment ,Account} from "@prisma/client";
 import PostSkeleton from "@/components/Skeletons/PostSkeleton";
 import NoData from "../NoData";
 
@@ -30,6 +30,7 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
 	if (isLoading || userPosts === undefined) {
 		return <PostSkeleton />;
 	}
+	console.log("Posts", userPosts)
 	return (
 		<div>
 			<SectionHeader
@@ -60,7 +61,7 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
 							edited,
 						}: Post & {
 							tribe: Tribe & { users: TribeUser[] };
-							author: User;
+							author: User&{accounts:Account[]};
 							likes: Like[];
 							comments: Comment[];
 						}) => {
@@ -70,6 +71,7 @@ const UserPosts = ({ pageUsername, newPosts }: PostProps) => {
 							return (
 								<CarouselItem key={id} className="">
 									<PostSnippet
+										isOAuth={author.accounts.length>0}
 										username={author.username as string}
 										profileImage={author.image as string}
 										postContent={content}

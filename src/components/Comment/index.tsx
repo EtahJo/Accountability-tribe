@@ -12,6 +12,7 @@ import CommentReplies from "./CommentReplies";
 interface CommentProps {
 	profileImage: string;
 	authorUsername: string;
+	isOAuth?:boolean;
 	authorId: string;
 	comment: string;
 	isAdmin: boolean;
@@ -52,6 +53,7 @@ const Comment = ({
 	replies,
 	isAdmin,
 	edited,
+	isOAuth
 }: CommentProps) => {
 	const [responding, setResponding] = useState(false);
 	const [showReplies, setShowReplies] = useState(false);
@@ -92,6 +94,7 @@ const Comment = ({
 				isAdmin={isAdmin}
 				commentId={commentId}
 				duration={duration}
+				isOAuth={isOAuth}
 				showEditFunction={() => setEditComment(true)}
 			/>
 

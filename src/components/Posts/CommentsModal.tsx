@@ -37,12 +37,15 @@ interface CommentsModalProps {
 		}[];
 	}[];
 	isAdmin: boolean;
+	isOAuth?:boolean;
 }
 const CommentsModal = ({
 	isOpen,
 	onRequestClose,
 	comments,
 	isAdmin,
+	isOAuth
+	
 }: Props & CommentsModalProps) => {
 	const { user } = useCurrentUser();
 	return (
@@ -70,6 +73,7 @@ const CommentsModal = ({
 								edited={comment.edited}
 								authorId={comment?.authorId}
 								isAdmin={isAdmin}
+								isOAuth={isOAuth}
 							/>
 						),
 				)}

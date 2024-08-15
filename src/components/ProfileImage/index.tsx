@@ -10,9 +10,10 @@ interface ProfileImageProps {
 	alt: string;
 	group?:boolean;
 	dimensions?: string;
+	isOAuth?:boolean;
 }
 
-const ProfileImage = ({ image, alt, dimensions ,group}: ProfileImageProps) => {
+const ProfileImage = ({ image, alt, dimensions ,group, isOAuth}: ProfileImageProps) => {
 	const {user}= useCurrentUser()
 	return (
 		<Avatar
@@ -22,7 +23,7 @@ const ProfileImage = ({ image, alt, dimensions ,group}: ProfileImageProps) => {
 			)}
 		>
 			{image ? (
-				user?.isOAuth?
+				isOAuth?
 				<AvatarImage src={image} className='rounded-full shadow-3xl  object-contain'/>:
 				<CldImage
 					width={"100"}

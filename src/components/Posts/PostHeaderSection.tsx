@@ -15,6 +15,7 @@ import PostEditModal from "@/components/Forms/PostEditModalForm";
 interface PostHeaderSectionProps {
 	username: string;
 	profileImage: string;
+	isOAuth?:boolean;
 	duration: string;
 	isAdmin: boolean;
 	edited: boolean;
@@ -36,6 +37,7 @@ const PostHeaderSection = ({
 	postTitle,
 	postContent,
 	tribe,
+	isOAuth
 }: PostHeaderSectionProps) => {
 	const [showEdit, setShowEdit] = useState(false);
 	const [isPending, startTransition] = useTransition();
@@ -72,6 +74,7 @@ const PostHeaderSection = ({
 								image={profileImage}
 								alt="Author profile image"
 								dimensions="largePhone:w-[50px] largePhone:h-[50px] w-[30px] h-[30px]"
+								isOAuth={isOAuth}
 							/>
 							{isAdmin && (
 								<Badge className="largePhone:text-[8px] text-lightPink mt-2 text-[6px]  ">
