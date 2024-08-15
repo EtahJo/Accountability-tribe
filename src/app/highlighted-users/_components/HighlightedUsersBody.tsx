@@ -92,7 +92,7 @@ const { data: highlightedUsers, isLoading } = useSWR(
                   {streak.count}
                 </TableCell>
                 <TableCell>
-                  <Link href={`/user/${username}?page=1`}>
+                  <Link href={`/user/${username}/tribes?page=1`}>
                     <Button className='move-button'>
                       {tribes.length}
                     </Button>
