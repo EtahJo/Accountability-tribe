@@ -1,5 +1,6 @@
 "use client";
 import ModalWrapper from "@/components/ModalWrap/index";
+import { Account } from "@prisma/client";
 
 import { Props } from "react-modal";
 import TribeUser from "./TribeUser";
@@ -7,7 +8,7 @@ interface TribeUsersProps {
 	tribeName: string;
 	tribeId: string;
 	users: {
-		user: { username: string; image: string; id:string };
+		user: { username: string; image: string; id:string;accounts:Account[] };
 		userRole: string;
 		adminsUserIds: string[];
 		userId: string;
@@ -20,7 +21,7 @@ const TribeUsers = ({
 	tribeName,
 	tribeId,
 }: Props & TribeUsersProps) => {
-
+	console.log("users", users)
 	return (
 		<ModalWrapper
 			isOpen={isOpen}
@@ -45,6 +46,7 @@ const TribeUsers = ({
 						userId={user.userId}
 						tribeId={tribeId}
 						users={users}
+						isOAuth={user.user.accounts.length>0}
 					/>
 				))}
 			</div>

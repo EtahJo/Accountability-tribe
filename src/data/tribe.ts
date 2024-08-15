@@ -117,7 +117,11 @@ export const getTribeById = async (tribeId: string, currentUserId: string) => {
 		const tribes = await db.tribe.findUnique({
 			where: { id: tribeId },
 			include: {
-				users: { include: { user: true } },
+				users: { include: { user: {
+					include:{
+						accounts:true
+					}
+				} } },
 				tribeVisit: {
 					where: {
 						userId: currentUserId,
