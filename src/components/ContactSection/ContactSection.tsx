@@ -1,12 +1,34 @@
 "use client";
-import React, { useState } from "react";
+import { useState, useTransition } from "react";
 import CustomInput from "../CustomInput/customInput";
 import Formsy from "formsy-react";
 import { Button } from "@/components/ui/button";
+import { contact_form } from "@/action/contact-form";
+import * as z from 'zod';
+import { ContactUsSchema } from "@/schemas";
+import { FormError } from "@/components/Messages/Error";
+import { FormSuccess } from "@/components/Messages/Success";
+
 const ContactSection = () => {
 	const [email, setEmail] = useState<string>("");
 	const [message, setMessage] = useState<string>("");
-	const submitHandler = () => {};
+	const [error, setError] = useState('')
+	const [success, setSuccess] = useState('')
+	const[isPending,startTransition]=useTransition()
+	const submitHandler = (vals:z.infer<typeof ContactUsSchema >) => {
+		setSuccess('')
+		setError('')
+		startTransition(()=>{
+			contact_form(vals).then((data)=>{
+				if(data.succes){
+					setSuccess(data.succes)
+				}
+				if(data.error){
+					setError(data.error)
+				}
+			})
+		})
+	};
 	return (
 		<div className="grid grid-cols-12 my-24 place-content-center">
 			<p className="font-bold phone:text-6xl lg:col-start-2 lg:col-end-5 place-content-center col-start-2 col-end-11 mb-10 lg:mb-0 text-5xl">
@@ -24,20 +46,24 @@ const ContactSection = () => {
 						name="email"
 						placeholder="Email"
 						required
+						disabled={isPending}
 						value={email}
 						validations="isEmail"
 						validationError="This not a valid email"
 					/>
 					<CustomInput
 						textArea
-						name="Message"
+						name="message"
 						placeholder="Enter your message"
 						value={message}
+						disabled={isPending}
 						required
 						validationError="Please add message"
 					/>
-					<div className="flex justify-center">
-						<Button type="submit" variant={'primary'}>
+					{error&& <FormError message={error}/>}
+					{success && <FormSuccess message={success}/>}
+					<div className="flex justify-center mt-2">
+						<Button type="submit" variant={'primary'} disabled={isPending}>
 							Send Message
 						</Button>
 					</div>

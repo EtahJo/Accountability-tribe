@@ -13,3 +13,12 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`,
   });
 };
+
+export const sendMessage = async(email:string,body:string)=>{
+  await resend.emails.send({
+    from:'onboarding@resend.dev',
+    to:'arrahetah23@gmail.com',
+    subject:'Website User Inquiry',
+    html:`<p>${body}</p>`
+  })
+}

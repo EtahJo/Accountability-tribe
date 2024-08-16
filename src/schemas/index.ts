@@ -22,6 +22,10 @@ export const NewPasswordSchema= z.object({
 		return true
 	}
 )
+export const ContactUsSchema= z.object({
+	email:z.string().email({message:"Email required"}),
+	message:z.string()
+})
 export const RegisterSchema = z
 	.object({
 		username: z
