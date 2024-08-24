@@ -16,12 +16,8 @@ const ContactInfo = ({ user }: { user: User }) => {
 		: "";
 	return (
 		<div>
-			<ContactInfoSection title="Email:" detail={user?.email} />
 			{user?.country && (
 				<ContactInfoSection title="Country:" detail={countryName as any} />
-			)}
-			{user?.number && (
-				<ContactInfoSection title="Phone Number:" detail={formatedNumber} />
 			)}
 		</div>
 	);
